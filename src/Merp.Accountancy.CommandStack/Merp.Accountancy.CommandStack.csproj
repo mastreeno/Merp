@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A30BA9D9-CE21-407A-94FB-F9C8C99564B4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Merp.Accountancy.CommandStack</RootNamespace>
+    <AssemblyName>Merp.Accountancy.CommandStack</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Memento, Version=1.2.0.0, Culture=neutral, PublicKeyToken=bca5f6a4d14d06d8, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MementoFX.1.2.0\lib\net451\Memento.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Memento.Messaging.Rebus, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MementoFX.Messaging.Rebus.1.1.1\lib\net451\Memento.Messaging.Rebus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Rebus, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Rebus.2.0.1\lib\NET45\Rebus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands\LinkOutgoingInvoiceToJobOrderCommand.cs" />
+    <Compile Include="Commands\LinkIncomingInvoiceToJobOrderCommand.cs" />
+    <Compile Include="Commands\ExtendTimeAndMaterialJobOrderCommand.cs" />
+    <Compile Include="Commands\IssueInvoiceCommand.cs" />
+    <Compile Include="Commands\MarkTimeAndMaterialJobOrderAsCompletedCommand.cs" />
+    <Compile Include="Commands\MarkFixedPriceJobOrderAsCompletedCommand.cs" />
+    <Compile Include="Commands\RegisterIncomingInvoiceCommand.cs" />
+    <Compile Include="Commands\RegisterTimeAndMaterialJobOrderCommand.cs" />
+    <Compile Include="Commands\ExtendFixedPriceJobOrderCommand.cs" />
+    <Compile Include="Events\OutgoingInvoiceLinkedToJobOrderEvent.cs" />
+    <Compile Include="Events\IncomingInvoiceLinkedToJobOrderEvent.cs" />
+    <Compile Include="Events\IncomingInvoiceRegisteredEvent.cs" />
+    <Compile Include="Events\OutgoingInvoiceIssuedEvent.cs" />
+    <Compile Include="Events\TimeAndMaterialJobOrderCompletedEvent.cs" />
+    <Compile Include="Events\FixedPriceJobOrderCompletedEvent.cs" />
+    <Compile Include="Events\TimeAndMaterialJobOrderExtendedEvent.cs" />
+    <Compile Include="Events\TimeAndMaterialJobOrderRegisteredEvent.cs" />
+    <Compile Include="Events\FixedPriceJobOrderRegisteredEvent.cs" />
+    <Compile Include="Events\FixedPriceJobOrderExtendedEvent.cs" />
+    <Compile Include="Model\IncomingInvoice.cs" />
+    <Compile Include="Model\Invoice.cs" />
+    <Compile Include="Model\JobOrder.cs" />
+    <Compile Include="Model\Money.cs" />
+    <Compile Include="Model\OutgoingInvoice.cs" />
+    <Compile Include="Model\PositiveMoney.cs" />
+    <Compile Include="Model\TimeAndMaterialJobOrder.cs" />
+    <Compile Include="Model\FixedPriceJobOrder.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Commands\RegisterFixedPriceJobOrderCommand.cs" />
+    <Compile Include="Sagas\FixedPriceJobOrderSaga.cs" />
+    <Compile Include="Sagas\IncomingInvoiceSaga.cs" />
+    <Compile Include="Sagas\OutgoingInvoiceSaga.cs" />
+    <Compile Include="Sagas\TimeAndMaterialJobOrderSaga.cs" />
+    <Compile Include="Services\IOutgoingInvoiceNumberGenerator.cs" />
+    <Compile Include="Services\IJobOrderNumberGenerator.cs" />
+    <Compile Include="Services\OutgoingInvoiceNumberGenerator.cs" />
+    <Compile Include="Services\JobOrderNumberGenerator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Model\Domain Model.cd" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Handlers\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

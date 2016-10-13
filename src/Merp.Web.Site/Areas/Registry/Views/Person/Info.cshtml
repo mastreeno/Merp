@@ -1,0 +1,42 @@
+﻿@model Merp.Web.Site.Areas.Registry.Models.Person.InfoViewModel
+
+@{
+    ViewBag.Title = "Info";
+}
+
+<h2>Info</h2>
+
+<div>
+    <h4>InfoViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonUid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PersonUid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

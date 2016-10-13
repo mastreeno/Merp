@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Merp.Accountancy.CommandStack.Model.Invoice" Collapsed="true">
+    <Position X="3" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAgBAAAAEAAAACAAAAAQAABAAAAIgAAAAA=</HashCode>
+      <FileName>Model\Invoice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Merp.Accountancy.CommandStack.Model.IncomingInvoice" Collapsed="true">
+    <Position X="1.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\IncomingInvoice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Merp.Accountancy.CommandStack.Model.OutgoingInvoice" Collapsed="true">
+    <Position X="4" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\OutgoingInvoice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Merp.Accountancy.CommandStack.Model.JobOrder" Collapsed="true">
+    <Position X="3" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAIAAwAAAAAEAAAAQAAAAARBAAAAAQIAAAAAA=</HashCode>
+      <FileName>Model\JobOrder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Merp.Accountancy.CommandStack.Model.FixedPriceJobOrder" Collapsed="true">
+    <Position X="1.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAIAAAAAQAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\FixedPriceJobOrder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Merp.Accountancy.CommandStack.Model.TimeAndMaterialJobOrder" Collapsed="true">
+    <Position X="4" Y="2.25" Width="1.5" />
+    <NestedTypes>
+      <Class Name="Merp.Accountancy.CommandStack.Model.TimeAndMaterialJobOrder.Factory" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Model\TimeAndMaterialJobOrder.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>EAAIAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Model\TimeAndMaterialJobOrder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,135 @@
+﻿@model Merp.Web.Site.Areas.Accountancy.Models.JobOrder.TimeAndMaterialJobOrderDetailViewModel
+
+@{
+    ViewBag.Title = "TimeAndMaterialJobOrderDetail";
+}
+
+<h2>@Html.DisplayFor(model => model.JobOrderName)</h2>
+<h4>@Html.DisplayFor(model => model.JobOrderNumber)</h4>
+<h5>@Html.DisplayFor(model => model.CustomerName)</h5>
+<hr />
+<p>
+    @if (!Model.IsCompleted)
+    {
+        @Html.ActionLink("Complete", "MarkTimeAndMaterialJobOrderAsCompleted", new { id = Model.JobOrderId }) <text> |</text>
+        @Html.ActionLink("Extend", "ExtendTimeAndMaterial", new { id = Model.JobOrderId })<text> |</text>
+    }
+    @Html.ActionLink("Back to List", "Index")
+</p>
+<div class="row">
+    <div id="tabs">
+        <ul>
+            <li><a href="#general">General</a></li>
+            <li><a href="#balance">Trend Analysis</a></li>
+            <li><a href="/Accountancy/JobOrder/IncomingInvoicesAssociatedToJobOrder?jobOrderId=@Model.JobOrderId">Incoming Invoices</a></li>
+            <li><a href="/Accountancy/JobOrder/OutgoingInvoicesAssociatedToJobOrder?jobOrderId=@Model.JobOrderId">Outgoing Invoices</a></li>
+        </ul>
+        <div id="general">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.JobOrderNumber)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.JobOrderNumber)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CustomerName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CustomerName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Value)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Value)
+                </dd>
+                <dt>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.DateOfStart)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.DateOfStart)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.DateOfExpiration)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.DateOfExpiration)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Notes)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Notes)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Balance)
+                </dt>
+
+                <dd>
+
+                    <span id="jobOrderBalance"></span><input type="button" value="evaluate" onclick="evalJobOrderBalance('@Model.JobOrderId');" />
+                </dd>
+            </dl>
+        </div>
+        <div id="balance">
+            @Html.Partial("BalanceTrendAnalysis", Model.JobOrderId)
+        </div>
+    </div>
+</div>
+@section head
+{
+    <link rel="stylesheet" type="text/css" href="~/lib/jquery-ui/themes/base/all.css" />
+    <script src="~/lib/moment/moment.js"></script>
+}
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+    <script src="~/lib/Chart.js/Chart.js"></script>
+    <script src="~/lib/angular-chart.js/angular-chart.js"></script>
+
+    <script type="text/javascript">
+            $(function () {
+                $("#tabs").tabs({
+                    ajaxOptions: {
+                        error: function (xhr, status, index, anchor) {
+                            $(anchor.hash).html("Unable to display trend analysis");
+                        }
+                    }
+                });
+            });
+    </script>
+
+    <script type="text/javascript">
+            function evalJobOrderBalance(jobOrderId) {
+                jobOrderBalanceControl = $("#jobOrderBalance")[0];
+
+                $.get("/Accountancy/JobOrder/EvaluateTimeAndMaterialJobOrderBalance/" + jobOrderId, function (data) {
+                    if (data === 'undefined') {
+                        jobOrderBalanceControl.innerText = 'Unable to evaluate';
+                    }
+                    else {
+                        jobOrderBalanceControl.innerText = data;
+                    }
+                })
+                .fail(function () {
+                    jobOrderBalanceControl.innerText = 'Unable to evaluate';
+                }
+                );
+            }
+    </script>
+}

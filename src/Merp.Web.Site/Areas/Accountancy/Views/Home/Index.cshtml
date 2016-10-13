@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<ul class="list-unstyled">
+    <li>Job Orders</li>
+    <li>@Html.ActionLink("View Job Orders", "Index", "JobOrder")</li>
+    <li><a href="/Accountancy/JobOrder/CreateFixedPrice">Create fixed price Job Order</a></li>
+    <li><a href="/Accountancy/JobOrder/CreateTimeAndMaterial">Create time and material Job Order</a></li>
+    <li>Invoices</li>
+    <li>@Html.ActionLink("Issue an invoice", "Issue", "Invoice")</li>
+    <li>@Html.ActionLink("Register an incoming invoice", "Register", "Invoice")</li>
+    <li>@Html.ActionLink("Link an incoming invoice to a job order", "IncomingInvoicesNotLinkedToAJobOrder", "Invoice")</li>
+    <li>@Html.ActionLink("Link an outgoing invoice to a job order", "OutgoingInvoicesNotLinkedToAJobOrder", "Invoice")</li>
+</ul>
+

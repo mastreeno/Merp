@@ -1,0 +1,78 @@
+﻿@model Merp.Web.Site.Areas.Registry.Models.PartyInfo
+
+
+@Html.TextBoxFor(model => model.Id, new { onblur = "" })
+@Html.HiddenFor(model => model.OriginalId)
+@Html.TextBoxFor(model => model.Name)
+@Html.ValidationMessageFor(model => model.Id, "", new { @class = "text-danger" })
+@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+<script type="text/javascript">
+    @{
+        var idTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName("Id").Replace(".", "_");
+        var originalIdTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName("OriginalId").Replace(".", "_");
+        var partyNameTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName("Name").Replace(".", "_");
+    }
+    $(function () {
+        var txtId = $("#@idTextBoxName")[0];
+        var txtOriginalId = $("#@originalIdTextBoxName")[0];
+        var txtPartyName = $("#@partyNameTextBoxName")[0];
+        txtId.onblur = function()
+        {
+            if (txtId.value != '')
+            {
+                $.get("/Registry/Party/GetPartyInfoById/" + txtId.value, function (data) {
+                    if (data === 'undefined') {
+                        alert('Unknown code');
+                        txtOriginalId.value = '';
+                        txtPartyName.value = '';
+                    }
+                    else {
+                        txtOriginalId.value = data.OriginalId;
+                        txtPartyName.value = data.Name;
+                    }
+                })
+                .fail(function () {
+                    alert('Unknown code');
+                    txtOriginalId.value = '';
+                    txtPartyName.value = '';
+                }
+                );
+            }
+
+        }
+        $("#@partyNameTextBoxName").autocomplete({
+            source:
+                function (request, response) {
+                    $.ajax({
+                        url: "/Registry/Party/GetPartyInfoByPattern?text=" + txtPartyName.value,
+                        dataType: "jsonp",
+                        data: {
+                            searchPattern: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return {
+                                    label: item.Name,
+                                    value: item.Name,
+                                    id: item.Id,
+                                    originalId: item.OriginalId
+                                }
+                            }));
+                        }
+                    });
+                },
+            minLength: 2,
+            select: function (event, ui) {
+                txtId.value = ui.item.id;
+                txtOriginalId.value = ui.item.originalId;
+            },
+            open: function () {
+                $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+            },
+            close: function () {
+                $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
+            }
+        });
+    });
+</script>
+

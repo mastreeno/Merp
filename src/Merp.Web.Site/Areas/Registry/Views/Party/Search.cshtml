@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "Search";
+}
+@section head {
+    <script type="text/javascript">
+        (function () {
+            var partySearchTool = angular.module('partySearchTool', []);
+        }());
+        (function (module) {
+            var partySearchToolController = function ($scope, $http) {
+                $scope.orderProp = 'name';
+
+                $scope.refreshParties = function () {
+                    var url = '/Registry/Party/GetParties?query=' + $scope.query;
+
+                    $http.get(url).success(function (data) {
+                        $scope.parties = data;
+                    });
+                }
+
+                $scope.refreshParties();
+            }
+            module.controller('partySearchToolController', ['$scope', '$http', partySearchToolController]);
+        }(angular.module('partySearchTool')))
+    </script>
+}
+<h2>Search</h2>
+<div data-ng-app="partySearchTool" data-ng-controller="partySearchToolController">
+    <div class="row" id="SearchForm">
+        <form class="form-inline" role="form">
+            <div class="form-group">
+                <label class="col-lg-3 control-label" for="query">Search</label>
+                <div class="col-lg-9">
+                    <input id="query" data-ng-model="query" class="form-control" placeholder="Enter your query" data-ng-change="refreshParties()">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label" for="sort">Sort by:</label>
+                <div class="col-lg-9">
+                    <select id="sort" data-ng-model="orderProp" class="form-control">
+                        <option value="name">Alphabetical (ascending)</option>
+                        <option value="-name">Alphabetical (descending)</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+        <p>Total number of items: {{parties.length}}</p>
+    </div>
+    <div class="row">
+        <table>
+            <tr data-ng-repeat="party in parties | orderBy:orderProp">
+                <td><a href="/Registry/Party/Detail/{{party.uid}}">{{party.name}}</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+

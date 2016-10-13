@@ -1,0 +1,89 @@
+{
+  "version": 2,
+  "exports": {
+    "Merp.Accountancy.CommandStack/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.5.2",
+      "compile": {
+        "bin/Debug/Merp.Accountancy.CommandStack.dll": {}
+      },
+      "runtime": {
+        "../../packages/MementoFX.1.2.0/lib/net451/Memento.dll": {},
+        "../../packages/MementoFX.Messaging.Rebus.1.1.1/lib/net451/Memento.Messaging.Rebus.dll": {},
+        "../../packages/Rebus.2.0.1/lib/NET45/Rebus.dll": {},
+        "bin/Debug/Merp.Accountancy.CommandStack.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Merp.Accountancy.CommandStack.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "Merp.Accountancy.QueryStack/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.5.2",
+      "compile": {
+        "bin/Debug/Merp.Accountancy.QueryStack.dll": {}
+      },
+      "runtime": {
+        "../../packages/EntityFramework.6.1.3/lib/net45/EntityFramework.SqlServer.dll": {},
+        "../../packages/EntityFramework.6.1.3/lib/net45/EntityFramework.dll": {},
+        "../../packages/MementoFX.1.2.0/lib/net451/Memento.dll": {},
+        "../../packages/MementoFX.Messaging.Rebus.1.1.1/lib/net451/Memento.Messaging.Rebus.dll": {},
+        "../../packages/Rebus.2.0.1/lib/NET45/Rebus.dll": {},
+        "bin/Debug/Merp.Accountancy.QueryStack.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Merp.Accountancy.QueryStack.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "Merp.Registry.CommandStack/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.5.2",
+      "compile": {
+        "bin/Debug/Merp.Registry.CommandStack.dll": {}
+      },
+      "runtime": {
+        "../../packages/MementoFX.1.2.0/lib/net451/Memento.dll": {},
+        "../../packages/MementoFX.Messaging.Rebus.1.1.1/lib/net451/Memento.Messaging.Rebus.dll": {},
+        "../../packages/Rebus.2.0.1/lib/NET45/Rebus.dll": {},
+        "bin/Debug/Merp.Registry.CommandStack.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Merp.Registry.CommandStack.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "Merp.Registry.QueryStack/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.5.2",
+      "compile": {
+        "bin/Debug/Merp.Registry.QueryStack.dll": {}
+      },
+      "runtime": {
+        "../../packages/EntityFramework.6.1.3/lib/net45/EntityFramework.SqlServer.dll": {},
+        "../../packages/EntityFramework.6.1.3/lib/net45/EntityFramework.dll": {},
+        "../../packages/MementoFX.1.2.0/lib/net451/Memento.dll": {},
+        "../../packages/MementoFX.Messaging.Rebus.1.1.1/lib/net451/Memento.Messaging.Rebus.dll": {},
+        "../../packages/Rebus.2.0.1/lib/NET45/Rebus.dll": {},
+        "bin/Debug/Merp.Registry.QueryStack.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Merp.Registry.QueryStack.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    }
+  }
+}

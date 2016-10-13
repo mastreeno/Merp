@@ -1,0 +1,35 @@
+﻿@model Merp.Web.Site.Areas.Registry.Models.Company.InfoViewModel
+
+@{
+    ViewBag.Title = "Info";
+}
+
+<h2>@Model.CompanyName</h2>
+
+<div>
+    @*<h4>InfoViewModel</h4>
+    <hr />*@
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VatIndex)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VatIndex)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Change name", "ChangeName", new { id = Model.CompanyUid }) |
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
