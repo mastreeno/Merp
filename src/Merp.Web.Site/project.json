@@ -1,4 +1,7 @@
 {
+  "title": "MERP",
+  "copyright": "Mastreeno ltd, Andrea Saltarello",
+  "description": "An event-based Micro ERP",
   "userSecretsId": "aspnet-Merp.Web.Site-566fcf02-bb6d-4716-9e9a-7a226885834b",
 
   "dependencies": {

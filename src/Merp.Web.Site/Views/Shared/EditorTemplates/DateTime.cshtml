@@ -13,9 +13,9 @@ else
 {
     @Html.TextBoxFor(m => m, new { type = "date", value = Model, @class = "form-control" })
 @*@Html.TextBox("", Model.HasValue ? Model.Value.ToString("dd/MM/yyyy") : "", new { @class = "date form-control" })
-<script type="text/javascript">
-    $(function () {
-        $("#@ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty)").datepicker({ dateFormat: "dd/mm/yy" });
-    });
-</script>*@
+    <script type="text/javascript">
+        $(function () {
+            $("#@ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty).Replace(".", "_")").datepicker({ dateFormat: "dd/mm/yy" });
+        });
+    </script>*@
 }

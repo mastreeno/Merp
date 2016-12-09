@@ -1,0 +1,9 @@
+﻿<environment names="Development">
+    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+</environment>
+<environment names="Staging,Production,Cloud">
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/jquery-ui.min.js"
+            asp-fallback-src="~/lib/jquery-ui/jquery-ui.js"
+            asp-fallback-test="window.jQuery">
+    </script>
+</environment>

@@ -34,6 +34,28 @@ namespace Merp.Accountancy.CommandStack.Model
             Customer = new PartyInfo(evt.Customer.Id, evt.Customer.Name, evt.Customer.StreetName, evt.Customer.City, evt.Customer.PostalCode, evt.Customer.Country, evt.Customer.VatIndex, evt.Customer.NationalIdentificationNumber);
         }
 
+        public void ApplyEvent([AggregateId(nameof(OutgoingInvoicePaidEvent.InvoiceId))] OutgoingInvoicePaidEvent evt)
+        {
+            PaymentDate = evt.PaymentDate;
+        }
+
+        public void ApplyEvent([AggregateId(nameof(OutgoingInvoiceExpiredEvent.InvoiceId))] OutgoingInvoiceExpiredEvent evt)
+        {
+            DueDate = evt.DueDate;
+        }
+
+        public void MarkAsPaid(DateTime paymentDate)
+        {
+            var evt = new OutgoingInvoicePaidEvent(this.Id, paymentDate);
+            RaiseEvent(evt);
+        }
+
+        public void MarkAsExpired()
+        {
+            //var evt = new OutgoingInvoiceExpiredEvent(this.Id);
+            //RaiseEvent(evt);
+        }
+
         public static class Factory
         {
             public static OutgoingInvoice Create(IOutgoingInvoiceNumberGenerator generator, DateTime invoiceDate, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, Guid customerId, string customerName)

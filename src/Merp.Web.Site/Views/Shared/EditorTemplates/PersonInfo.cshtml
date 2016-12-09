@@ -45,7 +45,7 @@
                 function (request, response) {
                     $.ajax({
                         url: "/Registry/Party/GetPersonInfoByPattern?text=" + txtPartyName.value,
-                        dataType: "jsonp",
+                        dataType: "json",
                         data: {
                             searchPattern: request.term
                         },

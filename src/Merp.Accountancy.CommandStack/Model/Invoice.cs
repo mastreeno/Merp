@@ -18,7 +18,9 @@ namespace Merp.Accountancy.CommandStack.Model
         public string Description { get; protected set; }
         public string PaymentTerms { get; protected set; }
         public string PurchaseOrderNumber { get; protected set; }
-        
+        public DateTime? DueDate { get; protected set; }
+        public DateTime? PaymentDate { get; protected set; }
+
         public class PartyInfo
         {
             public Guid Id { get; private set; }

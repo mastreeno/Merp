@@ -19,7 +19,10 @@ namespace Merp.Accountancy.QueryStack.Model
         public decimal TotalPrice { get; set; }
         public string PurchaseOrderNumber { get; set; }
         public string Description { get; set; }
-
+        public bool IsPaid { get; set; }
+        public DateTime? PaymentDate { get; set; }
+        public bool IsExpired { get; set; }
+        public DateTime? DueDate { get; set; }
 
         [ComplexType] 
         public class PartyInfo

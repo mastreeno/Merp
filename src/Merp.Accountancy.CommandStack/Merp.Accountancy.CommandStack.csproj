@@ -67,11 +67,17 @@
     <Compile Include="Commands\LinkIncomingInvoiceToJobOrderCommand.cs" />
     <Compile Include="Commands\ExtendTimeAndMaterialJobOrderCommand.cs" />
     <Compile Include="Commands\IssueInvoiceCommand.cs" />
+    <Compile Include="Commands\MarkIncomingInvoiceAsPaidCommand.cs" />
+    <Compile Include="Commands\MarkOutgoingInvoiceAsPaidCommand.cs" />
     <Compile Include="Commands\MarkTimeAndMaterialJobOrderAsCompletedCommand.cs" />
     <Compile Include="Commands\MarkFixedPriceJobOrderAsCompletedCommand.cs" />
     <Compile Include="Commands\RegisterIncomingInvoiceCommand.cs" />
     <Compile Include="Commands\RegisterTimeAndMaterialJobOrderCommand.cs" />
     <Compile Include="Commands\ExtendFixedPriceJobOrderCommand.cs" />
+    <Compile Include="Events\IncomingInvoicePaidEvent.cs" />
+    <Compile Include="Events\IncomingInvoiceExpiredEvent.cs" />
+    <Compile Include="Events\OutgoingInvoicePaidEvent.cs" />
+    <Compile Include="Events\OutgoingInvoiceExpiredEvent.cs" />
     <Compile Include="Events\OutgoingInvoiceLinkedToJobOrderEvent.cs" />
     <Compile Include="Events\IncomingInvoiceLinkedToJobOrderEvent.cs" />
     <Compile Include="Events\IncomingInvoiceRegisteredEvent.cs" />

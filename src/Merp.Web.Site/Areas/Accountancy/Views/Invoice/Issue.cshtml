@@ -83,9 +83,18 @@
     </div>
 }
 @section head {
-    <link rel="stylesheet" type="text/css" href="~/lib/jquery-ui/themes/base/all.css" />
+    <environment names="Development">
+        <link type="text/css" rel="stylesheet" href="~/lib/jquery-ui/themes/smoothness/jquery-ui.css" />
+    </environment>
+    <environment names="Staging,Production,Cloud">
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/themes/smoothness/jquery-ui.css"
+                asp-fallback-src="~/lib/jquery-ui/themes/smoothness/jquery-ui.css"
+                asp-fallback-test="window.jQuery">
+        </script>
+    </environment>
 }
+
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-    <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+    @{ await Html.RenderPartialAsync("_JqueryUIPartial"); }
 }

@@ -6,11 +6,13 @@ using Memento.Persistence;
 using Rebus.Sagas;
 using Rebus.Bus;
 using System.Threading.Tasks;
+using Rebus.Handlers;
 
 namespace Merp.Accountancy.CommandStack.Sagas
 {
     public class OutgoingInvoiceSaga : Saga<OutgoingInvoiceSaga.OutgoingInvoiceSagaData>,
-        IAmInitiatedBy<IssueInvoiceCommand>
+        IAmInitiatedBy<IssueInvoiceCommand>,
+        IHandleMessages<MarkOutgoingInvoiceAsPaidCommand>
     {
         private readonly IRepository _repository;
         public IOutgoingInvoiceNumberGenerator InvoiceNumberGenerator { get; private set; }
@@ -52,6 +54,22 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 this._repository.Save(invoice);
                 this.Data.Id = invoice.Id;
             });
+        }
+
+        public Task Handle(MarkOutgoingInvoiceAsPaidCommand message)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                var invoice = _repository.GetById<OutgoingInvoice>(message.InvoiceId);
+                invoice.MarkAsPaid(message.PaymentDate);
+                _repository.Save(invoice);
+                this.MarkAsComplete();
+            });
+        }
+
+        public class OutgoingInvoiceExpiredTimeout
+        {
+            public Guid InvoiceId { get; set; }
         }
 
         public class OutgoingInvoiceSagaData : SagaData

@@ -5,11 +5,13 @@ using Rebus.Sagas;
 using Rebus.Bus;
 using System;
 using System.Threading.Tasks;
+using Rebus.Handlers;
 
 namespace Merp.Accountancy.CommandStack.Sagas
 {
     public class IncomingInvoiceSaga : Saga<IncomingInvoiceSaga.IncomingInvoiceSagaData>,
-        IAmInitiatedBy<RegisterIncomingInvoiceCommand>
+        IAmInitiatedBy<RegisterIncomingInvoiceCommand>,
+        IHandleMessages<MarkIncomingInvoiceAsPaidCommand>
     {
         private readonly IRepository _repository;
 
@@ -45,6 +47,17 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 );
                 this._repository.Save(invoice);
                 this.Data.Id = invoice.Id;
+            });
+        }
+
+        public Task Handle(MarkIncomingInvoiceAsPaidCommand message)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                var invoice = _repository.GetById<IncomingInvoice>(message.InvoiceId);
+                invoice.MarkAsPaid(message.PaymentDate);
+                _repository.Save(invoice);
+                this.MarkAsComplete();
             });
         }
 
