@@ -306,7 +306,7 @@ namespace Merp.Web.Site
     {
         public static bool IsAzure(this IHostingEnvironment env)
         {
-            return env.EnvironmentName.Contains("Cloud");
+            return env.EnvironmentName.Contains("Azure");
         }
 
         public static bool IsOnPremises(this IHostingEnvironment env)

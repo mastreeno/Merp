@@ -83,7 +83,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             {
                 model = model.Where(p => p.name.StartsWith(query));
             }
-            model = model.Take(50);
+            model = model.Take(30);
             return model;
         }
     }

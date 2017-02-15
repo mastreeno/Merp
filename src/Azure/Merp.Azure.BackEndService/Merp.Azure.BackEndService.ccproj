@@ -63,6 +63,9 @@
     <DiagnosticsConfiguration Include="DenormalizersContent\diagnostics.wadcfgx" />
     <DiagnosticsConfiguration Include="SagasContent\diagnostics.wadcfgx" />
   </ItemGroup>
+  <ItemGroup>
+    <PublishProfile Include="Profiles\MerpBackendProduction4.azurePubxml" />
+  </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>
     <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>

@@ -10,7 +10,7 @@
       "runtime": {
         "../../packages/MementoFX.1.2.0/lib/net451/Memento.dll": {},
         "../../packages/MementoFX.Messaging.Rebus.1.1.1/lib/net451/Memento.Messaging.Rebus.dll": {},
-        "../../packages/Rebus.2.0.1/lib/NET45/Rebus.dll": {},
+        "../../packages/Rebus.2.1.6/lib/NET45/Rebus.dll": {},
         "bin/Debug/Merp.Accountancy.CommandStack.dll": {}
       },
       "contentFiles": {
@@ -32,7 +32,7 @@
         "../../packages/EntityFramework.6.1.3/lib/net45/EntityFramework.dll": {},
         "../../packages/MementoFX.1.2.0/lib/net451/Memento.dll": {},
         "../../packages/MementoFX.Messaging.Rebus.1.1.1/lib/net451/Memento.Messaging.Rebus.dll": {},
-        "../../packages/Rebus.2.0.1/lib/NET45/Rebus.dll": {},
+        "../../packages/Rebus.2.1.6/lib/NET45/Rebus.dll": {},
         "bin/Debug/Merp.Accountancy.QueryStack.dll": {}
       },
       "contentFiles": {
@@ -52,7 +52,7 @@
       "runtime": {
         "../../packages/MementoFX.1.2.0/lib/net451/Memento.dll": {},
         "../../packages/MementoFX.Messaging.Rebus.1.1.1/lib/net451/Memento.Messaging.Rebus.dll": {},
-        "../../packages/Rebus.2.0.1/lib/NET45/Rebus.dll": {},
+        "../../packages/Rebus.2.1.6/lib/NET45/Rebus.dll": {},
         "bin/Debug/Merp.Registry.CommandStack.dll": {}
       },
       "contentFiles": {
@@ -74,7 +74,7 @@
         "../../packages/EntityFramework.6.1.3/lib/net45/EntityFramework.dll": {},
         "../../packages/MementoFX.1.2.0/lib/net451/Memento.dll": {},
         "../../packages/MementoFX.Messaging.Rebus.1.1.1/lib/net451/Memento.Messaging.Rebus.dll": {},
-        "../../packages/Rebus.2.0.1/lib/NET45/Rebus.dll": {},
+        "../../packages/Rebus.2.1.6/lib/NET45/Rebus.dll": {},
         "bin/Debug/Merp.Registry.QueryStack.dll": {}
       },
       "contentFiles": {

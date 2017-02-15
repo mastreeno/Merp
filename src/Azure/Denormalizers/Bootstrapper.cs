@@ -108,8 +108,12 @@ namespace Denormalizers
                 Bus.Subscribe<FixedPriceJobOrderRegisteredEvent>();
                 Bus.Subscribe<IncomingInvoiceLinkedToJobOrderEvent>();
                 Bus.Subscribe<IncomingInvoiceRegisteredEvent>();
+                Bus.Subscribe<IncomingInvoiceExpiredEvent>();
+                Bus.Subscribe<IncomingInvoicePaidEvent>();
                 Bus.Subscribe<OutgoingInvoiceIssuedEvent>();
                 Bus.Subscribe<OutgoingInvoiceLinkedToJobOrderEvent>();
+                Bus.Subscribe<OutgoingInvoicePaidEvent>();
+                Bus.Subscribe<OutgoingInvoiceExpiredEvent>();
                 Bus.Subscribe<TimeAndMaterialJobOrderCompletedEvent>();
                 Bus.Subscribe<TimeAndMaterialJobOrderExtendedEvent>();
                 Bus.Subscribe<TimeAndMaterialJobOrderRegisteredEvent>();
