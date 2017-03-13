@@ -57,9 +57,8 @@
       <HintPath>..\..\packages\MementoFX.Messaging.Rebus.1.1.1\lib\net451\Memento.Messaging.Rebus.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Rebus, Version=2.1.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Rebus.2.1.6\lib\NET45\Rebus.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Rebus, Version=3.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Rebus.3.1.2\lib\NET45\Rebus.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />

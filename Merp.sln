@@ -1,8 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{66013B49-B5AA-4E44-8F60-4A66CCB9697E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "azure", "azure", "{1A6B7452-08AC-4AA8-9B73-E81D0C9D4680}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Merp.Accountancy.CommandStack", "src\Merp.Accountancy.CommandStack\Merp.Accountancy.CommandStack.csproj", "{A30BA9D9-CE21-407A-94FB-F9C8C99564B4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Merp.Accountancy.QueryStack", "src\Merp.Accountancy.QueryStack\Merp.Accountancy.QueryStack.csproj", "{9C6564D4-6628-4A91-B9D2-C1402E6BB49F}"
@@ -11,15 +15,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Merp.Registry.CommandStack"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Merp.Registry.QueryStack", "src\Merp.Registry.QueryStack\Merp.Registry.QueryStack.csproj", "{20C49CBE-1696-4EDD-B96A-2EFD0ACD526F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{66013B49-B5AA-4E44-8F60-4A66CCB9697E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Merp.Accountancy.CommandStack.Tests", "test\Merp.Accountancy.CommandStack.Tests\Merp.Accountancy.CommandStack.Tests.csproj", "{7CF348DB-972B-4D3D-A289-4E4E3AEE84F3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Merp.Registry.CommandStack.Tests", "test\Merp.Registry.CommandStack.Tests\Merp.Registry.CommandStack.Tests.csproj", "{0C946005-96FD-482E-A85A-D6C00674D00E}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Merp.Web.Site", "src\Merp.Web.Site\Merp.Web.Site.xproj", "{21C1AE34-DA48-408E-8B99-5DCDC449AB84}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "azure", "azure", "{1A6B7452-08AC-4AA8-9B73-E81D0C9D4680}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.Web.Site", "src\Merp.Web.Site\Merp.Web.Site.csproj", "{21C1AE34-DA48-408E-8B99-5DCDC449AB84}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denormalizers", "src\Azure\Denormalizers\Denormalizers.csproj", "{BA030DE4-1D48-4DF8-B6EF-AE94D14E22FC}"
 EndProject
