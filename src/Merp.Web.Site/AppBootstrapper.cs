@@ -46,7 +46,6 @@ namespace Merp.Web.Site
         {
             var env = Services.BuildServiceProvider().GetService<IHostingEnvironment>();
             ConfigureBus();
-            ConfigurePersistence();
 
             var bus = Services.BuildServiceProvider().GetService<IBus>();
             new AccountancyBoundedContext(Configuration, Services).Configure();
@@ -70,7 +69,7 @@ namespace Merp.Web.Site
             }
             else if (Environment.IsAzure())
             {
-                config.Transport(t => t.UseAzureServiceBus(Configuration["Rebus:ServiceBusConnectionString"], Configuration["Rebus:QueueName"], Rebus.AzureServiceBus.Config.AzureServiceBusMode.Basic));
+                config.Transport(t => t.UseAzureServiceBus(Configuration["Rebus:ServiceBusConnectionString"], Configuration["Rebus:QueueName"], AzureServiceBusMode.Basic));
             }
             else
             {
@@ -79,46 +78,6 @@ namespace Merp.Web.Site
             var bus = config.Start();
             Services.AddSingleton(bus);
             Services.AddTransient<IEventDispatcher, RebusEventDispatcher>();
-        }
-
-        private void ConfigurePersistence()
-        {
-            if (Environment.IsDevelopment() || Environment.IsOnPremises())
-            {
-                var mongoDbConnectionString = Configuration.GetConnectionString("EventStore");
-                var mongoDbDatabaseName = MongoDB.Driver.MongoUrl.Create(mongoDbConnectionString).DatabaseName;
-                var mongoClient = new MongoDB.Driver.MongoClient(mongoDbConnectionString);
-                Services.AddSingleton(mongoClient.GetDatabase(mongoDbDatabaseName));
-                Services.AddTransient<IEventStore, Memento.Persistence.MongoDB.MongoDbEventStore>();
-                Services.AddTransient<IRepository, Memento.Persistence.Repository>();
-            }
-            else if(Environment.IsAzure())
-            {
-                var mongoDbConnectionString = Configuration.GetConnectionString("EventStore");
-                var mongoDbUrl = MongoDB.Driver.MongoUrl.Create(mongoDbConnectionString);
-                MongoClientSettings settings = new MongoClientSettings();
-                settings.Server = new MongoServerAddress(mongoDbUrl.Server.Host, mongoDbUrl.Server.Port);
-                settings.UseSsl = true;
-                settings.SslSettings = new SslSettings();
-                settings.SslSettings.EnabledSslProtocols = SslProtocols.Tls12;
-
-                MongoIdentity identity = new MongoInternalIdentity(mongoDbUrl.DatabaseName, mongoDbUrl.Username);
-                MongoIdentityEvidence evidence = new PasswordEvidence(mongoDbUrl.Password);
-
-                settings.Credentials = new List<MongoCredential>()
-                {
-                    new MongoCredential("SCRAM-SHA-1", identity, evidence)
-                };
-
-                MongoClient client = new MongoClient(settings);
-                Services.AddSingleton(client.GetDatabase(mongoDbUrl.DatabaseName));
-                Services.AddTransient<IEventStore, Memento.Persistence.MongoDB.MongoDbEventStore>();
-                Services.AddTransient<IRepository, Memento.Persistence.Repository>();
-            }
-            else
-            {
-                throw new InvalidOperationException("Unknown execution environment");
-            }
         }
 
         public class AccountancyBoundedContext
@@ -155,6 +114,47 @@ namespace Merp.Web.Site
                 }
                 RegisterTypes();
                 RegisterWorkerServices();
+                ConfigureEventStore();
+            }
+
+            private void ConfigureEventStore()
+            {
+                if (Environment.IsDevelopment() || Environment.IsOnPremises())
+                {
+                    var mongoDbConnectionString = Configuration.GetConnectionString("Merp-Accountancy-EventStore");
+                    var mongoDbDatabaseName = MongoDB.Driver.MongoUrl.Create(mongoDbConnectionString).DatabaseName;
+                    var mongoClient = new MongoDB.Driver.MongoClient(mongoDbConnectionString);
+                    Services.AddSingleton(mongoClient.GetDatabase(mongoDbDatabaseName));
+                    Services.AddTransient<IEventStore, Memento.Persistence.MongoDB.MongoDbEventStore>();
+                    Services.AddTransient<IRepository, Memento.Persistence.Repository>();
+                }
+                else if (Environment.IsAzure())
+                {
+                    var mongoDbConnectionString = Configuration.GetConnectionString("Merp-Accountancy-EventStore");
+                    var mongoDbUrl = MongoDB.Driver.MongoUrl.Create(mongoDbConnectionString);
+                    MongoClientSettings settings = new MongoClientSettings();
+                    settings.Server = new MongoServerAddress(mongoDbUrl.Server.Host, mongoDbUrl.Server.Port);
+                    settings.UseSsl = true;
+                    settings.SslSettings = new SslSettings();
+                    settings.SslSettings.EnabledSslProtocols = SslProtocols.Tls12;
+
+                    MongoIdentity identity = new MongoInternalIdentity(mongoDbUrl.DatabaseName, mongoDbUrl.Username);
+                    MongoIdentityEvidence evidence = new PasswordEvidence(mongoDbUrl.Password);
+
+                    settings.Credentials = new List<MongoCredential>()
+                {
+                    new MongoCredential("SCRAM-SHA-1", identity, evidence)
+                };
+
+                    MongoClient client = new MongoClient(settings);
+                    Services.AddSingleton(client.GetDatabase(mongoDbUrl.DatabaseName));
+                    Services.AddTransient<IEventStore, Memento.Persistence.MongoDB.MongoDbEventStore>();
+                    Services.AddTransient<IRepository, Memento.Persistence.Repository>();
+                }
+                else
+                {
+                    throw new InvalidOperationException("Unknown execution environment");
+                }
             }
 
             private void SubscribeEvents()
@@ -203,7 +203,7 @@ namespace Merp.Web.Site
             private void RegisterTypes()
             {
                 //Types
-                var readModelConnectionString = Configuration.GetConnectionString("ReadModel");
+                var readModelConnectionString = Configuration.GetConnectionString("Merp-Accountancy-ReadModel");
 
                 Services.AddScoped<Merp.Accountancy.QueryStack.AccountancyContext>((s) => new Merp.Accountancy.QueryStack.AccountancyContext(readModelConnectionString));
                 Services.AddScoped<Merp.Accountancy.QueryStack.IDatabase, Merp.Accountancy.QueryStack.Database>((s) => new Merp.Accountancy.QueryStack.Database(readModelConnectionString));
@@ -251,6 +251,47 @@ namespace Merp.Web.Site
                 }
                 RegisterTypes();
                 RegisterWorkerServices();
+                ConfigureEventStore();
+            }
+
+            private void ConfigureEventStore()
+            {
+                if (Environment.IsDevelopment() || Environment.IsOnPremises())
+                {
+                    var mongoDbConnectionString = Configuration.GetConnectionString("Merp-Registry-EventStore");
+                    var mongoDbDatabaseName = MongoDB.Driver.MongoUrl.Create(mongoDbConnectionString).DatabaseName;
+                    var mongoClient = new MongoDB.Driver.MongoClient(mongoDbConnectionString);
+                    Services.AddSingleton(mongoClient.GetDatabase(mongoDbDatabaseName));
+                    Services.AddTransient<IEventStore, Memento.Persistence.MongoDB.MongoDbEventStore>();
+                    Services.AddTransient<IRepository, Memento.Persistence.Repository>();
+                }
+                else if (Environment.IsAzure())
+                {
+                    var mongoDbConnectionString = Configuration.GetConnectionString("Merp-Registry-EventStore");
+                    var mongoDbUrl = MongoDB.Driver.MongoUrl.Create(mongoDbConnectionString);
+                    MongoClientSettings settings = new MongoClientSettings();
+                    settings.Server = new MongoServerAddress(mongoDbUrl.Server.Host, mongoDbUrl.Server.Port);
+                    settings.UseSsl = true;
+                    settings.SslSettings = new SslSettings();
+                    settings.SslSettings.EnabledSslProtocols = SslProtocols.Tls12;
+
+                    MongoIdentity identity = new MongoInternalIdentity(mongoDbUrl.DatabaseName, mongoDbUrl.Username);
+                    MongoIdentityEvidence evidence = new PasswordEvidence(mongoDbUrl.Password);
+
+                    settings.Credentials = new List<MongoCredential>()
+                {
+                    new MongoCredential("SCRAM-SHA-1", identity, evidence)
+                };
+
+                    MongoClient client = new MongoClient(settings);
+                    Services.AddSingleton(client.GetDatabase(mongoDbUrl.DatabaseName));
+                    Services.AddTransient<IEventStore, Memento.Persistence.MongoDB.MongoDbEventStore>();
+                    Services.AddTransient<IRepository, Memento.Persistence.Repository>();
+                }
+                else
+                {
+                    throw new InvalidOperationException("Unknown execution environment");
+                }
             }
 
             private void SubscribeEvents()
@@ -286,7 +327,7 @@ namespace Merp.Web.Site
             private void RegisterTypes()
             {
                 //Types
-                var readModelConnectionString = Configuration.GetConnectionString("ReadModel");
+                var readModelConnectionString = Configuration.GetConnectionString("Merp-Registry-ReadModel");
 
                 Services.AddScoped<Merp.Registry.QueryStack.RegistryDbContext>((s) => new Merp.Registry.QueryStack.RegistryDbContext(readModelConnectionString));
                 Services.AddScoped<Merp.Registry.QueryStack.IDatabase, Merp.Registry.QueryStack.Database>((s) => new Merp.Registry.QueryStack.Database(readModelConnectionString));

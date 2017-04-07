@@ -45,7 +45,7 @@ namespace Sagas
                 .Subscriptions(s => s.StoreInSqlServer(ConfigurationManager.AppSettings["Rebus:Subscriptions:ConnectionString"], ConfigurationManager.AppSettings["Rebus:Subscriptions:TableName"], isCentralized: true))
                 .Sagas(s => s.StoreInSqlServer(ConfigurationManager.AppSettings["Rebus:Sagas:ConnectionString"], ConfigurationManager.AppSettings["Rebus:Sagas:MessagesTableName"], ConfigurationManager.AppSettings["Rebus:Sagas:IndexesTableName"]))
                 .Timeouts(t => t.StoreInSqlServer(ConfigurationManager.AppSettings["Rebus:Timeouts:ConnectionString"], ConfigurationManager.AppSettings["Rebus:Timeouts:TableName"], true))
-                .Transport(t => t.UseAzureServiceBus(ConfigurationManager.AppSettings["Rebus:ServiceBusConnectionString"], ConfigurationManager.AppSettings["Rebus:QueueName"], Rebus.AzureServiceBus.Config.AzureServiceBusMode.Basic));
+                .Transport(t => t.UseAzureServiceBus(ConfigurationManager.AppSettings["Rebus:ServiceBusConnectionString"], ConfigurationManager.AppSettings["Rebus:QueueName"], Rebus.Config.AzureServiceBusMode.Basic));
             var bus = config.Start();
             Container.RegisterInstance<IBus>(bus);
             Container.RegisterType<IEventDispatcher, RebusEventDispatcher>();
@@ -53,7 +53,7 @@ namespace Sagas
 
         private void ConfigurePersistence()
         {
-            var mongoDbConnectionString = ConfigurationManager.ConnectionStrings["EventStore"].ConnectionString;
+            var mongoDbConnectionString = ConfigurationManager.ConnectionStrings["Merp-Accountancy-EventStore"].ConnectionString;
             var mongoDbUrl = MongoDB.Driver.MongoUrl.Create(mongoDbConnectionString);
             MongoClientSettings settings = new MongoClientSettings();
             settings.Server = new MongoServerAddress(mongoDbUrl.Server.Host, mongoDbUrl.Server.Port);

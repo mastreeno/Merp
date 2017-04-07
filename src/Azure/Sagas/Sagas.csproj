@@ -85,7 +85,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ServiceBus, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\WindowsAzure.ServiceBus.3.4.6\lib\net45-full\Microsoft.ServiceBus.dll</HintPath>
+      <HintPath>..\..\..\packages\WindowsAzure.ServiceBus.4.0.0\lib\net45-full\Microsoft.ServiceBus.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.WindowsAzure.ConfigurationManager.3.2.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
@@ -109,9 +109,8 @@
     <Reference Include="MongoDB.Driver.Core, Version=2.4.3.23, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MongoDB.Driver.Core.2.4.3\lib\net45\MongoDB.Driver.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Rebus, Version=3.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Rebus.3.1.2\lib\NET45\Rebus.dll</HintPath>

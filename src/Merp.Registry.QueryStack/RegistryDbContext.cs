@@ -11,7 +11,7 @@ namespace Merp.Registry.QueryStack
     public class RegistryDbContext : DbContext
     {
         public RegistryDbContext()
-            : base("Merp")
+            : base("Merp-Registry-ReadModel")
         {
             
         }

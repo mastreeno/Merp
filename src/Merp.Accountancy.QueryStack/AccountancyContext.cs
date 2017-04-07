@@ -11,7 +11,7 @@ namespace Merp.Accountancy.QueryStack
     public class AccountancyContext : DbContext
     {
         public AccountancyContext()
-            : base("Merp")
+            : base("Merp-Accountancy-ReadModel")
         {
 
         }
