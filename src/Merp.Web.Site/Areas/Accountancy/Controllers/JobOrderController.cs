@@ -3,20 +3,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Merp.Web.Site.Areas.Accountancy.Models.JobOrder;
 using Merp.Web.Site.Areas.Accountancy.WorkerServices;
+using System.Collections.Generic;
 
 namespace Merp.Web.Site.Areas.Accountancy.Controllers
 {
     [Area("Accountancy")]
+    [Authorize(Roles = "Accountancy")]
     public class JobOrderController : Controller
     {
         public JobOrderControllerWorkerServices WorkerServices { get; private set; }
 
         public JobOrderController(JobOrderControllerWorkerServices workerServices)
         {
-            if(workerServices==null)
-                throw new ArgumentNullException(nameof(workerServices));
-
-            WorkerServices = workerServices;
+            WorkerServices = workerServices ?? throw new ArgumentNullException(nameof(workerServices));
         }
 
         // GET: JobOrder
@@ -28,12 +27,12 @@ namespace Merp.Web.Site.Areas.Accountancy.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetList(bool? currentOnly, Guid? customerId, string jobOrderName)
+        public IEnumerable<IndexViewModel.JobOrder> GetList(bool? currentOnly, Guid? customerId, string jobOrderName)
         {
             var model = WorkerServices.GetList(currentOnly.HasValue ? currentOnly.Value : false, 
                                             customerId, 
                                             jobOrderName);
-            return Json(model);
+            return model;
         }
 
         [HttpGet]
@@ -137,10 +136,10 @@ namespace Merp.Web.Site.Areas.Accountancy.Controllers
         }
 
         [HttpGet]
-        public ActionResult EvaluateFixedPriceJobOrderBalance(Guid id)
+        public decimal EvaluateFixedPriceJobOrderBalance(Guid id)
         {
             var model = WorkerServices.GetEvaluateFixedPriceJobOrderBalance(id);
-            return Json(model);
+            return model;
         }
         #endregion
 
@@ -206,10 +205,10 @@ namespace Merp.Web.Site.Areas.Accountancy.Controllers
         }
 
         [HttpGet]
-        public ActionResult EvaluateTimeAndMaterialJobOrderBalance(Guid id)
+        public decimal EvaluateTimeAndMaterialJobOrderBalance(Guid id)
         {
             var model = WorkerServices.GetEvaluateTimeAndMaterialJobOrderBalance(id);
-            return Json(model);
+            return model;
         }
         #endregion
         

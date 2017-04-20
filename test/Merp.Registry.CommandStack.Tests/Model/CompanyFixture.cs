@@ -15,7 +15,14 @@ namespace Merp.Registry.CommandStack.Tests.Model
         [Test]
         public void Factory_should_throw_ArgumentException_on_null_companyName()
         {
-            Executing.This(() => Company.Factory.CreateNewEntry(null, "GB"))
+            var nationalIdentificationNumber = "FAKE";
+            var vatNumber = "123";
+            var address = "Via Torino 51";
+            var city = "Milan";
+            var postalCode = "20123";
+            var province = "MI";
+            var country = "Italy";
+            Executing.This(() => Company.Factory.CreateNewEntry(null, vatNumber, nationalIdentificationNumber))
                 .Should()
                 .Throw<ArgumentException>()
                 .And
@@ -29,7 +36,14 @@ namespace Merp.Registry.CommandStack.Tests.Model
         [Test]
         public void Factory_should_throw_ArgumentException_on_blank_companyName()
         {
-            Executing.This(() => Company.Factory.CreateNewEntry("", "GB"))
+            var nationalIdentificationNumber = "FAKE";
+            var vatNumber = "123";
+            var address = "Via Torino 51";
+            var city = "Milan";
+            var postalCode = "20123";
+            var province = "MI";
+            var country = "Italy";
+            Executing.This(() => Company.Factory.CreateNewEntry("", vatNumber, nationalIdentificationNumber))
                 .Should()
                 .Throw<ArgumentException>()
                 .And
@@ -41,9 +55,16 @@ namespace Merp.Registry.CommandStack.Tests.Model
         }
 
         [Test]
-        public void Factory_should_throw_ArgumentException_on_null_vatIndex()
+        public void Factory_should_throw_ArgumentException_on_null_vatNumber()
         {
-            Executing.This(() => Company.Factory.CreateNewEntry("Mastreeno ltd", ""))
+            var companyName = "Mastreeno ltd";
+            var nationalIdentificationNumber = "FAKE";
+            var address = "Via Torino 51";
+            var city = "Milan";
+            var postalCode = "20123";
+            var province = "MI";
+            var country = "Italy";
+            Executing.This(() => Company.Factory.CreateNewEntry(companyName, null, nationalIdentificationNumber))
                 .Should()
                 .Throw<ArgumentException>()
                 .And
@@ -51,13 +72,20 @@ namespace Merp.Registry.CommandStack.Tests.Model
                 .ParamName
                 .Should()
                 .Be
-                .EqualTo("vatIndex");
+                .EqualTo("vatNumber");
         }
 
         [Test]
-        public void Factory_should_throw_ArgumentException_on_blank_vatIndex()
+        public void Factory_should_throw_ArgumentException_on_blank_vatNumber()
         {
-            Executing.This(() => Company.Factory.CreateNewEntry("Mastreeno ltd", null))
+            var companyName = "Mastreeno ltd";
+            var nationalIdentificationNumber = "FAKE";
+            var address = "Via Torino 51";
+            var city = "Milan";
+            var postalCode = "20123";
+            var province = "MI";
+            var country = "Italy";
+            Executing.This(() => Company.Factory.CreateNewEntry(companyName, "", nationalIdentificationNumber))
                 .Should()
                 .Throw<ArgumentException>()
                 .And
@@ -65,7 +93,7 @@ namespace Merp.Registry.CommandStack.Tests.Model
                 .ParamName
                 .Should()
                 .Be
-                .EqualTo("vatIndex");
+                .EqualTo("vatNumber");
         }
     }
 }

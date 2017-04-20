@@ -24,19 +24,10 @@ namespace Merp.Accountancy.CommandStack.Sagas
 
         public FixedPriceJobOrderSaga(IBus bus, IEventStore eventStore, IRepository repository, IJobOrderNumberGenerator jobOrderNumberGenerator)
         {
-            if (bus == null)
-                throw new ArgumentNullException(nameof(bus));
-            if (eventStore == null)
-                throw new ArgumentNullException(nameof(eventStore));
-            if (repository == null)
-                throw new ArgumentNullException(nameof(repository));
-            if (jobOrderNumberGenerator==null)
-                throw new ArgumentNullException(nameof(jobOrderNumberGenerator));
-
-            this._repository = repository;
-            this._bus = bus;
-            this._eventStore = eventStore;
-            JobOrderNumberGenerator = jobOrderNumberGenerator;
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _bus = bus ?? throw new ArgumentNullException(nameof(bus));
+            _eventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
+            JobOrderNumberGenerator = jobOrderNumberGenerator ?? throw new ArgumentNullException(nameof(jobOrderNumberGenerator));
         }
 
         protected override void CorrelateMessages(ICorrelationConfig<FixedPriceJobOrderSagaData> config)
@@ -79,7 +70,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 message.Description
                 );
                 this._repository.Save(jobOrder);
-                this.Data.Id = jobOrder.Id;
+                this.Data.JobOrderId = jobOrder.Id;
             });
         }
 

@@ -13,12 +13,23 @@ namespace Merp.Registry.QueryStack.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
+
+        [Index]
         public Guid OriginalId { get; set; }
+
         [Index]
         [MaxLength(200)]
         public string DisplayName { get; set; }
+
         public string VatIndex { get; set; }
+
         public string NationalIdentificationNumber { get; set; }
+
+        public PostalAddress LegalAddress { get; set; }
+
+        public PostalAddress ShippingAddress { get; set; }
+
+        public PostalAddress BillingAddress { get; set; }
 
     }
 }

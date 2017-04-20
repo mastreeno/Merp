@@ -1,6 +1,7 @@
 ﻿using Merp.Web.Site.Areas.Registry.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -11,13 +12,25 @@ namespace Merp.Web.Site.Areas.Accountancy.Models.JobOrder
     {
         public PartyInfo Customer { get; set; }
         public PersonInfo Manager { get; set; }
+
+        [DisplayName("Job Order name")]
         [Required]
         public string Name { get; set; }
+
+        [DisplayName("Date of start")]
         [Required]
         public DateTime DateOfStart { get; set; }
+
+        [DisplayName("Date of expiration")]
         public DateTime? DateOfExpiration { get; set; }
+
+        [DisplayName("Value")]
         public PositiveMoney Value { get; set; }
+
+        [DisplayName("Description")]
         public string Description { get; set; }
+
+        [DisplayName("PO #")]
         public string PurchaseOrderNumber { get; set; }
 
         IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

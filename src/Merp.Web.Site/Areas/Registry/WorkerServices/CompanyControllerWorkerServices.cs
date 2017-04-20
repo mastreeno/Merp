@@ -29,7 +29,28 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
 
         public void AddEntry(AddEntryViewModel model)
         {
-            var command = new RegisterCompanyCommand(model.CompanyName, model.VatIndex);
+            var shippingAddressIsDefined = !string.IsNullOrWhiteSpace(model.ShippingAddress.Address) && !string.IsNullOrWhiteSpace(model.ShippingAddress.City);
+            var billingAddressIsDefined = !string.IsNullOrWhiteSpace(model.BillingAddress.Address) && !string.IsNullOrWhiteSpace(model.BillingAddress.City);
+
+            var command = new RegisterCompanyCommand(model.CompanyName, model.NationalIdentificationNumber, model.VatNumber,
+                model.LegalAddress.Address,
+                model.LegalAddress.PostalCode,
+                model.LegalAddress.City,
+                model.LegalAddress.Province,
+                model.LegalAddress.Country,
+
+                shippingAddressIsDefined ? model.ShippingAddress.Address : model.LegalAddress.Address,
+                shippingAddressIsDefined ? model.ShippingAddress.PostalCode : model.LegalAddress.PostalCode,
+                shippingAddressIsDefined ? model.ShippingAddress.City : model.LegalAddress.City,
+                shippingAddressIsDefined ? model.ShippingAddress.Province : model.LegalAddress.Province,
+                shippingAddressIsDefined ? model.ShippingAddress.Country : model.LegalAddress.Country,
+
+                billingAddressIsDefined ? model.BillingAddress.Address : model.LegalAddress.Address,
+                billingAddressIsDefined ? model.BillingAddress.PostalCode : model.LegalAddress.PostalCode,
+                billingAddressIsDefined ? model.BillingAddress.City : model.LegalAddress.City,
+                billingAddressIsDefined ? model.BillingAddress.Province : model.LegalAddress.Province,
+                billingAddressIsDefined ? model.BillingAddress.Country : model.LegalAddress.Country
+                );
             Bus.Send(command);
         }
 
@@ -40,7 +61,15 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             {
                 CompanyUid = company.Id,
                 CompanyName = company.CompanyName,
-                VatIndex = company.VatIndex
+                VatNumber = company.VatIndex,
+                LegalAddress = new Models.PostalAddress
+                {
+                    Address = company.LegalAddress.Address,
+                    City = company.LegalAddress.Address,
+                    Country = company.LegalAddress.Country,
+                    PostalCode = company.LegalAddress.PostalCode,
+                    Province = company.LegalAddress.Province
+                }
             };
             return model;
         }

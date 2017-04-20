@@ -7,6 +7,7 @@ using Merp.Web.Site.Areas.Registry.WorkerServices;
 namespace Merp.Web.Site.Areas.Registry.Controllers
 {
     [Area("Registry")]
+    [Authorize(Roles = "Registry")]
     public class CompanyController : Controller
     {
         public CompanyControllerWorkerServices WorkerServices { get; private set; }
@@ -43,6 +44,8 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
             if (!id.HasValue)
                 return NotFound();
             var model = WorkerServices.GetInfoViewModel(id.Value);
+            if(model==null)
+                return NotFound();
             return View(model);
         }
 

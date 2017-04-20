@@ -17,7 +17,11 @@ namespace Merp.Registry.QueryStack.Denormalizers
                 CompanyName = message.CompanyName,
                 VatIndex = message.VatIndex,
                 OriginalId = message.CompanyId,
-                DisplayName = message.CompanyName
+                DisplayName = message.CompanyName,
+                NationalIdentificationNumber = message.NationalIdentificationNumber ?? "",
+                ShippingAddress = new PostalAddress(),
+                LegalAddress = new PostalAddress(),
+                BillingAddress = new PostalAddress()
             };
             using (var context = new RegistryDbContext())
             {

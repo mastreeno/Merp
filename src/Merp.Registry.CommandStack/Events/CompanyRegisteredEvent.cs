@@ -12,12 +12,14 @@ namespace Merp.Registry.CommandStack.Events
         public Guid CompanyId { get; set; }
         public string CompanyName { get; set; }
         public string VatIndex { get; set; }
+        public string NationalIdentificationNumber { get; set; }
 
-        public CompanyRegisteredEvent(Guid companyId, string companyName, string vatIndex)
+        public CompanyRegisteredEvent(Guid companyId, string companyName, string vatIndex, string nationalIdentificationNumber)
         {
             CompanyId = companyId;
             CompanyName = companyName;
             VatIndex = vatIndex;
+            NationalIdentificationNumber = nationalIdentificationNumber;
         }
     }
 }

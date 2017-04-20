@@ -16,13 +16,8 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
 
         public PartyControllerWorkerServices(IBus bus, IDatabase database)
         {
-            if(bus==null)
-                throw new ArgumentNullException(nameof(bus));
-            if (database == null)
-                throw new ArgumentNullException(nameof(database));
-
-            this.Bus = bus;
-            this.Database = database;
+            this.Bus = bus ?? throw new ArgumentNullException(nameof(bus));
+            this.Database = database ?? throw new ArgumentNullException(nameof(database));
         }
 
         public string GetDetailViewModel(Guid partyId)
@@ -41,39 +36,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             }
         }
 
-        public IEnumerable<object> GetPartyNamesByPattern(string text)
-        {
-            var model = from p in Database.Parties
-                        where p.DisplayName.StartsWith(text)
-                        orderby p.DisplayName ascending
-                        select new PartyInfo { Id = p.Id, OriginalId = p.OriginalId, Name = p.DisplayName };
-            return model;
-        }
 
-        public PartyInfo GetPartyInfoByPattern(int id)
-        {
-            var model = (from p in Database.Parties
-                         where p.Id == id
-                         select new PartyInfo { Id = p.Id, OriginalId = p.OriginalId, Name = p.DisplayName }).Single();
-            return model;
-        }
-
-        public IEnumerable<object> GetPersonNamesByPattern(string text)
-        {
-            var model = from p in Database.Parties.OfType<Person>()
-                        where p.DisplayName.StartsWith(text)
-                        orderby p.DisplayName ascending
-                        select new PartyInfo { Id = p.Id, OriginalId = p.OriginalId, Name = p.DisplayName };
-            return model;
-        }
-
-        public PartyInfo GetPersonInfoByPattern(int id)
-        {
-            var model = (from p in Database.Parties.OfType<Person>()
-                         where p.Id == id
-                         select new PartyInfo { Id = p.Id, OriginalId = p.OriginalId, Name = p.DisplayName }).Single();
-            return model;
-        }
         public IEnumerable<GetPartiesViewModel> GetParties(string query)
         {
             var model = from p in Database.Parties
@@ -83,7 +46,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             {
                 model = model.Where(p => p.name.StartsWith(query));
             }
-            model = model.Take(30);
+            model = model.Take(20);
             return model;
         }
     }

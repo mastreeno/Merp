@@ -7,6 +7,7 @@ using Merp.Web.Site.Areas.Accountancy.WorkerServices;
 namespace Merp.Web.Site.Areas.Accountancy.Controllers
 {
     [Area("Accountancy")]
+    [Authorize(Roles = "Accountancy")]
     public class InvoiceController : Controller
     {
         public InvoiceControllerWorkerServices WorkerServices { get; private set; }

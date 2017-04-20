@@ -30,7 +30,8 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
 
         public void AddEntry(AddEntryViewModel model)
         {
-            var command = new RegisterPersonCommand(model.FirstName, model.LastName, model.DateOfBirth);
+            var command = new RegisterPersonCommand(model.FirstName, model.LastName, model.NationalIdentificationNumber, model.VatNumber, 
+                model.Address.Address, model.Address.City, model.Address.PostalCode, model.Address.Province, model.Address.Country);
             Bus.Send(command);
         }
 
@@ -41,7 +42,9 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             {
                 PersonUid = person.Id,
                 FirstName = person.FirstName,
-                LastName = person.LastName
+                LastName = person.LastName,
+                NationalIdentificationNumber = person.NationalIdentificationNumber,
+                VatNumber = person.VatIndex
             };
             return model;
         }

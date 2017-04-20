@@ -17,9 +17,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
 
         public IncomingInvoiceSaga(IRepository repository)
         {
-            if (repository == null)
-                throw new ArgumentNullException(nameof(repository));
-            this._repository = repository;
+            this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
         protected override void CorrelateMessages(ICorrelationConfig<IncomingInvoiceSagaData> config)
@@ -46,7 +44,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 message.Customer.Name
                 );
                 this._repository.Save(invoice);
-                this.Data.Id = invoice.Id;
+                this.Data.InvoiceId = invoice.Id;
             });
         }
 

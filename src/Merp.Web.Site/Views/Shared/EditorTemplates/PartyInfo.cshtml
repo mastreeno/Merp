@@ -20,15 +20,15 @@
         {
             if (txtId.value != '')
             {
-                $.get("/Registry/Party/GetPartyInfoById/" + txtId.value, function (data) {
+                $.get("/Registry/Api/GetPartyInfoById/" + txtId.value, function (data) {
                     if (data === 'undefined') {
                         alert('Unknown code');
                         txtOriginalId.value = '';
                         txtPartyName.value = '';
                     }
                     else {
-                        txtOriginalId.value = data.OriginalId;
-                        txtPartyName.value = data.Name;
+                        txtOriginalId.value = data.originalId;
+                        txtPartyName.value = data.name;
                     }
                 })
                 .fail(function () {
@@ -44,7 +44,7 @@
             source:
                 function (request, response) {
                     $.ajax({
-                        url: "/Registry/Party/GetPartyInfoByPattern?text=" + txtPartyName.value,
+                        url: "/Registry/Api/GetPartyInfoByPattern?text=" + txtPartyName.value,
                         dataType: "json",
                         data: {
                             searchPattern: request.term
@@ -52,10 +52,10 @@
                         success: function (data) {
                             response($.map(data, function (item) {
                                 return {
-                                    label: item.Name,
-                                    value: item.Name,
-                                    id: item.Id,
-                                    originalId: item.OriginalId
+                                    label: item.name,
+                                    value: item.name,
+                                    id: item.id,
+                                    originalId: item.originalId
                                 }
                             }));
                         }

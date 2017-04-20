@@ -3,11 +3,13 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Merp.Web.Site.Areas.Registry.WorkerServices;
-using Merp.Web.Site.Support;
+using System.Collections.Generic;
+using Merp.Web.Site.Areas.Registry.Models.Party;
 
 namespace Merp.Web.Site.Areas.Registry.Controllers
 {
     [Area("Registry")]
+    [Authorize(Roles = "Registry")]
     public class PartyController : Controller
     {
         public PartyControllerWorkerServices WorkerServices { get; private set; }
@@ -43,38 +45,12 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetParties(string query)
+        public IEnumerable<GetPartiesViewModel> GetParties(string query)
         {
             var model = WorkerServices.GetParties(query);
-            return Json(model);
+            return model;
         }
 
-        [HttpGet]
-        public ActionResult GetPartyInfoByPattern(string text)
-        {
-            var model = WorkerServices.GetPartyNamesByPattern(text);
-            return Json(model);
-        }
 
-        [HttpGet]
-        public ActionResult GetPartyInfoById(int id)
-        {
-            var model = WorkerServices.GetPartyInfoByPattern(id);
-            return Json(model);
-        }
-
-        [HttpGet]
-        public ActionResult GetPersonInfoByPattern(string text)
-        {
-            var model = WorkerServices.GetPersonNamesByPattern(text);
-            return Json(model);
-        }
-
-        [HttpGet]
-        public ActionResult GetPersonInfoById(int id)
-        {
-            var model = WorkerServices.GetPersonInfoByPattern(id);
-            return Json(model);
-        }
     }
 }

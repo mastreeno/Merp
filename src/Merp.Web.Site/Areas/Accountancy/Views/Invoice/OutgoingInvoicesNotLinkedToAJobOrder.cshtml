@@ -23,7 +23,7 @@
 
 
 <div class="row">
-    <h2>OugoingInvoicesNotAssignedToAJobOrder</h2>
+    <h2>OutgoingInvoicesNotAssignedToAJobOrder</h2>
     <div id="InvoicesBox" data-ng-app="myApp" data-ng-controller="invoicesController">
         <label for="InvoicesTable">Invoices</label>&nbsp;(<a id="refreshInvoiceList" data-ng-click="refreshInvoiceList()">refresh</a>)
         <table id="InvoicesTable" class="table table-striped">
@@ -35,8 +35,8 @@
             </thead>
             <tbody>
                 <tr data-ng-repeat="invoice in Invoices">
-                    <td>{{invoice.CustomerName}}</td>
-                    <td><a href="/Accountancy/Invoice/LinkOutgoingInvoiceToJobOrder/{{invoice.OriginalId}}">{{invoice.Number}}</a></td>
+                    <td>{{invoice.customerName}}</td>
+                    <td><a href="/Accountancy/Invoice/LinkOutgoingInvoiceToJobOrder/{{invoice.originalId}}">{{invoice.number}}</a></td>
                 </tr>
             </tbody>
         </table>

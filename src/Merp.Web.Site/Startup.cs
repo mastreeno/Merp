@@ -45,16 +45,16 @@ namespace Merp.Web.Site
                 .AddDefaultTokenProviders();
 
             services
-                .AddMvc()
-                .AddJsonOptions(opt =>
-                {
-                    var resolver = opt.SerializerSettings.ContractResolver;
-                    if (resolver != null)
-                    {
-                        var res = resolver as DefaultContractResolver;
-                        res.NamingStrategy = null;  //this removes the camelcasing
-                    }
-                });
+                .AddMvc();
+                //.AddJsonOptions(opt =>
+                //{
+                //    var resolver = opt.SerializerSettings.ContractResolver;
+                //    if (resolver != null)
+                //    {
+                //        var res = resolver as DefaultContractResolver;
+                //        res.NamingStrategy = null;  //this removes the camelcasing
+                //    }
+                //});
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();

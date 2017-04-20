@@ -19,13 +19,8 @@ namespace Merp.Accountancy.CommandStack.Sagas
 
         public OutgoingInvoiceSaga(IBus bus, IEventStore eventStore, IRepository repository, IOutgoingInvoiceNumberGenerator invoiceNumberGenerator)
         {
-            if (invoiceNumberGenerator == null)
-                throw new ArgumentNullException(nameof(invoiceNumberGenerator));
-            if (repository == null)
-                throw new ArgumentNullException(nameof(repository));
-                        
-            InvoiceNumberGenerator = invoiceNumberGenerator;
-            this._repository = repository;
+            InvoiceNumberGenerator = invoiceNumberGenerator ?? throw new ArgumentNullException(nameof(invoiceNumberGenerator));
+            this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
         protected override void CorrelateMessages(ICorrelationConfig<OutgoingInvoiceSagaData> config)
@@ -52,7 +47,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 message.Customer.Name
                 );
                 this._repository.Save(invoice);
-                this.Data.Id = invoice.Id;
+                this.Data.InvoiceId = invoice.Id;
             });
         }
 

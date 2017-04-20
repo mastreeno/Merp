@@ -3,47 +3,50 @@
 @{
     ViewBag.Title = "View";
 }
-
-<h2>View</h2>
-
-
-@using (Html.BeginForm()) 
-{
+<h2>Register Person</h2>
+<form asp-action="AddEntry">
     @Html.AntiForgeryToken()
-    
     <div class="form-horizontal">
-        <h4>AddEntryViewModel</h4>
+        @*<h4>AddEntryViewModel</h4>*@
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label asp-for="FirstName" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label asp-for="LastName" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
         </div>
+        <div class="form-group">
+            <label asp-for="NationalIdentificationNumber" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="NationalIdentificationNumber" class="form-control" />
+                <span asp-validation-for="NationalIdentificationNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="VatNumber" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="VatNumber" class="form-control" />
+                <span asp-validation-for="VatNumber" class="text-danger"></span>
+            </div>
+        </div>
+        @Html.EditorFor(m => m.Address)
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>
-}
+</form>
 
 <div>
     <a href="/Registry">Back</a>

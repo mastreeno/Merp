@@ -7,26 +7,76 @@
 <h2>@Model.CompanyName</h2>
 
 <div>
-    @*<h4>InfoViewModel</h4>
-    <hr />*@
+    <h4>InfoViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+      <dt>
+          @Html.DisplayNameFor(model => model.CompanyName)
+      </dt>
+
+      <dd>
+          @Html.DisplayFor(model => model.CompanyName)
+      </dd>
+
+      <dt>
+        @Html.DisplayNameFor(model => model.VatNumber)
+      </dt>
+
+      <dd>
+        @Html.DisplayFor(model => model.VatNumber)
+      </dd>
+
+      <dt>
+        @Html.DisplayNameFor(model => model.NationalIdentificationNumber)
+      </dt>
+
+      <dd>
+        @Html.DisplayFor(model => model.NationalIdentificationNumber)
+      </dd>
+    </dl>
+    <h5>@Html.DisplayNameFor(model => model.LegalAddress)</h5>
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.CompanyName)
+          @Html.DisplayNameFor(model => model.LegalAddress.Address)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.CompanyName)
+          @Html.DisplayFor(model => model.LegalAddress.Address)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.VatIndex)
+          @Html.DisplayNameFor(model => model.LegalAddress.PostalCode)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.VatIndex)
+          @Html.DisplayFor(model => model.LegalAddress.PostalCode)
         </dd>
 
-    </dl>
+        <dt>
+          @Html.DisplayNameFor(model => model.LegalAddress.City)
+        </dt>
+
+        <dd>
+          @Html.DisplayFor(model => model.LegalAddress.City)
+        </dd>
+
+        <dt>
+          @Html.DisplayNameFor(model => model.LegalAddress.Country)
+        </dt>
+
+        <dd>
+          @Html.DisplayFor(model => model.LegalAddress.Country)
+        </dd>
+
+        <dt>
+          @Html.DisplayNameFor(model => model.LegalAddress.Province)
+        </dt>
+
+        <dd>
+          @Html.DisplayFor(model => model.LegalAddress.Province)
+        </dd>
+
+      </dl>
 </div>
 <p>
     @Html.ActionLink("Change name", "ChangeName", new { id = Model.CompanyUid }) |

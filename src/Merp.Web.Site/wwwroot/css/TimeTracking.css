@@ -1,0 +1,15 @@
+﻿.activity_accepted {
+    background: linear-gradient(rgba(0, 255, 144, 0.1), rgba(0, 255, 144, 0.1)) !important;
+}
+
+.activity_submitted {
+    background: linear-gradient(rgba(255, 0, 0, 0.1), rgba(255, 0, 0, 0.1)) !important;
+}
+
+.sortorder:after {
+    content: '\25b2'; /*BLACK UP-POINTING TRIANGLE*/
+}
+
+.sortorder.reverse:after {
+    content: '\25bc'; /*BLACK DOWN-POINTING TRIANGLE*/
+}

@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="Database.cs" />
     <Compile Include="Denormalizers\CompanyDenormalizer.cs" />
+    <Compile Include="Denormalizers\PartyDenormalizer.cs" />
     <Compile Include="Denormalizers\PersonDenormalizer.cs" />
     <Compile Include="IDatabase.cs" />
     <Compile Include="Migrations\201408010828521_Registry.cs" />
@@ -83,10 +84,31 @@
     <Compile Include="Migrations\201411121711270_Person_DateOfBirth.Designer.cs">
       <DependentUpon>201411121711270_Person_DateOfBirth.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704190857509_ShippingAddress.cs" />
+    <Compile Include="Migrations\201704190857509_ShippingAddress.Designer.cs">
+      <DependentUpon>201704190857509_ShippingAddress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704190943387_ShippingAddress-ConstraintsRemoved.cs" />
+    <Compile Include="Migrations\201704190943387_ShippingAddress-ConstraintsRemoved.Designer.cs">
+      <DependentUpon>201704190943387_ShippingAddress-ConstraintsRemoved.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704191004227_Person-Constraints.cs" />
+    <Compile Include="Migrations\201704191004227_Person-Constraints.Designer.cs">
+      <DependentUpon>201704191004227_Person-Constraints.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704191826192_Party-LegalAddress.cs" />
+    <Compile Include="Migrations\201704191826192_Party-LegalAddress.Designer.cs">
+      <DependentUpon>201704191826192_Party-LegalAddress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704201221063_Part-BillingAddress.cs" />
+    <Compile Include="Migrations\201704201221063_Part-BillingAddress.Designer.cs">
+      <DependentUpon>201704201221063_Part-BillingAddress.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Party.cs" />
     <Compile Include="Model\Company.cs" />
     <Compile Include="Model\Person.cs" />
+    <Compile Include="Model\PostalAddress.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegistryDbContext.cs" />
   </ItemGroup>
@@ -106,6 +128,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411121711270_Person_DateOfBirth.resx">
       <DependentUpon>201411121711270_Person_DateOfBirth.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704190857509_ShippingAddress.resx">
+      <DependentUpon>201704190857509_ShippingAddress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704190943387_ShippingAddress-ConstraintsRemoved.resx">
+      <DependentUpon>201704190943387_ShippingAddress-ConstraintsRemoved.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704191004227_Person-Constraints.resx">
+      <DependentUpon>201704191004227_Person-Constraints.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704191826192_Party-LegalAddress.resx">
+      <DependentUpon>201704191826192_Party-LegalAddress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704201221063_Part-BillingAddress.resx">
+      <DependentUpon>201704201221063_Part-BillingAddress.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

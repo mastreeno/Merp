@@ -9,10 +9,16 @@ using Merp.Registry.CommandStack.Events;
 
 namespace Merp.Registry.CommandStack.Model
 {
+    /// <summary>
+    /// Respresents a Company
+    /// </summary>
     public class Company : Party,
         IApplyEvent<CompanyRegisteredEvent>,
         IApplyEvent<CompanyNameChangedEvent>
     {
+        /// <summary>
+        /// Gets or sets the company name
+        /// </summary>
         public string CompanyName { get; private set; }
 
         protected Company()
@@ -25,6 +31,7 @@ namespace Merp.Registry.CommandStack.Model
             this.Id = evt.CompanyId;
             this.CompanyName = evt.CompanyName;
             this.VatIndex = evt.VatIndex;
+            this.NationalIdentificationNumber = evt.NationalIdentificationNumber;
         }
 
         public void ApplyEvent(CompanyNameChangedEvent evt)
@@ -42,18 +49,25 @@ namespace Merp.Registry.CommandStack.Model
             var e = new CompanyNameChangedEvent(this.Id, newName, effectiveDate);
             RaiseEvent(e);
         }
-        
+
         public static class Factory
         {
-            public static Company CreateNewEntry(string companyName, string vatIndex)
+            public static Company CreateNewEntry(string companyName, string vatNumber, string nationalIdentificationNumber)
+            {
+                var companyId = Guid.NewGuid();
+                var company = CreateNewEntryByImport(companyId, companyName, vatNumber, nationalIdentificationNumber);
+                return company;
+            }
+
+            public static Company CreateNewEntryByImport(Guid companyId, string companyName, string vatNumber, string nationalIdentificationNumber)
             {
                 if (string.IsNullOrWhiteSpace(companyName))
                     throw new ArgumentException("The company name must be specified", nameof(companyName));
-                if (string.IsNullOrWhiteSpace(vatIndex))
-                    throw new ArgumentException("The VAT index must be specified", nameof(vatIndex));
+                if (string.IsNullOrWhiteSpace(vatNumber))
+                    throw new ArgumentException("The VAT number must be specified", nameof(vatNumber));
 
                 var p = new Company();
-                var e = new CompanyRegisteredEvent(Guid.NewGuid(), companyName, vatIndex);
+                var e = new CompanyRegisteredEvent(companyId, companyName, vatNumber, nationalIdentificationNumber);
                 p.RaiseEvent(e);
                 return p;
             }

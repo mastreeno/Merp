@@ -10,6 +10,8 @@ namespace Merp.Accountancy.QueryStack
 {
     public class AccountancyContext : DbContext
     {
+        private readonly static string ContextName = "Accountancy";
+
         public AccountancyContext()
             : base("Merp-Accountancy-ReadModel")
         {
@@ -24,7 +26,7 @@ namespace Merp.Accountancy.QueryStack
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Types().Configure(entity => entity.ToTable(string.Format("{0}_{1}", "Accountancy", entity.ClrType.Name)));
+            modelBuilder.Types().Configure(entity => entity.ToTable($"{ContextName}_{entity.ClrType.Name}"));
         }
 
         public DbSet<JobOrder> JobOrders { get; set; }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Merp.Web.Site.Areas.Registry.Controllers
 {
     [Area("Registry")]
+    [Authorize(Roles = "Registry")]
     public class PersonController : Controller
     {
         public PersonControllerWorkerServices WorkerServices { get; private set; }

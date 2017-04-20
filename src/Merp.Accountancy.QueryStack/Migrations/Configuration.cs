@@ -1,4 +1,4 @@
-namespace Merp.Web.UI.Migrations
+namespace Merp.Accountancy.QueryStack.Migrations
 {
     using System;
     using System.Data.Entity;

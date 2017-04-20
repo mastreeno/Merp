@@ -31,6 +31,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Merp.Registry.CommandStack.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -63,21 +64,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\ChangeCompanyNameCommand.cs" />
+    <Compile Include="Commands\ImportCompanyCommand.cs" />
+    <Compile Include="Commands\ImportPersonCommand.cs" />
     <Compile Include="Commands\RegisterCompanyCommand.cs" />
     <Compile Include="Commands\RegisterPersonCommand.cs" />
     <Compile Include="Events\CompanyNameChangedEvent.cs" />
     <Compile Include="Events\CompanyRegisteredEvent.cs" />
+    <Compile Include="Events\BillingAddressSetForPartyEvent.cs" />
     <Compile Include="Events\PersonRegisteredEvent.cs" />
+    <Compile Include="Events\LegalAddressSetForPartyEvent.cs" />
+    <Compile Include="Events\ShippingAddressSetForPartyEvent.cs" />
     <Compile Include="Model\Party.cs" />
     <Compile Include="Model\Company.cs" />
     <Compile Include="Model\Person.cs" />
+    <Compile Include="Model\PostalAddress.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sagas\CompanySaga.cs" />
     <Compile Include="Sagas\PersonSaga.cs" />
+    <Compile Include="Services\DefaultCountryResolver.cs" />
+    <Compile Include="Services\IDefaultCountryResolver.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />

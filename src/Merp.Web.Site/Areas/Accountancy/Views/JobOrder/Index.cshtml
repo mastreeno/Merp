@@ -27,7 +27,7 @@
         <div id="JobOrdersTab" data-ng-controller="jobOrdersController">
             <div class="row">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Customers, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <label asp-for="Customers" class="col-md-2 control-label"></label>
                     <div class="col-md-10">
                         @Html.DropDownListFor(m => m.SelectedCustomerId, Model.Customers, new { @class = "form-control", data_ng_change = "refreshJobOrdersList()", data_ng_model = "SelectedCustomerId" })
                     </div>
@@ -62,8 +62,8 @@
                     </thead>
                     <tbody>
                         <tr data-ng-repeat="jobOrder in JobOrders">
-                            <td>{{jobOrder.CustomerName}}</td>
-                            <td><a href="/Accountancy/JobOrder/Detail/{{jobOrder.OriginalId}}">{{jobOrder.Name}}</a></td>
+                            <td>{{jobOrder.customerName}}</td>
+                            <td><a href="/Accountancy/JobOrder/Detail/{{jobOrder.originalId}}">{{jobOrder.name}}</a></td>
                         </tr>
                     </tbody>
                 </table>

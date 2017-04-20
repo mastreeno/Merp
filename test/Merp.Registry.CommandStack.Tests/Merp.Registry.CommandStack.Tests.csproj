@@ -59,8 +59,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\RegisterCompanyCommandFixture.cs" />
+    <Compile Include="Commands\RegisterPersonCommandFixture.cs" />
+    <Compile Include="Model\CompanyBehaviourFixture.cs" />
     <Compile Include="Model\CompanyFixture.cs" />
-    <Compile Include="Model\PersonFixture.cs" />
+    <Compile Include="Model\PersonBehaviourFixture.cs" />
+    <Compile Include="Model\CompanyEventsFixture.cs" />
+    <Compile Include="Model\PersonEventsFixture.cs" />
+    <Compile Include="Model\PersonFactoriesFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.0
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{66013B49-B5AA-4E44-8F60-4A66CCB9697E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "azure", "azure", "{1A6B7452-08AC-4AA8-9B73-E81D0C9D4680}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Azure", "Azure", "{1A6B7452-08AC-4AA8-9B73-E81D0C9D4680}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Merp.Accountancy.CommandStack", "src\Merp.Accountancy.CommandStack\Merp.Accountancy.CommandStack.csproj", "{A30BA9D9-CE21-407A-94FB-F9C8C99564B4}"
 EndProject
@@ -21,11 +21,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Merp.Registry.CommandStack.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.Web.Site", "src\Merp.Web.Site\Merp.Web.Site.csproj", "{21C1AE34-DA48-408E-8B99-5DCDC449AB84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denormalizers", "src\Azure\Denormalizers\Denormalizers.csproj", "{BA030DE4-1D48-4DF8-B6EF-AE94D14E22FC}"
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "Merp.Accountancy.CloudService", "src\Azure\Merp.Accountancy.CloudService\Merp.Accountancy.CloudService.ccproj", "{AA1D33B2-2F3F-4AD6-A9CD-4DBDB7764EC5}"
 EndProject
-Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "Merp.Azure.BackEndService", "src\Azure\Merp.Azure.BackEndService\Merp.Azure.BackEndService.ccproj", "{64834058-0CBE-47EC-B965-2A200574914F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Merp.Accountancy.CloudService.Worker", "src\Azure\Merp.Accountancy.CloudService.Worker\Merp.Accountancy.CloudService.Worker.csproj", "{D57A56E5-45EA-45E8-9C12-5CE4B032EF50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sagas", "src\Azure\Sagas\Sagas.csproj", "{E9EE0403-724C-44E5-9FCA-484759BD4FE4}"
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "Merp.Registry.CloudService", "src\Azure\Merp.Registry.CloudService\Merp.Registry.CloudService.ccproj", "{CF3808D1-C669-4ED8-AC7F-1DA258ECFC06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Merp.Registry.CloudService.Worker", "src\Azure\Merp.Registry.CloudService.Worker\Merp.Registry.CloudService.Worker.csproj", "{5E8D2F1B-9483-4C9E-90D3-958D003B8A3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,18 +63,22 @@ Global
 		{21C1AE34-DA48-408E-8B99-5DCDC449AB84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21C1AE34-DA48-408E-8B99-5DCDC449AB84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21C1AE34-DA48-408E-8B99-5DCDC449AB84}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BA030DE4-1D48-4DF8-B6EF-AE94D14E22FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BA030DE4-1D48-4DF8-B6EF-AE94D14E22FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BA030DE4-1D48-4DF8-B6EF-AE94D14E22FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BA030DE4-1D48-4DF8-B6EF-AE94D14E22FC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{64834058-0CBE-47EC-B965-2A200574914F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{64834058-0CBE-47EC-B965-2A200574914F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{64834058-0CBE-47EC-B965-2A200574914F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{64834058-0CBE-47EC-B965-2A200574914F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E9EE0403-724C-44E5-9FCA-484759BD4FE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E9EE0403-724C-44E5-9FCA-484759BD4FE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E9EE0403-724C-44E5-9FCA-484759BD4FE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E9EE0403-724C-44E5-9FCA-484759BD4FE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA1D33B2-2F3F-4AD6-A9CD-4DBDB7764EC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA1D33B2-2F3F-4AD6-A9CD-4DBDB7764EC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA1D33B2-2F3F-4AD6-A9CD-4DBDB7764EC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA1D33B2-2F3F-4AD6-A9CD-4DBDB7764EC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D57A56E5-45EA-45E8-9C12-5CE4B032EF50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D57A56E5-45EA-45E8-9C12-5CE4B032EF50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D57A56E5-45EA-45E8-9C12-5CE4B032EF50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D57A56E5-45EA-45E8-9C12-5CE4B032EF50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF3808D1-C669-4ED8-AC7F-1DA258ECFC06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF3808D1-C669-4ED8-AC7F-1DA258ECFC06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF3808D1-C669-4ED8-AC7F-1DA258ECFC06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF3808D1-C669-4ED8-AC7F-1DA258ECFC06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E8D2F1B-9483-4C9E-90D3-958D003B8A3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E8D2F1B-9483-4C9E-90D3-958D003B8A3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E8D2F1B-9483-4C9E-90D3-958D003B8A3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E8D2F1B-9483-4C9E-90D3-958D003B8A3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,8 +86,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7CF348DB-972B-4D3D-A289-4E4E3AEE84F3} = {66013B49-B5AA-4E44-8F60-4A66CCB9697E}
 		{0C946005-96FD-482E-A85A-D6C00674D00E} = {66013B49-B5AA-4E44-8F60-4A66CCB9697E}
-		{BA030DE4-1D48-4DF8-B6EF-AE94D14E22FC} = {1A6B7452-08AC-4AA8-9B73-E81D0C9D4680}
-		{64834058-0CBE-47EC-B965-2A200574914F} = {1A6B7452-08AC-4AA8-9B73-E81D0C9D4680}
-		{E9EE0403-724C-44E5-9FCA-484759BD4FE4} = {1A6B7452-08AC-4AA8-9B73-E81D0C9D4680}
+		{AA1D33B2-2F3F-4AD6-A9CD-4DBDB7764EC5} = {1A6B7452-08AC-4AA8-9B73-E81D0C9D4680}
+		{D57A56E5-45EA-45E8-9C12-5CE4B032EF50} = {1A6B7452-08AC-4AA8-9B73-E81D0C9D4680}
+		{CF3808D1-C669-4ED8-AC7F-1DA258ECFC06} = {1A6B7452-08AC-4AA8-9B73-E81D0C9D4680}
+		{5E8D2F1B-9483-4C9E-90D3-958D003B8A3F} = {1A6B7452-08AC-4AA8-9B73-E81D0C9D4680}
 	EndGlobalSection
 EndGlobal
