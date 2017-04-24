@@ -1,11 +1,10 @@
 ﻿@model Merp.Web.Site.Areas.Registry.Models.PartyInfo
 
-
-@Html.TextBoxFor(model => model.Id, new { onblur = "" })
-@Html.HiddenFor(model => model.OriginalId)
-@Html.TextBoxFor(model => model.Name)
-@Html.ValidationMessageFor(model => model.Id, "", new { @class = "text-danger" })
-@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+<input asp-for="Id" onblur="" />
+<input asp-for="OriginalId" type="hidden" />
+<input asp-for="Name" />
+<span asp-validation-for="Id" class="text-danger"></span>
+<span asp-validation-for="Name" class="text-danger"></span>
 <script type="text/javascript">
     @{
         var idTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName("Id").Replace(".", "_");
