@@ -47,5 +47,23 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
             var model = WorkerServices.GetPersonInfoByPattern(id);
             return model;
         }
+
+        [HttpGet]
+        public object CheckVat(string vatNumber, string countryCode = "IT")
+        {
+            System.Threading.Thread.Sleep(2000);
+            if(vatNumber == "error")
+            {
+                throw new Exception("remote server error");
+            }
+            return new {
+                countryCode = "IT",
+                vatNumber = "12363410155",
+                requestDate = DateTime.Now,
+                valid = vatNumber != "fail",
+                name = "COCA-COLA HBC ITALIA SRL",
+                address = "PIAZZA INDRO MONTANELLI N 30 20099 SESTO SAN GIOVANNI MI"
+            };
+        }
     }
 }

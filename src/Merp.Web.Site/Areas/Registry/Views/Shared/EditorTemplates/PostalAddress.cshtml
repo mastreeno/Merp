@@ -1,42 +1,42 @@
 @model Merp.Web.Site.Areas.Registry.Models.PostalAddress
-     
+
 <div class="form-group">
-  @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+  <label asp-for="Address" class="col-md-2 control-label"></label>
   <div class="col-md-10">
-    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
-    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+    <input asp-for="Address" class="form-control" />
+    <span asp-validation-for="Address" class="text-danger"></span>
   </div>
 </div>
 
 <div class="form-group">
-  @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+  <label asp-for="City" class="col-md-2 control-label"></label>
   <div class="col-md-10">
-    @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
-    @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+    <input asp-for="City" class="form-control" />
+    <span asp-validation-for="City" class="text-danger"></span>
   </div>
 </div>
 
 <div class="form-group">
-  @Html.LabelFor(model => model.PostalCode, htmlAttributes: new { @class = "control-label col-md-2" })
+  <label asp-for="PostalCode" class="col-md-2 control-label"></label>
   <div class="col-md-10">
-    @Html.EditorFor(model => model.PostalCode, new { htmlAttributes = new { @class = "form-control" } })
-    @Html.ValidationMessageFor(model => model.PostalCode, "", new { @class = "text-danger" })
+    <input asp-for="PostalCode" class="form-control" />
+    <span asp-validation-for="PostalCode" class="text-danger"></span>
   </div>
 </div>
 
 <div class="form-group">
-  @Html.LabelFor(model => model.Province, htmlAttributes: new { @class = "control-label col-md-2" })
+  <label asp-for="Province" class="col-md-2 control-label"></label>
   <div class="col-md-10">
-    @Html.EditorFor(model => model.Province, new { htmlAttributes = new { @class = "form-control" } })
-    @Html.ValidationMessageFor(model => model.Province, "", new { @class = "text-danger" })
+    <input asp-for="Province" class="form-control" />
+    <span asp-validation-for="Province" class="text-danger"></span>
   </div>
 </div>
 
 <div class="form-group">
-  @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
+  <label asp-for="Country" class="col-md-2 control-label"></label>
   <div class="col-md-10">
-    @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
-    @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+    <input asp-for="Country" class="form-control" />
+    <span asp-validation-for="Country" class="text-danger"></span>
   </div>
 </div>
 

@@ -63,8 +63,132 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
         {
             if (!this.ModelState.IsValid)
                 return View(model);
-            WorkerServices.PostChangeNameViewModel(model);
+            WorkerServices.ChangeName(model);
             return Redirect("/Registry/");
         }
+
+        [HttpGet]
+        public ActionResult ChangeLegalAddress(Guid? id)
+        {
+            if (!id.HasValue)
+                return NotFound();
+            var model = WorkerServices.GetChangeLegalAddressViewModel(id.Value);
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult ChangeLegalAddress(ChangeLegalAddressViewModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return View(model);
+            }
+            WorkerServices.ChangeLegalAddress(model);
+            return Redirect("/Registry/");
+        }
+
+        [HttpGet]
+        public ActionResult ChangeShippingAddress(Guid? id)
+        {
+            if (!id.HasValue)
+                return NotFound();
+            var model = WorkerServices.GetChangeShippingAddressViewModel(id.Value);
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult ChangeShippingAddress(ChangeShippingAddressViewModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return View(model);
+            }
+            WorkerServices.ChangeShippingAddress(model);
+            return Redirect("/Registry/");
+        }
+        
+        [HttpGet]
+        public ActionResult ChangeBillingAddress(Guid? id)
+        {
+            if (!id.HasValue)
+                return NotFound();
+            var model = WorkerServices.GetChangeBillingAddressViewModel(id.Value);
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult ChangeBillingAddress(ChangeBillingAddressViewModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return View(model);
+            }
+            WorkerServices.ChangeBillingAddress(model);
+            return Redirect("/Registry/");
+        }
+
+        [HttpGet]
+        public ActionResult AssociateAdministrativeContact(Guid? id)
+        {
+            if (!id.HasValue)
+                return NotFound();
+            var model = WorkerServices.GetAssociateAdministrativeContactViewModel(id.Value);
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult AssociateAdministrativeContact(AssociateAdministrativeContactViewModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return View(model);
+            }
+            WorkerServices.AssociateAdministrativeContact(model);
+            return Redirect("/Registry/");
+        }
+
+        [HttpGet]
+        public ActionResult AssociateMainContact(Guid? id)
+        {
+            if (!id.HasValue)
+                return NotFound();
+            var model = WorkerServices.GetAssociateMainContactViewModel(id.Value);
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult AssociateMainContact(AssociateMainContactViewModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return View(model);
+            }
+            WorkerServices.AssociateMainContact(model);
+            return Redirect("/Registry/");
+        }
+
+        [HttpGet]
+        public ActionResult ChangeContactInfo(Guid? id)
+        {
+            if (!id.HasValue)
+                return NotFound();
+            var model = WorkerServices.GetChangeContactInfoViewModel(id.Value);
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult ChangeContactInfo(ChangeContactInfoViewModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return View(model);
+            }
+            WorkerServices.ChangeContactInfo(model);
+            return Redirect("/Registry/");
+        }
+
+
+        
+
     }
 }

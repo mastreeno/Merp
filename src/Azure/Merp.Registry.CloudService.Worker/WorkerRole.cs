@@ -60,6 +60,13 @@ namespace Merp.Registry.CloudService.Worker
 
         private async Task RunAsync(CancellationToken cancellationToken)
         {
+            Trace.TraceInformation("Bootstrapper.Initialise");
+
+            var bootstrapper = new Bootstrapper();
+            bootstrapper.Initialise();
+
+            Trace.TraceInformation("Bootstrapper.Initialised");
+
             // TODO: Replace the following with your own logic.
             while (!cancellationToken.IsCancellationRequested)
             {

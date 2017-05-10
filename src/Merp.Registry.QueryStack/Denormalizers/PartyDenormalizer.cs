@@ -12,7 +12,8 @@ namespace Merp.Registry.QueryStack.Denormalizers
     public class PartyDenormalizer :
         IHandleMessages<LegalAddressSetForPartyEvent>,
         IHandleMessages<ShippingAddressSetForPartyEvent>,
-        IHandleMessages<BillingAddressSetForPartyEvent>
+        IHandleMessages<BillingAddressSetForPartyEvent>,
+        IHandleMessages<ContactInfoSetForPartyEvent>
     {
         public async Task Handle(LegalAddressSetForPartyEvent message)
         {
@@ -60,7 +61,7 @@ namespace Merp.Registry.QueryStack.Denormalizers
         {
             using (var context = new RegistryDbContext())
             {
-                var shippingAddress = new PostalAddress()
+                var billingAddress = new PostalAddress()
                 {
                     Address = message.Address,
                     City = message.City,
@@ -71,7 +72,29 @@ namespace Merp.Registry.QueryStack.Denormalizers
                 var party = (from c in context.Parties
                              where c.OriginalId == message.PartyId
                              select c).Single();
-                party.BillingAddress = shippingAddress;
+                party.BillingAddress = billingAddress;
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task Handle(ContactInfoSetForPartyEvent message)
+        {
+            using (var context = new RegistryDbContext())
+            {
+                var contactInfo = new ContactInfo()
+                {
+                    PhoneNumber = message.PhoneNumber,
+                    MobileNumber = message.MobileNumber,
+                    FaxNumber = message.FaxNumber,
+                    WebsiteAddress = message.WebsiteAddress,
+                    EmailAddress = message.EmailAddress,
+                    InstantMessaging = message.InstantMessaging
+                };
+                var party = (from c in context.Parties
+                             where c.OriginalId == message.PartyId
+                             select c).Single();
+                party.ContactInfo = contactInfo;
 
                 await context.SaveChangesAsync();
             }

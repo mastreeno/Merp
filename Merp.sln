@@ -29,6 +29,8 @@ Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "Merp.Registry.CloudService"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Merp.Registry.CloudService.Worker", "src\Azure\Merp.Registry.CloudService.Worker\Merp.Registry.CloudService.Worker.csproj", "{5E8D2F1B-9483-4C9E-90D3-958D003B8A3F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acl.Vies", "src\Acl.Vies\Acl.Vies.csproj", "{C8665D8A-A3AF-4F41-A435-EBADDB96DD03}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{5E8D2F1B-9483-4C9E-90D3-958D003B8A3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E8D2F1B-9483-4C9E-90D3-958D003B8A3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E8D2F1B-9483-4C9E-90D3-958D003B8A3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8665D8A-A3AF-4F41-A435-EBADDB96DD03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8665D8A-A3AF-4F41-A435-EBADDB96DD03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8665D8A-A3AF-4F41-A435-EBADDB96DD03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8665D8A-A3AF-4F41-A435-EBADDB96DD03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,55 +1,112 @@
 ﻿@model Merp.Web.Site.Areas.Registry.Models.Person.InfoViewModel
 
 @{
-    ViewBag.Title = "Info";
+    ViewBag.Title = $"{Model.FirstName} {Model.LastName} - Person Info";
 }
 
-<h2>Info</h2>
+<h2>@($"{Model.FirstName} {Model.LastName}")</h2>
+<h4>Person Info</h4>
+<hr />
 
-<div>
-    <h4>InfoViewModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.PersonUid)
-        </dt>
+<div class="row">
+  <div class="tabbable">
+    <ul class="nav nav-pills nav-stacked col-md-3">
+      <li class="active"><a href="#personInfoPane" data-toggle="tab">Person Info</a></li>
+      <li><a href="#personContactInfoPane" data-toggle="tab">Contact Info</a></li>
+    </ul>
+    <div class="tab-content col-md-9">
+      <div class="tab-pane active" id="personInfoPane">
+        <dl class="dl-horizontal">
+          <dt>
+            @Html.DisplayNameFor(model => model.Id)
+          </dt>
+          <dd>
+            @Html.DisplayFor(model => model.Id)
+          </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.PersonUid)
-        </dd>
-
-        <dt>
+          <dt>
             @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-
-        <dd>
+          </dt>
+          <dd>
             @Html.DisplayFor(model => model.FirstName)
-        </dd>
+          </dd>
 
-        <dt>
+          <dt>
             @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-
-        <dd>
+          </dt>
+          <dd>
             @Html.DisplayFor(model => model.LastName)
-        </dd>
+          </dd>
 
-        <dt>
+          <dt>
             @Html.DisplayNameFor(model => model.NationalIdentificationNumber)
-        </dt>
-        <dd>
+          </dt>
+          <dd>
             @Html.DisplayFor(model => model.NationalIdentificationNumber)
-        </dd>
+          </dd>
 
-        <dt>
+          <dt>
             @Html.DisplayNameFor(model => model.VatNumber)
-        </dt>
-        <dd>
+          </dt>
+          <dd>
             @Html.DisplayFor(model => model.VatNumber)
-        </dd>
-    </dl>
+          </dd>
+        </dl>
+        <h5>@Html.DisplayNameFor(model => model.Address)</h5>
+        @Html.DisplayFor(model => model.Address)
+      </div>
+      <div class="tab-pane" id="personContactInfoPane">
+        <dl class="dl-horizontal">          
+          <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+          </dt>
+          <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+          </dd>
+
+          <dt>
+            @Html.DisplayNameFor(model => model.MobileNumber)
+          </dt>
+          <dd>
+            @Html.DisplayFor(model => model.MobileNumber)
+          </dd>
+
+          <dt>
+            @Html.DisplayNameFor(model => model.FaxNumber)
+          </dt>
+          <dd>
+            @Html.DisplayFor(model => model.FaxNumber)
+          </dd>
+
+          <dt>
+            @Html.DisplayNameFor(model => model.WebsiteAddress)
+          </dt>
+          <dd>
+            @Html.DisplayFor(model => model.WebsiteAddress)
+          </dd>
+
+          <dt>
+            @Html.DisplayNameFor(model => model.EmailAddress)
+          </dt>
+          <dd>
+            @Html.DisplayFor(model => model.EmailAddress)
+          </dd>
+
+          <dt>
+            @Html.DisplayNameFor(model => model.InstantMessaging)
+          </dt>
+          <dd>
+            @Html.DisplayFor(model => model.InstantMessaging)
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<hr />
+
+<a href="@UrlBuilder.Registry.PersonChangeAddress(Model.OriginalId)">Change address</a> |
+<a href="@UrlBuilder.Registry.PersonChangeContactInfo(Model.OriginalId)">Change contact info</a> |
+<a href="@UrlBuilder.Registry.Search()">Back to List</a>
+

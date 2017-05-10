@@ -14,12 +14,16 @@ namespace Merp.Registry.CommandStack.Model
     /// </summary>
     public class Company : Party,
         IApplyEvent<CompanyRegisteredEvent>,
-        IApplyEvent<CompanyNameChangedEvent>
+        IApplyEvent<CompanyNameChangedEvent>,
+        IApplyEvent<CompanyAdministrativeContactAssociatedEvent>,
+        IApplyEvent<CompanyMainContactAssociatedEvent>
     {
         /// <summary>
         /// Gets or sets the company name
         /// </summary>
         public string CompanyName { get; private set; }
+        public Guid? AdministrativeContactId { get; private set; }
+        public Guid? MainContactId { get; private set; }
 
         protected Company()
         {
@@ -30,13 +34,23 @@ namespace Merp.Registry.CommandStack.Model
         {
             this.Id = evt.CompanyId;
             this.CompanyName = evt.CompanyName;
-            this.VatIndex = evt.VatIndex;
+            this.VatNumber = evt.VatIndex;
             this.NationalIdentificationNumber = evt.NationalIdentificationNumber;
         }
 
         public void ApplyEvent(CompanyNameChangedEvent evt)
         {
             this.CompanyName = evt.CompanyName;
+        }
+
+        public void ApplyEvent(CompanyAdministrativeContactAssociatedEvent evt)
+        {
+            this.AdministrativeContactId = evt.AdministrativeContactId;
+        }
+
+        public void ApplyEvent(CompanyMainContactAssociatedEvent evt)
+        {
+            this.MainContactId = evt.MainContactId;
         }
 
         public void ChangeName(string newName, DateTime effectiveDate)
@@ -47,6 +61,18 @@ namespace Merp.Registry.CommandStack.Model
                 throw new ArgumentException("The name change cannot be scheduled in the future", nameof(effectiveDate));
 
             var e = new CompanyNameChangedEvent(this.Id, newName, effectiveDate);
+            RaiseEvent(e);
+        }
+
+        public void AssociateAdministrativeContact(Guid administrativeContactId)
+        {
+            var e = new CompanyAdministrativeContactAssociatedEvent(this.Id, administrativeContactId);
+            RaiseEvent(e);
+        }
+
+        public void AssociateMainContact(Guid mainContactId)
+        {
+            var e = new CompanyMainContactAssociatedEvent(this.Id, mainContactId);
             RaiseEvent(e);
         }
 

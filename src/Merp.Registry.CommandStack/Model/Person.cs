@@ -43,7 +43,7 @@ namespace Merp.Registry.CommandStack.Model
             FirstName = evt.FirstName;
             LastName = evt.LastName;
             NationalIdentificationNumber = evt.NationalIdentificationNumber;
-            VatIndex = evt.VatNumber;
+            VatNumber = evt.VatNumber;
         }
 
         /// <summary>
@@ -56,7 +56,9 @@ namespace Merp.Registry.CommandStack.Model
         /// <param name="country">The country</param>
         public void SetAddress(string address, string city, string postalCode, string province, string country)
         {
+            SetLegalAddress(address, city, postalCode, province, country);
             SetShippingAddress(address, city, postalCode, province, country);
+            SetBillingAddress(address, city, postalCode, province, country);
         }
 
         /// <summary>

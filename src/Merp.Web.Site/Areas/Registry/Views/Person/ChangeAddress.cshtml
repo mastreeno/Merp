@@ -1,0 +1,29 @@
+@model Merp.Web.Site.Areas.Registry.Models.Person.ChangeAddressViewModel
+
+@{
+    ViewBag.Title = "Change address";
+}
+
+<h2>Change address</h2>
+
+<form method="post" asp-controller="Person" asp-action="ChangeAddress" class="form-horizontal">
+  <input type="hidden" asp-for="PersonId" /> 
+  <hr />
+  @Html.EditorFor(model => model.Address)
+
+  <div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+      <input type="submit" value="Save" class="btn btn-default" />
+    </div>
+  </div>
+
+</form>
+
+<div>  
+  <a href="@UrlBuilder.Registry.PersonInfo(Model.PersonId)">Back</a>
+</div>
+@section head{
+}
+@section Scripts {
+  @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); } 
+}

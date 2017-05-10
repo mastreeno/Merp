@@ -31,5 +31,7 @@ namespace Merp.Registry.QueryStack.Model
 
         public PostalAddress BillingAddress { get; set; }
 
+        public ContactInfo ContactInfo { get; set; }
+
     }
 }

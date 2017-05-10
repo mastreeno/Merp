@@ -7,6 +7,7 @@
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker.css"/>
         <link rel="stylesheet" href="~/css/site.css" />
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script type="text/javascript" src="~/lib/angular/angular.js"></script>
@@ -19,9 +20,12 @@
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
         <script type="text/javascript" src="~/lib/angular/angular.js"></script>
     </environment>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     @RenderSection("head", required: false)
 </head>
 <body>
@@ -52,23 +56,33 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Mastreeno ltd, Andrea Saltarello</p>
+            <p>&copy; @DateTime.Now.Year - Mastreeno ltd</p>
         </footer>
     </div>
 
     <environment names="Development">
         
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
-    <environment names="Staging,Production">
+    <environment names="Staging,Production,OnPremises,Azure">
 
         <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
         </script>
+        <script src="~/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
+
+    <script type="text/javascript">
+            if (!$.fn.bootstrapDP && $.fn.datepicker && $.fn.datepicker.noConflict) {
+                var datepicker = $.fn.datepicker.noConflict();
+                $.fn.bootstrapDP = datepicker;
+            }
+    </script>
+
 
     @RenderSection("scripts", required: false)
 </body>

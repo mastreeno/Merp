@@ -51,24 +51,10 @@ namespace Merp.Accountancy.CloudService.Worker
         private void ConfigurePersistence()
         {
             var mongoDbConnectionString = ConfigurationManager.ConnectionStrings["Merp-Accountancy-EventStore"].ConnectionString;
-            var mongoDbUrl = MongoDB.Driver.MongoUrl.Create(mongoDbConnectionString);
-            MongoClientSettings settings = new MongoClientSettings();
-            settings.Server = new MongoServerAddress(mongoDbUrl.Server.Host, mongoDbUrl.Server.Port);
-            settings.UseSsl = true;
-            settings.SslSettings = new SslSettings();
-            settings.SslSettings.EnabledSslProtocols = SslProtocols.Tls12;
-
-            MongoIdentity identity = new MongoInternalIdentity(mongoDbUrl.DatabaseName, mongoDbUrl.Username);
-            MongoIdentityEvidence evidence = new PasswordEvidence(mongoDbUrl.Password);
-
-            settings.Credentials = new List<MongoCredential>()
-                {
-                    new MongoCredential("SCRAM-SHA-1", identity, evidence)
-                };
-
-            MongoClient client = new MongoClient(settings);
-            Container.RegisterInstance(client.GetDatabase(mongoDbUrl.DatabaseName));
-            Container.RegisterType<IEventStore, Memento.Persistence.MongoDB.MongoDbEventStore>(new InjectionConstructor(typeof(IMongoDatabase), typeof(IEventDispatcher)));
+            var mongoDbDatabaseName = MongoDB.Driver.MongoUrl.Create(mongoDbConnectionString).DatabaseName;
+            var mongoClient = new MongoDB.Driver.MongoClient(mongoDbConnectionString);
+            Container.RegisterInstance(mongoClient.GetDatabase(mongoDbDatabaseName));
+            Container.RegisterType<IEventStore, Memento.Persistence.MongoDB.MongoDbEventStore>();
             Container.RegisterType<IRepository, Memento.Persistence.Repository>();
         }
 

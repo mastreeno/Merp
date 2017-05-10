@@ -9,15 +9,11 @@ namespace Merp.Web.Site.Areas.Registry.Models.Company
 {
     public class ChangeNameViewModel
     {
-
         [Required]
-        public Guid CompanyUid { get; set; }
-
+        public Guid CompanyId { get; set; }
         public string CurrentCompanyName { get; set; }
-
         [Required]
         public string NewCompanyName { get; set; }
-
         [Required]
         public DateTime EffectiveDate { get; set; }
     }

@@ -10,7 +10,8 @@
     "Chart.js": "1.0.2",
     "moment": "2.13.0",
     "angular-chart.js": "0.10.2",
-    "jquery-ui": "1.11.4"
+    "jquery-ui": "1.11.4",
+    "bootstrap-datepicker": "v1.7.0-RC2"
   },
   "resolutions": {
     "Chart.js": "~1.1.1"

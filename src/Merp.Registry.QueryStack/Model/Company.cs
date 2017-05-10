@@ -9,5 +9,7 @@ namespace Merp.Registry.QueryStack.Model
     public class Company : Party
     {
         public string CompanyName { get; set; }
+        public Person AdministrativeContact { get; set; }
+        public Person MainContact { get; set; }
     }
 }

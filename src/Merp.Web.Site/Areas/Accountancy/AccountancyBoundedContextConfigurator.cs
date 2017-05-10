@@ -26,42 +26,12 @@ namespace Merp.Web.Site.Areas.Accountancy
 
         protected override void ConfigureEventStore()
         {
-            if (Environment.IsDevelopment() || Environment.IsOnPremises())
-            {
-                var mongoDbConnectionString = Configuration.GetConnectionString("Merp-Accountancy-EventStore");
-                var mongoDbDatabaseName = MongoDB.Driver.MongoUrl.Create(mongoDbConnectionString).DatabaseName;
-                var mongoClient = new MongoDB.Driver.MongoClient(mongoDbConnectionString);
-                Services.AddSingleton(mongoClient.GetDatabase(mongoDbDatabaseName));
-                Services.AddTransient<IEventStore, Memento.Persistence.MongoDB.MongoDbEventStore>();
-                Services.AddTransient<IRepository, Memento.Persistence.Repository>();
-            }
-            else if (Environment.IsAzure())
-            {
-                var mongoDbConnectionString = Configuration.GetConnectionString("Merp-Accountancy-EventStore");
-                var mongoDbUrl = MongoDB.Driver.MongoUrl.Create(mongoDbConnectionString);
-                MongoClientSettings settings = new MongoClientSettings();
-                settings.Server = new MongoServerAddress(mongoDbUrl.Server.Host, mongoDbUrl.Server.Port);
-                settings.UseSsl = true;
-                settings.SslSettings = new SslSettings();
-                settings.SslSettings.EnabledSslProtocols = SslProtocols.Tls12;
-
-                MongoIdentity identity = new MongoInternalIdentity(mongoDbUrl.DatabaseName, mongoDbUrl.Username);
-                MongoIdentityEvidence evidence = new PasswordEvidence(mongoDbUrl.Password);
-
-                settings.Credentials = new List<MongoCredential>()
-                {
-                    new MongoCredential("SCRAM-SHA-1", identity, evidence)
-                };
-
-                MongoClient client = new MongoClient(settings);
-                Services.AddSingleton(client.GetDatabase(mongoDbUrl.DatabaseName));
-                Services.AddTransient<IEventStore, Memento.Persistence.MongoDB.MongoDbEventStore>();
-                Services.AddTransient<IRepository, Memento.Persistence.Repository>();
-            }
-            else
-            {
-                throw new InvalidOperationException("Unknown execution environment");
-            }
+            var mongoDbConnectionString = Configuration.GetConnectionString("Merp-Accountancy-EventStore");
+            var mongoDbDatabaseName = MongoDB.Driver.MongoUrl.Create(mongoDbConnectionString).DatabaseName;
+            var mongoClient = new MongoDB.Driver.MongoClient(mongoDbConnectionString);
+            Services.AddSingleton(mongoClient.GetDatabase(mongoDbDatabaseName));
+            Services.AddTransient<IEventStore, Memento.Persistence.MongoDB.MongoDbEventStore>();
+            Services.AddTransient<IRepository, Memento.Persistence.Repository>();
         }
 
         protected override void SubscribeEvents()

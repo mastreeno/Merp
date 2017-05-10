@@ -5,53 +5,52 @@
 }
 
 <h2>@Model.CurrentCompanyName</h2>
+<h4>Change Company name</h4>
+<hr />
 
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Change Company name</h4>
-        <hr />
-        @Html.HiddenFor(model => model.CompanyUid, new { htmlAttributes = new { @class = "form-control" } })
+<form method="post" asp-controller="Company" asp-action="ChangeName" class="form-horizontal">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.CurrentCompanyName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.CurrentCompanyName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CurrentCompanyName, "", new { @class = "text-danger" })
-            </div>
-        </div>
+  @Html.AntiForgeryToken()
+  <input type="hidden" asp-for="CompanyId" />
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.NewCompanyName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NewCompanyName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NewCompanyName, "", new { @class = "text-danger" })
-            </div>
-        </div>
+  <div class="form-horizontal">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.EffectiveDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EffectiveDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EffectiveDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
+    <div class="form-group">
+      @Html.LabelFor(model => model.CurrentCompanyName, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-md-10">
+        @Html.DisplayFor(model => model.CurrentCompanyName, new { htmlAttributes = new { @class = "form-control" } })
+      </div>
     </div>
-}
 
+    <div class="form-group">
+      <label asp-for="NewCompanyName" class="col-md-2 control-label"></label>
+      <div class="col-md-10">
+        <input asp-for="NewCompanyName" class="form-control" />
+        <span asp-validation-for="NewCompanyName" class="text-danger"></span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      @Html.LabelFor(model => model.EffectiveDate, htmlAttributes: new { @class = "control-label col-md-2" })
+      <div class="col-md-10">
+        @Html.EditorFor(model => model.EffectiveDate, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.EffectiveDate, "", new { @class = "text-danger" })
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Save" class="btn btn-default" />
+      </div>
+    </div>
+  </div>
+
+</form>
 <div>
-    @Html.ActionLink("Back", "Info", new { id = Model.CompanyUid })
+  <a href="@UrlBuilder.Registry.CompanyInfo(Model.CompanyId)">Back</a>
 </div>
 
 @section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+  @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

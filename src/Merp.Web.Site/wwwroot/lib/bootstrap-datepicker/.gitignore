@@ -1,0 +1,13 @@
+﻿docs/_build
+*-dist.zip
+
+# OS or Editor folders
+.DS_Store
+.idea
+
+# Folders to ignore
+bower_components
+node_modules
+
+*/*
+!dist/*

@@ -1,0 +1,54 @@
+<script type="text/javascript">
+  (function () {
+
+    var baseDefaults = $.extend({}, $.validator.defaults);
+
+    $.validator.setDefaults({
+      highlight: function (element, errorClass, validClass) {
+        baseDefaults.highlight.call(this, element, errorClass, validClass);
+        $(element).closest('.form-group').addClass('has-error');
+      },
+      unhighlight: function (element, errorClass, validClass) {
+        baseDefaults.unhighlight.call(this, element, errorClass, validClass);
+        $(element).closest('.form-group').removeClass('has-error');
+      },
+      errorElement: 'span',
+      errorClass: 'help-block',
+      errorPlacement: function (error, element) {
+        if (element.parent('.input-group').length) {
+          error.insertAfter(element.parent());
+        } else {
+          error.insertAfter(element);
+        }
+      }
+    });
+
+  })();
+</script>
+
+<script type="text/javascript">
+    $(function () {
+
+      $('form[data-form-tabbed="true"]').each(function (index, element) {
+
+        var form = $(element),
+          validator = form.data('validator');
+
+        $.extend(validator.settings, {
+          ignore: ''
+        });
+
+        form.on("invalid-form.validate", function (event, validator) {
+          var tabPaneId = $(validator.errorList[0].element).closest('.tab-pane').attr('id');
+          $('a[href="#' + tabPaneId + '"][data-toggle="tab"]').tab('show');
+        });
+      });
+
+
+    });
+</script>
+<style type="text/css">
+  .modal[data-form-wrap="true"] .modal-body form input[type="submit"] {
+    display: none;
+  }
+</style>

@@ -28,7 +28,14 @@ namespace Merp.Registry.CommandStack.Commands
         public string BillingAddressCountry { get; set; }
         public string BillingAddressProvince { get; set; }
 
-        public RegisterCompanyCommand(string companyName, string nationalIdentificationNumber, string vatNumber, string legalAddressAddress, string legalAddressPostalCode, string legalAddressCity, string legalAddressProvince, string legalAddressCountry,  string shippingAddressAddress, string shippingAddressPostalCode, string shippingAddressCity, string shippingAddressProvince, string shippingAddressCountry, string billingAddressAddress, string billingAddressPostalCode, string billingAddressCity, string billingAddressProvince, string billingAddressCountry)
+        public Guid? MainContactId { get; set; }
+        public Guid? AdministrativeContactId { get; set; }
+        public string PhoneNumber { get; set; }
+        public string FaxNumber { get; set; }
+        public string WebsiteAddress { get; set; }
+        public string EmailAddress { get; set; }
+
+        public RegisterCompanyCommand(string companyName, string nationalIdentificationNumber, string vatNumber, string legalAddressAddress, string legalAddressPostalCode, string legalAddressCity, string legalAddressProvince, string legalAddressCountry,  string shippingAddressAddress, string shippingAddressPostalCode, string shippingAddressCity, string shippingAddressProvince, string shippingAddressCountry, string billingAddressAddress, string billingAddressPostalCode, string billingAddressCity, string billingAddressProvince, string billingAddressCountry, Guid? mainContactId, Guid? administrativeContactId, string phoneNumber, string faxNumber, string websiteAddress, string emailAddress)
         {
             CompanyName = companyName ?? throw new ArgumentNullException(nameof(companyName));
             VatNumber = vatNumber ?? throw new ArgumentNullException(nameof(vatNumber));
@@ -51,6 +58,13 @@ namespace Merp.Registry.CommandStack.Commands
             BillingAddressCity = billingAddressCity ?? throw new ArgumentNullException(nameof(billingAddressCity));
             BillingAddressCountry = billingAddressCountry;
             BillingAddressProvince = billingAddressProvince;
+
+            MainContactId = mainContactId;
+            AdministrativeContactId = administrativeContactId;
+            PhoneNumber = phoneNumber;
+            FaxNumber = faxNumber;
+            WebsiteAddress = websiteAddress;
+            EmailAddress = emailAddress;
         }
     }
 }

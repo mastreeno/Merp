@@ -1,77 +1,155 @@
 ﻿@model Merp.Web.Site.Areas.Registry.Models.Company.AddEntryViewModel
-
 @{
-    ViewBag.Title = "AddEntry";
+    ViewBag.Title = "Company Registration";
+    var fieldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix;
+    var companyInfoPaneId = $"{fieldPrefix}_CompanyInfoPane";
+    var shippingAddressPaneId = $"{fieldPrefix}_ShippingAddressPane";
+    var billingAddressPaneId = $"{fieldPrefix}_BillingAddressPane";
+    var contactInfoPaneId = $"{fieldPrefix}_ContactInfoPane";
 }
+<h2>Company Registration</h2>
+<hr />
+@{ await Html.RenderPartialAsync("_ViesPartial"); }
 
-<h2>AddEntry</h2>
+<div class="row">
+  <form method="post" asp-controller="Company" asp-action="AddEntry" class="form-horizontal" data-form-tabbed="true">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>AddEntryViewModel</h4>
-        <hr />
-        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-      <div class="addEntryFields">
-        <ul>
-          <li><a href="#tabs-1">Company Registry</a></li>
-          <li><a href="#tabs-2">Additional Addresses</a></li>
-        </ul>
-        <div id="tabs-1">
-          <div class="form-group">
-            @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-              @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
+    <ul class="nav nav-pills nav-stacked col-md-3">
+      <li class="active"><a href="#@companyInfoPaneId" data-toggle="tab">Company Info</a></li>
+      <li><a href="#@shippingAddressPaneId" data-toggle="tab">@Html.DisplayNameFor(model => model.ShippingAddress)</a></li>
+      <li><a href="#@billingAddressPaneId" data-toggle="tab">@Html.DisplayNameFor(model => model.BillingAddress)</a></li>
+      <li><a href="#@contactInfoPaneId" data-toggle="tab">Contact Info</a></li>
+    </ul>
+    <div class="tab-content col-md-9">
+      <div class="tab-pane active" id="@companyInfoPaneId">
+        @*<button id="searchVies" type="button" class="btn btn-default">Search VIES</button>*@
+        <div class="form-group">
+          <label asp-for="CompanyName" class="col-md-2 control-label"></label>
+          <div class="col-md-10">
+            <input asp-for="CompanyName" class="form-control" />
+            <span asp-validation-for="CompanyName" class="text-danger"></span>
           </div>
-
-          <div class="form-group">
-            @Html.LabelFor(model => model.VatNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-              @Html.EditorFor(model => model.VatNumber, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
-          </div>
-
-          <div class="form-group">
-            @Html.LabelFor(model => model.NationalIdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-              @Html.EditorFor(model => model.NationalIdentificationNumber, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
-          </div>
-          <h5>@Html.DisplayNameFor(model => model.LegalAddress)</h5>
-          @Html.EditorFor(model => model.LegalAddress)
         </div>
-        <div id="tabs-2">
-          <h5>@Html.DisplayNameFor(model => model.ShippingAddress)</h5>
-          @Html.EditorFor(model => model.ShippingAddress)
-          <h5>@Html.DisplayNameFor(model => model.BillingAddress)</h5>
-          @Html.EditorFor(model => model.BillingAddress)
+        <div class="form-group">
+          <label asp-for="VatNumber" class="col-md-2 control-label"></label>
+          <div class="col-md-10">
+            <input asp-for="VatNumber" class="form-control" />
+            <span asp-validation-for="VatNumber" class="text-danger"></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label asp-for="NationalIdentificationNumber" class="col-md-2 control-label"></label>
+          <div class="col-md-10">
+            <input asp-for="NationalIdentificationNumber" class="form-control" />
+          </div>
+        </div>
+        <h5>@Html.DisplayNameFor(model => model.LegalAddress)</h5>
+        @Html.EditorFor(model => model.LegalAddress)
+      </div>
+      <div class="tab-pane" id="@shippingAddressPaneId">
+        <h5>@Html.DisplayNameFor(model => model.ShippingAddress)</h5>
+        @Html.EditorFor(model => model.ShippingAddress)
+      </div>
+      <div class="tab-pane" id="@billingAddressPaneId">
+        <h5>@Html.DisplayNameFor(model => model.BillingAddress)</h5>
+        @Html.EditorFor(model => model.BillingAddress)
+      </div>
+      <div class="tab-pane" id="@contactInfoPaneId">
+        <div class="form-group">
+          <label asp-for="MainContact.Id" class="col-md-2 control-label">Main Contact</label>
+          <div class="col-md-10">
+            @Html.EditorFor(model => model.MainContact, new { htmlAttributes = new { @class = "form-control" } })
+          </div>
+        </div>
+        <div class="form-group">
+          <label asp-for="AdministrativeContact.Id" class="col-md-2 control-label">Administrative Contact</label>
+          <div class="col-md-10">
+            @Html.EditorFor(model => model.AdministrativeContact, new { htmlAttributes = new { @class = "form-control" } })
+          </div>
+        </div>
+        <div class="form-group">
+          <label asp-for="PhoneNumber" class="col-md-2 control-label"></label>
+          <div class="col-md-10">
+            <input asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label asp-for="FaxNumber" class="col-md-2 control-label"></label>
+          <div class="col-md-10">
+            <input asp-for="FaxNumber" class="form-control" />
+            <span asp-validation-for="FaxNumber" class="text-danger"></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label asp-for="WebsiteAddress" class="col-md-2 control-label"></label>
+          <div class="col-md-10">
+            <input asp-for="WebsiteAddress" class="form-control" />
+            <span asp-validation-for="WebsiteAddress" class="text-danger"></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label asp-for="EmailAddress" class="col-md-2 control-label"></label>
+          <div class="col-md-10">
+            <input asp-for="EmailAddress" class="form-control" />
+            <span asp-validation-for="EmailAddress" class="text-danger"></span>
+          </div>
         </div>
       </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
     </div>
-}
 
-<div>
-    <a href="/Registry">Back</a>
+    <div class="col-md-offset-5 col-md-7">
+      <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+  </form>
+</div>
+<div class="row">
+  <a href="/Registry">Back</a>
 </div>
 @section head{
-  <link href="~/lib/jquery-ui/themes/base/jquery-ui.css" rel="stylesheet" />
+  <environment names="Development">
+    <link type="text/css" rel="stylesheet" href="~/lib/jquery-ui/themes/smoothness/jquery-ui.css" />
+  </environment>
+  <environment names="Staging,Production,Cloud,OnPremises,Azure">
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/themes/smoothness/jquery-ui.css"
+            asp-fallback-src="~/lib/jquery-ui/themes/smoothness/jquery-ui.css"
+            asp-fallback-test="window.jQuery">
+    </script>
+  </environment>
 }
-@section Scripts {   
+@section Scripts {
   @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+  @{ await Html.RenderPartialAsync("_JqueryValidationBootstrapPartial"); }
   @{ await Html.RenderPartialAsync("_JqueryUIPartial"); }
   <script type="text/javascript">
-     $( function() {
-       $( ".addEntryFields" ).tabs();
-  } );
+    (function ($) {
+
+      function setupRegisterCompanyForm() {
+        $('#LegalAddress_Address').rules("add", {
+          required: true
+        });
+        $('#LegalAddress_City').rules("add", {
+          required: true
+        });
+      }     
+
+      function initSearchVies() {
+        $('#searchVies').searchVies({
+          onAccept: function (data) {
+            $('#CompanyName').val(data.name);
+            $('#VatNumber').val(data.vatNumber);
+            $('#LegalAddress_Address').val(data.address);
+            $('#LegalAddress_Country').val(data.countryName);
+          }
+        });
+      }
+
+      $(function () {
+        setupRegisterCompanyForm();
+        initSearchVies();        
+      });
+
+    })(jQuery);
   </script>
 }

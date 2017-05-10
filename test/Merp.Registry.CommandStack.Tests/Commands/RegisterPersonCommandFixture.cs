@@ -24,7 +24,13 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var postalCode = "20123";
             var province = "MI";
             var country = "Italy";
-            var sut = new RegisterPersonCommand(firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country);
+            var phoneNumber = "405040420";
+            var mobileNumber = "527452042";
+            var faxNumber = "0405763872";
+            var websiteAddress = "http://www.info.com";
+            var emailAddress = "martin@gore.com";
+            var instantMessaging = "@im";
+            var sut = new RegisterPersonCommand(firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging);
             Assert.AreEqual(personId, sut.PersonId);
             Assert.AreEqual(firstName, sut.FirstName);
             Assert.AreEqual(lastName, sut.LastName);

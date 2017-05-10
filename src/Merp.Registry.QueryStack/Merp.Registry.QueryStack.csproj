@@ -57,8 +57,8 @@
       <HintPath>..\..\packages\MementoFX.Messaging.Rebus.1.1.1\lib\net451\Memento.Messaging.Rebus.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Rebus, Version=3.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Rebus.3.1.2\lib\NET45\Rebus.dll</HintPath>
+    <Reference Include="Rebus, Version=3.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Rebus.3.1.3\lib\NET45\Rebus.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -104,7 +104,28 @@
     <Compile Include="Migrations\201704201221063_Part-BillingAddress.Designer.cs">
       <DependentUpon>201704201221063_Part-BillingAddress.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704211024224_Company-AdministrativeContact.cs" />
+    <Compile Include="Migrations\201704211024224_Company-AdministrativeContact.Designer.cs">
+      <DependentUpon>201704211024224_Company-AdministrativeContact.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704211325306_Company-MailContact.cs" />
+    <Compile Include="Migrations\201704211325306_Company-MailContact.Designer.cs">
+      <DependentUpon>201704211325306_Company-MailContact.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704240740400_Company-MailContact-rename-to-MainContact.cs" />
+    <Compile Include="Migrations\201704240740400_Company-MailContact-rename-to-MainContact.Designer.cs">
+      <DependentUpon>201704240740400_Company-MailContact-rename-to-MainContact.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704241413122_Party-ContactInfo.cs" />
+    <Compile Include="Migrations\201704241413122_Party-ContactInfo.Designer.cs">
+      <DependentUpon>201704241413122_Party-ContactInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704261024101_ContactInfo-MobileNumberInstantMessaging.cs" />
+    <Compile Include="Migrations\201704261024101_ContactInfo-MobileNumberInstantMessaging.Designer.cs">
+      <DependentUpon>201704261024101_ContactInfo-MobileNumberInstantMessaging.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Model\ContactInfo.cs" />
     <Compile Include="Model\Party.cs" />
     <Compile Include="Model\Company.cs" />
     <Compile Include="Model\Person.cs" />
@@ -143,6 +164,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704201221063_Part-BillingAddress.resx">
       <DependentUpon>201704201221063_Part-BillingAddress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704211024224_Company-AdministrativeContact.resx">
+      <DependentUpon>201704211024224_Company-AdministrativeContact.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704211325306_Company-MailContact.resx">
+      <DependentUpon>201704211325306_Company-MailContact.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704240740400_Company-MailContact-rename-to-MainContact.resx">
+      <DependentUpon>201704240740400_Company-MailContact-rename-to-MainContact.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704241413122_Party-ContactInfo.resx">
+      <DependentUpon>201704241413122_Party-ContactInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704261024101_ContactInfo-MobileNumberInstantMessaging.resx">
+      <DependentUpon>201704261024101_ContactInfo-MobileNumberInstantMessaging.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

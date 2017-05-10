@@ -45,9 +45,9 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<GetPartiesViewModel> GetParties(string query)
+        public IEnumerable<GetPartiesViewModel> GetParties(string query, string partyType, string city, string orderBy, string orderDirection)
         {
-            var model = WorkerServices.GetParties(query);
+            var model = WorkerServices.GetParties(query, partyType, city, orderBy, orderDirection);
             return model;
         }
 

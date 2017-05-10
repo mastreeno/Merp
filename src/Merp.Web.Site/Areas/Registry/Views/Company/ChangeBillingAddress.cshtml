@@ -1,0 +1,34 @@
+@model Merp.Web.Site.Areas.Registry.Models.Company.ChangeBillingAddressViewModel
+
+@{
+    ViewBag.Title = $"{Model.CompanyName} - Change Billing Address";
+}
+
+<h2>@Model.CompanyName</h2>
+<h4>Change Billing Address</h4>
+<hr />
+
+
+<form method="post" asp-controller="Company" asp-action="ChangeBillingAddress" class="form-horizontal">
+
+  @Html.AntiForgeryToken()
+  <input type="hidden" asp-for="CompanyId" />
+
+  @Html.EditorFor(model => model.BillingAddress)
+
+  <div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+      <input type="submit" value="Save" class="btn btn-default" />
+    </div>
+  </div>
+
+</form>
+
+<div>
+  <a href="@UrlBuilder.Registry.CompanyInfo(Model.CompanyId)">Back</a>
+</div>
+@section head{
+}
+@section Scripts {
+  @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

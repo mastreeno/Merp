@@ -47,7 +47,7 @@ namespace Merp.Registry.CommandStack.Events
             FirstName = firstName;
             LastName = lastName;
             NationalIdentificationNumber = nationalIdentificationNumber;
-            VatNumber = VatNumber;
+            VatNumber = vatNumber;
         }
     }
 }

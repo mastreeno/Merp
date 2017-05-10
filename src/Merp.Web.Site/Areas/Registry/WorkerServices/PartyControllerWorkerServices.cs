@@ -37,17 +37,70 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
         }
 
 
-        public IEnumerable<GetPartiesViewModel> GetParties(string query)
+        public IEnumerable<GetPartiesViewModel> GetParties(string query, string partyType, string city, string orderBy, string orderDirection)
         {
-            var model = from p in Database.Parties
-                        orderby p.DisplayName ascending
-                        select new GetPartiesViewModel { id = p.Id, uid = p.OriginalId, name = p.DisplayName };
-            if(!string.IsNullOrEmpty(query) && query!="undefined")
-            {
-                model = model.Where(p => p.name.StartsWith(query));
-            }
-            model = model.Take(20);
-            return model;
+            var parties = Database.Parties;
+            parties = ApplyPartyTypeFilter(parties, partyType);
+            parties = ApplyCityFilter(parties, city);
+            parties = ApplyOrdering(parties, orderBy, orderDirection);
+
+            var partyViewModels = parties.Select(p => new GetPartiesViewModel { id = p.Id, uid = p.OriginalId, name = p.DisplayName });
+            partyViewModels = ApplyNameFilter(partyViewModels, query);
+            partyViewModels = partyViewModels.Take(20);
+            return partyViewModels;
         }
+
+        #region Helper Methods
+
+        private static IQueryable<Party> ApplyPartyTypeFilter(IQueryable<Party> parties, string partyType)
+        {
+            if("person".Equals(partyType, StringComparison.OrdinalIgnoreCase))
+            {
+                return parties.OfType<Person>();
+            }
+            if ("company".Equals(partyType, StringComparison.OrdinalIgnoreCase))
+            {
+                return parties.OfType<Company>();
+            }
+            return parties;
+        }
+
+        private static IQueryable<Party> ApplyOrdering(IQueryable<Party> parties, string orderBy, string orderDirection)
+        {
+            if ("name".Equals(orderBy, StringComparison.OrdinalIgnoreCase))
+            {
+                parties = "desc".Equals(orderDirection, StringComparison.OrdinalIgnoreCase)
+                    ? parties.OrderByDescending(p => p.DisplayName)
+                    : parties.OrderBy(p => p.DisplayName);
+            }
+            else
+            {
+                parties = parties.OrderBy(p => p.DisplayName);
+            }
+
+            return parties;
+        }
+
+        private static IQueryable<Party> ApplyCityFilter(IQueryable<Party> parties, string city)
+        {
+            if (!string.IsNullOrEmpty(city) && city != "undefined")
+            {
+                parties = parties.Where(p => p.LegalAddress.City.Contains(city));
+            }
+
+            return parties;
+        }
+
+        private static IQueryable<GetPartiesViewModel> ApplyNameFilter(IQueryable<GetPartiesViewModel> partyViewModels, string query)
+        {
+            if (!string.IsNullOrEmpty(query) && query != "undefined")
+            {
+                partyViewModels = partyViewModels.Where(p => p.name.Contains(query));
+            }
+
+            return partyViewModels;
+        }
+
+        #endregion
     }
 }

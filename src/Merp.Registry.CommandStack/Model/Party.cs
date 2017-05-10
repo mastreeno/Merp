@@ -15,7 +15,8 @@ namespace Merp.Registry.CommandStack.Model
     public class Party : Aggregate,
         IApplyEvent<LegalAddressSetForPartyEvent>,
         IApplyEvent<ShippingAddressSetForPartyEvent>,
-        IApplyEvent<BillingAddressSetForPartyEvent>
+        IApplyEvent<BillingAddressSetForPartyEvent>,
+        IApplyEvent<ContactInfoSetForPartyEvent>
     {
         /// <summary>
         /// Gets or sets National Identification Number
@@ -25,7 +26,7 @@ namespace Merp.Registry.CommandStack.Model
         /// <summary>
         /// Gets or sets the VAT index
         /// </summary>
-        public string VatIndex { get; protected set; }
+        public string VatNumber { get; protected set; }
 
         /// <summary>
         /// Gets or sets the legal address
@@ -41,6 +42,11 @@ namespace Merp.Registry.CommandStack.Model
         /// Gets or sets the billing address
         /// </summary>
         public PostalAddress BillingAddress { get; protected set; }
+
+        /// <summary>
+        /// Gets or sets the contact info
+        /// </summary>
+        public ContactInfo ContactInfo { get; protected set; }
 
         /// <summary>
         /// Apply an event to the current instance
@@ -85,7 +91,17 @@ namespace Merp.Registry.CommandStack.Model
         }
 
         /// <summary>
-        /// Sets an address for the person
+        /// Apply an event to the current instance
+        /// </summary>
+        /// <param name="evt">The event</param>
+        public void ApplyEvent([AggregateId(nameof(ContactInfoSetForPartyEvent.PartyId))] ContactInfoSetForPartyEvent evt)
+        {
+            var contactInfo = new ContactInfo(evt.PhoneNumber, evt.MobileNumber, evt.FaxNumber, evt.WebsiteAddress, evt.EmailAddress, evt.InstantMessaging);
+            this.ContactInfo = contactInfo;
+        }
+
+        /// <summary>
+        /// Sets legal address for the party
         /// </summary>
         /// <param name="address">The address</param>
         /// <param name="city">The city</param>
@@ -102,7 +118,7 @@ namespace Merp.Registry.CommandStack.Model
         }
 
         /// <summary>
-        /// Sets an address for the person
+        /// Sets shipping address for the party
         /// </summary>
         /// <param name="address">The address</param>
         /// <param name="city">The city</param>
@@ -119,7 +135,7 @@ namespace Merp.Registry.CommandStack.Model
         }
 
         /// <summary>
-        /// Sets an address for the person
+        /// Sets billing address for the party
         /// </summary>
         /// <param name="address">The address</param>
         /// <param name="city">The city</param>
@@ -132,6 +148,21 @@ namespace Merp.Registry.CommandStack.Model
                 throw new InvalidOperationException("A valid address, city and country must be provided");
 
             var e = new BillingAddressSetForPartyEvent(Id, address, city, postalCode, province, country);
+            RaiseEvent(e);
+        }
+
+        /// <summary>
+        /// Sets contact info for the party
+        /// </summary>
+        /// <param name="phoneNumber"></param>
+        /// <param name="mobileNumber"></param>
+        /// <param name="faxNumber"></param>
+        /// <param name="websiteAddress"></param>
+        /// <param name="emailAddress"></param>
+        /// <param name="instantMessaging"></param>
+        public void SetContactInfo(string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
+        {     
+            var e = new ContactInfoSetForPartyEvent(Id, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging);
             RaiseEvent(e);
         }
     }

@@ -6,12 +6,15 @@ using Rebus.Bus;
 using System;
 using System.Threading.Tasks;
 using Merp.Registry.CommandStack.Services;
+using Rebus.Handlers;
 
 namespace Merp.Registry.CommandStack.Sagas
 {
     public class PersonSaga : Saga<PersonSaga.PersonSagaData>,
         IAmInitiatedBy<RegisterPersonCommand>,
-        IAmInitiatedBy<ImportPersonCommand>
+        IAmInitiatedBy<ImportPersonCommand>,
+        IHandleMessages<ChangePersonAddressCommand>,
+        IHandleMessages<ChangePersonContactInfoCommand>
     {
         private readonly IRepository _repository;
         private readonly IBus _bus;
@@ -29,7 +32,16 @@ namespace Merp.Registry.CommandStack.Sagas
             config.Correlate<ImportPersonCommand>(
                 message => message.PersonId,
                 sagaData => sagaData.PersonId);
+
             config.Correlate<RegisterPersonCommand>(
+                message => message.PersonId,
+                sagaData => sagaData.PersonId);
+
+            config.Correlate<ChangePersonAddressCommand>(
+                message => message.PersonId,
+                sagaData => sagaData.PersonId);
+
+            config.Correlate<ChangePersonContactInfoCommand>(
                 message => message.PersonId,
                 sagaData => sagaData.PersonId);
         }
@@ -40,7 +52,10 @@ namespace Merp.Registry.CommandStack.Sagas
             {
                 var person = Person.Factory.CreateNewEntry(message.FirstName, message.LastName, message.NationalIdentificationNumber, message.VatNumber);
                 if (!string.IsNullOrWhiteSpace(message.Address) && !string.IsNullOrWhiteSpace(message.City))
+                {
                     person.SetAddress(message.Address, message.City, message.PostalCode, message.Province, !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry());
+                }
+                person.SetContactInfo(message.PhoneNumber, message.MobileNumber, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, message.InstantMessaging);
                 _repository.Save<Person>(person);
                 this.Data.PersonId = person.Id;
             });
@@ -55,6 +70,30 @@ namespace Merp.Registry.CommandStack.Sagas
                     person.SetAddress(message.Address, message.City, message.PostalCode, message.Province, message.Country);
                 _repository.Save<Person>(person);
                 this.Data.PersonId = person.Id;
+            });
+        }
+
+        public Task Handle(ChangePersonAddressCommand message)
+        {
+            return Task.Factory.StartNew(() => {
+                var person = _repository.GetById<Person>(message.PersonId);
+                if (person.ShippingAddress == null || person.ShippingAddress.IsDifferentAddress(message.Address, message.City, message.PostalCode, message.Province, message.Country))
+                {
+                    person.SetAddress(message.Address, message.City, message.PostalCode, message.Province, !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry());
+                    _repository.Save(person);
+                }
+            });
+        }
+
+        public Task Handle(ChangePersonContactInfoCommand message)
+        {
+            return Task.Factory.StartNew(() => {
+                var person = _repository.GetById<Person>(message.PersonId);
+                if (person.ContactInfo == null || person.ContactInfo.PhoneNumber != message.PhoneNumber || person.ContactInfo.MobileNumber != message.MobileNumber || person.ContactInfo.FaxNumber != message.FaxNumber || person.ContactInfo.WebsiteAddress != message.WebsiteAddress || person.ContactInfo.EmailAddress != message.EmailAddress || person.ContactInfo.InstantMessaging != message.InstantMessaging)
+                {
+                    person.SetContactInfo(message.PhoneNumber, message.MobileNumber, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, message.InstantMessaging);
+                    _repository.Save(person);
+                }
             });
         }
 
