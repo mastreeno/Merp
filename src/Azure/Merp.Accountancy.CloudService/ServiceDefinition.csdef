@@ -3,6 +3,8 @@
   <WorkerRole name="Merp.Accountancy.CloudService.Worker" vmsize="Small">
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+      <Setting name="Merp-Accountancy-ReadModel" />
+      <Setting name="Merp-Accountancy-EventStore" />
     </ConfigurationSettings>
   </WorkerRole>
 </ServiceDefinition>

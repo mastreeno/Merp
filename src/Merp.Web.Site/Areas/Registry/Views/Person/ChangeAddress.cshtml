@@ -1,15 +1,28 @@
 @model Merp.Web.Site.Areas.Registry.Models.Person.ChangeAddressViewModel
 
 @{
-    ViewBag.Title = "Change address";
+    ViewBag.Title = $"{Model.PersonDisplayName} - Change address";
 }
 
-<h2>Change address</h2>
+<h2>@Model.PersonDisplayName</h2>
+<h4>Change address</h4>
+<hr />
 
-<form method="post" asp-controller="Person" asp-action="ChangeAddress" class="form-horizontal">
-  <input type="hidden" asp-for="PersonId" /> 
-  <hr />
+
+<form method="post" asp-controller="Person" asp-action="ChangeAddress" asp-antiforgery="true" class="form-horizontal">
+  <div asp-validation-summary="ModelOnly"></div>
+
+  <input type="hidden" asp-for="PersonId" />
+
   @Html.EditorFor(model => model.Address)
+
+  <div class="form-group">
+    <label asp-for="EffectiveDate" class="col-md-2 control-label"></label>
+    <div class="col-md-10">
+      @Html.EditorFor(model => model.EffectiveDate, new { htmlAttributes = new { @class = "form-control" } })
+      <span asp-validation-for="EffectiveDate" class="text-danger"></span>
+    </div>
+  </div>
 
   <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
@@ -19,11 +32,22 @@
 
 </form>
 
-<div>  
+<div>
   <a href="@UrlBuilder.Registry.PersonInfo(Model.PersonId)">Back</a>
 </div>
 @section head{
 }
 @section Scripts {
-  @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); } 
+  @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+@{ await Html.RenderPartialAsync("_JqueryValidationBootstrapPartial"); }
+  <script type="text/javascript">
+    $(function () {
+      $('#Address_Address').rules("add", {
+        required: true
+      });
+      $('#Address_City').rules("add", {
+        required: true
+      });
+    });
+  </script>
 }

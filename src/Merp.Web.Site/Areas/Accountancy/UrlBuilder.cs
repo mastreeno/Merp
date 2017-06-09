@@ -11,7 +11,7 @@ namespace Merp.Web.Site.Areas.Accountancy
 
         public static string JobOrderGetListUrl()
         {
-            return $"/{areaName}/JobOrder/GetList";
+            return $"/{areaName}/Api/GetList";
         }
     }
 }

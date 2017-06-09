@@ -80,7 +80,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Registry\Views\Person\Components\AddEntry\" />
+    <Folder Include="Areas\Registry\Views\Company\Components\" />
+    <Folder Include="Areas\Registry\Views\Person\Components\" />
+    <Folder Include="Views\Shared\Components\LookupCompanyInfoByVies\" />
+    <Folder Include="Views\Shared\Components\PersonAddEntry\" />
     <Folder Include="Areas\Registry\Views\Shared\Components\" />
     <Folder Include="Areas\Registry\Views\Shared\EditorTemplates\" />
     <Folder Include="WorkerServices\" />

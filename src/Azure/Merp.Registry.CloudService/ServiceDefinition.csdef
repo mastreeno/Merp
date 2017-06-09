@@ -3,6 +3,8 @@
   <WorkerRole name="Merp.Registry.CloudService.Worker" vmsize="Small">
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+      <Setting name="Merp-Registry-ReadModel" />
+      <Setting name="Merp-Registry-EventStore" />
     </ConfigurationSettings>
   </WorkerRole>
 </ServiceDefinition>

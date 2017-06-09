@@ -16,9 +16,10 @@ namespace Merp.Registry.CommandStack.Commands
         public string City { get; set; }
         public string Country { get; set; }
         public string Province { get; set; }
+        public DateTime EffectiveDate { get; set; }
 
 
-        public ChangeCompanyBillingAddressCommand(Guid companyId, string address, string postalCode, string city, string province, string country)
+        public ChangeCompanyBillingAddressCommand(Guid companyId, string address, string postalCode, string city, string province, string country, DateTime effectiveDate)
         {
             CompanyId = companyId;
             Address = address ?? throw new ArgumentNullException(nameof(address));
@@ -26,6 +27,7 @@ namespace Merp.Registry.CommandStack.Commands
             City = city ?? throw new ArgumentNullException(nameof(city));
             Country = country;
             Province = province;
+            EffectiveDate = effectiveDate;
         }
     }
 }

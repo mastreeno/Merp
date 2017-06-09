@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
+using Merp.Web.Site.Areas.Registry.ViewComponents.Person;
 
 namespace Merp.Web.Site.Areas.Registry.Controllers
 {
@@ -26,7 +27,7 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
 
             if (ajax)
             {
-                return ViewComponent("AddEntry", new { model, mode = "modal", fieldPrefix });
+                return ViewComponent(typeof(PersonAddEntryViewComponent), new { model, mode = "modal", fieldPrefix });
             }
                 
             return View(model);
@@ -40,7 +41,7 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
                 return View(model);
             }
             WorkerServices.AddEntry(model);
-            return Redirect("/Registry/");
+            return RedirectToRoute("registry", new { });
         }
 
         [HttpPut]
@@ -48,15 +49,10 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return ViewComponent("AddEntry", new { model, mode = "default", fieldPrefix });
-            }
-
+                return Json(new SerializableError(ModelState));
+            }            
             WorkerServices.AddEntry(model);
-                        
-            ModelState.Clear();
-
-            model = WorkerServices.GetAddEntryViewModel();
-            return ViewComponent("AddEntry", new { model, mode = "default", fieldPrefix });
+            return Ok();
         }
 
         [HttpGet]
@@ -81,12 +77,14 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
         [HttpPost]
         public ActionResult ChangeAddress(ChangeAddressViewModel model)
         {
+            ValidateAgainstPersistence(model);
             if (!ModelState.IsValid)
             {
+                var rehydratedModel = WorkerServices.GetChangeAddressViewModel(model);
                 return View(model);
             }
             WorkerServices.ChangeAddress(model);
-            return Redirect("/Registry/");
+            return RedirectToRoute("registry", new { });
         }
 
         [HttpGet]
@@ -106,7 +104,18 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
                 return View(model);
             }
             WorkerServices.ChangeContactInfo(model);
-            return Redirect("/Registry/");
+            return RedirectToRoute("registry", new { });
         }
+
+        #region Helper Methods        
+
+        private void ValidateAgainstPersistence(ChangeAddressViewModel model)
+        {
+            var personDto = WorkerServices.GetChangeAddressViewModelPersonDto(model.PersonId);
+            var persistenceValidationModelState = model.Validate(personDto);
+            ModelState.Merge(persistenceValidationModelState);
+        }
+        
+        #endregion
     }
 }

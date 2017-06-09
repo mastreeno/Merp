@@ -4,6 +4,12 @@
     <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Merp-Registry-ReadModel" value="Server=tcp:ugidotnet.database.windows.net,1433;Initial Catalog=Merp;Persist Security Info=False;User ID=ugiadmin;Password=Th3ug1@dm1n1str@t0r;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" />
+      <Setting name="Merp-Registry-EventStore" value="mongodb://10.0.0.5/Merp-ES" />
     </ConfigurationSettings>
   </Role>
+  <NetworkConfiguration>
+    <!-- Name of the target Virtual Network -->
+    <VirtualNetworkSite name="UGIdotNET-classic" />
+  </NetworkConfiguration>
 </ServiceConfiguration>

@@ -17,6 +17,7 @@ using Memento.Persistence;
 using System.Security.Authentication;
 using Memento.Messaging;
 using Merp.Accountancy.CommandStack.Services;
+using Memento.Messaging.Rebus;
 
 namespace Merp.Accountancy.CloudService.Worker
 {
@@ -28,6 +29,7 @@ namespace Merp.Accountancy.CloudService.Worker
         {
             Container = new UnityContainer();
             ConfigureBus();
+            ConfigureEventDispatcher();
             ConfigurePersistence();
             new AccountancyBoundedContext(Container).Configure();
         }
@@ -46,6 +48,11 @@ namespace Merp.Accountancy.CloudService.Worker
                 .Transport(t => t.UseAzureServiceBus(ConfigurationManager.AppSettings["Rebus:ServiceBusConnectionString"], ConfigurationManager.AppSettings["Rebus:QueueName"], AzureServiceBusMode.Basic));
             var bus = config.Start();
             Container.RegisterInstance<IBus>(bus);
+        }
+
+        public void ConfigureEventDispatcher()
+        {
+            Container.RegisterType<IEventDispatcher, RebusEventDispatcher>();
         }
 
         private void ConfigurePersistence()
@@ -84,6 +91,7 @@ namespace Merp.Accountancy.CloudService.Worker
 
             private void RegisterReadModel()
             {
+                Container.RegisterType<Merp.Accountancy.QueryStack.AccountancyContext>(new InjectionConstructor(ConfigurationManager.ConnectionStrings["Merp-Accountancy-ReadModel"].ConnectionString));
                 Container.RegisterType<Merp.Accountancy.QueryStack.IDatabase, Merp.Accountancy.QueryStack.Database>();
             }
 

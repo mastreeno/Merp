@@ -1,4 +1,5 @@
 ﻿using Memento;
+using Merp.Registry.CommandStack.Helpers;
 using System;
 
 namespace Merp.Registry.CommandStack.Commands
@@ -9,6 +10,7 @@ namespace Merp.Registry.CommandStack.Commands
         public string CompanyName { get; set; }
         public string VatNumber { get; set; }
         public string NationalIdentificationNumber { get; set; }
+
 
         public string LegalAddressAddress { get; set; }
         public string LegalAddressPostalCode { get; set; }
@@ -37,25 +39,46 @@ namespace Merp.Registry.CommandStack.Commands
 
         public RegisterCompanyCommand(string companyName, string nationalIdentificationNumber, string vatNumber, string legalAddressAddress, string legalAddressPostalCode, string legalAddressCity, string legalAddressProvince, string legalAddressCountry,  string shippingAddressAddress, string shippingAddressPostalCode, string shippingAddressCity, string shippingAddressProvince, string shippingAddressCountry, string billingAddressAddress, string billingAddressPostalCode, string billingAddressCity, string billingAddressProvince, string billingAddressCountry, Guid? mainContactId, Guid? administrativeContactId, string phoneNumber, string faxNumber, string websiteAddress, string emailAddress)
         {
-            CompanyName = companyName ?? throw new ArgumentNullException(nameof(companyName));
-            VatNumber = vatNumber ?? throw new ArgumentNullException(nameof(vatNumber));
+            if (string.IsNullOrWhiteSpace(companyName))
+            {
+                throw new ArgumentException("Company name must be provided", nameof(companyName));
+            }
+            if (string.IsNullOrWhiteSpace(vatNumber))
+            {
+                throw new ArgumentException("Vat number must be provided", nameof(vatNumber));
+            }
+            if (!PostalAddressHelper.IsValidAddress(legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry))
+            {
+                throw new ArgumentException("legal address must either be empty or comprehensive of both address and city");
+            }
+            if (!PostalAddressHelper.IsValidAddress(shippingAddressAddress, shippingAddressCity, shippingAddressPostalCode, shippingAddressProvince, shippingAddressCountry))
+            {
+                throw new ArgumentException("shipping address must either be empty or comprehensive of both address and city");
+            }
+            if (!PostalAddressHelper.IsValidAddress(billingAddressAddress, billingAddressCity, billingAddressPostalCode, billingAddressProvince, billingAddressCountry))
+            {
+                throw new ArgumentException("billing address must either be empty or comprehensive of both address and city");
+            }
+
+            CompanyName = companyName;
+            VatNumber = vatNumber;
             NationalIdentificationNumber = nationalIdentificationNumber;
 
-            LegalAddressAddress = legalAddressAddress ?? throw new ArgumentNullException(nameof(legalAddressAddress));
+            LegalAddressAddress = legalAddressAddress;
             LegalAddressPostalCode = legalAddressPostalCode;
-            LegalAddressCity = legalAddressCity ?? throw new ArgumentNullException(nameof(legalAddressCity));
+            LegalAddressCity = legalAddressCity;
             LegalAddressCountry = legalAddressCountry;
             LegalAddressProvince = legalAddressProvince;
 
-            ShippingAddressAddress = shippingAddressAddress ?? throw new ArgumentNullException(nameof(shippingAddressAddress));
+            ShippingAddressAddress = shippingAddressAddress;
             ShippingAddressPostalCode = shippingAddressPostalCode;
-            ShippingAddressCity = shippingAddressCity ?? throw new ArgumentNullException(nameof(shippingAddressCity));
+            ShippingAddressCity = shippingAddressCity;
             ShippingAddressCountry = shippingAddressCountry;
             ShippingAddressProvince = shippingAddressProvince;
 
-            BillingAddressAddress = billingAddressAddress ?? throw new ArgumentNullException(nameof(billingAddressAddress));
+            BillingAddressAddress = billingAddressAddress;
             BillingAddressPostalCode = billingAddressPostalCode;
-            BillingAddressCity = billingAddressCity ?? throw new ArgumentNullException(nameof(billingAddressCity));
+            BillingAddressCity = billingAddressCity;
             BillingAddressCountry = billingAddressCountry;
             BillingAddressProvince = billingAddressProvince;
 

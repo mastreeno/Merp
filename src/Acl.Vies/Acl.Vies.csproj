@@ -43,6 +43,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompanyInformation.cs" />
+    <Compile Include="CompanyInformationMapperFactory.cs" />
+    <Compile Include="Mappers\BGCompanyInformationMapper.cs" />
+    <Compile Include="Mappers\CompanyInformationMapper.cs" />
+    <Compile Include="Mappers\DefaultCompanyInformationMapper.cs" />
+    <Compile Include="Mappers\GBCompanyInformationMapper.cs" />
+    <Compile Include="Mappers\ATCompanyInformationMapper.cs" />
+    <Compile Include="Mappers\BECompanyInformationMapper.cs" />
+    <Compile Include="Mappers\ROCompanyInformationMapper.cs" />
+    <Compile Include="Mappers\ITCompanyInformationMapper.cs" />
     <Compile Include="Connected Services\Vies\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -82,5 +91,6 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

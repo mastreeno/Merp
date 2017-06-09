@@ -22,8 +22,15 @@ namespace Merp.Registry.QueryStack.Denormalizers
                 OriginalId = message.CompanyId,
                 DisplayName = message.CompanyName,
                 NationalIdentificationNumber = message.NationalIdentificationNumber ?? "",
+                LegalAddress = new PostalAddress
+                {
+                    Address = message.LegalAddressAddress,
+                    City = message.LegalAddressCity,
+                    Country = message.LegalAddressCountry,
+                    PostalCode = message.LegalAddressPostalCode,
+                    Province = message.LegalAddressProvince
+                },
                 ShippingAddress = new PostalAddress(),
-                LegalAddress = new PostalAddress(),
                 BillingAddress = new PostalAddress(),
                 ContactInfo = new ContactInfo()
             };

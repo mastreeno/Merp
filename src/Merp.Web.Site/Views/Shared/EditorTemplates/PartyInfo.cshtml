@@ -1,10 +1,26 @@
 ﻿@model Merp.Web.Site.Areas.Registry.Models.PartyInfo
-
+@{ 
+    var htmlFieldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix;
+    var companyModalId = $"{htmlFieldPrefix}_Modal_Company_AddEntry";
+    var companyModalUrl = Url.Action("AddEntry", "Company", new { area = "Registry", ajax = true, fieldPrefix = companyModalId });
+    var companyRegisteredEvent = "company_registered";
+    var personModalId = $"{htmlFieldPrefix}_Modal_Person_AddEntry";
+    var personModalUrl = Url.Action("AddEntry", "Person", new { area = "Registry", ajax = true, fieldPrefix = personModalId });
+    var personRegisteredEvent = "person_registered";
+}
 <input asp-for="Id" onblur="" />
 <input asp-for="OriginalId" type="hidden" />
 <input asp-for="Name" />
 <span asp-validation-for="Id" class="text-danger"></span>
 <span asp-validation-for="Name" class="text-danger"></span>
+@*
+  //TODO 
+  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#@companyModalId">
+  <span class="glyphicon glyphicon-plus"></span>
+</button>*@
+<button type="button" class="btn btn-default" data-toggle="modal" data-target="#@personModalId">
+  <span class="glyphicon glyphicon-plus"></span>
+</button>
 <script type="text/javascript">
     @{
         var idTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName("Id").Replace(".", "_");
@@ -75,3 +91,35 @@
     });
 </script>
 
+
+<script type="text/javascript">
+  $(function () {
+
+    @*
+      TODO
+      var companyModalPlaceholder = $('<div></div>');
+    $('body .container').prepend(companyModalPlaceholder);
+    companyModalPlaceholder.load('@Html.Raw(companyModalUrl)', function () {
+      companyModalPlaceholder.on('@companyRegisteredEvent', '#@companyModalId', function (event) {
+        $('#@partyNameTextBoxName').val(event.partyName);
+        $('#@partyNameTextBoxName').focus();
+        setTimeout(function () {
+          $('#@partyNameTextBoxName').autocomplete("search", event.partyName);
+        }, 250);
+      });
+    });*@
+
+    var personModalPlaceholder = $('<div></div>');
+    $('body .container').prepend(personModalPlaceholder);
+    personModalPlaceholder.load('@Html.Raw(personModalUrl)', function () {
+      personModalPlaceholder.on('@personRegisteredEvent', '#@personModalId', function (event) {
+        $('#@partyNameTextBoxName').val(event.partyName);
+        $('#@partyNameTextBoxName').focus();
+        setTimeout(function () {
+          $('#@partyNameTextBoxName').autocomplete("search", event.partyName);
+        }, 250);
+      });
+     });
+
+  });
+</script>

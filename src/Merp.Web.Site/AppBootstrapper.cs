@@ -84,6 +84,7 @@ namespace Merp.Web.Site
             protected abstract void SubscribeEvents();
             protected abstract void RegisterTypes();
             protected abstract void RegisterWorkerServices();
+            protected abstract void RegisterAclServices();
             protected abstract void ConfigureEventStore();
 
             public BoundedContextConfigurator(IConfigurationRoot configuration, IServiceCollection services)
@@ -106,9 +107,11 @@ namespace Merp.Web.Site
                 }
                 RegisterTypes();
                 RegisterWorkerServices();
+                RegisterAclServices();
                 ConfigureEventStore();
             }
         }
+
     }
 
     static class EnvironmentExtensions

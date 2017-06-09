@@ -15,7 +15,7 @@ namespace Merp.Registry.CommandStack.Tests.Model
         [Test]
         public void CreateNewEntry_should_throw_ArgumentException_on_null_firstName()
         {
-            Executing.This(() => Person.Factory.CreateNewEntry(null, "Saltarello", "FAKE", "FAKE"))
+            Executing.This(() => Person.Factory.CreateNewEntry(null, "Saltarello", "FAKE", "FAKE", null, null, null, null, null, null, null, null, null, null, null))
                 .Should()
                 .Throw<ArgumentException>()
                 .And
@@ -29,7 +29,7 @@ namespace Merp.Registry.CommandStack.Tests.Model
         [Test]
         public void CreateNewEntry_should_throw_ArgumentException_on_blank_firstName()
         {
-            Executing.This(() => Person.Factory.CreateNewEntry("", "Saltarello", "FAKE", "FAKE"))
+            Executing.This(() => Person.Factory.CreateNewEntry("", "Saltarello", "FAKE", "FAKE", null, null, null, null, null, null, null, null, null, null, null))
                 .Should()
                 .Throw<ArgumentException>()
                 .And
@@ -43,7 +43,7 @@ namespace Merp.Registry.CommandStack.Tests.Model
         [Test]
         public void CreateNewEntry_should_throw_ArgumentException_on_null_lastName()
         {
-            Executing.This(() => Person.Factory.CreateNewEntry("Andrea", null, "FAKE", "FAKE"))
+            Executing.This(() => Person.Factory.CreateNewEntry("Andrea", null, "FAKE", "FAKE", null, null, null, null, null, null, null, null, null, null, null))
                 .Should()
                 .Throw<ArgumentException>()
                 .And
@@ -57,7 +57,7 @@ namespace Merp.Registry.CommandStack.Tests.Model
         [Test]
         public void CreateNewEntry_should_throw_ArgumentException_on_blank_lastName()
         {
-            Executing.This(() => Person.Factory.CreateNewEntry("Andrea", "", "FAKE", "FAKE"))
+            Executing.This(() => Person.Factory.CreateNewEntry("Andrea", "", "FAKE", "FAKE", null, null, null, null, null, null, null, null, null, null, null))
                 .Should()
                 .Throw<ArgumentException>()
                 .And
@@ -66,34 +66,6 @@ namespace Merp.Registry.CommandStack.Tests.Model
                 .Should()
                 .Be
                 .EqualTo("lastName");
-        }
-
-        [Test]
-        public void CreateNewEntry_should_throw_ArgumentException_on_null_NationalIdentificationNumber()
-        {
-            Executing.This(() => Person.Factory.CreateNewEntry("Andrea", "Saltarello", null, "FAKE"))
-                .Should()
-                .Throw<ArgumentException>()
-                .And
-                .ValueOf
-                .ParamName
-                .Should()
-                .Be
-                .EqualTo("nationalIdentificationNumber");
-        }
-
-        [Test]
-        public void CreateNewEntry_should_throw_ArgumentException_on_blank_NationalIdentificationNumber()
-        {
-            Executing.This(() => Person.Factory.CreateNewEntry("Andrea", "Saltarello", string.Empty, "FAKE"))
-                .Should()
-                .Throw<ArgumentException>()
-                .And
-                .ValueOf
-                .ParamName
-                .Should()
-                .Be
-                .EqualTo("nationalIdentificationNumber");
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Merp.Registry.CommandStack.Events;
 using Merp.Registry.QueryStack.Model;
+using Rebus.Bus;
 using Rebus.Handlers;
 using System;
 using System.Collections.Generic;
@@ -10,12 +11,19 @@ using System.Threading.Tasks;
 namespace Merp.Registry.QueryStack.Denormalizers
 {
     public class PartyDenormalizer :
-        IHandleMessages<LegalAddressSetForPartyEvent>,
-        IHandleMessages<ShippingAddressSetForPartyEvent>,
-        IHandleMessages<BillingAddressSetForPartyEvent>,
+        IHandleMessages<PartyLegalAddressChangedEvent>,
+        IHandleMessages<PartyShippingAddressChangedEvent>,
+        IHandleMessages<PartyBillingAddressChangedEvent>,
         IHandleMessages<ContactInfoSetForPartyEvent>
     {
-        public async Task Handle(LegalAddressSetForPartyEvent message)
+        private readonly IBus _bus;
+
+        public PartyDenormalizer(IBus bus)
+        {
+            _bus = bus ?? throw new ArgumentNullException("bus");
+        }
+
+        public async Task Handle(PartyLegalAddressChangedEvent message)
         {
             using (var context = new RegistryDbContext())
             {
@@ -36,8 +44,13 @@ namespace Merp.Registry.QueryStack.Denormalizers
             }
         }
 
-        public async Task Handle(ShippingAddressSetForPartyEvent message)
+        public async Task Handle(PartyShippingAddressChangedEvent message)
         {
+            if(message.EffectiveDate > DateTime.UtcNow)
+            {
+                await _bus.Defer(message.EffectiveDate - DateTime.UtcNow, message);
+                return;
+            }
             using (var context = new RegistryDbContext())
             {
                 var shippingAddress = new PostalAddress()
@@ -57,8 +70,13 @@ namespace Merp.Registry.QueryStack.Denormalizers
             }
         }
 
-        public async Task Handle(BillingAddressSetForPartyEvent message)
+        public async Task Handle(PartyBillingAddressChangedEvent message)
         {
+            if (message.EffectiveDate > DateTime.UtcNow)
+            {
+                await _bus.Defer(message.EffectiveDate - DateTime.UtcNow, message);
+                return;
+            }
             using (var context = new RegistryDbContext())
             {
                 var billingAddress = new PostalAddress()

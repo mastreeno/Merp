@@ -19,10 +19,25 @@ namespace Merp.Registry.QueryStack.Denormalizers
                 DisplayName = $"{message.FirstName} {message.LastName}",
                 NationalIdentificationNumber = message.NationalIdentificationNumber,
                 VatIndex = message.VatNumber,
-                BillingAddress = new PostalAddress(),
-                LegalAddress = new PostalAddress(),
+                LegalAddress = new PostalAddress
+                {
+                    Address = message.Address,
+                    City = message.City,
+                    Country = message.Country,
+                    PostalCode = message.PostalCode,
+                    Province = message.Province
+                },
                 ShippingAddress = new PostalAddress(),
-                ContactInfo = new ContactInfo()
+                BillingAddress = new PostalAddress(),
+                ContactInfo = new ContactInfo
+                {
+                    PhoneNumber = message.PhoneNumber,
+                    MobileNumber = message.MobileNumber,
+                    FaxNumber = message.FaxNumber,
+                    WebsiteAddress = message.WebsiteAddress,
+                    EmailAddress = message.EmailAddress,
+                    InstantMessaging = message.InstantMessaging
+                }
             };
             using (var context = new RegistryDbContext())
             {

@@ -2,8 +2,8 @@
 @{ 
     var htmlFieldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix;
     var modalId = $"{htmlFieldPrefix}_Modal_Person_AddEntry";
-    var url = Url.Action("AddEntry", "Person", new { ajax = true, fieldPrefix = modalId });
-    var modalCommandExecutedEvent = $"{modalId}_Executed";
+    var url = Url.Action("AddEntry", "Person", new { area = "Registry", ajax = true, fieldPrefix = modalId });
+    var personRegisteredEvent = "person_registered";
 }
 
 <input asp-for="Id" onblur="" />
@@ -89,11 +89,30 @@
     var placeholder = $('<div></div>');
     $('body .container').prepend(placeholder);
     placeholder.load('@Html.Raw(url)', function () {
-      placeholder.on('@modalCommandExecutedEvent', function (event) {
-        $('#@partyNameTextBoxName').val(event.partyName);
-        $('#@partyNameTextBoxName').focus();
-        $('#@partyNameTextBoxName').autocomplete("search", event.partyName);
+      placeholder.on('@personRegisteredEvent', '#@modalId', function (event) {
+
+        //waiting for SignalR
+        setTimeout(function () {
+          
+          $.ajax({
+            url: "/Registry/Api/GetPersonInfoByPattern",
+            dataType: "json",
+            data: {
+              text: event.partyName
+            },
+            success: function (data) {
+              if (data && data.length) {
+                var item = data[0];
+                $("#@idTextBoxName").val(item.id);
+                $("#@originalIdTextBoxName").val(item.originalId);
+                $("#@partyNameTextBoxName").val(item.name);
+              }
+            }
+          });
+
+        }, 250);
       });
+
      });
 
   });

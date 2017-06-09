@@ -50,12 +50,8 @@ namespace Merp.Registry.CommandStack.Sagas
         {
             return Task.Factory.StartNew(() =>
             {
-                var person = Person.Factory.CreateNewEntry(message.FirstName, message.LastName, message.NationalIdentificationNumber, message.VatNumber);
-                if (!string.IsNullOrWhiteSpace(message.Address) && !string.IsNullOrWhiteSpace(message.City))
-                {
-                    person.SetAddress(message.Address, message.City, message.PostalCode, message.Province, !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry());
-                }
-                person.SetContactInfo(message.PhoneNumber, message.MobileNumber, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, message.InstantMessaging);
+                var country = string.IsNullOrWhiteSpace(message.Address) || !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry();
+                var person = Person.Factory.CreateNewEntry(message.FirstName, message.LastName, message.NationalIdentificationNumber, message.VatNumber, message.Address, message.City, message.PostalCode, message.Province, country, message.PhoneNumber, message.MobileNumber, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, message.InstantMessaging);
                 _repository.Save<Person>(person);
                 this.Data.PersonId = person.Id;
             });
@@ -65,9 +61,8 @@ namespace Merp.Registry.CommandStack.Sagas
         {
             return Task.Factory.StartNew(() =>
             {
-                var person = Person.Factory.CreateNewEntryByImport(message.PersonId, message.FirstName, message.LastName, message.NationalIdentificationNumber, message.VatNumber);
-                if (!!string.IsNullOrWhiteSpace(message.Address) && !string.IsNullOrWhiteSpace(message.City))
-                    person.SetAddress(message.Address, message.City, message.PostalCode, message.Province, message.Country);
+                var country = string.IsNullOrWhiteSpace(message.Address) || !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry();
+                var person = Person.Factory.CreateNewEntryByImport(message.PersonId, message.FirstName, message.LastName, message.NationalIdentificationNumber, message.VatNumber, message.Address, message.City, message.PostalCode, message.Province, country, null, null, null, null, null, null);
                 _repository.Save<Person>(person);
                 this.Data.PersonId = person.Id;
             });
@@ -79,7 +74,9 @@ namespace Merp.Registry.CommandStack.Sagas
                 var person = _repository.GetById<Person>(message.PersonId);
                 if (person.ShippingAddress == null || person.ShippingAddress.IsDifferentAddress(message.Address, message.City, message.PostalCode, message.Province, message.Country))
                 {
-                    person.SetAddress(message.Address, message.City, message.PostalCode, message.Province, !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry());
+                    var effectiveDateTime = message.EffectiveDate;
+                    var effectiveDate = new DateTime(effectiveDateTime.Year, effectiveDateTime.Month, effectiveDateTime.Day);
+                    person.ChangeAddress(message.Address, message.City, message.PostalCode, message.Province, !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry(), effectiveDate);
                     _repository.Save(person);
                 }
             });
@@ -89,7 +86,7 @@ namespace Merp.Registry.CommandStack.Sagas
         {
             return Task.Factory.StartNew(() => {
                 var person = _repository.GetById<Person>(message.PersonId);
-                if (person.ContactInfo == null || person.ContactInfo.PhoneNumber != message.PhoneNumber || person.ContactInfo.MobileNumber != message.MobileNumber || person.ContactInfo.FaxNumber != message.FaxNumber || person.ContactInfo.WebsiteAddress != message.WebsiteAddress || person.ContactInfo.EmailAddress != message.EmailAddress || person.ContactInfo.InstantMessaging != message.InstantMessaging)
+                if (person.ContactInfo.PhoneNumber != message.PhoneNumber || person.ContactInfo.MobileNumber != message.MobileNumber || person.ContactInfo.FaxNumber != message.FaxNumber || person.ContactInfo.WebsiteAddress != message.WebsiteAddress || person.ContactInfo.EmailAddress != message.EmailAddress || person.ContactInfo.InstantMessaging != message.InstantMessaging)
                 {
                     person.SetContactInfo(message.PhoneNumber, message.MobileNumber, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, message.InstantMessaging);
                     _repository.Save(person);

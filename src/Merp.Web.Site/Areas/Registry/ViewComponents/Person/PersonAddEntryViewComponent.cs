@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Merp.Web.Site.Areas.Registry.ViewComponents
+namespace Merp.Web.Site.Areas.Registry.ViewComponents.Person
 {
-    public class AddEntryViewComponent : ViewComponent
+    public class PersonAddEntryViewComponent : ViewComponent
     {
         public IViewComponentResult Invoke(AddEntryViewModel model, string mode = "default", string fieldPrefix = "")
         {

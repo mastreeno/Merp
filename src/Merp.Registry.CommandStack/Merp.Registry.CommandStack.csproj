@@ -80,11 +80,13 @@
     <Compile Include="Events\CompanyAdministrativeContactAssociatedEvent.cs" />
     <Compile Include="Events\CompanyNameChangedEvent.cs" />
     <Compile Include="Events\CompanyRegisteredEvent.cs" />
-    <Compile Include="Events\BillingAddressSetForPartyEvent.cs" />
+    <Compile Include="Events\PartyBillingAddressChangedEvent.cs" />
     <Compile Include="Events\ContactInfoSetForPartyEvent.cs" />
     <Compile Include="Events\PersonRegisteredEvent.cs" />
-    <Compile Include="Events\LegalAddressSetForPartyEvent.cs" />
-    <Compile Include="Events\ShippingAddressSetForPartyEvent.cs" />
+    <Compile Include="Events\PartyLegalAddressChangedEvent.cs" />
+    <Compile Include="Events\PartyShippingAddressChangedEvent.cs" />
+    <Compile Include="Helpers\NationalIdentificationNumberHelper.cs" />
+    <Compile Include="Helpers\PostalAddressHelper.cs" />
     <Compile Include="Model\ContactInfo.cs" />
     <Compile Include="Model\Extensions\PostalAddressExtensions.cs" />
     <Compile Include="Model\Party.cs" />

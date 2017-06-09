@@ -16,7 +16,7 @@ namespace Merp.Registry.CommandStack.Tests.Model
     {
 
         [Test]
-        public void SetShippingAddress_should_raise_a_ShippingAddressSetForPartyEvent()
+        public void ChangeShippingAddress_should_raise_a_ShippingAddressSetForPartyEvent()
         {
             var companyName = "Mastreeno";
             var nationalIdentificationNumber = "FAKE";
@@ -26,12 +26,13 @@ namespace Merp.Registry.CommandStack.Tests.Model
             var postalCode = "20123";
             var province = "MI";
             var country = "Italy";
-            var company = Company.Factory.CreateNewEntry(companyName, vatNumber, nationalIdentificationNumber);
-            company.SetShippingAddress(address, city, postalCode, province, country);
+            var company = Company.Factory.CreateNewEntry(companyName, vatNumber, nationalIdentificationNumber, null, null, null, null, null);
+            var effectiveDate = DateTime.MaxValue;
+            company.ChangeShippingAddress(address, city, postalCode, province, country, effectiveDate);
             var uncommittedEvent = ((IAggregate)company).GetUncommittedEvents();
             Assert.AreEqual(2, uncommittedEvent.Count());
 
-            var actualEvent = uncommittedEvent.Last() as ShippingAddressSetForPartyEvent;
+            var actualEvent = uncommittedEvent.Last() as PartyShippingAddressChangedEvent;
             Assert.NotNull(actualEvent);
             Assert.AreEqual(address, actualEvent.Address);
             Assert.AreEqual(city, actualEvent.City);
@@ -42,7 +43,7 @@ namespace Merp.Registry.CommandStack.Tests.Model
         }
 
         [Test]
-        public void SetBillingAddress_should_raise_a_BillingAddressSetForPartyEvent()
+        public void ChangeBillingAddress_should_raise_a_BillingAddressSetForPartyEvent()
         {
             var companyName = "Mastreeno";
             var nationalIdentificationNumber = "FAKE";
@@ -52,12 +53,13 @@ namespace Merp.Registry.CommandStack.Tests.Model
             var postalCode = "20123";
             var province = "MI";
             var country = "Italy";
-            var company = Company.Factory.CreateNewEntry(companyName, vatNumber, nationalIdentificationNumber);
-            company.SetBillingAddress(address, city, postalCode, province, country);
+            var company = Company.Factory.CreateNewEntry(companyName, vatNumber, nationalIdentificationNumber, null, null, null, null, null);
+            var effectiveDate = DateTime.MaxValue;
+            company.ChangeBillingAddress(address, city, postalCode, province, country, effectiveDate);
             var uncommittedEvent = ((IAggregate)company).GetUncommittedEvents();
             Assert.AreEqual(2, uncommittedEvent.Count());
 
-            var actualEvent = uncommittedEvent.Last() as BillingAddressSetForPartyEvent;
+            var actualEvent = uncommittedEvent.Last() as PartyBillingAddressChangedEvent;
             Assert.NotNull(actualEvent);
             Assert.AreEqual(address, actualEvent.Address);
             Assert.AreEqual(city, actualEvent.City);
@@ -68,7 +70,7 @@ namespace Merp.Registry.CommandStack.Tests.Model
         }
 
         [Test]
-        public void SetLegalAddress_should_raise_a_LegalAddressSetForPartyEvent()
+        public void ChangeLegalAddress_should_raise_a_LegalAddressSetForPartyEvent()
         {
             var companyName = "Mastreeno";
             var nationalIdentificationNumber = "FAKE";
@@ -78,12 +80,13 @@ namespace Merp.Registry.CommandStack.Tests.Model
             var postalCode = "20123";
             var province = "MI";
             var country = "Italy";
-            var company = Company.Factory.CreateNewEntry(companyName, vatNumber, nationalIdentificationNumber);
-            company.SetLegalAddress(address, city, postalCode, province, country);
+            var company = Company.Factory.CreateNewEntry(companyName, vatNumber, nationalIdentificationNumber, null, null, null, null, null);
+            var effectiveDate = DateTime.Now;
+            company.ChangeLegalAddress(address, city, postalCode, province, country, effectiveDate);
             var uncommittedEvent = ((IAggregate)company).GetUncommittedEvents();
             Assert.AreEqual(2, uncommittedEvent.Count());
 
-            var actualEvent = uncommittedEvent.Last() as LegalAddressSetForPartyEvent;
+            var actualEvent = uncommittedEvent.Last() as PartyLegalAddressChangedEvent;
             Assert.NotNull(actualEvent);
             Assert.AreEqual(address, actualEvent.Address);
             Assert.AreEqual(city, actualEvent.City);

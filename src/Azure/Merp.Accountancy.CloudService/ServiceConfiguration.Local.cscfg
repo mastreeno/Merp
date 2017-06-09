@@ -4,6 +4,8 @@
     <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Merp-Accountancy-ReadModel" value="Server=.\SQLExpress;Database=Merp;Trusted_Connection=True;MultipleActiveResultSets=true" />
+      <Setting name="Merp-Accountancy-EventStore" value="mongodb://localhost:27017/OnTime-ES" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>

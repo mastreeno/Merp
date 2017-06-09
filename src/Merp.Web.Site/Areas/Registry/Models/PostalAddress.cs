@@ -9,10 +9,11 @@ namespace Merp.Web.Site.Areas.Registry.Models
 {
     public class PostalAddress
     {
-        [DisplayName("Address")]
-      
+        [RequiredIfNotEmpty(nameof(City), nameof(PostalCode), nameof(Province), nameof(Country))]
+        [DisplayName("Address")]      
         public string Address { get; set; }
 
+        [RequiredIfNotEmpty(nameof(Address), nameof(PostalCode), nameof(Province), nameof(Country))]
         [DisplayName("City")]
         public string City { get; set; }
 
@@ -24,24 +25,5 @@ namespace Merp.Web.Site.Areas.Registry.Models
 
         [DisplayName("Country")]
         public string Country { get; set; }
-
-        public bool IsValid
-        {
-            get { return !(AnyFieldHasBeenSet() && !BothPrimaryFieldHasBeenSet()); }
-        }
-
-        private bool BothPrimaryFieldHasBeenSet()
-        {
-            return !string.IsNullOrWhiteSpace(Address) && !string.IsNullOrWhiteSpace(City);
-        }
-
-        private bool AnyFieldHasBeenSet()
-        {
-            return !string.IsNullOrWhiteSpace(Address)
-                || !string.IsNullOrWhiteSpace(City)
-                || !string.IsNullOrWhiteSpace(PostalCode) 
-                || !string.IsNullOrWhiteSpace(Province) 
-                || !string.IsNullOrWhiteSpace(Country);
-        }
     }
 }

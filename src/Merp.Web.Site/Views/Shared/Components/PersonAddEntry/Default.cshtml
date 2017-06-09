@@ -4,7 +4,7 @@
     var personInfoPaneId = $"{fieldPrefix}_PersonInfoPane";
     var contactInfoPaneId = $"{fieldPrefix}_ContactInfoPane";
 }
-<form asp-controller="Person" asp-action="AddEntry" class="form-horizontal" data-form-tabbed="true" asp-route-fieldPrefix="@ViewData.TemplateInfo.HtmlFieldPrefix" method="post" data-valid="@ViewData.ModelState.IsValid.ToString().ToLower()">
+<form asp-controller="Person" asp-action="AddEntry" class="form-horizontal" data-form-tabbed="true" asp-route-fieldPrefix="@ViewData.TemplateInfo.HtmlFieldPrefix" method="post">
   <div asp-validation-summary="ModelOnly" class="text-danger"></div>
   <ul class="nav nav-pills nav-stacked col-md-3">
     <li class="active"><a href="#@personInfoPaneId" data-toggle="tab">Person Info</a></li>

@@ -9,12 +9,20 @@
 <hr />
 
 
-<form method="post" asp-controller="Company" asp-action="ChangeLegalAddress" class="form-horizontal">
+<form method="post" asp-controller="Company" asp-action="ChangeLegalAddress" asp-antiforgery="true" class="form-horizontal">
+  <div asp-validation-summary="ModelOnly"></div>
 
-  @Html.AntiForgeryToken()
-  <input type="hidden" asp-for="CompanyId" />
+  <input type="hidden" asp-for="CompanyId" >
 
-  @Html.EditorFor(model => model.LegalAddress)  
+  @Html.EditorFor(model => model.LegalAddress)
+
+  <div class="form-group">
+    <label asp-for="EffectiveDate" class="col-md-2 control-label"></label>
+    <div class="col-md-10">
+      @Html.EditorFor(model => model.EffectiveDate, new { htmlAttributes = new { @class = "form-control" } })
+      <span asp-validation-for="EffectiveDate" class="text-danger"></span>
+    </div>
+  </div>
 
   <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
@@ -31,4 +39,16 @@
 }
 @section Scripts {
   @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+@{ await Html.RenderPartialAsync("_JqueryValidationBootstrapPartial"); }
+  <script type="text/javascript">
+    $(function () {
+     
+      $('#LegalAddress_Address').rules('add', {
+        required: true
+      });
+      $('#LegalAddress_City').rules('add', {
+        required: true
+      });
+    });
+  </script>
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Merp.Web.Site.Areas.Registry.WorkerServices;
 using Merp.Web.Site.Areas.Registry.Models;
 using Microsoft.AspNetCore.Authorization;
+using Acl.Vies;
 
 namespace Merp.Web.Site.Areas.Registry.Controllers
 {
@@ -14,10 +15,12 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
     public class ApiController : Controller
     {
         public ApiControllerWorkerServices WorkerServices { get; private set; }
+        public ServiceProxy ViesServiceProxy { get; private set; }
 
-        public ApiController(ApiControllerWorkerServices workerServices)
+        public ApiController(ApiControllerWorkerServices workerServices, ServiceProxy viesServiceProxy)
         {
             WorkerServices = workerServices ?? throw new ArgumentNullException(nameof(workerServices));
+            ViesServiceProxy = viesServiceProxy ?? throw new ArgumentNullException(nameof(viesServiceProxy));
         }
 
         [HttpGet]
@@ -49,21 +52,28 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
         }
 
         [HttpGet]
-        public object CheckVat(string vatNumber, string countryCode = "IT")
-        {
-            System.Threading.Thread.Sleep(2000);
-            if(vatNumber == "error")
+        public async Task<IActionResult> LookupCompanyInfoByViesService(string vatNumber, string countryCode)
+        {            
+            if (string.IsNullOrWhiteSpace(vatNumber) || string.IsNullOrWhiteSpace(countryCode))
             {
-                throw new Exception("remote server error");
+                return BadRequest();
             }
-            return new {
-                countryCode = "IT",
-                vatNumber = "12363410155",
-                requestDate = DateTime.Now,
-                valid = vatNumber != "fail",
-                name = "COCA-COLA HBC ITALIA SRL",
-                address = "PIAZZA INDRO MONTANELLI N 30 20099 SESTO SAN GIOVANNI MI"
-            };
+
+            try
+            {
+                var companyInformation = await ViesServiceProxy.LookupCompanyInfoByViesServiceAsync(countryCode, vatNumber);
+                if (companyInformation == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(companyInformation);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
         }
     }
 }

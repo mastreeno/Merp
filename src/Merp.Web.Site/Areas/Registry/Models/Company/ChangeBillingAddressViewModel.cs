@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -16,16 +17,44 @@ namespace Merp.Web.Site.Areas.Registry.Models.Company
         [DisplayName("Billing Address")]
         public PostalAddress BillingAddress { get; set; }
 
+        public DateTime EffectiveDate { get; set; }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var validationResults = new List<ValidationResult>();
 
-            if (!BillingAddress.IsValid)
+            if (string.IsNullOrWhiteSpace(BillingAddress.Address))
             {
-                validationResults.Add(new ValidationResult($"Invalid {nameof(BillingAddress)}: {nameof(BillingAddress.Address)} and {nameof(BillingAddress.City)} are mandatory when setting an address", new[] { nameof(BillingAddress) }));
+                validationResults.Add(new ValidationResult($"{nameof(BillingAddress.Address)} is required", new[] { $"{nameof(BillingAddress)}.{nameof(BillingAddress.Address)}" }));
+            }
+            if (string.IsNullOrWhiteSpace(BillingAddress.City))
+            {
+                validationResults.Add(new ValidationResult($"{nameof(BillingAddress.City)} is required", new[] { $"{nameof(BillingAddress)}.{nameof(BillingAddress.City)}" }));
             }
 
             return validationResults;
+        }
+
+        public ModelStateDictionary Validate(CompanyDto companyDto)
+        {
+            if (companyDto == null)
+            {
+                throw new ArgumentNullException(nameof(companyDto));
+            }
+
+            var modelStateDictionary = new ModelStateDictionary();
+
+            if (EffectiveDate < companyDto.RegistrationDate.ToLocalTime())
+            {
+                modelStateDictionary.AddModelError(nameof(EffectiveDate), $"The {nameof(BillingAddress)} change cannot happen before the registration date");
+            }
+
+            return modelStateDictionary;
+        }
+
+        public class CompanyDto
+        {
+            public DateTime RegistrationDate { get; internal set; }
         }
     }
 }

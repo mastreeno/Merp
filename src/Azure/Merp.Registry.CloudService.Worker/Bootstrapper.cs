@@ -1,4 +1,5 @@
 ﻿using Memento.Messaging;
+using Memento.Messaging.Rebus;
 using Memento.Persistence;
 using Merp.Registry.CommandStack.Events;
 using Merp.Registry.CommandStack.Sagas;
@@ -27,6 +28,7 @@ namespace Merp.Registry.CloudService.Worker
         {
             Container = new UnityContainer();
             ConfigureBus();
+            ConfigureEventDispatcher();
             ConfigurePersistence();
             new RegistryBoundedContext(Container).Configure();
         }
@@ -45,6 +47,11 @@ namespace Merp.Registry.CloudService.Worker
                 .Transport(t => t.UseAzureServiceBus(ConfigurationManager.AppSettings["Rebus:ServiceBusConnectionString"], ConfigurationManager.AppSettings["Rebus:QueueName"], AzureServiceBusMode.Basic));
             var bus = config.Start();
             Container.RegisterInstance<IBus>(bus);
+        }
+
+        public void ConfigureEventDispatcher()
+        {
+            Container.RegisterType<IEventDispatcher, RebusEventDispatcher>();
         }
 
         private void ConfigurePersistence()
@@ -83,6 +90,7 @@ namespace Merp.Registry.CloudService.Worker
 
             private void RegisterReadModel()
             {
+                Container.RegisterType<Merp.Registry.QueryStack.RegistryDbContext>(new InjectionConstructor(ConfigurationManager.ConnectionStrings["Merp-Registry-ReadModel"].ConnectionString));
                 Container.RegisterType<Merp.Registry.QueryStack.IDatabase, Merp.Registry.QueryStack.Database>();
             }
 
@@ -119,6 +127,12 @@ namespace Merp.Registry.CloudService.Worker
                 Bus.Subscribe<CompanyNameChangedEvent>();
                 Bus.Subscribe<CompanyRegisteredEvent>();
                 Bus.Subscribe<PersonRegisteredEvent>();
+                Bus.Subscribe<PartyLegalAddressChangedEvent>();
+                Bus.Subscribe<PartyShippingAddressChangedEvent>();
+                Bus.Subscribe<PartyBillingAddressChangedEvent>();
+                Bus.Subscribe<CompanyAdministrativeContactAssociatedEvent>();
+                Bus.Subscribe<CompanyMainContactAssociatedEvent>();
+                Bus.Subscribe<ContactInfoSetForPartyEvent>();
             }
         }
     }

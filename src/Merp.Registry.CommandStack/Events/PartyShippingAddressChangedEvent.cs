@@ -1,4 +1,5 @@
 ﻿using Memento;
+using Memento.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Merp.Registry.CommandStack.Events
     /// <summary>
     /// Represents an occurred shipping address setting for an existing party
     /// </summary>
-    public class BillingAddressSetForPartyEvent : DomainEvent
+    public class PartyShippingAddressChangedEvent : DomainEvent
     {
         /// <summary>
         /// Gets or sets the Party Id
@@ -36,6 +37,11 @@ namespace Merp.Registry.CommandStack.Events
         /// Gets or sets the country
         /// </summary>
         public string Country { get; set; }
+        /// <summary>
+        /// Gets or sets the effective date
+        /// </summary>
+        [Timestamp]
+        public DateTime EffectiveDate { get; set; }
 
         /// <summary>
         /// Creates a new instance of the event
@@ -46,7 +52,8 @@ namespace Merp.Registry.CommandStack.Events
         /// <param name="postalCode">The postal code</param>
         /// <param name="province">The province</param>
         /// <param name="country">The country</param> 
-        public BillingAddressSetForPartyEvent(Guid partyId, string address, string city, string postalCode, string province, string country)
+        /// <param name="effectiveDate">The effective date</param> 
+        public PartyShippingAddressChangedEvent(Guid partyId, string address, string city, string postalCode, string province, string country, DateTime effectiveDate)
         {
             PartyId = partyId;
             Address = address ?? throw new ArgumentNullException(nameof(address));
@@ -54,6 +61,7 @@ namespace Merp.Registry.CommandStack.Events
             PostalCode = postalCode;
             Province = province;
             Country = country ?? throw new ArgumentNullException(nameof(country));
+            EffectiveDate = effectiveDate;
         }
     }
 }

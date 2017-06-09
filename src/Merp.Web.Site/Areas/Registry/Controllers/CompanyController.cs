@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Merp.Web.Site.Areas.Registry.Models.Company;
 using Merp.Web.Site.Areas.Registry.WorkerServices;
+using Merp.Web.Site.Areas.Registry.ViewComponents.Company;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Merp.Web.Site.Areas.Registry.Controllers
 {
@@ -14,28 +16,52 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
 
         public CompanyController(CompanyControllerWorkerServices workerServices)
         {
-            if(workerServices==null)
-                throw new ArgumentNullException(nameof(workerServices));
-
-            WorkerServices = workerServices;
+            WorkerServices = workerServices ?? throw new ArgumentNullException(nameof(workerServices));
         }
 
         [HttpGet]
-        public ActionResult AddEntry()
+        public ActionResult AddEntry(bool ajax = false, string fieldPrefix = "")
         {
-            var model = new AddEntryViewModel();
+            var model = WorkerServices.GetAddEntryViewModel();
+
+            if (ajax)
+            {
+                return ViewComponent(typeof(CompanyAddEntryViewComponent), new { model, mode = "modal", fieldPrefix });
+            }
+
             return View(model);
         }
 
         [HttpPost]
         public ActionResult AddEntry(AddEntryViewModel model)
         {
-            if (!this.ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
             WorkerServices.AddEntry(model);
-            return Redirect("/Registry/");
+            return RedirectToRoute("registry", new { });
+        }
+
+        [HttpPut]
+        public IActionResult AddEntry(AddEntryViewModel model, string fieldPrefix = "")
+        {
+            if (!ModelState.IsValid)
+            {
+                return Json(new SerializableError(ModelState));
+            }
+            WorkerServices.AddEntry(model);
+            return Ok();
+        }
+
+        [HttpGet]
+        public IActionResult LookupCompanyInfoByVies(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return BadRequest();
+            }
+            return ViewComponent(typeof(LookupCompanyInfoByViesViewComponent), new { id });
         }
 
         [HttpGet]
@@ -61,10 +87,14 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
         [HttpPost]
         public ActionResult ChangeName(ChangeNameViewModel model)
         {
+            ValidateAgainstPersistence(model);
             if (!this.ModelState.IsValid)
-                return View(model);
+            {
+                var rehydratedModel = WorkerServices.GetChangeNameViewModel(model);
+                return View(rehydratedModel);
+            }
             WorkerServices.ChangeName(model);
-            return Redirect("/Registry/");
+            return RedirectToRoute("registry", new { });
         }
 
         [HttpGet]
@@ -79,12 +109,14 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
         [HttpPost]
         public ActionResult ChangeLegalAddress(ChangeLegalAddressViewModel model)
         {
-            if (!this.ModelState.IsValid)
+            ValidateAgainstPersistence(model);
+            if (!ModelState.IsValid)
             {
-                return View(model);
+                var rehydratedModel = WorkerServices.GetChangeLegalAddressViewModel(model);
+                return View(rehydratedModel);
             }
             WorkerServices.ChangeLegalAddress(model);
-            return Redirect("/Registry/");
+            return RedirectToRoute("registry", new { });
         }
 
         [HttpGet]
@@ -99,12 +131,14 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
         [HttpPost]
         public ActionResult ChangeShippingAddress(ChangeShippingAddressViewModel model)
         {
-            if (!this.ModelState.IsValid)
+            ValidateAgainstPersistence(model);
+            if (!ModelState.IsValid)
             {
-                return View(model);
+                var rehydratedModel = WorkerServices.GetChangeShippingAddressViewModel(model);
+                return View(rehydratedModel);
             }
             WorkerServices.ChangeShippingAddress(model);
-            return Redirect("/Registry/");
+            return RedirectToRoute("registry", new { });
         }
         
         [HttpGet]
@@ -119,12 +153,14 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
         [HttpPost]
         public ActionResult ChangeBillingAddress(ChangeBillingAddressViewModel model)
         {
-            if (!this.ModelState.IsValid)
+            ValidateAgainstPersistence(model);
+            if (!ModelState.IsValid)
             {
-                return View(model);
+                var rehydratedModel = WorkerServices.GetChangeBillingAddressViewModel(model);
+                return View(rehydratedModel);
             }
             WorkerServices.ChangeBillingAddress(model);
-            return Redirect("/Registry/");
+            return RedirectToRoute("registry", new { });
         }
 
         [HttpGet]
@@ -144,7 +180,7 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
                 return View(model);
             }
             WorkerServices.AssociateAdministrativeContact(model);
-            return Redirect("/Registry/");
+            return RedirectToRoute("registry", new { });
         }
 
         [HttpGet]
@@ -164,7 +200,7 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
                 return View(model);
             }
             WorkerServices.AssociateMainContact(model);
-            return Redirect("/Registry/");
+            return RedirectToRoute("registry", new { });
         }
 
         [HttpGet]
@@ -184,11 +220,39 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
                 return View(model);
             }
             WorkerServices.ChangeContactInfo(model);
-            return Redirect("/Registry/");
+            return RedirectToRoute("registry", new { });
         }
 
+        #region Helper Methods        
 
-        
+        private void ValidateAgainstPersistence(ChangeLegalAddressViewModel model)
+        {
+            var companyDto = WorkerServices.GetChangeLegalAddressViewModelCompanyDto(model.CompanyId);
+            var persistenceValidationModelState = model.Validate(companyDto);
+            ModelState.Merge(persistenceValidationModelState);
+        }
 
+        private void ValidateAgainstPersistence(ChangeBillingAddressViewModel model)
+        {
+            var companyDto = WorkerServices.GetChangeBillingAddressViewModelCompanyDto(model.CompanyId);
+            var persistenceValidationModelState = model.Validate(companyDto);
+            ModelState.Merge(persistenceValidationModelState);
+        }
+
+        private void ValidateAgainstPersistence(ChangeShippingAddressViewModel model)
+        {
+            var companyDto = WorkerServices.GetChangeShippingAddressViewModelCompanyDto(model.CompanyId);
+            var persistenceValidationModelState = model.Validate(companyDto);
+            ModelState.Merge(persistenceValidationModelState);
+        }
+
+        private void ValidateAgainstPersistence(ChangeNameViewModel model)
+        {
+            var companyDto = WorkerServices.GetChangeNameViewModelCompanyDto(model.CompanyId);
+            var persistenceValidationModelState = model.Validate(companyDto);
+            ModelState.Merge(persistenceValidationModelState);
+        }
+
+        #endregion
     }
 }

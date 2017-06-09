@@ -90,6 +90,14 @@ namespace Merp.Web.Site
 
             app.UseMvc(routes =>
             {
+
+                routes.MapRoute(
+                    name: "registry",
+                    template: "Registry",
+                    defaults: new { area = "Registry", controller = "Party", action = "Search" },
+                    constraints: new { },
+                    dataTokens: new { area = "Registry", controller = "Party", action = "Search" });
+
                 routes.MapRoute(name: "areaRoute",
                     template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 

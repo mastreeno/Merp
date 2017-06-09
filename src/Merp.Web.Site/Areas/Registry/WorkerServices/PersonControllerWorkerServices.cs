@@ -17,16 +17,9 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
 
         public PersonControllerWorkerServices(IBus bus, IDatabase database, IRepository repository)
         {
-            if(bus==null)
-                throw new ArgumentNullException(nameof(bus));
-            if (database == null)
-                throw new ArgumentNullException(nameof(database));
-            if (repository == null)
-                throw new ArgumentNullException(nameof(repository));
-
-            this.Bus = bus;
-            this.Database = database;
-            this.Repository = repository;
+            this.Bus = bus ?? throw new ArgumentNullException(nameof(bus));
+            this.Database = database ?? throw new ArgumentNullException(nameof(database));
+            this.Repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
         public AddEntryViewModel GetAddEntryViewModel()
@@ -36,11 +29,11 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
 
         public void AddEntry(AddEntryViewModel model)
         {
-
+            var nationalIdentificationNumber = string.IsNullOrWhiteSpace(model.NationalIdentificationNumber) ? default(string) : model.NationalIdentificationNumber.Trim().ToUpper();
             var command = new RegisterPersonCommand(
                 model.FirstName, 
-                model.LastName, 
-                model.NationalIdentificationNumber, 
+                model.LastName,
+                nationalIdentificationNumber, 
                 model.VatNumber, 
 
                 model.Address.Address, 
@@ -104,7 +97,9 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             var person = Repository.GetById<Person>(personId);
             var model = new ChangeAddressViewModel()
             {
-                PersonId = person.Id
+                PersonId = person.Id,
+                PersonFirstName = person.FirstName,
+                PersonLastName = person.LastName
             };
             if(person.LegalAddress != null)
             {
@@ -120,6 +115,42 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             return model;
         }
 
+        public ChangeAddressViewModel GetChangeAddressViewModel(ChangeAddressViewModel model)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            var person = Repository.GetById<Person>(model.PersonId);
+            var rehydratedModel = new ChangeAddressViewModel()
+            {
+                PersonId = person.Id,
+                PersonFirstName = person.FirstName,
+                PersonLastName = person.LastName,
+                EffectiveDate = model.EffectiveDate,
+                Address = new Models.PostalAddress
+                {
+                    Address = model.Address.Address,
+                    City = model.Address.City,
+                    PostalCode = model.Address.PostalCode,
+                    Province = model.Address.Province,
+                    Country = model.Address.Country
+                }
+            };
+            return rehydratedModel;
+        }
+
+        public ChangeAddressViewModel.PersonDto GetChangeAddressViewModelPersonDto(Guid personId)
+        {
+            var person = Repository.GetById<Person>(personId);            
+            var model = new ChangeAddressViewModel.PersonDto
+            {
+                RegistrationDate = person.RegistrationDate
+            };
+            return model;
+        }
+
         public void ChangeAddress(ChangeAddressViewModel model)
         {
             if (model == null)
@@ -127,12 +158,16 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
                 throw new ArgumentNullException(nameof(model));
             }
 
+            var effectiveDateTime = model.EffectiveDate;
+            var effectiveDate = new DateTime(effectiveDateTime.Year, effectiveDateTime.Month, effectiveDateTime.Day);
+
             var cmd = new ChangePersonAddressCommand(model.PersonId,
                 model.Address.Address,
                 model.Address.PostalCode,
                 model.Address.City,
                 model.Address.Province,
-                model.Address.Country);
+                model.Address.Country,
+                effectiveDate);
 
             Bus.Send(cmd);
         }

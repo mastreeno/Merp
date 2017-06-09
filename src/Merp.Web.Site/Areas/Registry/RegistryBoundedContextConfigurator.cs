@@ -40,9 +40,9 @@ namespace Merp.Web.Site.Areas.Registry
             Bus.Subscribe<CompanyNameChangedEvent>();
             Bus.Subscribe<CompanyRegisteredEvent>();
             Bus.Subscribe<PersonRegisteredEvent>();
-            Bus.Subscribe<LegalAddressSetForPartyEvent>();
-            Bus.Subscribe<ShippingAddressSetForPartyEvent>();
-            Bus.Subscribe<BillingAddressSetForPartyEvent>();
+            Bus.Subscribe<PartyLegalAddressChangedEvent>();
+            Bus.Subscribe<PartyShippingAddressChangedEvent>();
+            Bus.Subscribe<PartyBillingAddressChangedEvent>();
             Bus.Subscribe<CompanyAdministrativeContactAssociatedEvent>();
             Bus.Subscribe<CompanyMainContactAssociatedEvent>();
             Bus.Subscribe<ContactInfoSetForPartyEvent>();
@@ -86,6 +86,12 @@ namespace Merp.Web.Site.Areas.Registry
             Services.AddScoped<PersonControllerWorkerServices>();
             Services.AddScoped<PartyControllerWorkerServices>();
             Services.AddScoped<CompanyControllerWorkerServices>();
+        }
+
+        protected override void RegisterAclServices()
+        {
+            //Acl Services
+            Services.AddScoped<Acl.Vies.ServiceProxy>();
         }
     }
 }

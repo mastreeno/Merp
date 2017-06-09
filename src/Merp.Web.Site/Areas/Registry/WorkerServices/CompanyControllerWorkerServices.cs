@@ -18,15 +18,14 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
 
         public CompanyControllerWorkerServices(IBus bus, IDatabase database, IRepository repository)
         {
-            if (bus == null)
-                throw new ArgumentNullException(nameof(bus));
-            if (database == null)
-                throw new ArgumentNullException(nameof(database));
-            if (repository == null)
-                throw new ArgumentNullException(nameof(repository));
-            this.Bus = bus;
-            this.Database = database;
-            this.Repository = repository;
+            this.Bus = bus ?? throw new ArgumentNullException(nameof(bus));
+            this.Database = database ?? throw new ArgumentNullException(nameof(database));
+            this.Repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        }
+
+        public AddEntryViewModel GetAddEntryViewModel()
+        {
+            return new AddEntryViewModel();
         }
 
         public void AddEntry(AddEntryViewModel model)
@@ -36,35 +35,32 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
                 throw new ArgumentNullException(nameof(model));
             }
 
-            var shippingAddressIsDefined = !string.IsNullOrWhiteSpace(model.ShippingAddress.Address) && !string.IsNullOrWhiteSpace(model.ShippingAddress.City);
-            var billingAddressIsDefined = !string.IsNullOrWhiteSpace(model.BillingAddress.Address) && !string.IsNullOrWhiteSpace(model.BillingAddress.City);
+            var companyName = model.CompanyName;
+            var nationalIdentificationNumber = model.NationalIdentificationNumber;
+            var vatNumber = model.VatNumber;
 
-            string companyName = model.CompanyName;
-            string nationalIdentificationNumber = model.NationalIdentificationNumber;
-            string vatNumber = model.VatNumber;
+            var legalAddressAddress = model.LegalAddress.Address;
+            var legalAddressPostalCode = model.LegalAddress.PostalCode;
+            var legalAddressCity = model.LegalAddress.City;
+            var legalAddressProvince = model.LegalAddress.Province;
+            var legalAddressCountry = model.LegalAddress.Country;
+            
+            var shippingAddressAddress = model.AcquireShippingAddressFromLegalAddress ? model.LegalAddress.Address : model.ShippingAddress.Address;
+            var shippingAddressPostalCode = model.AcquireShippingAddressFromLegalAddress ? model.LegalAddress.PostalCode : model.ShippingAddress.PostalCode;
+            var shippingAddressCity = model.AcquireShippingAddressFromLegalAddress ? model.LegalAddress.City: model.ShippingAddress.City;
+            var shippingAddressProvince = model.AcquireShippingAddressFromLegalAddress ? model.LegalAddress.Province : model.ShippingAddress.Province;
+            var shippingAddressCountry = model.AcquireShippingAddressFromLegalAddress ? model.LegalAddress.Country : model.ShippingAddress.Country;
 
-            string legalAddressAddress = model.LegalAddress.Address;
-            string legalAddressPostalCode = model.LegalAddress.PostalCode;
-            string legalAddressCity = model.LegalAddress.City;
-            string legalAddressProvince = model.LegalAddress.Province;
-            string legalAddressCountry = model.LegalAddress.Country;
+            var billingAddressAddress = model.AcquireBillingAddressFromLegalAddress ? model.LegalAddress.Address : model.BillingAddress.Address;
+            var billingAddressPostalCode = model.AcquireBillingAddressFromLegalAddress ? model.LegalAddress.PostalCode : model.BillingAddress.PostalCode;
+            var billingAddressCity = model.AcquireBillingAddressFromLegalAddress ? model.LegalAddress.City : model.BillingAddress.City;
+            var billingAddressProvince = model.AcquireBillingAddressFromLegalAddress ? model.LegalAddress.Province : model.BillingAddress.Province;
+            var billingAddressCountry = model.AcquireBillingAddressFromLegalAddress ? model.LegalAddress.Country : model.BillingAddress.Country;
 
-            string shippingAddressAddress = shippingAddressIsDefined ? model.ShippingAddress.Address : model.LegalAddress.Address;
-            string shippingAddressPostalCode = shippingAddressIsDefined ? model.ShippingAddress.PostalCode : model.LegalAddress.PostalCode;
-            string shippingAddressCity = shippingAddressIsDefined ? model.ShippingAddress.City : model.LegalAddress.City;
-            string shippingAddressProvince = shippingAddressIsDefined ? model.ShippingAddress.Province : model.LegalAddress.Province;
-            string shippingAddressCountry = shippingAddressIsDefined ? model.ShippingAddress.Country : model.LegalAddress.Country;
-
-            string billingAddressAddress = billingAddressIsDefined ? model.BillingAddress.Address : model.LegalAddress.Address;
-            string billingAddressPostalCode = billingAddressIsDefined ? model.BillingAddress.PostalCode : model.LegalAddress.PostalCode;
-            string billingAddressCity = billingAddressIsDefined ? model.BillingAddress.City : model.LegalAddress.City;
-            string billingAddressProvince = billingAddressIsDefined ? model.BillingAddress.Province : model.LegalAddress.Province;
-            string billingAddressCountry = billingAddressIsDefined ? model.BillingAddress.Country : model.LegalAddress.Country;
-
-            string phoneNumber = model.PhoneNumber;
-            string faxNumber = model.FaxNumber;
-            string websiteAddress = model.WebsiteAddress;
-            string emailAddress = model.EmailAddress;
+            var phoneNumber = model.PhoneNumber;
+            var faxNumber = model.FaxNumber;
+            var websiteAddress = model.WebsiteAddress;
+            var emailAddress = model.EmailAddress;
 
             Guid? mainContactId = model.MainContact == null ? default(Guid?) : model.MainContact.OriginalId;
             Guid? administrativeContactId = model.AdministrativeContact == null ? default(Guid?) : model.AdministrativeContact.OriginalId;
@@ -111,31 +107,34 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
                 CompanyName = company.CompanyName,
                 VatNumber = company.VatNumber,
                 NationalIdentificationNumber = company.NationalIdentificationNumber,
-                LegalAddress = new Models.PostalAddress
-                {
-                    Address = company.LegalAddress.Address,
-                    City = company.LegalAddress.City,
-                    Country = company.LegalAddress.Country,
-                    PostalCode = company.LegalAddress.PostalCode,
-                    Province = company.LegalAddress.Province
-                },
-                ShippingAddress = new Models.PostalAddress
-                {
-                    Address = company.ShippingAddress.Address,
-                    City = company.ShippingAddress.City,
-                    Country = company.ShippingAddress.Country,
-                    PostalCode = company.ShippingAddress.PostalCode,
-                    Province = company.ShippingAddress.Province
-                },
-                BillingAddress = new Models.PostalAddress
-                {
-                    Address = company.BillingAddress.Address,
-                    City = company.BillingAddress.City,
-                    Country = company.BillingAddress.Country,
-                    PostalCode = company.BillingAddress.PostalCode,
-                    Province = company.BillingAddress.Province
-                }
+                LegalAddress = new Models.PostalAddress(),
+                ShippingAddress = new Models.PostalAddress(),
+                BillingAddress = new Models.PostalAddress()
             };
+            if (company.LegalAddress != null)
+            {
+                model.LegalAddress.Address = company.LegalAddress.Address;
+                model.LegalAddress.City = company.LegalAddress.City;
+                model.LegalAddress.Country = company.LegalAddress.Country;
+                model.LegalAddress.PostalCode = company.LegalAddress.PostalCode;
+                model.LegalAddress.Province = company.LegalAddress.Province;
+            }
+            if (company.ShippingAddress != null)
+            {
+                model.ShippingAddress.Address = company.ShippingAddress.Address;
+                model.ShippingAddress.City = company.ShippingAddress.City;
+                model.ShippingAddress.Country = company.ShippingAddress.Country;
+                model.ShippingAddress.PostalCode = company.ShippingAddress.PostalCode;
+                model.ShippingAddress.Province = company.ShippingAddress.Province;
+            }
+            if (company.BillingAddress != null)
+            {
+                model.BillingAddress.Address = company.BillingAddress.Address;
+                model.BillingAddress.City = company.BillingAddress.City;
+                model.BillingAddress.Country = company.BillingAddress.Country;
+                model.BillingAddress.PostalCode = company.BillingAddress.PostalCode;
+                model.BillingAddress.Province = company.BillingAddress.Province;
+            }
             if (company.ContactInfo != null)
             {
                 model.PhoneNumber = company.ContactInfo.PhoneNumber;
@@ -171,6 +170,29 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             return model;
         }
 
+        public ChangeNameViewModel GetChangeNameViewModel(ChangeNameViewModel model)
+        {
+            var company = Repository.GetById<Company>(model.CompanyId);
+            var viewModel = new ChangeNameViewModel()
+            {
+                CompanyId = company.Id,
+                CurrentCompanyName = company.CompanyName,
+                EffectiveDate = model.EffectiveDate,
+                NewCompanyName = model.NewCompanyName
+            };
+            return viewModel;
+        }
+
+        public ChangeNameViewModel.CompanyDto GetChangeNameViewModelCompanyDto(Guid companyId)
+        {
+            var company = Repository.GetById<Company>(companyId);
+            var model = new ChangeNameViewModel.CompanyDto
+            {
+                RegistrationDate = company.RegistrationDate
+            };
+            return model;
+        }
+
         public void ChangeName(ChangeNameViewModel model)
         {
             if (model == null)
@@ -189,14 +211,50 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             {
                 CompanyId = company.Id,
                 CompanyName = company.CompanyName,
+                LegalAddress = new Models.PostalAddress()
+            };
+            if (company.LegalAddress != null)
+            {
+                model.LegalAddress.Address = company.LegalAddress.Address;
+                model.LegalAddress.City = company.LegalAddress.City;
+                model.LegalAddress.Country = company.LegalAddress.Country;
+                model.LegalAddress.PostalCode = company.LegalAddress.PostalCode;
+                model.LegalAddress.Province = company.LegalAddress.Province;
+            }
+            return model;
+        }
+
+        public ChangeLegalAddressViewModel GetChangeLegalAddressViewModel(ChangeLegalAddressViewModel model)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            var company = Repository.GetById<Company>(model.CompanyId);
+
+            var viewModel = new ChangeLegalAddressViewModel()
+            {
+                CompanyId = company.Id,
+                CompanyName = company.CompanyName,
                 LegalAddress = new Models.PostalAddress
                 {
-                    Address = company.LegalAddress.Address,
-                    City = company.LegalAddress.City,
-                    PostalCode = company.LegalAddress.PostalCode,
-                    Province = company.LegalAddress.Province,
-                    Country = company.LegalAddress.Country
+                    Address = model.LegalAddress.Address,
+                    City = model.LegalAddress.City,
+                    PostalCode = model.LegalAddress.PostalCode,
+                    Province = model.LegalAddress.Province,
+                    Country = model.LegalAddress.Country
                 }
+            };
+            return viewModel;
+        }
+
+        public ChangeLegalAddressViewModel.CompanyDto GetChangeLegalAddressViewModelCompanyDto(Guid companyId)
+        {            
+            var company = Repository.GetById<Company>(companyId);
+            var model = new ChangeLegalAddressViewModel.CompanyDto
+            {
+                RegistrationDate = company.RegistrationDate
             };
             return model;
         }
@@ -208,12 +266,16 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
                 throw new ArgumentNullException(nameof(model));
             }
 
+            var effectiveDateTime = model.EffectiveDate;
+            var effectiveDate = new DateTime(effectiveDateTime.Year, effectiveDateTime.Month, effectiveDateTime.Day);
+
             var cmd = new ChangeCompanyLegalAddressCommand(model.CompanyId,
                 model.LegalAddress.Address,
                 model.LegalAddress.PostalCode,
                 model.LegalAddress.City,
                 model.LegalAddress.Province,
-                model.LegalAddress.Country);
+                model.LegalAddress.Country,
+                effectiveDate);
 
             Bus.Send(cmd);
         }
@@ -225,14 +287,50 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             {
                 CompanyId = company.Id,
                 CompanyName = company.CompanyName,
+                ShippingAddress = new Models.PostalAddress()
+            };
+            if (company.ShippingAddress != null)
+            {
+                model.ShippingAddress.Address = company.ShippingAddress.Address;
+                model.ShippingAddress.City = company.ShippingAddress.City;
+                model.ShippingAddress.Country = company.ShippingAddress.Country;
+                model.ShippingAddress.PostalCode = company.ShippingAddress.PostalCode;
+                model.ShippingAddress.Province = company.ShippingAddress.Province;
+            }
+            return model;
+        }
+
+        public ChangeShippingAddressViewModel GetChangeShippingAddressViewModel(ChangeShippingAddressViewModel model)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            var company = Repository.GetById<Company>(model.CompanyId);
+
+            var viewModel = new ChangeShippingAddressViewModel()
+            {
+                CompanyId = company.Id,
+                CompanyName = company.CompanyName,
                 ShippingAddress = new Models.PostalAddress
                 {
-                    Address = company.ShippingAddress.Address,
-                    City = company.ShippingAddress.City,
-                    PostalCode = company.ShippingAddress.PostalCode,
-                    Province = company.ShippingAddress.Province,
-                    Country = company.ShippingAddress.Country
+                    Address = model.ShippingAddress.Address,
+                    City = model.ShippingAddress.City,
+                    PostalCode = model.ShippingAddress.PostalCode,
+                    Province = model.ShippingAddress.Province,
+                    Country = model.ShippingAddress.Country
                 }
+            };
+            return viewModel;
+        }
+
+        public ChangeShippingAddressViewModel.CompanyDto GetChangeShippingAddressViewModelCompanyDto(Guid companyId)
+        {
+            var company = Repository.GetById<Company>(companyId);
+            var model = new ChangeShippingAddressViewModel.CompanyDto
+            {
+                RegistrationDate = company.RegistrationDate
             };
             return model;
         }
@@ -244,12 +342,16 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
                 throw new ArgumentNullException(nameof(model));
             }
 
+            var effectiveDateTime = model.EffectiveDate;
+            var effectiveDate = new DateTime(effectiveDateTime.Year, effectiveDateTime.Month, effectiveDateTime.Day);
+
             var cmd = new ChangeCompanyShippingAddressCommand(model.CompanyId,
                 model.ShippingAddress.Address,
                 model.ShippingAddress.PostalCode,
                 model.ShippingAddress.City,
                 model.ShippingAddress.Province,
-                model.ShippingAddress.Country);
+                model.ShippingAddress.Country,
+                effectiveDate);
 
             Bus.Send(cmd);
         }
@@ -261,14 +363,50 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             {
                 CompanyId = company.Id,
                 CompanyName = company.CompanyName,
+                BillingAddress = new Models.PostalAddress()
+            };
+            if (company.BillingAddress != null)
+            {
+                model.BillingAddress.Address = company.BillingAddress.Address;
+                model.BillingAddress.City = company.BillingAddress.City;
+                model.BillingAddress.Country = company.BillingAddress.Country;
+                model.BillingAddress.PostalCode = company.BillingAddress.PostalCode;
+                model.BillingAddress.Province = company.BillingAddress.Province;
+            }
+            return model;
+        }
+
+        public ChangeBillingAddressViewModel GetChangeBillingAddressViewModel(ChangeBillingAddressViewModel model)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            var company = Repository.GetById<Company>(model.CompanyId);
+
+            var viewModel = new ChangeBillingAddressViewModel()
+            {
+                CompanyId = company.Id,
+                CompanyName = company.CompanyName,
                 BillingAddress = new Models.PostalAddress
                 {
-                    Address = company.BillingAddress.Address,
-                    City = company.BillingAddress.City,
-                    PostalCode = company.BillingAddress.PostalCode,
-                    Province = company.BillingAddress.Province,
-                    Country = company.BillingAddress.Country
+                    Address = model.BillingAddress.Address,
+                    City = model.BillingAddress.City,
+                    PostalCode = model.BillingAddress.PostalCode,
+                    Province = model.BillingAddress.Province,
+                    Country = model.BillingAddress.Country
                 }
+            };
+            return viewModel;
+        }
+
+        public ChangeBillingAddressViewModel.CompanyDto GetChangeBillingAddressViewModelCompanyDto(Guid companyId)
+        {
+            var company = Repository.GetById<Company>(companyId);
+            var model = new ChangeBillingAddressViewModel.CompanyDto
+            {
+                RegistrationDate = company.RegistrationDate
             };
             return model;
         }
@@ -280,12 +418,16 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
                 throw new ArgumentNullException(nameof(model));
             }
 
+            var effectiveDateTime = model.EffectiveDate;
+            var effectiveDate = new DateTime(effectiveDateTime.Year, effectiveDateTime.Month, effectiveDateTime.Day);
+
             var cmd = new ChangeCompanyBillingAddressCommand(model.CompanyId,
                 model.BillingAddress.Address,
                 model.BillingAddress.PostalCode,
                 model.BillingAddress.City,
                 model.BillingAddress.Province,
-                model.BillingAddress.Country);
+                model.BillingAddress.Country,
+                effectiveDate);
 
             Bus.Send(cmd);
         }
@@ -320,8 +462,6 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
 
             Bus.Send(cmd);
         }
-
-
 
         public AssociateMainContactViewModel GetAssociateMainContactViewModel(Guid companyId)
         {

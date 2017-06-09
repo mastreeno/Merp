@@ -1,4 +1,5 @@
 ﻿using Memento;
+using Merp.Registry.CommandStack.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,9 +29,21 @@ namespace Merp.Registry.CommandStack.Commands
 
         public RegisterPersonCommand(string firstName, string lastName, string nationalIdentificationNumber, string vatNumber, string address, string city, string postalCode, string province, string country, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
         {
-            FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
-            LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
-            NationalIdentificationNumber = nationalIdentificationNumber ?? throw new ArgumentNullException(nameof(nationalIdentificationNumber));
+            if (string.IsNullOrWhiteSpace(firstName))
+            {
+                throw new ArgumentException("First name must be provided", nameof(firstName));
+            }
+            if (string.IsNullOrWhiteSpace(lastName))
+            {
+                throw new ArgumentException("Last name must be provided", nameof(lastName));
+            }
+            if (!PostalAddressHelper.IsValidAddress(address, city, postalCode, province, country))
+            {
+                throw new ArgumentException("postal address must either be empty or comprehensive of both address and city");
+            }
+            FirstName = firstName;
+            LastName = lastName;
+            NationalIdentificationNumber = nationalIdentificationNumber;
             VatNumber = vatNumber;
             Address = address;
             City = city ;

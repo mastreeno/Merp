@@ -1,0 +1,130 @@
+@model Merp.Web.Site.Areas.Registry.Models.Company.AddEntryViewModel
+@{
+    var modalId = ViewData.TemplateInfo.HtmlFieldPrefix;
+    var labelledById = $"{modalId}_LabelledBy";
+    var companyNameId = $"{modalId}_{nameof(Model.CompanyName)}";
+    var companyRegisteredEvent = "company_registered";
+}
+<div class="modal fade" id="@modalId" tabindex="-1" role="dialog" aria-labelledby="@labelledById" data-form-wrap="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="@labelledById">Company Registration</h4>
+      </div>
+      <div class="modal-body">
+        <div class="text-danger validation-summary-errors">
+          <ul>            
+          </ul>
+        </div>
+        <vc:company-add-entry model="@Model" mode="default" field-prefix="@modalId"></vc:company-add-entry>       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  //# sourceURL=registry/views/company/components/addentry/modal.js
+  $(function () {
+
+    var modal = $('#@modalId'),
+      form = $('.modal-body form', modal),
+      validationSummary = $('.modal-body .validation-summary-errors', modal),
+      saveButton = $('.modal-footer .btn-primary', modal);
+
+    function onSaveClick() {
+      form.submit();
+    }
+
+    function onSubmit(event) {     
+
+      event.preventDefault();
+
+      if (!form.valid()) {
+        return;
+      }
+
+      validationSummary.empty();
+      saveButton.attr('disabled', true);
+
+      $.ajax({
+        type: 'PUT',
+        url: form.attr('action'),
+        data: form.serialize().split('@(modalId).').join('')
+      })
+        .done(function (result) {
+
+          if (operationReturnedValidationErrors(result)) {
+            showOperationValidationErrors(result);
+          } else {
+            exitModalView();
+          }
+        })
+        .fail(function (result) {
+          showOperationValidationErrors('remote server error');
+        })
+        .always(function (result) {
+          saveButton.attr('disabled', false);
+        });
+    }
+
+    function operationReturnedValidationErrors(result) {
+      return Object.keys(result).length;
+    }
+
+    function showOperationValidationErrors(result) {
+      var validator = form.data('validator'),
+        errors = mapServerValidationErrors(result),
+        validationSummaryErrors = result[''] || [];
+     
+      showValidationSummaryErrors(validationSummaryErrors);
+      validator.showErrors(errors);
+      form.triggerHandler('invalid-form', validator);
+    }
+
+    function showValidationSummaryErrors(errors) {
+      for (var i = 0; i < errors.length; i++) {
+        $('<li>').append(errors[i]).appendTo(validationSummary);
+      }
+    }
+
+    function exitModalView() {
+      var companyName = $('#@companyNameId').val();
+
+      modal.one('hidden.bs.modal', function () {
+        modal.trigger({
+          type: '@companyRegisteredEvent',
+          partyName: companyName
+        });
+      });
+
+      modal.modal('hide');
+    }
+
+    function mapServerValidationErrors(result) {
+      var errors = {};
+      for (var fieldName in result) {
+        if (fieldName !== '') {
+          errors['@(modalId).' + fieldName] = result[fieldName];
+        }
+      }
+      return errors;
+    }
+
+    function onModalHide() {
+      form[0].reset();
+      $('.field-validation-valid', form).empty();
+      validationSummary.empty();
+    }
+
+    $.validator.unobtrusive.parse(modal);
+    modal.on('hide.bs.modal', onModalHide);
+    modal.on('submit', '.modal-body form', onSubmit);
+    saveButton.on('click', onSaveClick);
+  });
+</script>

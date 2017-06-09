@@ -16,10 +16,7 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
 
         public PartyController(PartyControllerWorkerServices workerServices)
         {
-            if(workerServices==null)
-                throw new ArgumentNullException(nameof(workerServices));
-
-            WorkerServices = workerServices;
+            WorkerServices = workerServices ?? throw new ArgumentNullException(nameof(workerServices));
         }
 
         [HttpGet]
@@ -37,8 +34,7 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
                     return RedirectToAction("Search");
             }
         }
-
-        [HttpGet]
+        
         public ActionResult Search()
         {
             return View();

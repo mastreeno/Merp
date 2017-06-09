@@ -92,5 +92,10 @@ namespace Merp.Web.Site.Areas.Accountancy
             Services.AddScoped<InvoiceControllerWorkerServices, InvoiceControllerWorkerServices>();
             Services.AddScoped<JobOrderControllerWorkerServices, JobOrderControllerWorkerServices>();
         }
+
+        protected override void RegisterAclServices()
+        {
+            //Acl Services
+        }
     }
 }

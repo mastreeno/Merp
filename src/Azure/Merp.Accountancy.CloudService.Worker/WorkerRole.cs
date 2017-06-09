@@ -43,6 +43,8 @@ namespace Merp.Accountancy.CloudService.Worker
 
             Trace.TraceInformation("Merp.Accountancy.CloudService.Worker has been started");
 
+            System.Configuration.ConfigurationManager.GetSection("system.xml/xmlReader");
+
             return result;
         }
 

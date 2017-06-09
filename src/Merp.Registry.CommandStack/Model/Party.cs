@@ -13,11 +13,13 @@ namespace Merp.Registry.CommandStack.Model
     /// Represents a party
     /// </summary>
     public class Party : Aggregate,
-        IApplyEvent<LegalAddressSetForPartyEvent>,
-        IApplyEvent<ShippingAddressSetForPartyEvent>,
-        IApplyEvent<BillingAddressSetForPartyEvent>,
+        IApplyEvent<PartyLegalAddressChangedEvent>,
+        IApplyEvent<PartyShippingAddressChangedEvent>,
+        IApplyEvent<PartyBillingAddressChangedEvent>,
         IApplyEvent<ContactInfoSetForPartyEvent>
     {
+        public DateTime RegistrationDate { get; set; }
+
         /// <summary>
         /// Gets or sets National Identification Number
         /// </summary>
@@ -52,7 +54,7 @@ namespace Merp.Registry.CommandStack.Model
         /// Apply an event to the current instance
         /// </summary>
         /// <param name="evt">The event</param>
-        public void ApplyEvent([AggregateId(nameof(ShippingAddressSetForPartyEvent.PartyId))] ShippingAddressSetForPartyEvent evt)
+        public void ApplyEvent([AggregateId(nameof(PartyShippingAddressChangedEvent.PartyId))] PartyShippingAddressChangedEvent evt)
         {
             var shippingAddress = new PostalAddress(evt.Address, evt.City, evt.Country)
             {
@@ -66,8 +68,8 @@ namespace Merp.Registry.CommandStack.Model
         /// Apply an event to the current instance
         /// </summary>
         /// <param name="evt">The event</param>
-        public void ApplyEvent([AggregateId(nameof(LegalAddressSetForPartyEvent.PartyId))] LegalAddressSetForPartyEvent evt)
-        {
+        public void ApplyEvent([AggregateId(nameof(PartyLegalAddressChangedEvent.PartyId))] PartyLegalAddressChangedEvent evt)
+        {            
             var legalAddress = new PostalAddress(evt.Address, evt.City, evt.Country)
             {
                 PostalCode = evt.PostalCode,
@@ -80,7 +82,7 @@ namespace Merp.Registry.CommandStack.Model
         /// Apply an event to the current instance
         /// </summary>
         /// <param name="evt">The event</param>
-        public void ApplyEvent([AggregateId(nameof(BillingAddressSetForPartyEvent.PartyId))] BillingAddressSetForPartyEvent evt)
+        public void ApplyEvent([AggregateId(nameof(PartyBillingAddressChangedEvent.PartyId))] PartyBillingAddressChangedEvent evt)
         {
             var billingAddress = new PostalAddress(evt.Address, evt.City, evt.Country)
             {
@@ -108,12 +110,23 @@ namespace Merp.Registry.CommandStack.Model
         /// <param name="postalCode">The postal code</param>
         /// <param name="province">The province</param>
         /// <param name="country">The country</param>
-        public void SetLegalAddress(string address, string city, string postalCode, string province, string country)
+        /// <param name="effectiveDate">The country</param>
+        public void ChangeLegalAddress(string address, string city, string postalCode, string province, string country, DateTime effectiveDate)
         {
             if (string.IsNullOrEmpty(address) || string.IsNullOrEmpty(city) || string.IsNullOrEmpty(country))
+            {
                 throw new InvalidOperationException("A valid address, city and country must be provided");
+            }
+            if (effectiveDate > DateTime.Now)
+            {
+                throw new ArgumentException("The legal address change cannot be scheduled in the future", nameof(effectiveDate));
+            }
+            if(effectiveDate < RegistrationDate.ToLocalTime())
+            {
+                throw new ArgumentException("Cannot change the legal address to an effective date before the registration date", nameof(effectiveDate));
+            }
 
-            var e = new LegalAddressSetForPartyEvent(Id, address, city, postalCode, province, country);            
+            var e = new PartyLegalAddressChangedEvent(Id, address, city, postalCode, province, country, effectiveDate);            
             RaiseEvent(e);
         }
 
@@ -125,12 +138,19 @@ namespace Merp.Registry.CommandStack.Model
         /// <param name="postalCode">The postal code</param>
         /// <param name="province">The province</param>
         /// <param name="country">The country</param>
-        public void SetShippingAddress(string address, string city, string postalCode, string province, string country)
+        /// <param name="effectiveDate">The country</param>
+        public void ChangeShippingAddress(string address, string city, string postalCode, string province, string country, DateTime effectiveDate)
         {
             if (string.IsNullOrEmpty(address) || string.IsNullOrEmpty(city) || string.IsNullOrEmpty(country))
+            {
                 throw new InvalidOperationException("A valid address, city and country must be provided");
+            }
+            if (effectiveDate < RegistrationDate.ToLocalTime())
+            {
+                throw new ArgumentException("Cannot change the shipping address to an effective date before the registration date", nameof(effectiveDate));
+            }
 
-            var e = new ShippingAddressSetForPartyEvent(Id, address, city, postalCode, province, country);
+            var e = new PartyShippingAddressChangedEvent(Id, address, city, postalCode, province, country, effectiveDate);
             RaiseEvent(e);
         }
 
@@ -142,12 +162,19 @@ namespace Merp.Registry.CommandStack.Model
         /// <param name="postalCode">The postal code</param>
         /// <param name="province">The province</param>
         /// <param name="country">The country</param>
-        public void SetBillingAddress(string address, string city, string postalCode, string province, string country)
+        /// <param name="effectiveDate">The country</param>
+        public void ChangeBillingAddress(string address, string city, string postalCode, string province, string country, DateTime effectiveDate)
         {
             if (string.IsNullOrEmpty(address) || string.IsNullOrEmpty(city) || string.IsNullOrEmpty(country))
+            {
                 throw new InvalidOperationException("A valid address, city and country must be provided");
+            }
+            if (effectiveDate < RegistrationDate.ToLocalTime())
+            {
+                throw new ArgumentException("Cannot change the billing address to an effective date before the registration date", nameof(effectiveDate));
+            }
 
-            var e = new BillingAddressSetForPartyEvent(Id, address, city, postalCode, province, country);
+            var e = new PartyBillingAddressChangedEvent(Id, address, city, postalCode, province, country, effectiveDate);
             RaiseEvent(e);
         }
 
