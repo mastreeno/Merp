@@ -11,9 +11,11 @@
         var invoicesController = function ($scope, $http) {
             $scope.refreshInvoiceList = function () {
                 var url = '/Accountancy/Invoice/ListOfOutgoingInvoicesNotLinkedToAJobOrder';
-                $http.get(url).success(function (data) {
-                    $scope.Invoices = data;
-                });
+                $http.get(url)
+                        .then(
+                            function (data) {
+                                $scope.Invoices = data.data;
+                            });
             }
             $scope.refreshInvoiceList();
         }

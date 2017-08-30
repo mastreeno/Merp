@@ -1,5 +1,5 @@
 //! moment.js locale configuration
-//! locale : austrian german (de-at)
+//! locale : German (Austria) [de-at]
 //! author : lluchs : https://github.com/lluchs
 //! author: Menelion Elensúle: https://github.com/Oire
 //! author : Martin Groller : https://github.com/MadMG
@@ -60,7 +60,7 @@ export default moment.defineLocale('de-at', {
         y : processRelativeTime,
         yy : processRelativeTime
     },
-    ordinalParse: /\d{1,2}\./,
+    dayOfMonthOrdinalParse: /\d{1,2}\./,
     ordinal : '%d.',
     week : {
         dow : 1, // Monday is the first day of the week.

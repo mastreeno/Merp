@@ -1,5 +1,5 @@
 //! moment.js locale configuration
-//! locale : telugu (te)
+//! locale : Telugu [te]
 //! author : Krishna Chaitanya Thota : https://github.com/kcthota
 
 import moment from '../moment';
@@ -42,7 +42,7 @@ export default moment.defineLocale('te', {
         y : 'ఒక సంవత్సరం',
         yy : '%d సంవత్సరాలు'
     },
-    ordinalParse : /\d{1,2}వ/,
+    dayOfMonthOrdinalParse : /\d{1,2}వ/,
     ordinal : '%dవ',
     meridiemParse: /రాత్రి|ఉదయం|మధ్యాహ్నం|సాయంత్రం/,
     meridiemHour : function (hour, meridiem) {

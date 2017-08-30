@@ -38,15 +38,7 @@ namespace Merp.Web.Site.Areas.Accountancy.Controllers
         [HttpGet]
         public ActionResult Detail(Guid? id)
         {
-            switch (WorkerServices.GetDetailViewModel(id.Value))
-            {
-                case "FixedPrice":
-                    return Redirect(string.Format("/Accountancy/JobOrder/FixedPriceJobOrderDetail/{0}", id));
-                case "TimeAndMaterial":
-                    return Redirect(string.Format("/Accountancy/JobOrder/TimeAndMaterialJobOrderDetail/{0}", id));
-                default:
-                    return RedirectToAction("Index");
-            }
+            return Redirect(string.Format("/Accountancy/JobOrder/JobOrderDetail/{0}", id));
         }
 
         [HttpGet]
@@ -71,143 +63,74 @@ namespace Merp.Web.Site.Areas.Accountancy.Controllers
             return View(model);
         }
 
-        #region Fixed Price Job Orders
+        #region Job Orders
         [HttpGet]
-        public ActionResult CreateFixedPrice()
+        public ActionResult CreateJobOrder()
         {
-            var model = WorkerServices.GetCreateFixedPriceViewModel();
+            var model = WorkerServices.GetCreateJobOrderViewModel();
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult CreateFixedPrice(CreateFixedPriceViewModel model)
+        public ActionResult CreateJobOrder(CreateJobOrderViewModel model)
         {
             if(!this.ModelState.IsValid)
             {
                 return View(model);
             }
-            WorkerServices.CreateFixedPriceJobOrder(model);
+            WorkerServices.CreateJobOrder(model);
             return Redirect("/Accountancy/JobOrder");
         }
 
-        public ActionResult FixedPriceJobOrderDetail(Guid? id)
+        public ActionResult JobOrderDetail(Guid? id)
         {
-            var model = WorkerServices.GetFixedPriceJobOrderDetailViewModel(id.Value);
+            var model = WorkerServices.GetJobOrderDetailViewModel(id.Value);
             return View(model);
         }
 
         [HttpGet]
-        public ActionResult ExtendFixedPrice(Guid? id)
+        public ActionResult ExtendJobOrder(Guid? id)
         {
             if (!id.HasValue)
                 return BadRequest();
 
-            var model = WorkerServices.GetExtendFixedPriceViewModel(id.Value);
+            var model = WorkerServices.GetExtendJobOrderViewModel(id.Value);
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult ExtendFixedPrice(ExtendFixedPriceViewModel model)
+        public ActionResult ExtendJobOrder(ExtendJobOrderViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
                 return View(model);
             }
-            WorkerServices.ExtendFixedPriceJobOrder(model);
+            WorkerServices.ExtendJobOrder(model);
             return Redirect("/Accountancy/JobOrder");
         }
 
         [HttpGet]
-        public ActionResult MarkFixedPriceJobOrderAsCompleted(Guid? id)
+        public ActionResult MarkJobOrderAsCompleted(Guid? id)
         {
-            var model = WorkerServices.GetMarkFixedPriceJobOrderAsCompletedViewModel(id.Value);
+            var model = WorkerServices.GetMarkJobOrderAsCompletedViewModel(id.Value);
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult MarkFixedPriceJobOrderAsCompleted(MarkFixedPriceJobOrderAsCompletedViewModel model)
+        public ActionResult MarkJobOrderAsCompleted(MarkJobOrderAsCompletedViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
                 return View(model);
             }
-            WorkerServices.MarkFixedPriceJobOrderAsCompleted(model);
+            WorkerServices.MarkJobOrderAsCompleted(model);
             return Redirect("/Accountancy/JobOrder");
         }
 
         [HttpGet]
-        public decimal EvaluateFixedPriceJobOrderBalance(Guid id)
+        public decimal EvaluateJobOrderBalance(Guid id)
         {
-            var model = WorkerServices.GetEvaluateFixedPriceJobOrderBalance(id);
-            return model;
-        }
-        #endregion
-
-        #region Time And Material Job Orders
-        [HttpGet]
-        public ActionResult CreateTimeAndMaterial()
-        {
-            var model = WorkerServices.GetCreateTimeAndMaterialViewModel();
-            return View(model);
-        }
-
-        [HttpPost]
-        public ActionResult CreateTimeAndMaterial(CreateTimeAndMaterialViewModel model)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return View(model);
-            }
-            WorkerServices.CreateTimeAndMaterialJobOrder(model);
-            return Redirect("/Accountancy/JobOrder");
-        }
-
-        public ActionResult TimeAndMaterialJobOrderDetail(Guid? id)
-        {
-            var model = WorkerServices.GetTimeAndMaterialJobOrderDetailViewModel(id.Value);
-            return View(model);
-        }
-
-        [HttpGet]
-        public ActionResult ExtendTimeAndMaterial(Guid? id)
-        {
-            var model = WorkerServices.GetExtendTimeAndMaterialViewModel(id.Value);
-            return View(model);
-        }
-
-        [HttpPost]
-        public ActionResult ExtendTimeAndMaterial(ExtendTimeAndMaterialViewModel model)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return View(model);
-            }
-            WorkerServices.ExtendTimeAndMaterialJobOrder(model);
-            return Redirect("/Accountancy/JobOrder");
-        }
-
-        [HttpGet]
-        public ActionResult MarkTimeAndMaterialJobOrderAsCompleted(Guid? id)
-        {
-            var model = WorkerServices.GetMarkTimeAndMaterialJobOrderAsCompletedViewModel(id.Value);
-            return View(model);
-        }
-
-        [HttpPost]
-        public ActionResult MarkTimeAndMaterialJobOrderAsCompleted(MarkTimeAndMaterialJobOrderAsCompletedViewModel model)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return View(model);
-            }
-            WorkerServices.MarkTimeAndMaterialJobOrderAsCompleted(model);
-            return Redirect("/Accountancy/JobOrder");
-        }
-
-        [HttpGet]
-        public decimal EvaluateTimeAndMaterialJobOrderBalance(Guid id)
-        {
-            var model = WorkerServices.GetEvaluateTimeAndMaterialJobOrderBalance(id);
+            var model = WorkerServices.GetEvaluateJobOrderBalance(id);
             return model;
         }
         #endregion

@@ -1,9 +1,8 @@
 {
   "name": "angular-chart.js",
-  "version": "0.10.2",
+  "version": "1.1.1",
   "main": [
-    "./dist/angular-chart.js",
-    "./dist/angular-chart.css"
+    "./dist/angular-chart.js"
   ],
   "authors": [
     "Jerome Touffe-Blin <jtblin@gmail.com>"
@@ -40,25 +39,16 @@
   ],
   "dependencies": {
     "angular": "1.x",
-    "Chart.js": "~1.1.1"
-  },
-  "devDependencies": {
-    "Chart.StackedBar.js": "~1.0.1",
-    "angular-bootstrap": "~0.11.0",
-    "angular-mocks": "~1.x",
-    "font-awesome": "~4.1.0",
-    "rainbow": "~1.1.9",
-    "requirejs": "~2.1.20"
+    "chart.js": "2.x"
   },
   "homepage": "https://github.com/jtblin/angular-chart.js",
-  "_release": "0.10.2",
+  "_release": "1.1.1",
   "_resolution": {
     "type": "version",
-    "tag": "0.10.2",
-    "commit": "3ddc3a29c1217e9bfd2662d574c45e6e873e870d"
+    "tag": "1.1.1",
+    "commit": "34acf0352e3982c58eadc8905ed7e37e1d9d2fe0"
   },
   "_source": "https://github.com/jtblin/angular-chart.js.git",
-  "_target": "0.10.2",
-  "_originalSource": "angular-chart.js",
-  "_direct": true
+  "_target": "1.1.1",
+  "_originalSource": "angular-chart.js"
 }

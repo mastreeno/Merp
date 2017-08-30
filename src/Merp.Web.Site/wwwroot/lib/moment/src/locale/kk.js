@@ -1,5 +1,5 @@
 //! moment.js locale configuration
-//! locale : kazakh (kk)
+//! locale : Kazakh [kk]
 //! authors : Nurlan Rakhimzhanov : https://github.com/nurlan
 
 import moment from '../moment';
@@ -64,7 +64,7 @@ export default moment.defineLocale('kk', {
         y : 'бір жыл',
         yy : '%d жыл'
     },
-    ordinalParse: /\d{1,2}-(ші|шы)/,
+    dayOfMonthOrdinalParse: /\d{1,2}-(ші|шы)/,
     ordinal : function (number) {
         var a = number % 10,
             b = number >= 100 ? 100 : null;

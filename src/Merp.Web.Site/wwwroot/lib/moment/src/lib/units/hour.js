@@ -1,6 +1,7 @@
 import { makeGetSet } from '../moment/get-set';
 import { addFormatToken } from '../format/format';
 import { addUnitAlias } from './aliases';
+import { addUnitPriority } from './priorities';
 import { addRegexToken, match1to2, match2, match3to4, match5to6 } from '../parse/regex';
 import { addParseToken } from '../parse/token';
 import { HOUR, MINUTE, SECOND } from './constants';
@@ -53,6 +54,9 @@ meridiem('A', false);
 
 addUnitAlias('hour', 'h');
 
+// PRIORITY
+addUnitPriority('hour', 13);
+
 // PARSING
 
 function matchMeridiem (isStrict, locale) {
@@ -63,8 +67,10 @@ addRegexToken('a',  matchMeridiem);
 addRegexToken('A',  matchMeridiem);
 addRegexToken('H',  match1to2);
 addRegexToken('h',  match1to2);
+addRegexToken('k',  match1to2);
 addRegexToken('HH', match1to2, match2);
 addRegexToken('hh', match1to2, match2);
+addRegexToken('kk', match1to2, match2);
 
 addRegexToken('hmm', match3to4);
 addRegexToken('hmmss', match5to6);
@@ -72,6 +78,10 @@ addRegexToken('Hmm', match3to4);
 addRegexToken('Hmmss', match5to6);
 
 addParseToken(['H', 'HH'], HOUR);
+addParseToken(['k', 'kk'], function (input, array, config) {
+    var kInput = toInt(input);
+    array[HOUR] = kInput === 24 ? 0 : kInput;
+});
 addParseToken(['a', 'A'], function (input, array, config) {
     config._isPm = config._locale.isPM(input);
     config._meridiem = input;

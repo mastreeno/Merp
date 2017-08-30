@@ -9,6 +9,7 @@ using Merp.Web.Site.Data;
 using Merp.Web.Site.Models;
 using Merp.Web.Site.Services;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Merp.Web.Site
 {
@@ -57,8 +58,7 @@ namespace Merp.Web.Site
                 //});
 
             // Add application services.
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddSingleton(services);
             var bootstrapper = new AppBootstrapper(Configuration, services);
@@ -84,9 +84,7 @@ namespace Merp.Web.Site
 
             app.UseStaticFiles();
 
-            app.UseIdentity();
-
-            // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

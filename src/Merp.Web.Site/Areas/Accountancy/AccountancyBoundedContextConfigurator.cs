@@ -37,9 +37,9 @@ namespace Merp.Web.Site.Areas.Accountancy
         protected override void SubscribeEvents()
         {
             //Events
-            Bus.Subscribe<FixedPriceJobOrderCompletedEvent>();
-            Bus.Subscribe<FixedPriceJobOrderExtendedEvent>();
-            Bus.Subscribe<FixedPriceJobOrderRegisteredEvent>();
+            Bus.Subscribe<JobOrderCompletedEvent>();
+            Bus.Subscribe<JobOrderExtendedEvent>();
+            Bus.Subscribe<JobOrderRegisteredEvent>();
             Bus.Subscribe<IncomingInvoiceLinkedToJobOrderEvent>();
             Bus.Subscribe<IncomingInvoiceRegisteredEvent>();
             Bus.Subscribe<IncomingInvoicePaidEvent>();
@@ -48,15 +48,12 @@ namespace Merp.Web.Site.Areas.Accountancy
             Bus.Subscribe<OutgoingInvoiceLinkedToJobOrderEvent>();
             Bus.Subscribe<OutgoingInvoicePaidEvent>();
             Bus.Subscribe<OutgoingInvoiceExpiredEvent>();
-            Bus.Subscribe<TimeAndMaterialJobOrderCompletedEvent>();
-            Bus.Subscribe<TimeAndMaterialJobOrderExtendedEvent>();
-            Bus.Subscribe<TimeAndMaterialJobOrderRegisteredEvent>();
         }
 
         protected override void RegisterDenormalizers()
         {
             //Denormalizers
-            Services.AutoRegisterHandlersFromAssemblyOf<FixedPriceJobOrderDenormalizer>();
+            Services.AutoRegisterHandlersFromAssemblyOf<JobOrderDenormalizer>();
         }
 
         protected override void RegisterHandlers()
@@ -67,7 +64,7 @@ namespace Merp.Web.Site.Areas.Accountancy
         protected override void RegisterSagas()
         {
             //Sagas
-            Services.AutoRegisterHandlersFromAssemblyOf<FixedPriceJobOrderSaga>();
+            Services.AutoRegisterHandlersFromAssemblyOf<JobOrderSaga>();
         }
 
         protected override void RegisterServices()

@@ -50,8 +50,11 @@
       <HintPath>..\..\packages\MementoFX.Messaging.Rebus.1.1.1\lib\net451\Memento.Messaging.Rebus.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Rebus, Version=3.1.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Rebus.3.1.3\lib\NET45\Rebus.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Rebus, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Rebus.4.0.1\lib\net45\Rebus.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />

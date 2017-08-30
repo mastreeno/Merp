@@ -1,5 +1,5 @@
 //! moment.js locale configuration
-//! locale : great britain scottish gealic (gd)
+//! locale : Scottish Gaelic [gd]
 //! author : Jon Ashdown : https://github.com/jonashdown
 
 import moment from '../moment';
@@ -54,7 +54,7 @@ export default moment.defineLocale('gd', {
         y : 'bliadhna',
         yy : '%d bliadhna'
     },
-    ordinalParse : /\d{1,2}(d|na|mh)/,
+    dayOfMonthOrdinalParse : /\d{1,2}(d|na|mh)/,
     ordinal : function (number) {
         var output = number === 1 ? 'd' : number % 10 === 2 ? 'na' : 'mh';
         return number + output;

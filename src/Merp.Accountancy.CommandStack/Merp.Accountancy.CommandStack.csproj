@@ -49,8 +49,11 @@
       <HintPath>..\..\packages\MementoFX.Messaging.Rebus.1.1.1\lib\net451\Memento.Messaging.Rebus.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Rebus, Version=3.1.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Rebus.3.1.3\lib\NET45\Rebus.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Rebus, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Rebus.4.0.1\lib\net45\Rebus.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -64,15 +67,12 @@
   <ItemGroup>
     <Compile Include="Commands\LinkOutgoingInvoiceToJobOrderCommand.cs" />
     <Compile Include="Commands\LinkIncomingInvoiceToJobOrderCommand.cs" />
-    <Compile Include="Commands\ExtendTimeAndMaterialJobOrderCommand.cs" />
     <Compile Include="Commands\IssueInvoiceCommand.cs" />
     <Compile Include="Commands\MarkIncomingInvoiceAsPaidCommand.cs" />
     <Compile Include="Commands\MarkOutgoingInvoiceAsPaidCommand.cs" />
-    <Compile Include="Commands\MarkTimeAndMaterialJobOrderAsCompletedCommand.cs" />
-    <Compile Include="Commands\MarkFixedPriceJobOrderAsCompletedCommand.cs" />
+    <Compile Include="Commands\MarkJobOrderAsCompletedCommand.cs" />
     <Compile Include="Commands\RegisterIncomingInvoiceCommand.cs" />
-    <Compile Include="Commands\RegisterTimeAndMaterialJobOrderCommand.cs" />
-    <Compile Include="Commands\ExtendFixedPriceJobOrderCommand.cs" />
+    <Compile Include="Commands\ExtendJobOrderCommand.cs" />
     <Compile Include="Events\IncomingInvoicePaidEvent.cs" />
     <Compile Include="Events\IncomingInvoiceExpiredEvent.cs" />
     <Compile Include="Events\OutgoingInvoicePaidEvent.cs" />
@@ -81,26 +81,20 @@
     <Compile Include="Events\IncomingInvoiceLinkedToJobOrderEvent.cs" />
     <Compile Include="Events\IncomingInvoiceRegisteredEvent.cs" />
     <Compile Include="Events\OutgoingInvoiceIssuedEvent.cs" />
-    <Compile Include="Events\TimeAndMaterialJobOrderCompletedEvent.cs" />
-    <Compile Include="Events\FixedPriceJobOrderCompletedEvent.cs" />
-    <Compile Include="Events\TimeAndMaterialJobOrderExtendedEvent.cs" />
-    <Compile Include="Events\TimeAndMaterialJobOrderRegisteredEvent.cs" />
-    <Compile Include="Events\FixedPriceJobOrderRegisteredEvent.cs" />
-    <Compile Include="Events\FixedPriceJobOrderExtendedEvent.cs" />
+    <Compile Include="Events\JobOrderCompletedEvent.cs" />
+    <Compile Include="Events\JobOrderRegisteredEvent.cs" />
+    <Compile Include="Events\JobOrderExtendedEvent.cs" />
     <Compile Include="Model\IncomingInvoice.cs" />
     <Compile Include="Model\Invoice.cs" />
     <Compile Include="Model\JobOrder.cs" />
     <Compile Include="Model\Money.cs" />
     <Compile Include="Model\OutgoingInvoice.cs" />
     <Compile Include="Model\PositiveMoney.cs" />
-    <Compile Include="Model\TimeAndMaterialJobOrder.cs" />
-    <Compile Include="Model\FixedPriceJobOrder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Commands\RegisterFixedPriceJobOrderCommand.cs" />
-    <Compile Include="Sagas\FixedPriceJobOrderSaga.cs" />
+    <Compile Include="Commands\RegisterJobOrderCommand.cs" />
+    <Compile Include="Sagas\JobOrderSaga.cs" />
     <Compile Include="Sagas\IncomingInvoiceSaga.cs" />
     <Compile Include="Sagas\OutgoingInvoiceSaga.cs" />
-    <Compile Include="Sagas\TimeAndMaterialJobOrderSaga.cs" />
     <Compile Include="Services\IOutgoingInvoiceNumberGenerator.cs" />
     <Compile Include="Services\IJobOrderNumberGenerator.cs" />
     <Compile Include="Services\OutgoingInvoiceNumberGenerator.cs" />

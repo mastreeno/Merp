@@ -8,10 +8,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Rebus.Bus;
 using Rebus.Config;
 using Rebus.Routing.TypeBased;
-using Rebus.ServiceProvider;
 using Microsoft.AspNetCore.Hosting;
 using Merp.Web.Site.Areas.Accountancy;
 using Merp.Web.Site.Areas.Registry;
+using Merp.Web.Site.Services.Rebus;
 
 namespace Merp.Web.Site
 {
@@ -112,6 +112,33 @@ namespace Merp.Web.Site
             }
         }
 
+        public class ImportTool
+        {
+            public IBus Bus { get; set; }
+            public IHostingEnvironment Environment { get; set; }
+            public IServiceCollection Services { get; set; }
+
+            public IConfigurationRoot Configuration { get; private set; }
+
+            public ImportTool(IConfigurationRoot configuration, IServiceCollection services)
+            {
+                if (services == null)
+                    throw new ArgumentNullException(nameof(services));
+
+                if (configuration == null)
+                    throw new ArgumentNullException(nameof(configuration));
+
+                Bus = services.BuildServiceProvider().GetService<IBus>();
+                Configuration = configuration;
+                Services = services;
+                Environment = services.BuildServiceProvider().GetService<IHostingEnvironment>();
+            }
+
+            public void Configure()
+            {
+
+            }
+        }
     }
 
     static class EnvironmentExtensions

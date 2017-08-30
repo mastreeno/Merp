@@ -1,0 +1,217 @@
+﻿@model Merp.Web.Site.Areas.Accountancy.Models.JobOrder.JobOrderDetailViewModel
+
+@{
+    ViewBag.Title = "Job Order detail";
+}
+<script type="text/javascript">
+    (function () {
+        var homePageApp = angular.module('myApp', []);
+    }());
+    (function (module) {
+        var balanceController = function ($scope, $http) {
+            $scope.dateFrom;
+            $scope.dateTo;
+            $scope.series = ['balance'];
+            $scope.onClick = function (points, evt) {
+                console.log(points, evt);
+            };
+            $scope.refreshBalance = function () {
+                var jobOrderId = '@Model.JobOrderId';
+                if ($scope.dateFrom != null && $scope.dateFrom !== '' && $scope.dateTo != null && $scope.dateTo !== '') {
+                    var url = '/Accountancy/JobOrder/GetBalance/?jobOrderId=' + jobOrderId + '&dateFrom=' + dateFrom.value + '&dateTo=' + dateTo.value + '&scale=' + $scope.scale;
+                    $http.get(url)
+                        .then(
+                        function (data) {
+                            console.log(data.data);
+                            $scope.Balances = data.data;
+                            $scope.labels = [];
+                            angular.forEach($scope.Balances, function (balance) {
+                                $scope.labels.push(moment(balance.Date).format("DD/MM/YYYY"));
+                            });
+                            $scope.data = [[]];
+                            angular.forEach($scope.Balances, function (balance) {
+                                $scope.data[0].push(balance.Balance);
+                            }, function (data) { }
+                        );
+                    });
+                }
+            }
+        }
+        module.controller('balanceController', ['$scope', '$http', balanceController]);
+    }(angular.module('myApp', ['chart.js'])))
+</script>
+
+<div class="row">
+    <div class="col-sm-12">
+        <h2>@Html.DisplayFor(model => model.JobOrderName)</h2>
+        <h4>@Html.DisplayFor(model => model.JobOrderNumber)</h4>
+        <h5>@Html.DisplayFor(model => model.CustomerName)</h5>
+        <p>
+            @if (!Model.IsCompleted)
+            {
+                @Html.ActionLink("Complete", "MarkJobOrderAsCompleted", new { id = Model.JobOrderId })<text> |</text>
+                @Html.ActionLink("Extend", "ExtendJobOrder", new { id = Model.JobOrderId })<text> |</text>
+            }
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div id="tabs">
+            <ul>
+                <li><a href="#general">General</a></li>
+                <li><a href="#balance">Trend Analysis</a></li>
+                <li><a href="/Accountancy/JobOrder/IncomingInvoicesAssociatedToJobOrder?jobOrderId=@Model.JobOrderId">Incoming Invoices</a></li>
+                <li><a href="/Accountancy/JobOrder/OutgoingInvoicesAssociatedToJobOrder?jobOrderId=@Model.JobOrderId">Outgoing Invoices</a></li>
+            </ul>
+            <div id="general">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.JobOrderNumber)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.JobOrderNumber)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.CustomerName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CustomerName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Price)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Price)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.DateOfStart)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.DateOfStart)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.DueDate)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.DueDate)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Notes)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Notes)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Balance)
+                    </dt>
+
+                    <dd>
+                        <span id="jobOrderBalance"></span><input type="button" value="evaluate" onclick="evalJobOrderBalance('@Model.JobOrderId');" />
+                    </dd>
+                </dl>
+
+            </div>
+            <div id="balance">
+                <div data-ng-controller="balanceController" data-ng-app="myApp">
+                    <div class="row">
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <label class="sr-only" for="dateFrom">Date From</label>
+                                <input type="date" class="form-control" id="dateFrom" data-ng-model="dateFrom" placeholder="Date From">
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="dateTo">Date To</label>
+                                <input type="date" class="form-control" id="dateTo" data-ng-model="dateTo" placeholder="Date To">
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="scale">Scale</label>
+                                <select data-ng-model="scale">
+                                    <option selected="selected">Daily</option>
+                                    <option>Weekly</option>
+                                    <option>Monthly</option>
+                                    <option>Quarterly</option>
+                                    <option>Yearly</option>
+                                </select>
+                            </div>
+                            <button type="button" class="btn btn-default" data-ng-click="refreshBalance()">Apply</button>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <canvas id="line" class="chart chart-line" chart-data="data"
+                                chart-labels="labels" chart-legend="false" chart-series="series"
+                                click="onClick"></canvas>
+                    </div>
+                    <div class="row">
+                        <table class="table table-striped table-hover">
+                            <tr>
+                                <td>Date</td>
+                                <td>Balance</td>
+                            </tr>
+                            <tr data-ng-repeat="balance in Balances">
+                                <td>{{balance.Date | date:'dd-MM-yyyy'}}</td>
+                                <td>{{balance.Balance}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section head
+{
+    <link rel="stylesheet" type="text/css" href="~/lib/jquery-ui/themes/base/all.css" />
+    <script src="~/lib/moment/moment.js"></script>
+}
+@section scripts
+{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+    <script src="~/lib/Chart.js/dist/Chart.min.js"></script>
+    <script src="~/lib/angular-chart.js/dist/angular-chart.min.js"></script>
+    <script type="text/javascript">
+            $(function () {
+                $("#tabs").tabs({
+                    ajaxOptions: {
+                        error: function (xhr, status, index, anchor) {
+                            $(anchor.hash).html("Unable to display trend analysis");
+                        }
+                    }
+                });
+            });
+    </script>
+    <script type="text/javascript">
+            function evalJobOrderBalance(jobOrderId) {
+                jobOrderBalanceControl = $("#jobOrderBalance")[0];
+
+                $.get("/Accountancy/JobOrder/EvaluateJobOrderBalance/" + jobOrderId, function (data) {
+                    if (data === 'undefined') {
+                        jobOrderBalanceControl.innerText = 'Unable to evaluate';
+                    }
+                    else {
+                        jobOrderBalanceControl.innerText = data;
+                    }
+                })
+                .fail(function () {
+                    jobOrderBalanceControl.innerText = 'Unable to evaluate';
+                }
+                );
+            }
+    </script>
+}

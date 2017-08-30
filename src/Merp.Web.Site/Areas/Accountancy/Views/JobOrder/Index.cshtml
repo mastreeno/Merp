@@ -10,14 +10,21 @@
         var jobOrdersController = function ($scope, $http) {
             $scope.refreshJobOrdersList = function () {
                 var url = '/Accountancy/JobOrder/GetList?currentOnly=' + $scope.currentOnly + '&customerId=' + $scope.SelectedCustomerId;
-                if($scope.jobOrderName )
+                if ($scope.jobOrderName)
                     url += '&jobOrderName=' + $scope.jobOrderName;
-                $http.get(url).success(function (data) {
-                    $scope.JobOrders = data;
-                });
+                $http.get(url)
+                    .then(
+                    function (data) {
+                        $scope.JobOrders = data.data;
+
+                    },
+                    function (data) {
+                        console.log('some error happened.');
+                     }
+                    );
             }
             $scope.refreshJobOrdersList();
-        }
+        };
         module.controller('jobOrdersController', ['$scope', '$http', jobOrdersController]);
     }(angular.module('myApp')))
 </script>
@@ -72,8 +79,7 @@
     </div>
     <div id="CommandsBox" class="col-md-2 pull-right">
         <ul class="list-unstyled">
-            <li><a href="/Accountancy/JobOrder/CreateFixedPrice">Create fixed price Job Order</a></li>
-            <li><a href="/Accountancy/JobOrder/CreateTimeAndMaterial">Create time and material Job Order</a></li>
+            <li><a href="/Accountancy/JobOrder/CreateJobOrder">Create Job Order</a></li>
         </ul>
     </div>
 </div>

@@ -2,18 +2,23 @@
   "name": "asp.net",
   "private": true,
   "dependencies": {
-    "bootstrap": "3.3.6",
-    "jquery": "2.2.0",
-    "jquery-validation": "1.14.0",
+    "bootstrap": "v3.3.7",
+    "jquery": "2.2.4",
+    "jquery-validation": "1.16.0",
     "jquery-validation-unobtrusive": "3.2.6",
-    "angular": "1.5.5",
-    "Chart.js": "1.0.2",
-    "moment": "2.13.0",
-    "angular-chart.js": "0.10.2",
-    "jquery-ui": "1.11.4",
-    "bootstrap-datepicker": "v1.7.0-RC2"
+    "angular": "1.6.6",
+    "moment": "2.18.1",
+    "jquery-ui": "1.12.1",
+    "bootstrap-datepicker": "v1.7.0-RC2",
+    "chart.js": "2.6.0",
+    "angular-chart.js": "1.1.1"
   },
   "resolutions": {
-    "Chart.js": "~1.1.1"
+    "Chart.js": "~1.1.1",
+    "angular-chart.js": "1.1.1",
+    "jquery-ui": "1.12.1",
+    "jquery": ">=1.6",
+    "jquery-validation": "1.16.0",
+    "bootstrap": "v3.3.7"
   }
 }

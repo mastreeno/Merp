@@ -87,9 +87,12 @@
             orderBy: $scope.ordering.orderBy,
             orderDirection: $scope.ordering.orderDirection
           };
-          $http.get(url, { params: params }).success(function (data) {
-            $scope.parties = data;
-          });
+          $http.get(url, { params: params })
+                .then(
+                    function (data) {
+                        $scope.parties = data.data;
+                    },
+                    function (data) { })
         }
 
         $scope.refreshParties();

@@ -1,5 +1,5 @@
 //! moment.js locale configuration
-//! locale : swedish (sv)
+//! locale : Swedish [sv]
 //! author : Jens Alm : https://github.com/ulmus
 
 import moment from '../moment';
@@ -43,7 +43,7 @@ export default moment.defineLocale('sv', {
         y : 'ett år',
         yy : '%d år'
     },
-    ordinalParse: /\d{1,2}(e|a)/,
+    dayOfMonthOrdinalParse: /\d{1,2}(e|a)/,
     ordinal : function (number) {
         var b = number % 10,
             output = (~~(number % 100 / 10) === 1) ? 'e' :

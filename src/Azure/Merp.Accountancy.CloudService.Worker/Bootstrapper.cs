@@ -102,7 +102,7 @@ namespace Merp.Accountancy.CloudService.Worker
 
             private void RegisterDenormalizers()
             {
-                Container.RegisterTypes(AllClasses.FromAssemblies(typeof(FixedPriceJobOrderDenormalizer).Assembly),
+                Container.RegisterTypes(AllClasses.FromAssemblies(typeof(JobOrderDenormalizer).Assembly),
                     WithMappings.FromAllInterfaces,
                     WithName.TypeName,
                     WithLifetime.Transient
@@ -111,7 +111,7 @@ namespace Merp.Accountancy.CloudService.Worker
 
             private void RegisterSagas()
             {
-                Container.RegisterTypes(AllClasses.FromAssemblies(typeof(FixedPriceJobOrderSaga).Assembly),
+                Container.RegisterTypes(AllClasses.FromAssemblies(typeof(JobOrderSaga).Assembly),
                     WithMappings.FromAllInterfaces,
                     WithName.TypeName,
                     WithLifetime.Transient
@@ -126,9 +126,9 @@ namespace Merp.Accountancy.CloudService.Worker
 
             private void SubscribeEvents()
             {
-                Bus.Subscribe<FixedPriceJobOrderCompletedEvent>();
-                Bus.Subscribe<FixedPriceJobOrderExtendedEvent>();
-                Bus.Subscribe<FixedPriceJobOrderRegisteredEvent>();
+                Bus.Subscribe<JobOrderCompletedEvent>();
+                Bus.Subscribe<JobOrderExtendedEvent>();
+                Bus.Subscribe<JobOrderRegisteredEvent>();
                 Bus.Subscribe<IncomingInvoiceLinkedToJobOrderEvent>();
                 Bus.Subscribe<IncomingInvoiceRegisteredEvent>();
                 Bus.Subscribe<IncomingInvoiceExpiredEvent>();
@@ -137,9 +137,6 @@ namespace Merp.Accountancy.CloudService.Worker
                 Bus.Subscribe<OutgoingInvoiceLinkedToJobOrderEvent>();
                 Bus.Subscribe<OutgoingInvoicePaidEvent>();
                 Bus.Subscribe<OutgoingInvoiceExpiredEvent>();
-                Bus.Subscribe<TimeAndMaterialJobOrderCompletedEvent>();
-                Bus.Subscribe<TimeAndMaterialJobOrderExtendedEvent>();
-                Bus.Subscribe<TimeAndMaterialJobOrderRegisteredEvent>();
             }
         }
     }
