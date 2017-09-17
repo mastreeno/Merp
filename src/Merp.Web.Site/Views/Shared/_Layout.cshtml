@@ -46,7 +46,8 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                     <li><a href="/Accountancy/">Accountancy</a></li>
-                    <li><a asp-route="registry">Registry</a></li>
+                    <li><a asp-route="/Registry/">Registry</a></li>
+
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -56,7 +57,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Mastreeno ltd, Andrea Saltarello</p>
+            <p>&copy; @DateTime.Now.Year - Mastreeno ltd</p>
         </footer>
     </div>
 

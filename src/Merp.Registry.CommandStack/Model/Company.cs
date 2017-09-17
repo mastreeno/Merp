@@ -47,6 +47,24 @@ namespace Merp.Registry.CommandStack.Model
                 };
                 this.LegalAddress = legalAddress;
             }
+            if (!string.IsNullOrWhiteSpace(evt.BillingAddressAddress) && !string.IsNullOrWhiteSpace(evt.BillingAddressCity) && !string.IsNullOrWhiteSpace(evt.BillingAddressCountry))
+            {
+                var billingAddress = new PostalAddress(evt.BillingAddressAddress, evt.BillingAddressCity, evt.BillingAddressCountry)
+                {
+                    PostalCode = evt.BillingAddressPostalCode,
+                    Province = evt.BillingAddressProvince
+                };
+                this.BillingAddress = billingAddress;
+            }
+            if (!string.IsNullOrWhiteSpace(evt.ShippingAddressAddress) && !string.IsNullOrWhiteSpace(evt.ShippingAddressCity) && !string.IsNullOrWhiteSpace(evt.ShippingAddressCountry))
+            {
+                var shippingAddress = new PostalAddress(evt.ShippingAddressAddress, evt.ShippingAddressCity, evt.ShippingAddressCountry)
+                {
+                    PostalCode = evt.ShippingAddressPostalCode,
+                    Province = evt.ShippingAddressProvince
+                };
+                this.ShippingAddress = shippingAddress;
+            }
         }
 
         public void ApplyEvent(CompanyNameChangedEvent evt)
@@ -97,41 +115,43 @@ namespace Merp.Registry.CommandStack.Model
 
         public static class Factory
         {
-            public static Company CreateNewEntry(string companyName, string vatNumber, string nationalIdentificationNumber, string legalAddressAddress, string legalAddressCity, string legalAddressPostalCode, string legalAddressProvince, string legalAddressCountry)
-            {
-                var companyId = Guid.NewGuid();
-                var company = CreateNewEntryByImport(companyId, companyName, vatNumber, nationalIdentificationNumber, legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince,  legalAddressCountry);
-                return company;
-            }
-
-            public static Company CreateNewEntryByImport(Guid companyId, string companyName, string vatNumber, string nationalIdentificationNumber, string legalAddressAddress, string legalAddressCity, string legalAddressPostalCode, string legalAddressProvince, string legalAddressCountry)
+            public static Company CreateNewEntry(string companyName, string vatNumber, string nationalIdentificationNumber, 
+                string legalAddressAddress, string legalAddressCity, string legalAddressPostalCode, string legalAddressProvince, string legalAddressCountry,
+                string billingAddressAddress, string billingAddressCity, string billingAddressPostalCode, string billingAddressProvince, string billingAddressCountry,
+                string shippingAddressAddress, string shippingAddressCity, string shippingAddressPostalCode, string shippingAddressProvince, string shippingAddressCountry)
             {
                 if (string.IsNullOrWhiteSpace(companyName))
-                {
                     throw new ArgumentException("The company name must be specified", nameof(companyName));
-                }
-                if (string.IsNullOrWhiteSpace(vatNumber))
-                {
-                    throw new ArgumentException("The VAT number must be specified", nameof(vatNumber));
-                }
-                if (string.IsNullOrEmpty(legalAddressAddress) && (!string.IsNullOrEmpty(legalAddressCity) || !string.IsNullOrEmpty(legalAddressCountry)))
-                {
-                    throw new ArgumentException("address must be specified when city and country are also specified", nameof(legalAddressAddress));
-                }
-                if (string.IsNullOrEmpty(legalAddressCity) && (!string.IsNullOrEmpty(legalAddressAddress) || !string.IsNullOrEmpty(legalAddressCountry)))
-                {
-                    throw new ArgumentException("city must be specified when address and country are also specified", nameof(legalAddressCity));
-                }
-                if (string.IsNullOrEmpty(legalAddressCountry) && (!string.IsNullOrEmpty(legalAddressAddress) || !string.IsNullOrEmpty(legalAddressCity)))
-                {
-                    throw new ArgumentException("country must be specified when address and country are also specified", nameof(legalAddressCountry));
-                }
-                if (!PostalAddressHelper.IsValidAddress(legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry))
-                {
-                    throw new ArgumentException("legal address must either be empty or comprehensive of both address and city");
-                }
+
+                if (string.IsNullOrWhiteSpace(nationalIdentificationNumber) && string.IsNullOrWhiteSpace(vatNumber))
+                    throw new ArgumentException("Either the VAT number or the NIN must be specified", nameof(vatNumber));
+
+                var companyId = Guid.NewGuid();
                 var p = new Company();
-                var e = new CompanyRegisteredEvent(companyId, companyName, vatNumber, nationalIdentificationNumber, legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry);
+                var e = new CompanyRegisteredEvent(companyId, DateTime.Now, companyName, vatNumber, nationalIdentificationNumber,
+                    legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry,
+                    billingAddressAddress, billingAddressCity, billingAddressPostalCode, billingAddressProvince, billingAddressCountry,
+                    shippingAddressAddress, shippingAddressCity, shippingAddressPostalCode, shippingAddressProvince, shippingAddressCountry);
+                p.RaiseEvent(e);
+                return p;
+            }
+
+            public static Company CreateNewEntryByImport(Guid companyId, DateTime registrationDate, string companyName, string vatNumber, string nationalIdentificationNumber, 
+                string legalAddressAddress, string legalAddressCity, string legalAddressPostalCode, string legalAddressProvince, string legalAddressCountry,
+                string billingAddressAddress, string billingAddressCity, string billingAddressPostalCode, string billingAddressProvince, string billingAddressCountry,
+                string shippingAddressAddress, string shippingAddressCity, string shippingAddressPostalCode, string shippingAddressProvince, string shippingAddressCountry)
+            {
+                if (string.IsNullOrWhiteSpace(companyName))
+                    throw new ArgumentException("The company name must be specified", nameof(companyName));
+
+                if (string.IsNullOrWhiteSpace(nationalIdentificationNumber) && string.IsNullOrWhiteSpace(vatNumber))
+                    throw new ArgumentException("Either the VAT number or the NIN must be specified", nameof(vatNumber));
+
+                var p = new Company();
+                var e = new CompanyRegisteredEvent(companyId, registrationDate, companyName, vatNumber, nationalIdentificationNumber, 
+                    legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry,
+                    billingAddressAddress, billingAddressCity, billingAddressPostalCode, billingAddressProvince, billingAddressCountry,
+                    shippingAddressAddress, shippingAddressCity, shippingAddressPostalCode, shippingAddressProvince, shippingAddressCountry);
                 p.RaiseEvent(e);
                 return p;
             }

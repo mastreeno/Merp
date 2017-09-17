@@ -10,7 +10,8 @@ using Merp.Accountancy.CommandStack.Events;
 namespace Merp.Accountancy.CommandStack.Model
 {
     public class IncomingInvoice : Invoice,
-        IApplyEvent<IncomingInvoiceRegisteredEvent>
+        IApplyEvent<IncomingInvoiceRegisteredEvent>,
+        IApplyEvent<IncomingInvoiceExpiredEvent>
     {
         public PartyInfo Supplier { get; protected set; }
 
@@ -22,9 +23,11 @@ namespace Merp.Accountancy.CommandStack.Model
         public void ApplyEvent([AggregateId(nameof(IncomingInvoiceRegisteredEvent.InvoiceId))] IncomingInvoiceRegisteredEvent evt)
         {
             Id = evt.InvoiceId;
+            IsExpired = false;
             Number = evt.InvoiceNumber;
             Date = evt.InvoiceDate;
-            Amount = evt.Amount;
+            DueDate = evt.DueDate;
+            Amount = evt.TaxableAmount;
             Taxes = evt.Taxes;
             TotalPrice = evt.TotalPrice;
             Description = evt.Description;
@@ -38,10 +41,18 @@ namespace Merp.Accountancy.CommandStack.Model
             PaymentDate = evt.PaymentDate;
         }
 
+        public void ApplyEvent([AggregateId(nameof(IncomingInvoiceExpiredEvent.InvoiceId))] IncomingInvoiceExpiredEvent evt)
+        {
+            IsExpired = true;
+        }
+
         public void MarkAsExpired()
         {
-            //var evt = new OutgoingInvoiceExpiredEvent(this.Id);
-            //RaiseEvent(evt);
+            if (!DueDate.HasValue)
+                throw new InvalidOperationException("An invoice must have a due date for it to be marked as expired.");
+
+            var evt = new IncomingInvoiceExpiredEvent(this.Id, DueDate.Value);
+            RaiseEvent(evt);
         }
 
         public void MarkAsPaid(DateTime paymentDate)
@@ -52,26 +63,56 @@ namespace Merp.Accountancy.CommandStack.Model
 
         public static class Factory
         {
-            public static IncomingInvoice Create(string invoiceNumber, DateTime invoiceDate, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, Guid supplierId, string supplierName)
+            public static IncomingInvoice Register(string invoiceNumber, DateTime invoiceDate, DateTime? dueDate, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, 
+                Guid supplierId, string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationCode)
             {
                 var @event = new IncomingInvoiceRegisteredEvent(
-                    Guid.NewGuid(),
-                    invoiceNumber,
-                    invoiceDate,
-                    amount,
-                    taxes,
-                    totalPrice,
-                    description,
-                    paymentTerms,
-                    purchaseOrderNumber,
-                    supplierId,
-                    supplierName,
-                    string.Empty,
-                    string.Empty,
-                    string.Empty,
-                    string.Empty,
-                    string.Empty,
-                    string.Empty
+                        Guid.NewGuid(),
+                        invoiceNumber,
+                        invoiceDate,
+                        dueDate,
+                        amount,
+                        taxes,
+                        totalPrice,
+                        description,
+                        paymentTerms,
+                        purchaseOrderNumber,
+                        supplierId,
+                        supplierName,
+                        supplierAddress,
+                        supplierCity,
+                        supplierPostalCode,
+                        supplierCountry,
+                        supplierVatIndex,
+                        supplierNationalIdentificationCode
+                    );
+                var invoice = new IncomingInvoice();
+                invoice.RaiseEvent(@event);
+                return invoice;
+            }
+
+            public static IncomingInvoice Import(Guid invoiceId, string invoiceNumber, DateTime invoiceDate, DateTime? dueDate, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, 
+                Guid supplierId, string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationCode)
+            {
+                var @event = new IncomingInvoiceRegisteredEvent(
+                        invoiceId,
+                        invoiceNumber,
+                        invoiceDate,
+                        dueDate,
+                        amount,
+                        taxes,
+                        totalPrice,
+                        description,
+                        paymentTerms,
+                        purchaseOrderNumber,
+                        supplierId,
+                        supplierName,
+                        supplierAddress,
+                        supplierCity,
+                        supplierPostalCode,
+                        supplierCountry,
+                        supplierVatIndex,
+                        supplierNationalIdentificationCode
                     );
                 var invoice = new IncomingInvoice();
                 invoice.RaiseEvent(@event);

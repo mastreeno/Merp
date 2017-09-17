@@ -1,4 +1,5 @@
 ﻿using Memento;
+using Memento.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace Merp.Registry.CommandStack.Events
     public class PersonRegisteredEvent : DomainEvent
     {
         public Guid PersonId { get; set; }
+        [Timestamp]
+        public DateTime RegistrationDate { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string NationalIdentificationNumber { get; set; }
@@ -26,9 +29,10 @@ namespace Merp.Registry.CommandStack.Events
         public string EmailAddress { get; set; }
         public string InstantMessaging { get; set; }
 
-        public PersonRegisteredEvent(Guid personId, string firstName, string lastName, string nationalIdentificationNumber, string vatNumber, string address, string city, string postalCode, string province, string country, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
+        public PersonRegisteredEvent(Guid personId, DateTime registrationDate, string firstName, string lastName, string nationalIdentificationNumber, string vatNumber, string address, string city, string postalCode, string province, string country, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
         {
             PersonId = personId;
+            RegistrationDate = registrationDate;
             FirstName = firstName;
             LastName = lastName;
             NationalIdentificationNumber = nationalIdentificationNumber;

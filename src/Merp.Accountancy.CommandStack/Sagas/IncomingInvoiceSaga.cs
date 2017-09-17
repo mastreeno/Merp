@@ -11,18 +11,35 @@ namespace Merp.Accountancy.CommandStack.Sagas
 {
     public class IncomingInvoiceSaga : Saga<IncomingInvoiceSaga.IncomingInvoiceSagaData>,
         IAmInitiatedBy<RegisterIncomingInvoiceCommand>,
-        IHandleMessages<MarkIncomingInvoiceAsPaidCommand>
+        IAmInitiatedBy<ImportIncomingInvoiceCommand>,
+        IHandleMessages<MarkIncomingInvoiceAsPaidCommand>,
+        IHandleMessages<MarkIncomingInvoiceAsExpiredCommand>,
+        IHandleMessages<IncomingInvoiceSaga.IncomingInvoiceExpiredTimeout>
     {
-        private readonly IRepository _repository;
+        public readonly IBus Bus;
+        public readonly IRepository Repository;
 
-        public IncomingInvoiceSaga(IRepository repository)
+        public IncomingInvoiceSaga(IBus bus, IRepository repository)
         {
-            this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            this.Bus = bus ?? throw new ArgumentNullException(nameof(bus));
+            this.Repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
         protected override void CorrelateMessages(ICorrelationConfig<IncomingInvoiceSagaData> config)
         {
             config.Correlate<RegisterIncomingInvoiceCommand>(
+                message => message.InvoiceId,
+                sagaData => sagaData.InvoiceId);
+            config.Correlate<ImportIncomingInvoiceCommand>(
+                message => message.InvoiceId,
+                sagaData => sagaData.InvoiceId);
+            config.Correlate<MarkIncomingInvoiceAsPaidCommand>(
+                message => message.InvoiceId,
+                sagaData => sagaData.InvoiceId);
+            config.Correlate<MarkIncomingInvoiceAsExpiredCommand>(
+                message => message.InvoiceId,
+                sagaData => sagaData.InvoiceId);
+            config.Correlate<IncomingInvoiceSaga.IncomingInvoiceExpiredTimeout>(
                 message => message.InvoiceId,
                 sagaData => sagaData.InvoiceId);
         }
@@ -31,19 +48,60 @@ namespace Merp.Accountancy.CommandStack.Sagas
         {
             return Task.Factory.StartNew(() =>
             {
-                var invoice = IncomingInvoice.Factory.Create(
+                var invoice = IncomingInvoice.Factory.Register(
                 message.InvoiceNumber,
                 message.InvoiceDate,
-                message.Amount,
+                message.DueDate,
+                message.TaxableAmount,
                 message.Taxes,
                 message.TotalPrice,
                 message.Description,
                 message.PaymentTerms,
                 message.PurchaseOrderNumber,
-                message.Customer.Id,
-                message.Customer.Name
+                message.Supplier.Id,
+                message.Supplier.Name,
+                message.Supplier.Address,
+                message.Supplier.City,
+                message.Supplier.PostalCode,
+                message.Supplier.Country,
+                message.Supplier.VatIndex,
+                message.Supplier.NationalIdentificationNumber
                 );
-                this._repository.Save(invoice);
+                this.Repository.Save(invoice);
+                this.Data.InvoiceId = invoice.Id;
+
+                if (invoice.DueDate.HasValue)
+                {
+                    var timeout = new IncomingInvoiceExpiredTimeout(invoice.Id);
+                    Bus.Defer(invoice.DueDate.Value.Subtract(DateTime.Today), timeout);
+                }
+            });
+        }
+        public Task Handle(ImportIncomingInvoiceCommand message)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                var invoice = IncomingInvoice.Factory.Import(
+                    message.InvoiceId,
+                    message.InvoiceNumber,
+                    message.InvoiceDate,
+                    message.DueDate,
+                    message.TaxableAmount,
+                    message.Taxes,
+                    message.TotalPrice,
+                    message.Description,
+                    message.PaymentTerms,
+                    message.PurchaseOrderNumber,
+                    message.Supplier.Id,
+                    message.Supplier.Name,
+                    message.Supplier.Address,
+                    message.Supplier.City,
+                    message.Supplier.PostalCode,
+                    message.Supplier.Country,
+                    message.Supplier.VatIndex,
+                    message.Supplier.NationalIdentificationNumber
+                    );
+                this.Repository.Save(invoice);
                 this.Data.InvoiceId = invoice.Id;
             });
         }
@@ -52,16 +110,49 @@ namespace Merp.Accountancy.CommandStack.Sagas
         {
             return Task.Factory.StartNew(() =>
             {
-                var invoice = _repository.GetById<IncomingInvoice>(message.InvoiceId);
+                var invoice = Repository.GetById<IncomingInvoice>(message.InvoiceId);
                 invoice.MarkAsPaid(message.PaymentDate);
-                _repository.Save(invoice);
+                Repository.Save(invoice);
                 this.MarkAsComplete();
+            });
+        }
+
+        public Task Handle(MarkIncomingInvoiceAsExpiredCommand message)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                var invoice = Repository.GetById<IncomingInvoice>(message.InvoiceId);
+                if (!invoice.PaymentDate.HasValue)
+                    invoice.MarkAsExpired();
+            });
+        }
+
+        public Task Handle(IncomingInvoiceExpiredTimeout message)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                var invoice = Repository.GetById<IncomingInvoice>(message.InvoiceId);
+                if (!invoice.PaymentDate.HasValue)
+                {
+                    var cmd = new MarkIncomingInvoiceAsExpiredCommand(message.InvoiceId);
+                    Bus.Send(cmd);
+                }
             });
         }
 
         public class IncomingInvoiceSagaData : SagaData
         {
             public Guid InvoiceId { get; set; }
+        }
+
+        public class IncomingInvoiceExpiredTimeout
+        {
+            public Guid InvoiceId { get; private set; }
+
+            public IncomingInvoiceExpiredTimeout(Guid invoiceId)
+            {
+                InvoiceId = invoiceId;
+            }
         }
     }
 }

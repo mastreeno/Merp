@@ -6,6 +6,7 @@ using Rebus.Bus;
 using Rebus.Handlers;
 using Rebus.Sagas;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Merp.Registry.CommandStack.Sagas
@@ -81,27 +82,25 @@ namespace Merp.Registry.CommandStack.Sagas
                 var legalAddressPostalCode = legalAddressIsDefined ? message.LegalAddressPostalCode : null;
                 var legalAddressProvince = legalAddressIsDefined ? message.LegalAddressProvince : null;
                 var legalAddressCountry = legalAddressIsDefined ? !string.IsNullOrWhiteSpace(message.LegalAddressCountry) ? message.LegalAddressCountry : _defaultCountryResolver.GetDefaultCountry() : null;
-
-                var company = Company.Factory.CreateNewEntry(message.CompanyName, message.VatNumber, message.NationalIdentificationNumber, legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry);
+                
+                var company = Company.Factory.CreateNewEntry(message.CompanyName, message.VatNumber, message.NationalIdentificationNumber, 
+                    legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry,
+                    message.BillingAddressAddress, message.BillingAddressCity, message.BillingAddressPostalCode, message.BillingAddressProvince, message.BillingAddressCountry,
+                    message.ShippingAddressAddress, message.ShippingAddressCity, message.ShippingAddressPostalCode, message.ShippingAddressProvince, message.ShippingAddressCountry);
                                 
-                if (!string.IsNullOrWhiteSpace(message.ShippingAddressAddress))
-                {
-                    company.ChangeShippingAddress(message.ShippingAddressAddress, message.ShippingAddressCity, message.ShippingAddressPostalCode, message.ShippingAddressProvince, !string.IsNullOrWhiteSpace(message.ShippingAddressCountry) ? message.ShippingAddressCountry : _defaultCountryResolver.GetDefaultCountry(), DateTime.Today);
-                }
-                if (!string.IsNullOrWhiteSpace(message.BillingAddressAddress))
-                {
-                    company.ChangeBillingAddress(message.BillingAddressAddress, message.BillingAddressCity, message.BillingAddressPostalCode, message.BillingAddressProvince, !string.IsNullOrWhiteSpace(message.BillingAddressCountry) ? message.BillingAddressCountry : _defaultCountryResolver.GetDefaultCountry(), DateTime.Today);
-                }
                 if (message.MainContactId.HasValue)
                 {
+                    Thread.Sleep(10);
                     company.AssociateMainContact(message.MainContactId.Value);
                 }
                 if (message.AdministrativeContactId.HasValue)
                 {
+                    Thread.Sleep(10);
                     company.AssociateAdministrativeContact(message.AdministrativeContactId.Value);
                 }
                 if(!string.IsNullOrWhiteSpace(message.PhoneNumber) || !string.IsNullOrWhiteSpace(message.FaxNumber) || !string.IsNullOrWhiteSpace(message.WebsiteAddress) || !string.IsNullOrWhiteSpace(message.EmailAddress))
                 {
+                    Thread.Sleep(10);
                     company.SetContactInfo(message.PhoneNumber, null, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, null);
                 }
                 _repository.Save(company);
@@ -113,8 +112,33 @@ namespace Merp.Registry.CommandStack.Sagas
         {
             return Task.Factory.StartNew(() =>
             {
-                var country = string.IsNullOrWhiteSpace(message.Address) || !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry();
-                var company = Company.Factory.CreateNewEntryByImport(message.CompanyId, message.CompanyName, message.VatNumber, message.NationalIdentificationNumber, message.Address, message.City, message.PostalCode, message.Province, country);
+                var legalAddressIsDefined = !string.IsNullOrWhiteSpace(message.LegalAddressAddress);
+                var legalAddressAddress = legalAddressIsDefined ? message.LegalAddressAddress : null;
+                var legalAddressCity = legalAddressIsDefined ? message.LegalAddressCity : null;
+                var legalAddressPostalCode = legalAddressIsDefined ? message.LegalAddressPostalCode : null;
+                var legalAddressProvince = legalAddressIsDefined ? message.LegalAddressProvince : null;
+                var legalAddressCountry = legalAddressIsDefined ? !string.IsNullOrWhiteSpace(message.LegalAddressCountry) ? message.LegalAddressCountry : _defaultCountryResolver.GetDefaultCountry() : null;
+
+                var company = Company.Factory.CreateNewEntryByImport(message.CompanyId, message.RegistrationDate, message.CompanyName, message.VatNumber, message.NationalIdentificationNumber, 
+                    legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry,
+                    message.BillingAddressAddress, message.BillingAddressCity, message.BillingAddressPostalCode, message.BillingAddressProvince, message.BillingAddressCountry,
+                    message.ShippingAddressAddress, message.ShippingAddressCity, message.ShippingAddressPostalCode, message.ShippingAddressProvince, message.ShippingAddressCountry);
+
+                if (message.MainContactId.HasValue)
+                {
+                    Thread.Sleep(10);
+                    company.AssociateMainContact(message.MainContactId.Value);
+                }
+                if (message.AdministrativeContactId.HasValue)
+                {
+                    Thread.Sleep(10);
+                    company.AssociateAdministrativeContact(message.AdministrativeContactId.Value);
+                }
+                if (!string.IsNullOrWhiteSpace(message.PhoneNumber) || !string.IsNullOrWhiteSpace(message.FaxNumber) || !string.IsNullOrWhiteSpace(message.WebsiteAddress) || !string.IsNullOrWhiteSpace(message.EmailAddress))
+                {
+                    Thread.Sleep(10);
+                    company.SetContactInfo(message.PhoneNumber, null, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, null);
+                }
                 _repository.Save(company);
                 this.Data.CompanyId = company.Id;
             });

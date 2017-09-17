@@ -195,6 +195,7 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
         {
             var command = new RegisterJobOrderCommand( 
                     model.Customer.OriginalId,
+                    string.Empty,
                     model.Manager.OriginalId,
                     model.Price.Amount,
                     model.Price.Currency,

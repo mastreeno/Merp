@@ -16,12 +16,14 @@ namespace Merp.Accountancy.CommandStack.Tests.Commands
             string currency = "EUR";
             string jobOrderName = "fake";
             Guid customerId = Guid.NewGuid();
+            string customerName = string.Empty;
             Guid managerId = Guid.NewGuid();
             string purchaseOrderNumber = "42";
             string description = "xyz";
             bool isTimeAndMaterial = true;
             var sut = new RegisterJobOrderCommand(
                 customerId,
+                customerName,
                 managerId,
                 price,
                 currency,

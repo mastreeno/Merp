@@ -23,6 +23,7 @@ namespace Merp.Accountancy.QueryStack.Model
         public Guid ManagerId { get; set; }
 
         public string ManagerName { get; set; }
+        public DateTime DateOfRegistration { get; set; }
 
         public DateTime DateOfStart { get; set; }
 
@@ -33,8 +34,6 @@ namespace Merp.Accountancy.QueryStack.Model
 
         public bool IsCompleted { get; set; }
 
-        public bool IsFixedPrice { get; set; }
-
         public bool IsTimeAndMaterial { get; set; }
 
         public string Description { get; set; }
@@ -44,8 +43,7 @@ namespace Merp.Accountancy.QueryStack.Model
 
         public string PurchaseOrderNumber { get; set; }
 
-        [Required]
-        public decimal Price { get; set; }
+        public decimal? Price { get; set; }
 
         [Required]
         [StringLength(3)]
@@ -56,7 +54,6 @@ namespace Merp.Accountancy.QueryStack.Model
 
         public JobOrder()
         {
-            IsFixedPrice = false;
             IsTimeAndMaterial = false;
         }
     }

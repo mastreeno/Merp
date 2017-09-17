@@ -78,24 +78,19 @@ namespace Merp.Accountancy.CommandStack.Model
             }
         }
 
-        public static decimal CalculateBalance(IEventStore es, Guid jobOrderId)
-        {
-            return CalculateBalance(es, jobOrderId, DateTime.Now);
-        }
-
+        [Obsolete()]
         public static decimal CalculateBalance(IEventStore es, Guid jobOrderId, DateTime balanceDate)
         {
             if (es == null)
-            {
-                throw new ArgumentNullException("es");
-            }
+                throw new ArgumentNullException(nameof(es));
+
             var outgoingInvoicesIds = es
                 .Find<OutgoingInvoiceLinkedToJobOrderEvent>(e => e.JobOrderId == jobOrderId && e.TimeStamp <= balanceDate)
                 .Select(e => e.InvoiceId)
                 .ToArray();
             var earnings = es
                 .Find<OutgoingInvoiceIssuedEvent>(e => outgoingInvoicesIds.Contains(e.InvoiceId))
-                .Sum(e => e.Amount);
+                .Sum(e => e.TaxableAmount);
 
             var incomingInvoicesIds = es
                 .Find<IncomingInvoiceLinkedToJobOrderEvent>(e => e.JobOrderId == jobOrderId && e.TimeStamp <= balanceDate)
@@ -103,41 +98,40 @@ namespace Merp.Accountancy.CommandStack.Model
                 .ToArray();
             var costs = es
                 .Find<IncomingInvoiceRegisteredEvent>(e => incomingInvoicesIds.Any(id => e.InvoiceId == id))
-                .Sum(e => e.Amount);
+                .Sum(e => e.TaxableAmount);
 
             decimal balance = earnings - costs;
 
             return balance;
         }
 
-        public void ApplyEvent([AggregateId(nameof(IncomingInvoiceLinkedToJobOrderEvent.JobOrderId))] IncomingInvoiceLinkedToJobOrderEvent evt)
+        public void ApplyEvent(IncomingInvoiceLinkedToJobOrderEvent evt)
         {
             this.Balance -= evt.Amount;
         }
 
-        public void ApplyEvent([AggregateId(nameof(OutgoingInvoiceLinkedToJobOrderEvent.JobOrderId))] OutgoingInvoiceLinkedToJobOrderEvent evt)
+        public void ApplyEvent(OutgoingInvoiceLinkedToJobOrderEvent evt)
         {
             this.Balance += evt.Amount;
         }
 
-        public void ApplyEvent([AggregateId(nameof(JobOrderExtendedEvent.JobOrderId))] JobOrderExtendedEvent evt)
+        public void ApplyEvent(JobOrderExtendedEvent evt)
         {
             this.DueDate = evt.NewDueDate;
             this.Price = new PositiveMoney(evt.Price, this.Price.Currency);
         }
 
-        public void ApplyEvent([AggregateId(nameof(JobOrderCompletedEvent.JobOrderId))] JobOrderCompletedEvent evt)
+        public void ApplyEvent(JobOrderCompletedEvent evt)
         {
             this.DateOfCompletion = evt.DateOfCompletion;
             this.IsCompleted = true;
         }
 
-        public void ApplyEvent([AggregateId(nameof(JobOrderRegisteredEvent.JobOrderId))] JobOrderRegisteredEvent evt)
+        public void ApplyEvent(JobOrderRegisteredEvent evt)
         {
             Id = evt.JobOrderId;
             CustomerId = evt.CustomerId;
             ManagerId = evt.ManagerId;
-            Price = new PositiveMoney(evt.Price, evt.Currency);
             DateOfStart = evt.DateOfStart;
             DueDate = evt.DueDate;
             Name = evt.JobOrderName;
@@ -145,6 +139,10 @@ namespace Merp.Accountancy.CommandStack.Model
             IsCompleted = false;
             PurchaseOrderNumber = evt.PurchaseOrderNumber;
             Description = evt.Description;
+            if (evt.Price.HasValue)
+                Price = new PositiveMoney(evt.Price.Value, evt.Currency);
+            else
+                evt.Price = null;
         }
 
         /// <summary>
@@ -212,7 +210,7 @@ namespace Merp.Accountancy.CommandStack.Model
 
         public class Factory
         {
-            public static JobOrder CreateNewInstance(IJobOrderNumberGenerator jobOrderNumberGenerator, Guid customerId, Guid managerId, decimal price, string currency, DateTime dateOfStart, DateTime dueDate, bool isTimeAndMaterial, string name, string purchaseOrderNumber, string description)
+            public static JobOrder CreateNewInstance(IJobOrderNumberGenerator jobOrderNumberGenerator, Guid customerId, string customerName, Guid managerId, decimal? price, string currency, DateTime dateOfStart, DateTime dueDate, bool isTimeAndMaterial, string name, string purchaseOrderNumber, string description)
             {
                 if (jobOrderNumberGenerator == null)
                     throw new ArgumentNullException(nameof(jobOrderNumberGenerator));
@@ -228,14 +226,50 @@ namespace Merp.Accountancy.CommandStack.Model
                 var @event = new JobOrderRegisteredEvent(
                     Guid.NewGuid(),
                     customerId,
+                    customerName,
                     managerId,
                     price,
                     currency,
+                    DateTime.Now,
                     dateOfStart,
                     dueDate,
                     isTimeAndMaterial,
                     name,
                     jobOrderNumberGenerator.Generate(),
+                    purchaseOrderNumber,
+                    description
+                    );
+                var jobOrder = new JobOrder();
+                jobOrder.RaiseEvent(@event);
+                return jobOrder;
+            }
+
+            public static JobOrder Import(Guid jobOrderId, string jobOrderNumber, Guid customerId, string customerName, Guid managerId, decimal? price, string currency, DateTime dateOfRegistration, DateTime dateOfStart, DateTime dueDate, bool isTimeAndMaterial, string name, string purchaseOrderNumber, string description)
+            {
+                if (string.IsNullOrWhiteSpace(jobOrderNumber))
+                    throw new ArgumentNullException(nameof(jobOrderNumber), "A job order number must be provided");
+                if (price < 0 && price != -1)
+                    throw new ArgumentException("The price must be zero or higher", nameof(price));
+                if (string.IsNullOrWhiteSpace(currency))
+                    throw new ArgumentException("The currency must me specified", nameof(currency));
+                if (dueDate < dateOfStart)
+                    throw new ArgumentException("The due date cannot precede the starting date", nameof(dueDate));
+                if (string.IsNullOrWhiteSpace(name))
+                    throw new ArgumentException("The job order must have a name", nameof(name));
+
+                var @event = new JobOrderRegisteredEvent(
+                    jobOrderId,
+                    customerId,
+                    customerName,
+                    managerId,
+                    price,
+                    currency,
+                    dateOfRegistration,
+                    dateOfStart,
+                    dueDate,
+                    isTimeAndMaterial,
+                    name,
+                    jobOrderNumber,
                     purchaseOrderNumber,
                     description
                     );

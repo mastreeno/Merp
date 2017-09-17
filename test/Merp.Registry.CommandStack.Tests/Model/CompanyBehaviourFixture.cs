@@ -23,7 +23,10 @@ namespace Merp.Registry.CommandStack.Tests.Model
             var postalCode = "20123";
             var province = "MI";
             var country = "Italy";
-            var company = Company.Factory.CreateNewEntry(companyName, vatNumber, nationalIdentificationNumber, null, null, null, null, null);
+            var company = Company.Factory.CreateNewEntry(companyName, vatNumber, nationalIdentificationNumber, 
+                null, null, null, null, null,
+                null, null, null, null, null,
+                null, null, null, null, null);
             var effectiveDate = DateTime.Now;
             company.ChangeLegalAddress(address, city, postalCode, province, country, effectiveDate);
 
@@ -46,7 +49,10 @@ namespace Merp.Registry.CommandStack.Tests.Model
             var postalCode = "20123";
             var province = "MI";
             var country = "Italy";
-            var company = Company.Factory.CreateNewEntry(companyName, vatNumber, nationalIdentificationNumber, null, null, null, null, null);
+            var company = Company.Factory.CreateNewEntry(companyName, vatNumber, nationalIdentificationNumber, 
+                null, null, null, null, null,
+                null, null, null, null, null,
+                null, null, null, null, null);
             var effectiveDate = DateTime.MaxValue;
             company.ChangeBillingAddress(address, city, postalCode, province, country, effectiveDate);
 
@@ -69,7 +75,10 @@ namespace Merp.Registry.CommandStack.Tests.Model
             var postalCode = "20123";
             var province = "MI";
             var country = "Italy";
-            var company = Company.Factory.CreateNewEntry(companyName, vatNumber, nationalIdentificationNumber, null, null, null, null, null);
+            var company = Company.Factory.CreateNewEntry(companyName, vatNumber, nationalIdentificationNumber, 
+                null, null, null, null, null,
+                null, null, null, null, null,
+                null, null, null, null, null);
             var effectiveDate = DateTime.MaxValue;
             company.ChangeShippingAddress(address, city, postalCode, province, country, effectiveDate);
 

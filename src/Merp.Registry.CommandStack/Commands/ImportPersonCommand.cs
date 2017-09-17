@@ -14,6 +14,7 @@ namespace Merp.Registry.CommandStack.Commands
     public class ImportPersonCommand : Command
     {
         public Guid PersonId { get; set; }
+        public DateTime RegistrationDate { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string NationalIdentificationNumber { get; set; }
@@ -23,25 +24,31 @@ namespace Merp.Registry.CommandStack.Commands
         public string PostalCode { get; set; }
         public string Province { get; set; }
         public string Country { get; set; }
-        
-        public ImportPersonCommand(Guid personId, string firstName, string lastName, string nationalIdentificationNumber, string vatNumber, string address, string city, string postalCode, string province, string country)
+        public string PhoneNumber { get; set; }
+        public string MobileNumber { get; set; }
+        public string FaxNumber { get; set; }
+        public string WebsiteAddress { get; set; }
+        public string EmailAddress { get; set; }
+        public string InstantMessaging { get; set; }
+
+        public ImportPersonCommand(Guid personId, DateTime registrationDate, string firstName, string lastName, string nationalIdentificationNumber, string vatNumber, string address, string city, string postalCode, string province, string country, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
         {
+            if (personId == Guid.Empty)
+                throw new ArgumentException("A non-empty personId should be provided", nameof(personId));
+
             if (string.IsNullOrWhiteSpace(firstName))
-            {
                 throw new ArgumentException("First name must be provided", nameof(firstName));
-            }
+
             if (string.IsNullOrWhiteSpace(lastName))
-            {
                 throw new ArgumentException("Last name must be provided", nameof(lastName));
-            }
+
             if (!PostalAddressHelper.IsValidAddress(address, city, postalCode, province, country))
-            {
                 throw new ArgumentException("postal address must either be empty or comprehensive of both address and city");
-            }
 
             PersonId = personId;
-            FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
-            LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
+            RegistrationDate = registrationDate;
+            FirstName = firstName;
+            LastName = lastName;
             NationalIdentificationNumber = nationalIdentificationNumber;
             VatNumber = vatNumber;
             Address = address;
@@ -49,6 +56,12 @@ namespace Merp.Registry.CommandStack.Commands
             PostalCode = postalCode;
             Province = province;
             Country = country;
+            PhoneNumber = phoneNumber;
+            MobileNumber = mobileNumber;
+            FaxNumber = faxNumber;
+            WebsiteAddress = websiteAddress;
+            EmailAddress = emailAddress;
+            InstantMessaging = instantMessaging;
         }
     }
 }

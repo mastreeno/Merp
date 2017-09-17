@@ -14,39 +14,87 @@ namespace Merp.Registry.CommandStack.Commands
     public class ImportCompanyCommand : Command
     {
         public Guid CompanyId { get; set; }
+        public DateTime RegistrationDate { get; set; }
         public string CompanyName { get; set; }
         public string VatNumber { get; set; }
         public string NationalIdentificationNumber { get; set; }
-        public string Address { get; set; }
-        public string City { get; set; }
-        public string PostalCode { get; set; }
-        public string Province { get; set; }
-        public string Country { get; set; }
 
-        public ImportCompanyCommand(Guid companyId, string companyName, string vatNumber, string nationalIdentificationNumber, string address, string city, string postalCode, string province, string country)
+
+        public string LegalAddressAddress { get; set; }
+        public string LegalAddressPostalCode { get; set; }
+        public string LegalAddressCity { get; set; }
+        public string LegalAddressCountry { get; set; }
+        public string LegalAddressProvince { get; set; }
+
+        public string ShippingAddressAddress { get; set; }
+        public string ShippingAddressPostalCode { get; set; }
+        public string ShippingAddressCity { get; set; }
+        public string ShippingAddressCountry { get; set; }
+        public string ShippingAddressProvince { get; set; }
+
+        public string BillingAddressAddress { get; set; }
+        public string BillingAddressPostalCode { get; set; }
+        public string BillingAddressCity { get; set; }
+        public string BillingAddressCountry { get; set; }
+        public string BillingAddressProvince { get; set; }
+
+        public Guid? MainContactId { get; set; }
+        public Guid? AdministrativeContactId { get; set; }
+        public string PhoneNumber { get; set; }
+        public string FaxNumber { get; set; }
+        public string WebsiteAddress { get; set; }
+        public string EmailAddress { get; set; }
+
+        public ImportCompanyCommand(Guid companyId, DateTime registrationDate, string companyName, string nationalIdentificationNumber, string vatNumber, string legalAddressAddress, string legalAddressPostalCode, string legalAddressCity, string legalAddressProvince, string legalAddressCountry, string shippingAddressAddress, string shippingAddressPostalCode, string shippingAddressCity, string shippingAddressProvince, string shippingAddressCountry, string billingAddressAddress, string billingAddressPostalCode, string billingAddressCity, string billingAddressProvince, string billingAddressCountry, Guid? mainContactId, Guid? administrativeContactId, string phoneNumber, string faxNumber, string websiteAddress, string emailAddress)
         {
+            if (companyId == Guid.Empty)
+                throw new ArgumentException("A non-empty companyId must be provided.", nameof(companyId));
+
             if (string.IsNullOrWhiteSpace(companyName))
-            {
-                throw new ArgumentNullException(nameof(companyName));
-            }
-            if (string.IsNullOrWhiteSpace(vatNumber))
-            {
-                throw new ArgumentNullException(nameof(vatNumber));
-            }
-            if (!PostalAddressHelper.IsValidAddress(address, city, postalCode, province, country))
-            {
-                throw new ArgumentException("postal address must either be empty or comprehensive of both address and city");
-            }
+                throw new ArgumentException("Company name must be provided", nameof(companyName));
+
+            if (string.IsNullOrWhiteSpace(vatNumber) && string.IsNullOrWhiteSpace(nationalIdentificationNumber))
+                throw new ArgumentException("Either the VAT number or the NIN must be provided", nameof(vatNumber));
+
+            if (!PostalAddressHelper.IsValidAddress(legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry))
+                throw new ArgumentException("legal address must either be empty or comprehensive of both address and city");
+
+            if (!PostalAddressHelper.IsValidAddress(shippingAddressAddress, shippingAddressCity, shippingAddressPostalCode, shippingAddressProvince, shippingAddressCountry))
+                throw new ArgumentException("shipping address must either be empty or comprehensive of both address and city");
+
+            if (!PostalAddressHelper.IsValidAddress(billingAddressAddress, billingAddressCity, billingAddressPostalCode, billingAddressProvince, billingAddressCountry))
+                throw new ArgumentException("billing address must either be empty or comprehensive of both address and city");
 
             CompanyId = companyId;
+            RegistrationDate = registrationDate;
             CompanyName = companyName;
             VatNumber = vatNumber;
             NationalIdentificationNumber = nationalIdentificationNumber;
-            Address = address;
-            City = city;
-            PostalCode = postalCode;
-            Province = province;
-            Country = country;
+
+            LegalAddressAddress = legalAddressAddress;
+            LegalAddressPostalCode = legalAddressPostalCode;
+            LegalAddressCity = legalAddressCity;
+            LegalAddressCountry = legalAddressCountry;
+            LegalAddressProvince = legalAddressProvince;
+
+            ShippingAddressAddress = shippingAddressAddress;
+            ShippingAddressPostalCode = shippingAddressPostalCode;
+            ShippingAddressCity = shippingAddressCity;
+            ShippingAddressCountry = shippingAddressCountry;
+            ShippingAddressProvince = shippingAddressProvince;
+
+            BillingAddressAddress = billingAddressAddress;
+            BillingAddressPostalCode = billingAddressPostalCode;
+            BillingAddressCity = billingAddressCity;
+            BillingAddressCountry = billingAddressCountry;
+            BillingAddressProvince = billingAddressProvince;
+
+            MainContactId = mainContactId;
+            AdministrativeContactId = administrativeContactId;
+            PhoneNumber = phoneNumber;
+            FaxNumber = faxNumber;
+            WebsiteAddress = websiteAddress;
+            EmailAddress = emailAddress;
         }
 
     }

@@ -79,53 +79,9 @@
     <Compile Include="Denormalizers\PartyDenormalizer.cs" />
     <Compile Include="Denormalizers\PersonDenormalizer.cs" />
     <Compile Include="IDatabase.cs" />
-    <Compile Include="Migrations\201408010828521_Registry.cs" />
-    <Compile Include="Migrations\201408010828521_Registry.Designer.cs">
-      <DependentUpon>201408010828521_Registry.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201411121711270_Person_DateOfBirth.cs" />
-    <Compile Include="Migrations\201411121711270_Person_DateOfBirth.Designer.cs">
-      <DependentUpon>201411121711270_Person_DateOfBirth.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704190857509_ShippingAddress.cs" />
-    <Compile Include="Migrations\201704190857509_ShippingAddress.Designer.cs">
-      <DependentUpon>201704190857509_ShippingAddress.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704190943387_ShippingAddress-ConstraintsRemoved.cs" />
-    <Compile Include="Migrations\201704190943387_ShippingAddress-ConstraintsRemoved.Designer.cs">
-      <DependentUpon>201704190943387_ShippingAddress-ConstraintsRemoved.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704191004227_Person-Constraints.cs" />
-    <Compile Include="Migrations\201704191004227_Person-Constraints.Designer.cs">
-      <DependentUpon>201704191004227_Person-Constraints.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704191826192_Party-LegalAddress.cs" />
-    <Compile Include="Migrations\201704191826192_Party-LegalAddress.Designer.cs">
-      <DependentUpon>201704191826192_Party-LegalAddress.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704201221063_Part-BillingAddress.cs" />
-    <Compile Include="Migrations\201704201221063_Part-BillingAddress.Designer.cs">
-      <DependentUpon>201704201221063_Part-BillingAddress.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704211024224_Company-AdministrativeContact.cs" />
-    <Compile Include="Migrations\201704211024224_Company-AdministrativeContact.Designer.cs">
-      <DependentUpon>201704211024224_Company-AdministrativeContact.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704211325306_Company-MailContact.cs" />
-    <Compile Include="Migrations\201704211325306_Company-MailContact.Designer.cs">
-      <DependentUpon>201704211325306_Company-MailContact.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704240740400_Company-MailContact-rename-to-MainContact.cs" />
-    <Compile Include="Migrations\201704240740400_Company-MailContact-rename-to-MainContact.Designer.cs">
-      <DependentUpon>201704240740400_Company-MailContact-rename-to-MainContact.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704241413122_Party-ContactInfo.cs" />
-    <Compile Include="Migrations\201704241413122_Party-ContactInfo.Designer.cs">
-      <DependentUpon>201704241413122_Party-ContactInfo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704261024101_ContactInfo-MobileNumberInstantMessaging.cs" />
-    <Compile Include="Migrations\201704261024101_ContactInfo-MobileNumberInstantMessaging.Designer.cs">
-      <DependentUpon>201704261024101_ContactInfo-MobileNumberInstantMessaging.cs</DependentUpon>
+    <Compile Include="Migrations\201709081737359_DefaultSchema.cs" />
+    <Compile Include="Migrations\201709081737359_DefaultSchema.Designer.cs">
+      <DependentUpon>201709081737359_DefaultSchema.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\ContactInfo.cs" />
@@ -147,41 +103,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201408010828521_Registry.resx">
-      <DependentUpon>201408010828521_Registry.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411121711270_Person_DateOfBirth.resx">
-      <DependentUpon>201411121711270_Person_DateOfBirth.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704190857509_ShippingAddress.resx">
-      <DependentUpon>201704190857509_ShippingAddress.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704190943387_ShippingAddress-ConstraintsRemoved.resx">
-      <DependentUpon>201704190943387_ShippingAddress-ConstraintsRemoved.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704191004227_Person-Constraints.resx">
-      <DependentUpon>201704191004227_Person-Constraints.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704191826192_Party-LegalAddress.resx">
-      <DependentUpon>201704191826192_Party-LegalAddress.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704201221063_Part-BillingAddress.resx">
-      <DependentUpon>201704201221063_Part-BillingAddress.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704211024224_Company-AdministrativeContact.resx">
-      <DependentUpon>201704211024224_Company-AdministrativeContact.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704211325306_Company-MailContact.resx">
-      <DependentUpon>201704211325306_Company-MailContact.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704240740400_Company-MailContact-rename-to-MainContact.resx">
-      <DependentUpon>201704240740400_Company-MailContact-rename-to-MainContact.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704241413122_Party-ContactInfo.resx">
-      <DependentUpon>201704241413122_Party-ContactInfo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704261024101_ContactInfo-MobileNumberInstantMessaging.resx">
-      <DependentUpon>201704261024101_ContactInfo-MobileNumberInstantMessaging.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201709081737359_DefaultSchema.resx">
+      <DependentUpon>201709081737359_DefaultSchema.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

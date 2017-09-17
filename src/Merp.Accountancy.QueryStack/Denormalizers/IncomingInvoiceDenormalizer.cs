@@ -9,13 +9,15 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
     public class IncomingInvoiceDenormalizer :
         IHandleMessages<IncomingInvoiceRegisteredEvent>,
         IHandleMessages<IncomingInvoiceExpiredEvent>,
-        IHandleMessages<IncomingInvoicePaidEvent>
+        IHandleMessages<IncomingInvoicePaidEvent>,
+        IHandleMessages<IncomingInvoiceLinkedToJobOrderEvent>
     {
         public async Task Handle(IncomingInvoiceRegisteredEvent message)
         {
             var invoice = new IncomingInvoice();
-            invoice.Amount = message.Amount;
+            invoice.Amount = message.TaxableAmount;
             invoice.Date = message.InvoiceDate;
+            invoice.DueDate = message.DueDate;
             invoice.Description = message.Description;
             invoice.Number = message.InvoiceNumber;
             invoice.OriginalId = message.InvoiceId;
@@ -50,6 +52,7 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
                     .Where(i => i.OriginalId == message.InvoiceId)
                     .Single();
                 invoice.IsPaid = true;
+                invoice.IsExpired = false;
                 invoice.PaymentDate = message.PaymentDate;
                 await ctx.SaveChangesAsync();
             }
@@ -63,7 +66,16 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
                     .Where(i => i.OriginalId == message.InvoiceId)
                     .Single();
                 invoice.IsExpired = true;
-                invoice.DueDate = message.DueDate;
+                await ctx.SaveChangesAsync();
+            }
+        }
+
+        public async Task Handle(IncomingInvoiceLinkedToJobOrderEvent message)
+        {
+            using (var ctx = new AccountancyContext())
+            {
+                var invoice = ctx.IncomingInvoices.Where(i => i.OriginalId == message.InvoiceId).Single();
+                invoice.JobOrderId = message.JobOrderId;
                 await ctx.SaveChangesAsync();
             }
         }

@@ -11,5 +11,11 @@ namespace Merp.Accountancy.CommandStack.Commands
     {
         public Guid InvoiceId { get; set; }
         public DateTime PaymentDate { get; set; }
+
+        public MarkIncomingInvoiceAsPaidCommand(Guid invoiceId, DateTime paymentDate)
+        {
+            InvoiceId = invoiceId;
+            PaymentDate = paymentDate;
+        }
     }
 }

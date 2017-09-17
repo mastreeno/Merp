@@ -11,7 +11,8 @@ using Merp.Accountancy.CommandStack.Services;
 namespace Merp.Accountancy.CommandStack.Model
 {
     public class OutgoingInvoice : Invoice,
-        IApplyEvent<OutgoingInvoiceIssuedEvent>
+        IApplyEvent<OutgoingInvoiceIssuedEvent>,
+        IApplyEvent<OutgoingInvoiceExpiredEvent>
     {
         public PartyInfo Customer { get; protected set; }
 
@@ -23,9 +24,11 @@ namespace Merp.Accountancy.CommandStack.Model
         public void ApplyEvent([AggregateId(nameof(OutgoingInvoiceIssuedEvent.InvoiceId))] OutgoingInvoiceIssuedEvent evt)
         {
             Id = evt.InvoiceId;
+            IsExpired = false;
             Number = evt.InvoiceNumber;
             Date = evt.InvoiceDate;
-            Amount = evt.Amount;
+            DueDate = evt.DueDate;
+            Amount = evt.TaxableAmount;
             Taxes = evt.Taxes;
             TotalPrice = evt.TotalPrice;
             Description = evt.Description;
@@ -41,7 +44,7 @@ namespace Merp.Accountancy.CommandStack.Model
 
         public void ApplyEvent([AggregateId(nameof(OutgoingInvoiceExpiredEvent.InvoiceId))] OutgoingInvoiceExpiredEvent evt)
         {
-            DueDate = evt.DueDate;
+            IsExpired = true;
         }
 
         public void MarkAsPaid(DateTime paymentDate)
@@ -52,18 +55,24 @@ namespace Merp.Accountancy.CommandStack.Model
 
         public void MarkAsExpired()
         {
-            //var evt = new OutgoingInvoiceExpiredEvent(this.Id);
-            //RaiseEvent(evt);
+            if (!DueDate.HasValue)
+                throw new InvalidOperationException("An invoice must have a due date for it to be marked as expired.");
+
+            var evt = new OutgoingInvoiceExpiredEvent(this.Id, DueDate.Value);
+            RaiseEvent(evt);
         }
 
         public static class Factory
         {
-            public static OutgoingInvoice Create(IOutgoingInvoiceNumberGenerator generator, DateTime invoiceDate, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, Guid customerId, string customerName)
+            public static OutgoingInvoice Issue(IOutgoingInvoiceNumberGenerator generator, DateTime invoiceDate, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, Guid customerId, 
+                string customerName, string customerAddress, string customerCity, string customerPostalCode, string customerCountry, string customerVatIndex, string customerNationalIdentificationNumber,
+                string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber)
             {
                 var @event = new OutgoingInvoiceIssuedEvent(
                     Guid.NewGuid(),
                     generator.Generate(),
                     invoiceDate,
+                    invoiceDate.AddMonths(1),
                     amount,
                     taxes,
                     totalPrice,
@@ -72,12 +81,55 @@ namespace Merp.Accountancy.CommandStack.Model
                     purchaseOrderNumber,
                     customerId,
                     customerName,
-                    string.Empty,
-                    string.Empty,
-                    string.Empty,
-                    string.Empty,
-                    string.Empty,
-                    string.Empty
+                    customerAddress,
+                    customerCity,
+                    customerPostalCode,
+                    customerCountry,
+                    customerVatIndex,
+                    customerNationalIdentificationNumber,
+                    supplierName,
+                    supplierAddress,
+                    supplierCity,
+                    supplierPostalCode,
+                    supplierCountry,
+                    supplierVatIndex,
+                    supplierNationalIdentificationNumber
+                    );
+                var invoice = new OutgoingInvoice();
+                invoice.RaiseEvent(@event);
+                return invoice;
+            }
+
+            public static OutgoingInvoice Import(Guid invoiceId, string invoiceNumber, DateTime invoiceDate, DateTime? dueDate, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, Guid customerId, 
+                string customerName, string customerAddress, string customerCity, string customerPostalCode, string customerCountry, string customerVatIndex, string customerNationalIdentificationNumber,
+                string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber)
+            {
+                var @event = new OutgoingInvoiceIssuedEvent(
+                    invoiceId,
+                    invoiceNumber,
+                    invoiceDate,
+                    dueDate,
+                    amount,
+                    taxes,
+                    totalPrice,
+                    description,
+                    paymentTerms,
+                    purchaseOrderNumber,
+                    customerId,
+                    customerName,
+                    customerAddress,
+                    customerCity,
+                    customerPostalCode,
+                    customerCountry,
+                    customerVatIndex,
+                    customerNationalIdentificationNumber,
+                    supplierName,
+                    supplierAddress,
+                    supplierCity,
+                    supplierPostalCode,
+                    supplierCountry,
+                    supplierVatIndex,
+                    supplierNationalIdentificationNumber
                     );
                 var invoice = new OutgoingInvoice();
                 invoice.RaiseEvent(@event);

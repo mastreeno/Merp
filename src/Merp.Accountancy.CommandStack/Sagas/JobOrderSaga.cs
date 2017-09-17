@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 namespace Merp.Accountancy.CommandStack.Sagas
 {
     public sealed class JobOrderSaga : Saga<JobOrderSaga.FixedPriceJobOrderSagaData>,
+        IAmInitiatedBy<ImportJobOrderCommand>,
         IAmInitiatedBy<RegisterJobOrderCommand>,
         IHandleMessages<ExtendJobOrderCommand>,
         IHandleMessages<LinkIncomingInvoiceToJobOrderCommand>,
@@ -32,6 +33,10 @@ namespace Merp.Accountancy.CommandStack.Sagas
 
         protected override void CorrelateMessages(ICorrelationConfig<FixedPriceJobOrderSagaData> config)
         {
+            config.Correlate<ImportJobOrderCommand>(
+                message => message.JobOrderId,
+                sagaData => sagaData.JobOrderId);
+
             config.Correlate<RegisterJobOrderCommand>(
                 message => message.JobOrderId,
                 sagaData => sagaData.JobOrderId);
@@ -53,6 +58,31 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 sagaData => sagaData.JobOrderId);
         }
 
+        public Task Handle(ImportJobOrderCommand message)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                var jobOrder = JobOrder.Factory.Import(
+                    message.JobOrderId,
+                    message.JobOrderNumber,
+                    message.Customer.Id,
+                    message.Customer.Name,
+                    message.ManagerId,
+                    message.Price,
+                    message.Currency,
+                    message.DateOfRegistration,
+                    message.DateOfStart,
+                    message.DueDate,
+                    message.IsTimeAndMaterial,
+                    message.JobOrderName,
+                    message.PurchaseOrderNumber,
+                    message.Description
+                );
+                this._repository.Save(jobOrder);
+                this.Data.JobOrderId = jobOrder.Id;
+            });
+        }
+
         public Task Handle(RegisterJobOrderCommand message)
         {
             return Task.Factory.StartNew(() =>
@@ -60,6 +90,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 var jobOrder = JobOrder.Factory.CreateNewInstance(
                 JobOrderNumberGenerator,
                 message.CustomerId,
+                message.CustomerName,
                 message.ManagerId,
                 message.Price,
                 message.Currency,

@@ -61,7 +61,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\ImportCompanyCommandFixture.cs" />
     <Compile Include="Commands\RegisterCompanyCommandFixture.cs" />
+    <Compile Include="Commands\ImportPersonCommandFixture.cs" />
     <Compile Include="Commands\RegisterPersonCommandFixture.cs" />
     <Compile Include="Model\CompanyBehaviourFixture.cs" />
     <Compile Include="Model\CompanyFixture.cs" />

@@ -1,6 +1,7 @@
 ﻿using Merp.Accountancy.CommandStack.Events;
 using Merp.Accountancy.QueryStack.Model;
 using Rebus.Handlers;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,25 +15,33 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
         public async Task Handle(JobOrderRegisteredEvent message)
         {
             var jobOrder = new JobOrder();
-                jobOrder.OriginalId = message.JobOrderId;
-                jobOrder.CustomerId = message.CustomerId;
-                jobOrder.Description = message.Description;
-                jobOrder.ManagerId = message.ManagerId;
-                jobOrder.DateOfStart = message.DateOfStart;
-                jobOrder.DueDate = message.DueDate;
-                jobOrder.Name = message.JobOrderName;
-                jobOrder.Number = message.JobOrderNumber;
-                jobOrder.Price = message.Price;
-                jobOrder.Currency = message.Currency;
-                jobOrder.PurchaseOrderNumber = message.PurchaseOrderNumber;
-                jobOrder.IsCompleted = false;
-                jobOrder.IsTimeAndMaterial = false;
-            jobOrder.IsFixedPrice = true;
+            jobOrder.OriginalId = message.JobOrderId;
+            jobOrder.CustomerId = message.CustomerId;
+            jobOrder.CustomerName = message.CustomerName;
+            jobOrder.Description = message.Description;
+            jobOrder.ManagerId = message.ManagerId;
+            jobOrder.DateOfRegistration = message.DateOfRegistration;
+            jobOrder.DateOfStart = message.DateOfStart;
+            jobOrder.DueDate = message.DueDate;
+            jobOrder.Name = message.JobOrderName;
+            jobOrder.Number = message.JobOrderNumber;
+            jobOrder.Price = message.Price;
+            jobOrder.Currency = message.Currency;
+            jobOrder.PurchaseOrderNumber = message.PurchaseOrderNumber;
+            jobOrder.IsCompleted = false;
+            jobOrder.IsTimeAndMaterial = false;
 
             using (var db = new AccountancyContext())
             {
                 db.JobOrders.Add(jobOrder);
-                await db.SaveChangesAsync();
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch(Exception ex)
+                {
+                    System.Threading.Thread.Sleep(1);
+                }
             }
         }
 

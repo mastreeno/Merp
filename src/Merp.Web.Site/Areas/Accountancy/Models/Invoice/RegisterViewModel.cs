@@ -20,6 +20,9 @@ namespace Merp.Web.Site.Areas.Accountancy.Models.Invoice
         [Required]
         public DateTime Date { get; set; }
 
+        [DisplayName("Invoice date")]
+        public DateTime? DueDate { get; set; }
+
         [DisplayName("Amount")]
         [Required]
         public decimal Amount { get; set; }

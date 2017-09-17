@@ -75,15 +75,14 @@
   <ItemGroup>
     <Compile Include="Database.cs" />
     <Compile Include="Denormalizers\IncomingInvoiceDenormalizer.cs" />
-    <Compile Include="Denormalizers\InvoiceDenormalizer.cs" />
     <Compile Include="Denormalizers\OutgoingInvoiceDenormalizer.cs" />
     <Compile Include="Denormalizers\JobOrderDenormalizer.cs" />
     <Compile Include="Extensions\InvoiceExtensions.cs" />
     <Compile Include="Extensions\JobOrderExtensions.cs" />
     <Compile Include="AccountancyContext.cs" />
-    <Compile Include="Migrations\201708281522242_Accountancy-BaseSchema.cs" />
-    <Compile Include="Migrations\201708281522242_Accountancy-BaseSchema.Designer.cs">
-      <DependentUpon>201708281522242_Accountancy-BaseSchema.cs</DependentUpon>
+    <Compile Include="Migrations\201709131600402_BaseSchema.cs" />
+    <Compile Include="Migrations\201709131600402_BaseSchema.Designer.cs">
+      <DependentUpon>201709131600402_BaseSchema.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\IncomingInvoice.cs" />
@@ -105,8 +104,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201708281522242_Accountancy-BaseSchema.resx">
-      <DependentUpon>201708281522242_Accountancy-BaseSchema.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201709131600402_BaseSchema.resx">
+      <DependentUpon>201709131600402_BaseSchema.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="OnTime.TaskManagement.CloudService" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="4" osVersion="*" schemaVersion="2015-04.2.6">
+  <Role name="OnTime.TaskManagement.CloudService.Worker">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=ugidotnet;AccountKey=k3tzkmpO04nAx/RmAkcDkICti3hKoIvTMRIfhFZvz4bruPBYab7zaGrBwI1FSBIWnEsDqmx0s1FEXYG3P+exyg==;EndpointSuffix=core.windows.net" />
+      <Setting name="OnTime-TaskManagement-ReadModel" value="Server=tcp:ugidotnet.database.windows.net,1433;Initial Catalog=OnTime;Persist Security Info=False;User ID=ugiadmin;Password=Th3ug1@dm1n1str@t0r;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" />
+      <Setting name="OnTime-TaskManagement-EventStore" value="mongodb://10.0.0.5/OnTime-ES" />
+    </ConfigurationSettings>
+  </Role>
+  <NetworkConfiguration>
+    <!-- Name of the target Virtual Network -->
+    <VirtualNetworkSite name="UGIdotNET-classic" />
+  </NetworkConfiguration>
+</ServiceConfiguration>

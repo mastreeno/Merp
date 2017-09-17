@@ -9,57 +9,60 @@ namespace Merp.Accountancy.CommandStack.Commands
 {
     public class RegisterIncomingInvoiceCommand : Command
     {
-        public class CustomerInfo
+        public class PartyInfo
         {
             public Guid Id { get; set; }
             public string Name { get; set; }
-            public string StreetName { get; set; }
+            public string Address { get; set; }
             public string City { get; set; }
             public string PostalCode { get; set; }
             public string Country { get; set; }
             public string VatIndex { get; set; }
             public string NationalIdentificationNumber { get; set; }
 
-            public CustomerInfo(Guid customerId, string customerName, string streetName, string city, string postalCode, string country, string vatIndex, string nationalIdentificationNumber)
+            public PartyInfo(Guid partyId, string partyName, string address, string city, string postalCode, string country, string vatIndex, string nationalIdentificationNumber)
             {
                 City = city;
-                Name=customerName;
+                Name=partyName;
                 Country = country;
-                Id = customerId;
+                Id = partyId;
                 NationalIdentificationNumber = nationalIdentificationNumber;
                 PostalCode = postalCode;
-                StreetName=streetName;
+                Address=address;
                 VatIndex = vatIndex;
             }
         }
 
         public Guid InvoiceId { get; set; }
         public string InvoiceNumber { get; set; }
-        public CustomerInfo Customer { get; set; }
+        public PartyInfo Supplier { get; set; }
         public DateTime InvoiceDate { get; set; }
-        public decimal Amount { get; set; }
+        public DateTime? DueDate { get; set; }
+        public decimal TaxableAmount { get; set; }
         public decimal Taxes { get; set; }
         public decimal TotalPrice { get; set; }
         public string Description { get; set; }
         public string PaymentTerms { get; set; }
         public string PurchaseOrderNumber { get; set; }
 
-        public RegisterIncomingInvoiceCommand(string invoiceNumber, DateTime invoiceDate, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, Guid customerId, string customerName, string streetName, string city, string postalCode, string country, string vatIndex, string nationalIdentificationNumber)
+        public RegisterIncomingInvoiceCommand(string invoiceNumber, DateTime invoiceDate, DateTime? dueDate, decimal taxableAmount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, 
+            Guid supplierId, string supplierName, string address, string city, string postalCode, string country, string vatIndex, string nationalIdentificationNumber)
         {
-            var customer = new CustomerInfo(
+            var customer = new PartyInfo(
                 city: city,
-                customerName: customerName,
+                partyName: supplierName,
                 country: country,
-                customerId: customerId,
+                partyId: supplierId,
                 nationalIdentificationNumber: nationalIdentificationNumber,
                 postalCode: postalCode,
-                streetName: streetName,
+                address: address,
                 vatIndex: vatIndex
             );
-            Customer = customer;
+            Supplier = customer;
             InvoiceNumber = invoiceNumber;
             InvoiceDate = invoiceDate;
-            Amount = amount;
+            DueDate = dueDate;
+            TaxableAmount = taxableAmount;
             Taxes = taxes;
             TotalPrice = totalPrice;
             Description = description;

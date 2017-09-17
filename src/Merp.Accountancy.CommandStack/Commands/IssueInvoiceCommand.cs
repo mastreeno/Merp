@@ -10,7 +10,7 @@ namespace Merp.Accountancy.CommandStack.Commands
 {
     public class IssueInvoiceCommand : Command
     {
-        public class CustomerInfo
+        public class PartyInfo
         {
             public Guid Id { get; set; }
             public string Name { get; set; }
@@ -21,44 +21,58 @@ namespace Merp.Accountancy.CommandStack.Commands
             public string VatIndex { get; set; }
             public string NationalIdentificationNumber { get; set; }
 
-            public CustomerInfo(Guid customerId, string customerName, string streetName, string city, string postalCode, string country, string vatIndex, string nationalIdentificationNumber)
+            public PartyInfo(Guid partyId, string partyName, string address, string city, string postalCode, string country, string vatIndex, string nationalIdentificationNumber)
             {
                 City = city;
-                Name=customerName;
+                Name = partyName;
                 Country = country;
-                Id = customerId;
+                Id = partyId;
                 NationalIdentificationNumber = nationalIdentificationNumber;
                 PostalCode = postalCode;
-                StreetName=streetName;
+                StreetName = address;
                 VatIndex = vatIndex;
             }
         }
 
         public Guid InvoiceId { get; set; }
-        public CustomerInfo Customer { get; set; }
+        public PartyInfo Customer { get; set; }
+        public PartyInfo Supplier { get; set; }
         public DateTime InvoiceDate { get; set; }
-        public decimal Amount { get; set; }
+        public decimal TaxableAmount { get; set; }
         public decimal Taxes { get; set; }
         public decimal TotalPrice { get; set; }
         public string Description { get; set; }
         public string PaymentTerms { get; set; }
         public string PurchaseOrderNumber { get; set; }
 
-        public IssueInvoiceCommand(DateTime invoiceDate, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, Guid customerId, string customerName, string streetName, string city, string postalCode, string country, string vatIndex, string nationalIdentificationNumber)
+        public IssueInvoiceCommand(DateTime invoiceDate, decimal taxableAmount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, 
+            Guid customerId, string customerName, string customerAddress, string customerCity, string customerPostalCode, string customerCountry, string customerVatIndex, string customerNationalIdentificationNumber,
+            string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber)
         {
-            var customer = new CustomerInfo(
-                city: city,
-                customerName: customerName,
-                country: country,
-                customerId: customerId,
-                nationalIdentificationNumber: nationalIdentificationNumber,
-                postalCode: postalCode,
-                streetName: streetName,
-                vatIndex: vatIndex
+            var customer = new PartyInfo(
+                city: customerCity,
+                partyName: customerName,
+                country: customerCountry,
+                partyId: customerId,
+                nationalIdentificationNumber: customerNationalIdentificationNumber,
+                postalCode: customerPostalCode,
+                address: customerAddress,
+                vatIndex: customerVatIndex
+            );
+            var supplier = new PartyInfo(
+                partyId: Guid.Empty,
+                city: supplierCity,
+                partyName: supplierName,
+                country: supplierCountry,
+                nationalIdentificationNumber: supplierNationalIdentificationNumber,
+                postalCode: supplierPostalCode,
+                address: supplierAddress,
+                vatIndex: supplierVatIndex
             );
             Customer = customer;
+            Supplier = supplier;
             InvoiceDate = invoiceDate;
-            Amount = amount;
+            TaxableAmount = taxableAmount;
             Taxes = taxes;
             TotalPrice = totalPrice;
             Description = description;

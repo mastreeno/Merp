@@ -14,10 +14,10 @@ namespace Merp.Accountancy.CommandStack.Events
         [Timestamp]
         public DateTime DueDate { get; set; }
 
-        public OutgoingInvoiceExpiredEvent(Guid invoiceId, DateTime expirationDate)
+        public OutgoingInvoiceExpiredEvent(Guid invoiceId, DateTime dueDate)
         {
             InvoiceId = invoiceId;
-            DueDate = expirationDate;
+            DueDate = dueDate;
         }
     }
 }

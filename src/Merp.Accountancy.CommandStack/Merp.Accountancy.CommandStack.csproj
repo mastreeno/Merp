@@ -65,14 +65,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\ImportOutgoingInvoiceCommand.cs" />
     <Compile Include="Commands\LinkOutgoingInvoiceToJobOrderCommand.cs" />
     <Compile Include="Commands\LinkIncomingInvoiceToJobOrderCommand.cs" />
     <Compile Include="Commands\IssueInvoiceCommand.cs" />
+    <Compile Include="Commands\MarkIncomingInvoiceAsExpiredCommand.cs" />
     <Compile Include="Commands\MarkIncomingInvoiceAsPaidCommand.cs" />
     <Compile Include="Commands\MarkOutgoingInvoiceAsPaidCommand.cs" />
     <Compile Include="Commands\MarkJobOrderAsCompletedCommand.cs" />
+    <Compile Include="Commands\ImportIncomingInvoiceCommand.cs" />
+    <Compile Include="Commands\MarkOutgoingInvoiceAsExpiredCommand.cs" />
     <Compile Include="Commands\RegisterIncomingInvoiceCommand.cs" />
     <Compile Include="Commands\ExtendJobOrderCommand.cs" />
+    <Compile Include="Commands\ImportJobOrderCommand.cs" />
     <Compile Include="Events\IncomingInvoicePaidEvent.cs" />
     <Compile Include="Events\IncomingInvoiceExpiredEvent.cs" />
     <Compile Include="Events\OutgoingInvoicePaidEvent.cs" />

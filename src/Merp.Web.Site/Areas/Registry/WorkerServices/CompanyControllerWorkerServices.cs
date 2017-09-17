@@ -31,9 +31,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
         public void AddEntry(AddEntryViewModel model)
         {
             if(model == null)
-            {
                 throw new ArgumentNullException(nameof(model));
-            }
 
             var companyName = model.CompanyName;
             var nationalIdentificationNumber = model.NationalIdentificationNumber;

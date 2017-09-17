@@ -1,4 +1,5 @@
 ﻿using Memento;
+using Memento.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace Merp.Registry.CommandStack.Events
     public class CompanyRegisteredEvent : DomainEvent
     {
         public Guid CompanyId { get; set; }
+        [Timestamp]
+        public DateTime RegistrationDate { get; set; }
         public string CompanyName { get; set; }
         public string VatIndex { get; set; }
         public string NationalIdentificationNumber { get; set; }
@@ -20,9 +23,25 @@ namespace Merp.Registry.CommandStack.Events
         public string LegalAddressProvince { get; set; }
         public string LegalAddressCountry { get; set; }
 
-        public CompanyRegisteredEvent(Guid companyId, string companyName, string vatIndex, string nationalIdentificationNumber, string legalAddressAddress, string legalAddressCity, string legalAddressPostalCode, string legalAddressProvince, string legalAddressCountry)
+        public string ShippingAddressAddress { get; set; }
+        public string ShippingAddressPostalCode { get; set; }
+        public string ShippingAddressCity { get; set; }
+        public string ShippingAddressCountry { get; set; }
+        public string ShippingAddressProvince { get; set; }
+
+        public string BillingAddressAddress { get; set; }
+        public string BillingAddressPostalCode { get; set; }
+        public string BillingAddressCity { get; set; }
+        public string BillingAddressCountry { get; set; }
+        public string BillingAddressProvince { get; set; }
+
+        public CompanyRegisteredEvent(Guid companyId, DateTime registrationDate, string companyName, string vatIndex, string nationalIdentificationNumber,
+            string legalAddressAddress, string legalAddressCity, string legalAddressPostalCode, string legalAddressProvince, string legalAddressCountry,
+            string billingAddressAddress, string billingAddressCity, string billingAddressPostalCode, string billingAddressProvince, string billingAddressCountry,
+            string shippingAddressAddress, string shippingAddressCity, string shippingAddressPostalCode, string shippingAddressProvince, string shippingAddressCountry)
         {
             CompanyId = companyId;
+            RegistrationDate = registrationDate;
             CompanyName = companyName;
             VatIndex = vatIndex;
             NationalIdentificationNumber = nationalIdentificationNumber;
@@ -32,6 +51,18 @@ namespace Merp.Registry.CommandStack.Events
             LegalAddressPostalCode = legalAddressPostalCode;
             LegalAddressProvince = legalAddressProvince;
             LegalAddressCountry = legalAddressCountry;
+
+            BillingAddressAddress = billingAddressAddress;
+            BillingAddressCity = billingAddressCity;
+            BillingAddressPostalCode = billingAddressPostalCode;
+            BillingAddressProvince = billingAddressProvince;
+            BillingAddressCountry = billingAddressCountry;
+
+            ShippingAddressAddress = shippingAddressAddress;
+            ShippingAddressCity = shippingAddressCity;
+            ShippingAddressPostalCode = shippingAddressPostalCode;
+            ShippingAddressProvince = shippingAddressProvince;
+            ShippingAddressCountry = shippingAddressCountry;
         }
     }
 }

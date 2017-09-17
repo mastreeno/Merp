@@ -39,14 +39,15 @@ namespace Merp.Accountancy.CommandStack.Events
         public SupplierInfo Supplier { get; set; }
         [Timestamp]
         public DateTime InvoiceDate { get; set; }
-        public decimal Amount { get; set; }
+        public DateTime? DueDate { get; set; }
+        public decimal TaxableAmount { get; set; }
         public decimal Taxes { get; set; }
         public decimal TotalPrice { get; set; }
         public string Description { get; set; }
         public string PaymentTerms { get; set; }
         public string PurchaseOrderNumber { get; set; }
 
-        public IncomingInvoiceRegisteredEvent(Guid invoiceId, string invoiceNumber, DateTime invoiceDate, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, Guid supplierId, string supplierName, string streetName, string city, string postalCode, string country, string vatIndex, string nationalIdentificationNumber)
+        public IncomingInvoiceRegisteredEvent(Guid invoiceId, string invoiceNumber, DateTime invoiceDate, DateTime? dueDate, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, Guid supplierId, string supplierName, string streetName, string city, string postalCode, string country, string vatIndex, string nationalIdentificationNumber)
         {
             var supplier = new SupplierInfo(
                 city: city,
@@ -62,7 +63,8 @@ namespace Merp.Accountancy.CommandStack.Events
             InvoiceId = invoiceId;
             InvoiceNumber = invoiceNumber;
             InvoiceDate = invoiceDate;
-            Amount = amount;
+            DueDate = dueDate;
+            TaxableAmount = amount;
             Taxes = taxes;
             TotalPrice = totalPrice;
             Description = description;

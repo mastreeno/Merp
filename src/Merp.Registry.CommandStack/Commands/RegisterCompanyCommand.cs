@@ -40,25 +40,20 @@ namespace Merp.Registry.CommandStack.Commands
         public RegisterCompanyCommand(string companyName, string nationalIdentificationNumber, string vatNumber, string legalAddressAddress, string legalAddressPostalCode, string legalAddressCity, string legalAddressProvince, string legalAddressCountry,  string shippingAddressAddress, string shippingAddressPostalCode, string shippingAddressCity, string shippingAddressProvince, string shippingAddressCountry, string billingAddressAddress, string billingAddressPostalCode, string billingAddressCity, string billingAddressProvince, string billingAddressCountry, Guid? mainContactId, Guid? administrativeContactId, string phoneNumber, string faxNumber, string websiteAddress, string emailAddress)
         {
             if (string.IsNullOrWhiteSpace(companyName))
-            {
                 throw new ArgumentException("Company name must be provided", nameof(companyName));
-            }
+
             if (string.IsNullOrWhiteSpace(vatNumber))
-            {
                 throw new ArgumentException("Vat number must be provided", nameof(vatNumber));
-            }
+
             if (!PostalAddressHelper.IsValidAddress(legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry))
-            {
                 throw new ArgumentException("legal address must either be empty or comprehensive of both address and city");
-            }
+
             if (!PostalAddressHelper.IsValidAddress(shippingAddressAddress, shippingAddressCity, shippingAddressPostalCode, shippingAddressProvince, shippingAddressCountry))
-            {
                 throw new ArgumentException("shipping address must either be empty or comprehensive of both address and city");
-            }
+
             if (!PostalAddressHelper.IsValidAddress(billingAddressAddress, billingAddressCity, billingAddressPostalCode, billingAddressProvince, billingAddressCountry))
-            {
                 throw new ArgumentException("billing address must either be empty or comprehensive of both address and city");
-            }
+
 
             CompanyName = companyName;
             VatNumber = vatNumber;

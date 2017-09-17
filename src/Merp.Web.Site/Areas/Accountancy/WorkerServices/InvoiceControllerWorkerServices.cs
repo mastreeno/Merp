@@ -52,6 +52,14 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
                 string.Empty,
                 string.Empty,
                 string.Empty,
+                string.Empty,
+
+                string.Empty,
+                string.Empty,
+                string.Empty,
+                string.Empty,
+                string.Empty,
+                string.Empty,
                 string.Empty
                 );
             Bus.Send(command);
@@ -61,6 +69,7 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
             var command = new RegisterIncomingInvoiceCommand(
                 model.InvoiceNumber,
                 model.Date,
+                model.DueDate,
                 model.Amount,
                 model.Taxes,
                 model.TotalPrice,

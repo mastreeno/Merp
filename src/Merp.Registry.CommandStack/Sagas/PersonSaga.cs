@@ -62,7 +62,7 @@ namespace Merp.Registry.CommandStack.Sagas
             return Task.Factory.StartNew(() =>
             {
                 var country = string.IsNullOrWhiteSpace(message.Address) || !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry();
-                var person = Person.Factory.CreateNewEntryByImport(message.PersonId, message.FirstName, message.LastName, message.NationalIdentificationNumber, message.VatNumber, message.Address, message.City, message.PostalCode, message.Province, country, null, null, null, null, null, null);
+                var person = Person.Factory.CreateNewEntryByImport(message.PersonId,message.RegistrationDate, message.FirstName, message.LastName, message.NationalIdentificationNumber, message.VatNumber, message.Address, message.City, message.PostalCode, message.Province, country, message.PhoneNumber, message.MobileNumber, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, message.InstantMessaging);
                 _repository.Save<Person>(person);
                 this.Data.PersonId = person.Id;
             });

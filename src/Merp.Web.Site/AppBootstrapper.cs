@@ -45,6 +45,10 @@ namespace Merp.Web.Site
         private void ConfigureBus()
         {
             var config = Rebus.Config.Configure.With(new NetCoreServiceCollectionContainerAdapter(Services))
+                .Options(o => {
+                    o.SetNumberOfWorkers(1);
+                    o.SetMaxParallelism(1);
+                })
                 .Logging(l => l.Trace())
                 .Routing(r => r.TypeBased()
                     .MapAssemblyOf<IncomingInvoiceSaga>(Configuration["Rebus:QueueName"])
@@ -109,34 +113,6 @@ namespace Merp.Web.Site
                 RegisterWorkerServices();
                 RegisterAclServices();
                 ConfigureEventStore();
-            }
-        }
-
-        public class ImportTool
-        {
-            public IBus Bus { get; set; }
-            public IHostingEnvironment Environment { get; set; }
-            public IServiceCollection Services { get; set; }
-
-            public IConfigurationRoot Configuration { get; private set; }
-
-            public ImportTool(IConfigurationRoot configuration, IServiceCollection services)
-            {
-                if (services == null)
-                    throw new ArgumentNullException(nameof(services));
-
-                if (configuration == null)
-                    throw new ArgumentNullException(nameof(configuration));
-
-                Bus = services.BuildServiceProvider().GetService<IBus>();
-                Configuration = configuration;
-                Services = services;
-                Environment = services.BuildServiceProvider().GetService<IHostingEnvironment>();
-            }
-
-            public void Configure()
-            {
-
             }
         }
     }

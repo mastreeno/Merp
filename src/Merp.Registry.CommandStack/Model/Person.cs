@@ -103,30 +103,12 @@ namespace Merp.Registry.CommandStack.Model
             /// <exception cref="ArgumentException">Thrown if the firstName or the last name are null or empty</exception>
             public static Person CreateNewEntry(string firstName, string lastName, string nationalIdentificationNumber, string vatNumber, string address, string city, string postalCode, string province, string country, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
             {
-                var personId = Guid.NewGuid();
-                return CreateNewEntryByImport(personId, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging);
-            }
-
-            /// <summary>
-            /// Creates an instance of the Person aggregate
-            /// </summary>
-            /// <param name="personId">The aggregate Id</param>
-            /// <param name="firstName">The person's first name</param>
-            /// <param name="lastName">The person's last name</param>
-            /// <param name="nationalIdentificationNumber">The person's National Identification Number</param>
-            /// <param name="vatNumber">The person's VAT Number</param>
-            /// <returns>The aggregate instance</returns>
-            /// <exception cref="ArgumentException">Thrown if the firstName or the last name are null or empty</exception>
-            public static Person CreateNewEntryByImport(Guid personId, string firstName, string lastName, string nationalIdentificationNumber, string vatNumber, string address, string city, string postalCode, string province, string country, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
-            {
                 if (string.IsNullOrWhiteSpace(firstName))
-                {
                     throw new ArgumentException("The first name must be specified", nameof(firstName));
-                }
+
                 if (string.IsNullOrWhiteSpace(lastName))
-                {
                     throw new ArgumentException("The last name must be specified", nameof(lastName));
-                }
+
                 if (!string.IsNullOrWhiteSpace(nationalIdentificationNumber))
                 {
                     if (!NationalIdentificationNumberHelper.IsMatchingFirstName(nationalIdentificationNumber, firstName))
@@ -143,7 +125,50 @@ namespace Merp.Registry.CommandStack.Model
                     throw new ArgumentException("postal address must either be empty or comprehensive of both address and city");
                 }
 
-                var e = new PersonRegisteredEvent(personId, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging);
+                var personId = Guid.NewGuid();
+                var registrationDate = DateTime.Now;
+                var e = new PersonRegisteredEvent(personId, registrationDate, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging);
+                var p = new Person();
+                p.RaiseEvent(e);
+                return p;
+            }
+
+            /// <summary>
+            /// Creates an instance of the Person aggregate
+            /// </summary>
+            /// <param name="personId">The aggregate Id</param>
+            /// <param name="registrationDate">The date in which the person was registered</param>
+            /// <param name="firstName">The person's first name</param>
+            /// <param name="lastName">The person's last name</param>
+            /// <param name="nationalIdentificationNumber">The person's National Identification Number</param>
+            /// <param name="vatNumber">The person's VAT Number</param>
+            /// <returns>The aggregate instance</returns>
+            /// <exception cref="ArgumentException">Thrown if the firstName or the last name are null or empty</exception>
+            public static Person CreateNewEntryByImport(Guid personId, DateTime registrationDate, string firstName, string lastName, string nationalIdentificationNumber, string vatNumber, string address, string city, string postalCode, string province, string country, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
+            {
+                if (string.IsNullOrWhiteSpace(firstName))
+                    throw new ArgumentException("The first name must be specified", nameof(firstName));
+
+                if (string.IsNullOrWhiteSpace(lastName))
+                    throw new ArgumentException("The last name must be specified", nameof(lastName));
+
+                //if (!string.IsNullOrWhiteSpace(nationalIdentificationNumber))
+                //{
+                //    if (!NationalIdentificationNumberHelper.IsMatchingFirstName(nationalIdentificationNumber, firstName))
+                //    {
+                //        throw new ArgumentException("National identification number is not matching with first name", nameof(nationalIdentificationNumber));
+                //    }
+                //    if (!NationalIdentificationNumberHelper.IsMatchingLastName(nationalIdentificationNumber, lastName))
+                //    {
+                //        throw new ArgumentException("National identification number is not matching with last name", nameof(nationalIdentificationNumber));
+                //    }
+                //}
+                if (!PostalAddressHelper.IsValidAddress(address, city, postalCode, province, country))
+                {
+                    throw new ArgumentException("postal address must either be empty or comprehensive of both address and city");
+                }
+
+                var e = new PersonRegisteredEvent(personId, registrationDate, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging);
                 var p = new Person();
                 p.RaiseEvent(e);
                 return p;

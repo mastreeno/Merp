@@ -1,2 +1,2 @@
 # Merp
-An event based Micro ERP
+An event based Micro ERP, developed by Andrea Saltarello
