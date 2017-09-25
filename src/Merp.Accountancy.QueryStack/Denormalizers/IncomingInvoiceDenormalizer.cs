@@ -8,14 +8,14 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
 {
     public class IncomingInvoiceDenormalizer :
         IHandleMessages<IncomingInvoiceRegisteredEvent>,
-        IHandleMessages<IncomingInvoiceExpiredEvent>,
+        IHandleMessages<IncomingInvoiceGotOverdueEvent>,
         IHandleMessages<IncomingInvoicePaidEvent>,
         IHandleMessages<IncomingInvoiceLinkedToJobOrderEvent>
     {
         public async Task Handle(IncomingInvoiceRegisteredEvent message)
         {
             var invoice = new IncomingInvoice();
-            invoice.Amount = message.TaxableAmount;
+            invoice.TaxableAmount = message.TaxableAmount;
             invoice.Date = message.InvoiceDate;
             invoice.DueDate = message.DueDate;
             invoice.Description = message.Description;
@@ -24,8 +24,19 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
             invoice.PurchaseOrderNumber = message.PurchaseOrderNumber;
             invoice.Taxes = message.Taxes;
             invoice.TotalPrice = message.TotalPrice;
-            invoice.IsExpired = false;
+            invoice.IsOverdue = false;
             invoice.IsPaid = false;
+            invoice.Customer = new Invoice.PartyInfo()
+            {
+                City = message.Customer.City,
+                Country = message.Customer.Country,
+                Name = message.Customer.Name,
+                NationalIdentificationNumber = message.Customer.NationalIdentificationNumber,
+                OriginalId = message.Customer.Id,
+                PostalCode = message.Customer.PostalCode,
+                StreetName = message.Customer.StreetName,
+                VatIndex = message.Customer.VatIndex
+            };
             invoice.Supplier = new Invoice.PartyInfo()
             {
                 City = message.Supplier.City,
@@ -52,20 +63,20 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
                     .Where(i => i.OriginalId == message.InvoiceId)
                     .Single();
                 invoice.IsPaid = true;
-                invoice.IsExpired = false;
+                invoice.IsOverdue = false;
                 invoice.PaymentDate = message.PaymentDate;
                 await ctx.SaveChangesAsync();
             }
         }
 
-        public async Task Handle(IncomingInvoiceExpiredEvent message)
+        public async Task Handle(IncomingInvoiceGotOverdueEvent message)
         {
             using (var ctx = new AccountancyContext())
             {
                 var invoice = ctx.IncomingInvoices
                     .Where(i => i.OriginalId == message.InvoiceId)
                     .Single();
-                invoice.IsExpired = true;
+                invoice.IsOverdue = true;
                 await ctx.SaveChangesAsync();
             }
         }

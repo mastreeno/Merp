@@ -45,10 +45,10 @@ namespace Merp.Web.Site
         private void ConfigureBus()
         {
             var config = Rebus.Config.Configure.With(new NetCoreServiceCollectionContainerAdapter(Services))
-                .Options(o => {
-                    o.SetNumberOfWorkers(1);
-                    o.SetMaxParallelism(1);
-                })
+                //.Options(o => {
+                //    o.SetNumberOfWorkers(1);
+                //    o.SetMaxParallelism(1);
+                //})
                 .Logging(l => l.Trace())
                 .Routing(r => r.TypeBased()
                     .MapAssemblyOf<IncomingInvoiceSaga>(Configuration["Rebus:QueueName"])

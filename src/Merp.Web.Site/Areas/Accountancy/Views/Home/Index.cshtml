@@ -1,17 +1,44 @@
-﻿
+﻿@model Merp.Web.Site.Areas.Accountancy.Models.Home.IndexViewModel
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Index</h2>
-<ul class="list-unstyled">
-    <li>Job Orders</li>
-    <li>@Html.ActionLink("View Job Orders", "Index", "JobOrder")</li>
-    <li><a href="/Accountancy/JobOrder/CreateJobOrder">Create Job Order</a></li>
-    <li>Invoices</li>
-    <li>@Html.ActionLink("Issue an invoice", "Issue", "Invoice")</li>
-    <li>@Html.ActionLink("Register an incoming invoice", "Register", "Invoice")</li>
-    <li>@Html.ActionLink("Link an incoming invoice to a job order", "IncomingInvoicesNotLinkedToAJobOrder", "Invoice")</li>
-    <li>@Html.ActionLink("Link an outgoing invoice to a job order", "OutgoingInvoicesNotLinkedToAJobOrder", "Invoice")</li>
-</ul>
+<div class="row">
+    <div class="col-md-4">
+        <ul class="list-unstyled">
+            <li>Job Orders</li>
+            <li>@Html.ActionLink("View Job Orders", "Index", "JobOrder")</li>
+            <li><a href="/Accountancy/JobOrder/CreateJobOrder">Create Job Order</a></li>
+            <li>Invoices</li>
+            <li>@Html.ActionLink("Issue an invoice", "Issue", "Invoice")</li>
+            <li>@Html.ActionLink("Register an incoming invoice", "Register", "Invoice")</li>
+            <li>@Html.ActionLink("Link an incoming invoice to a job order", "IncomingInvoicesNotLinkedToAJobOrder", "Invoice")</li>
+            <li>@Html.ActionLink("Link an outgoing invoice to a job order", "OutgoingInvoicesNotLinkedToAJobOrder", "Invoice")</li>
+        </ul>
+    </div>
+    <div class="col-md-8">
+        <ul class="list-unstyled list-inline">
+            <li class="col-md-6">
+                <h3>Outgoing invoices</h3>
+                <p>
+                    Outstanding: @Model.OutstandingOutgoingInvoicesCount (with @Model.OverdueOutgoingInvoicesCount of them being overdue)
+                </p>
+                <p>
+                    Owed: @Model.OutstandingOutgoingInvoicesTotalPrice (with @Model.OverdueOutgoingInvoicesTotalPrice being overdue)
+                </p>
+            </li>
+            <li class="col-md-6">
+                <h3>Incoming invoices</h3>
+                <p>
+                    Outstanding: @Model.OutstandingIncomingInvoicesCount (with @Model.OverdueIncomingInvoicesCount of them being overdue)
+                </p>
+                <p>
+                    Owed: @Model.OutstandingIncomingInvoicesTotalPrice (with @Model.OverdueIncomingInvoicesTotalPrice being overdue)
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+
 

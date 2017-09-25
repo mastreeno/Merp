@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Merp.Accountancy.CommandStack.Commands
 {
-    public class MarkOutgoingInvoiceAsExpiredCommand : Command
+    public class MarkOutgoingInvoiceAsOverdueCommand : Command
     {
         public Guid InvoiceId { get; set; }
 
-        public MarkOutgoingInvoiceAsExpiredCommand(Guid invoiceId)
+        public MarkOutgoingInvoiceAsOverdueCommand(Guid invoiceId)
         {
             InvoiceId = invoiceId;
         }

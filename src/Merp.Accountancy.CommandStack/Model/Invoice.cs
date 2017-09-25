@@ -20,7 +20,7 @@ namespace Merp.Accountancy.CommandStack.Model
         public string PurchaseOrderNumber { get; protected set; }
         public DateTime? DueDate { get; protected set; }
         public DateTime? PaymentDate { get; protected set; }
-        public bool IsExpired { get; protected set; }
+        public bool IsOverdue { get; protected set; }
 
         public class PartyInfo
         {

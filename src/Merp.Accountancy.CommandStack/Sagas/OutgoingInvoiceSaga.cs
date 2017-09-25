@@ -14,7 +14,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
         IAmInitiatedBy<IssueInvoiceCommand>,
         IAmInitiatedBy<ImportOutgoingInvoiceCommand>,
         IHandleMessages<MarkOutgoingInvoiceAsPaidCommand>,
-        IHandleMessages<MarkOutgoingInvoiceAsExpiredCommand>,
+        IHandleMessages<MarkOutgoingInvoiceAsOverdueCommand>,
         IHandleMessages<OutgoingInvoiceSaga.OutgoingInvoiceExpiredTimeout>
     {
         public readonly IBus Bus;
@@ -39,7 +39,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
             config.Correlate<MarkOutgoingInvoiceAsPaidCommand>(
                 message => message.InvoiceId,
                 sagaData => sagaData.InvoiceId);
-            config.Correlate<MarkOutgoingInvoiceAsExpiredCommand>(
+            config.Correlate<MarkOutgoingInvoiceAsOverdueCommand>(
                 message => message.InvoiceId,
                 sagaData => sagaData.InvoiceId);
             config.Correlate<OutgoingInvoiceSaga.OutgoingInvoiceExpiredTimeout>(
@@ -134,13 +134,13 @@ namespace Merp.Accountancy.CommandStack.Sagas
             });
         }
 
-        public Task Handle(MarkOutgoingInvoiceAsExpiredCommand message)
+        public Task Handle(MarkOutgoingInvoiceAsOverdueCommand message)
         {
             return Task.Factory.StartNew(() =>
             {
                 var invoice = Repository.GetById<OutgoingInvoice>(message.InvoiceId);
                 if (!invoice.PaymentDate.HasValue)
-                    invoice.MarkAsExpired();
+                    invoice.MarkAsOverdue();
             });
         }
 
@@ -151,7 +151,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 var invoice = Repository.GetById<OutgoingInvoice>(message.InvoiceId);
                 if (!invoice.PaymentDate.HasValue)
                 {
-                    var cmd = new MarkOutgoingInvoiceAsExpiredCommand(message.InvoiceId);
+                    var cmd = new MarkOutgoingInvoiceAsOverdueCommand(message.InvoiceId);
                     Bus.Send(cmd);
                 }
             });

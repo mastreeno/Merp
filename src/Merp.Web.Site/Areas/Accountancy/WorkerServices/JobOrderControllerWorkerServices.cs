@@ -116,7 +116,7 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
                                       select new IncomingInvoicesAssociatedToJobOrderViewModel.Invoice
                                       {
                                           DateOfIssue = i.Date,
-                                          Price = i.Amount,
+                                          Price = i.TaxableAmount,
                                           Number = i.Number,
                                           SupplierName = i.Supplier.Name
                                       }).ToArray();
@@ -131,7 +131,7 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
                                       select new OutgoingInvoicesAssociatedToJobOrderViewModel.Invoice
                                       {
                                           DateOfIssue = i.Date,
-                                          Price = i.Amount,
+                                          Price = i.TaxableAmount,
                                           Number = i.Number,
                                           CustomerName = i.Customer.Name
                                       }).ToArray();
@@ -171,10 +171,11 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
             model.JobOrderId = jobOrder.Id;
             model.JobOrderNumber = jobOrder.Number;
             model.JobOrderName = jobOrder.Name;
-            model.Notes = string.Empty;
-            model.Price = jobOrder.Price.Amount;
+            model.Notes = jobOrder.Description;
+            model.Price = jobOrder?.Price?.Amount ?? 0;
             model.IsCompleted = jobOrder.IsCompleted;
-                                     
+            model.Balance = jobOrder.Balance;
+            
             return model;
         }
 

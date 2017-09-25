@@ -155,7 +155,7 @@ namespace Merp.Accountancy.CommandStack.Model
         {
             if (this.IsCompleted)
                 throw new InvalidOperationException("Can't relate new costs to a completed job order");
-            var count = eventStore.Find<IncomingInvoiceLinkedToJobOrderEvent>(e => e.InvoiceId == invoiceId).Count();
+            var count = eventStore.Find<IncomingInvoiceLinkedToJobOrderEvent>(e => e.InvoiceId == invoiceId && e.JobOrderId == this.Id).Count();
             if(count>0)
                 throw new InvalidOperationException("The specified invoice is already associated to a Job Order.");
             var @event = new IncomingInvoiceLinkedToJobOrderEvent(invoiceId, this.Id, dateOfLink, amount);
@@ -172,7 +172,7 @@ namespace Merp.Accountancy.CommandStack.Model
         {
             if (this.IsCompleted)
                 throw new InvalidOperationException("Can't relate new revenues to a completed job order");
-            var count = eventStore.Find<OutgoingInvoiceLinkedToJobOrderEvent>(e => e.InvoiceId == invoiceId).Count();
+            var count = eventStore.Find<OutgoingInvoiceLinkedToJobOrderEvent>(e => e.InvoiceId == invoiceId && e.JobOrderId == this.Id).Count();
             if (count > 0)
                 throw new InvalidOperationException("The specified invoice is already associated to a Job Order.");
             var @event = new OutgoingInvoiceLinkedToJobOrderEvent(invoiceId, this.Id, dateOfLink, amount);

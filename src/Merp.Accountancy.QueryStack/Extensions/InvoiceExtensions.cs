@@ -38,5 +38,18 @@ namespace Merp.Accountancy.QueryStack
         {
             return _PerJobOrder(invoices, jobOrderId);
         }
+
+        public static IQueryable<Invoice> Outstanding(this IQueryable<Invoice> invoices)
+        {
+            return invoices.Where(i => !i.IsPaid);
+        }
+
+        public static IQueryable<Invoice> Due(this IQueryable<Invoice> invoices)
+        {
+            var today = DateTime.Now;
+            return invoices
+                    .Outstanding()
+                    .Where(i => i.DueDate < today);
+        }
     }
 }

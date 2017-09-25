@@ -12,7 +12,7 @@ namespace Merp.Accountancy.CommandStack.Model
 {
     public class OutgoingInvoice : Invoice,
         IApplyEvent<OutgoingInvoiceIssuedEvent>,
-        IApplyEvent<OutgoingInvoiceExpiredEvent>
+        IApplyEvent<OutgoingInvoiceGotOverdueEvent>
     {
         public PartyInfo Customer { get; protected set; }
 
@@ -24,7 +24,7 @@ namespace Merp.Accountancy.CommandStack.Model
         public void ApplyEvent([AggregateId(nameof(OutgoingInvoiceIssuedEvent.InvoiceId))] OutgoingInvoiceIssuedEvent evt)
         {
             Id = evt.InvoiceId;
-            IsExpired = false;
+            IsOverdue = false;
             Number = evt.InvoiceNumber;
             Date = evt.InvoiceDate;
             DueDate = evt.DueDate;
@@ -42,9 +42,9 @@ namespace Merp.Accountancy.CommandStack.Model
             PaymentDate = evt.PaymentDate;
         }
 
-        public void ApplyEvent([AggregateId(nameof(OutgoingInvoiceExpiredEvent.InvoiceId))] OutgoingInvoiceExpiredEvent evt)
+        public void ApplyEvent([AggregateId(nameof(OutgoingInvoiceGotOverdueEvent.InvoiceId))] OutgoingInvoiceGotOverdueEvent evt)
         {
-            IsExpired = true;
+            IsOverdue = true;
         }
 
         public void MarkAsPaid(DateTime paymentDate)
@@ -53,12 +53,12 @@ namespace Merp.Accountancy.CommandStack.Model
             RaiseEvent(evt);
         }
 
-        public void MarkAsExpired()
+        public void MarkAsOverdue()
         {
             if (!DueDate.HasValue)
                 throw new InvalidOperationException("An invoice must have a due date for it to be marked as expired.");
 
-            var evt = new OutgoingInvoiceExpiredEvent(this.Id, DueDate.Value);
+            var evt = new OutgoingInvoiceGotOverdueEvent(this.Id, DueDate.Value);
             RaiseEvent(evt);
         }
 

@@ -9,7 +9,7 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
 {
     public class OutgoingInvoiceDenormalizer :
         IHandleMessages<OutgoingInvoiceIssuedEvent>,
-        IHandleMessages<OutgoingInvoiceExpiredEvent>,
+        IHandleMessages<OutgoingInvoiceGotOverdueEvent>,
         IHandleMessages<OutgoingInvoicePaidEvent>,
         IHandleMessages<OutgoingInvoiceLinkedToJobOrderEvent>
     {
@@ -17,7 +17,7 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
         public async Task Handle(OutgoingInvoiceIssuedEvent message)
         {
             var invoice = new OutgoingInvoice();
-            invoice.Amount = message.TaxableAmount;
+            invoice.TaxableAmount = message.TaxableAmount;
             invoice.Date = message.InvoiceDate;
             invoice.DueDate = message.DueDate;
             invoice.Description = message.Description;
@@ -26,7 +26,7 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
             invoice.PurchaseOrderNumber = message.PurchaseOrderNumber;
             invoice.Taxes = message.Taxes;
             invoice.TotalPrice = message.TotalPrice;
-            invoice.IsExpired = false;
+            invoice.IsOverdue = false;
             invoice.IsPaid = false;
             invoice.Customer = new Invoice.PartyInfo()
             {
@@ -38,6 +38,17 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
                 PostalCode = message.Customer.PostalCode,
                 StreetName = message.Customer.StreetName,
                 VatIndex = message.Customer.VatIndex
+            };
+            invoice.Supplier = new Invoice.PartyInfo()
+            {
+                City = message.Supplier.City,
+                Country = message.Supplier.Country,
+                Name = message.Supplier.Name,
+                NationalIdentificationNumber = message.Supplier.NationalIdentificationNumber,
+                OriginalId = message.Supplier.Id,
+                PostalCode = message.Supplier.PostalCode,
+                StreetName = message.Supplier.StreetName,
+                VatIndex = message.Supplier.VatIndex
             };
             using (var ctx = new AccountancyContext())
             {
@@ -54,20 +65,20 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
                     .Where(i => i.OriginalId == message.InvoiceId)
                     .Single();
                 invoice.IsPaid = true;
-                invoice.IsExpired = false;
+                invoice.IsOverdue = false;
                 invoice.PaymentDate = message.PaymentDate;
                 await ctx.SaveChangesAsync();
             }
         }
 
-        public async Task Handle(OutgoingInvoiceExpiredEvent message)
+        public async Task Handle(OutgoingInvoiceGotOverdueEvent message)
         {
             using (var ctx = new AccountancyContext())
             {
                 var invoice = ctx.OutgoingInvoices
                     .Where(i => i.OriginalId == message.InvoiceId)
                     .Single();
-                invoice.IsExpired = true;
+                invoice.IsOverdue = true;
                 await ctx.SaveChangesAsync();
             }
         }

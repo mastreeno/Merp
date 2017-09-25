@@ -35,6 +35,7 @@ namespace Merp.Accountancy.CommandStack.Commands
 
         public Guid InvoiceId { get; set; }
         public string InvoiceNumber { get; set; }
+        public PartyInfo Customer { get; set; }
         public PartyInfo Supplier { get; set; }
         public DateTime InvoiceDate { get; set; }
         public DateTime DueDate { get; set; }
@@ -45,21 +46,33 @@ namespace Merp.Accountancy.CommandStack.Commands
         public string PaymentTerms { get; set; }
         public string PurchaseOrderNumber { get; set; }
 
-        public ImportIncomingInvoiceCommand(Guid invoiceId, string invoiceNumber, DateTime invoiceDate, DateTime dueDate, decimal taxableAmount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, 
-            Guid supplierId, string supplierName, string address, string city, string postalCode, string country, string vatIndex, string nationalIdentificationNumber)
+        public ImportIncomingInvoiceCommand(Guid invoiceId, string invoiceNumber, DateTime invoiceDate, DateTime dueDate, decimal taxableAmount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber,
+            Guid customerId, string customerName, string customerAddress, string customerCity, string customerPostalCode, string customerCountry, string customerVatIndex, string customerNationalIdentificationNumber,
+            Guid supplierId, string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber)
         {
-            var supplier = new PartyInfo(
-                city: city,
-                partyName: supplierName,
-                country: country,
-                partyId: supplierId,
-                nationalIdentificationNumber: nationalIdentificationNumber,
-                postalCode: postalCode,
-                address: address,
-                vatIndex: vatIndex
+            var customer = new PartyInfo(
+                city: customerCity,
+                partyName: customerName,
+                country: customerCountry,
+                partyId: customerId,
+                nationalIdentificationNumber: customerNationalIdentificationNumber,
+                postalCode: customerPostalCode,
+                address: customerAddress,
+                vatIndex: customerVatIndex
             );
-            InvoiceId = invoiceId;
+            var supplier = new PartyInfo(
+                partyId: supplierId,
+                city: supplierCity,
+                partyName: supplierName,
+                country: supplierCountry,
+                nationalIdentificationNumber: supplierNationalIdentificationNumber,
+                postalCode: supplierPostalCode,
+                address: supplierAddress,
+                vatIndex: supplierVatIndex
+            );
+            Customer = customer;
             Supplier = supplier;
+            InvoiceId = invoiceId;
             InvoiceNumber = invoiceNumber;
             InvoiceDate = invoiceDate;
             DueDate = dueDate;

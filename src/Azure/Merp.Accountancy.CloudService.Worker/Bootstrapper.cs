@@ -131,12 +131,12 @@ namespace Merp.Accountancy.CloudService.Worker
                 Bus.Subscribe<JobOrderRegisteredEvent>();
                 Bus.Subscribe<IncomingInvoiceLinkedToJobOrderEvent>();
                 Bus.Subscribe<IncomingInvoiceRegisteredEvent>();
-                Bus.Subscribe<IncomingInvoiceExpiredEvent>();
+                Bus.Subscribe<IncomingInvoiceGotOverdueEvent>();
                 Bus.Subscribe<IncomingInvoicePaidEvent>();
                 Bus.Subscribe<OutgoingInvoiceIssuedEvent>();
                 Bus.Subscribe<OutgoingInvoiceLinkedToJobOrderEvent>();
                 Bus.Subscribe<OutgoingInvoicePaidEvent>();
-                Bus.Subscribe<OutgoingInvoiceExpiredEvent>();
+                Bus.Subscribe<OutgoingInvoiceGotOverdueEvent>();
             }
         }
     }

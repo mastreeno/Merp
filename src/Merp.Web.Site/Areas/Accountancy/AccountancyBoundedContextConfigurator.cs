@@ -7,6 +7,7 @@ using Merp.Web.Site.Areas.Accountancy.WorkerServices;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Rebus.ServiceProvider;
 using System;
@@ -21,7 +22,11 @@ namespace Merp.Web.Site.Areas.Accountancy
     {
         public AccountancyBoundedContextConfigurator(IConfigurationRoot configuration, IServiceCollection services) : base(configuration, services)
         {
-
+            var section = configuration.GetSection("Merp:Accountancy:InvoicingSettings");
+            var config = new InvoicingSettings();
+            new ConfigureFromConfigurationOptions<InvoicingSettings>(section)
+                .Configure(config);
+            services.AddSingleton(config);
         }
 
         protected override void ConfigureEventStore()
@@ -43,11 +48,11 @@ namespace Merp.Web.Site.Areas.Accountancy
             Bus.Subscribe<IncomingInvoiceLinkedToJobOrderEvent>();
             Bus.Subscribe<IncomingInvoiceRegisteredEvent>();
             Bus.Subscribe<IncomingInvoicePaidEvent>();
-            Bus.Subscribe<IncomingInvoiceExpiredEvent>();
+            Bus.Subscribe<IncomingInvoiceGotOverdueEvent>();
             Bus.Subscribe<OutgoingInvoiceIssuedEvent>();
             Bus.Subscribe<OutgoingInvoiceLinkedToJobOrderEvent>();
             Bus.Subscribe<OutgoingInvoicePaidEvent>();
-            Bus.Subscribe<OutgoingInvoiceExpiredEvent>();
+            Bus.Subscribe<OutgoingInvoiceGotOverdueEvent>();
         }
 
         protected override void RegisterDenormalizers()
@@ -86,6 +91,7 @@ namespace Merp.Web.Site.Areas.Accountancy
         protected override void RegisterWorkerServices()
         {
             //Worker Services
+            Services.AddScoped<HomeControllerWorkerServices, HomeControllerWorkerServices>();
             Services.AddScoped<InvoiceControllerWorkerServices, InvoiceControllerWorkerServices>();
             Services.AddScoped<JobOrderControllerWorkerServices, JobOrderControllerWorkerServices>();
         }
@@ -93,6 +99,16 @@ namespace Merp.Web.Site.Areas.Accountancy
         protected override void RegisterAclServices()
         {
             //Acl Services
+        }
+
+        public class InvoicingSettings
+        {
+            public string CompanyName { get; set; }
+            public string Address { get; set; }
+            public string City { get; set; }
+            public string PostalCode { get; set; }
+            public string Country { get; set; }
+            public string TaxId { get; set; }
         }
     }
 }

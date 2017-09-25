@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Merp.Accountancy.CommandStack.Sagas
 {
-    public sealed class JobOrderSaga : Saga<JobOrderSaga.FixedPriceJobOrderSagaData>,
+    public sealed class JobOrderSaga : Saga<JobOrderSaga.JobOrderSagaData>,
         IAmInitiatedBy<ImportJobOrderCommand>,
         IAmInitiatedBy<RegisterJobOrderCommand>,
         IHandleMessages<ExtendJobOrderCommand>,
@@ -31,7 +31,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
             JobOrderNumberGenerator = jobOrderNumberGenerator ?? throw new ArgumentNullException(nameof(jobOrderNumberGenerator));
         }
 
-        protected override void CorrelateMessages(ICorrelationConfig<FixedPriceJobOrderSagaData> config)
+        protected override void CorrelateMessages(ICorrelationConfig<JobOrderSagaData> config)
         {
             config.Correlate<ImportJobOrderCommand>(
                 message => message.JobOrderId,
@@ -147,7 +147,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
             });
         }
 
-        public class FixedPriceJobOrderSagaData : SagaData
+        public class JobOrderSagaData : SagaData
         {
             public Guid JobOrderId { get; set; }
         }

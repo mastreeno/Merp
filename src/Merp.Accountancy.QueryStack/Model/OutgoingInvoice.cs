@@ -8,6 +8,6 @@ namespace Merp.Accountancy.QueryStack.Model
 {
     public class OutgoingInvoice : Invoice
     {
-        public PartyInfo Customer { get; set; }
+        
     }
 }

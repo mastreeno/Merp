@@ -11,7 +11,7 @@ namespace Merp.Accountancy.CommandStack.Events
 {
     public class IncomingInvoiceRegisteredEvent : DomainEvent
     {
-        public class SupplierInfo
+        public class PartyInfo
         {
             public Guid Id { get; set; }
             public string Name { get; set; }
@@ -22,21 +22,22 @@ namespace Merp.Accountancy.CommandStack.Events
             public string VatIndex { get; set; }
             public string NationalIdentificationNumber { get; set; }
 
-            public SupplierInfo(Guid supplierId, string supplierName, string streetName, string city, string postalCode, string country, string vatIndex, string nationalIdentificationNumber)
+            public PartyInfo(Guid partyId, string partyName, string address, string city, string postalCode, string country, string vatIndex, string nationalIdentificationNumber)
             {
                 City = city;
-                Name=supplierName;
+                Name = partyName;
                 Country = country;
-                Id = supplierId;
+                Id = partyId;
                 NationalIdentificationNumber = nationalIdentificationNumber;
                 PostalCode = postalCode;
-                StreetName=streetName;
+                StreetName = address;
                 VatIndex = vatIndex;
             }
         }
         public Guid InvoiceId { get; set; }
         public string InvoiceNumber { get; set; }
-        public SupplierInfo Supplier { get; set; }
+        public PartyInfo Customer { get; set; }
+        public PartyInfo Supplier { get; set; }
         [Timestamp]
         public DateTime InvoiceDate { get; set; }
         public DateTime? DueDate { get; set; }
@@ -47,18 +48,31 @@ namespace Merp.Accountancy.CommandStack.Events
         public string PaymentTerms { get; set; }
         public string PurchaseOrderNumber { get; set; }
 
-        public IncomingInvoiceRegisteredEvent(Guid invoiceId, string invoiceNumber, DateTime invoiceDate, DateTime? dueDate, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, Guid supplierId, string supplierName, string streetName, string city, string postalCode, string country, string vatIndex, string nationalIdentificationNumber)
+        public IncomingInvoiceRegisteredEvent(Guid invoiceId, string invoiceNumber, DateTime invoiceDate, DateTime? dueDate, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber,
+            Guid customerId, string customerName, string customerAddress, string customerCity, string customerPostalCode, string customerCountry, string customerVatIndex, string customerNationalIdentificationNumber,
+            Guid supplierId, string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber)
         {
-            var supplier = new SupplierInfo(
-                city: city,
-                supplierName: supplierName,
-                country: country,
-                supplierId: supplierId,
-                nationalIdentificationNumber: nationalIdentificationNumber,
-                postalCode: postalCode,
-                streetName: streetName,
-                vatIndex: vatIndex
+            var customer = new PartyInfo(
+                city: customerCity,
+                partyName: customerName,
+                country: customerCountry,
+                partyId: customerId,
+                nationalIdentificationNumber: customerNationalIdentificationNumber,
+                postalCode: customerPostalCode,
+                address: customerAddress,
+                vatIndex: customerVatIndex
             );
+            var supplier = new PartyInfo(
+                partyId: supplierId,
+                city: supplierCity,
+                partyName: supplierName,
+                country: supplierCountry,
+                nationalIdentificationNumber: supplierNationalIdentificationNumber,
+                postalCode: supplierPostalCode,
+                address: supplierAddress,
+                vatIndex: supplierVatIndex
+            );
+            Customer = customer;
             Supplier = supplier;
             InvoiceId = invoiceId;
             InvoiceNumber = invoiceNumber;

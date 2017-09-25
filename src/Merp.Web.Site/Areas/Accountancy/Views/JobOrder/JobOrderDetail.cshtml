@@ -120,7 +120,7 @@
                     </dt>
 
                     <dd>
-                        <span id="jobOrderBalance"></span><input type="button" value="evaluate" onclick="evalJobOrderBalance('@Model.JobOrderId');" />
+                        <span id="jobOrderBalance">@Model.Balance.ToString("0.00")</span>&nbsp;<input type="button" value="Refresh" onclick="evalJobOrderBalance('@Model.JobOrderId');" />
                     </dd>
                 </dl>
 

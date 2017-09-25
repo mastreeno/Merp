@@ -4,14 +4,11 @@
 }
 <h2>@Html.DisplayFor(model => model.JobOrderName)</h2>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
+<form method="post">
     <div class="form-horizontal">
         <h4>@Html.DisplayFor(model => model.CustomerName)</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div asp-validation-summary="All" class="text-danger"></div>
         <div class="form-group">
             <label asp-for="CustomerName" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -28,14 +25,14 @@
             <label asp-for="NewDueDate" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.NewDueDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NewDueDate, "", new { @class = "text-danger" })
+                <span asp-validation-for="NewDueDate" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="Price" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                <span asp-validation-for="Price" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
@@ -50,7 +47,7 @@
             @Html.HiddenFor(model => model.CustomerName, new { htmlAttributes = new { @class = "form-control" } })
         </div>
     </div>
-}
+</form>
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

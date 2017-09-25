@@ -6,88 +6,86 @@
 
 <h2>Issue</h2>
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
+<form method="post">
+
     <div class="form-horizontal">
         <h4>IssueViewModel</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div asp-validation-summary="All" class="text-danger"></div>
         <div class="form-group">
-            @Html.LabelFor(model => model.Supplier, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label asp-for="Supplier" class="control-label col-md-2"></label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Supplier, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Supplier, "", new { @class = "text-danger" })
+                <span asp-validation-for="Supplier" class="text-danger"></span>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.InvoiceNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label asp-for="InvoiceNumber" class="control-label col-md-2"></label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.InvoiceNumber, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.InvoiceNumber, "", new { @class = "text-danger" })
+                <input asp-for="InvoiceNumber" class="form-control" />
+                <span asp-validation-for="InvoiceNumber" class="text-danger"></span>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label asp-for="Date" class="control-label col-md-2"></label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                <span asp-validation-for="Date" class="text-danger"></span>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DueDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label asp-for="DueDate" class="control-label col-md-2"></label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
+                <span asp-validation-for="DueDate" class="text-danger"></span>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label asp-for="Amount" class="control-label col-md-2"></label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Taxes, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label asp-for="Taxes" class="control-label col-md-2"></label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Taxes, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Taxes, "", new { @class = "text-danger" })
+                <input asp-for="Taxes" class="form-control" />
+                <span asp-validation-for="Taxes" class="text-danger"></span>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TotalPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label asp-for="TotalPrice" class="control-label col-md-2"></label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.TotalPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TotalPrice, "", new { @class = "text-danger" })
+                <input asp-for="TotalPrice" class="form-control" />
+                <span asp-validation-for="TotalPrice" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.PurchaseOrderNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label asp-for="PurchaseOrderNumber" class="control-label col-md-2"></label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PurchaseOrderNumber, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PurchaseOrderNumber, "", new { @class = "text-danger" })
+                <input asp-for="PurchaseOrderNumber" class="form-control" />
+                <span asp-validation-for="PurchaseOrderNumber" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.PaymentTerms, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label asp-for="PaymentTerms" class="control-label col-md-2"></label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PaymentTerms, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PaymentTerms, "", new { @class = "text-danger" })
+                <input asp-for="PaymentTerms" class="form-control" />
+                <span asp-validation-for="PaymentTerms" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label asp-for="Description" class="control-label col-md-2"></label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
         </div>
 
@@ -97,7 +95,7 @@
             </div>
         </div>
     </div>
-}
+</form>
 @section head {
     <environment names="Development">
         <link type="text/css" rel="stylesheet" href="~/lib/jquery-ui/themes/smoothness/jquery-ui.css" />

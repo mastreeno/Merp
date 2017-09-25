@@ -13,7 +13,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
         IAmInitiatedBy<RegisterIncomingInvoiceCommand>,
         IAmInitiatedBy<ImportIncomingInvoiceCommand>,
         IHandleMessages<MarkIncomingInvoiceAsPaidCommand>,
-        IHandleMessages<MarkIncomingInvoiceAsExpiredCommand>,
+        IHandleMessages<MarkIncomingInvoiceAsOverdueCommand>,
         IHandleMessages<IncomingInvoiceSaga.IncomingInvoiceExpiredTimeout>
     {
         public readonly IBus Bus;
@@ -36,7 +36,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
             config.Correlate<MarkIncomingInvoiceAsPaidCommand>(
                 message => message.InvoiceId,
                 sagaData => sagaData.InvoiceId);
-            config.Correlate<MarkIncomingInvoiceAsExpiredCommand>(
+            config.Correlate<MarkIncomingInvoiceAsOverdueCommand>(
                 message => message.InvoiceId,
                 sagaData => sagaData.InvoiceId);
             config.Correlate<IncomingInvoiceSaga.IncomingInvoiceExpiredTimeout>(
@@ -58,6 +58,14 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 message.Description,
                 message.PaymentTerms,
                 message.PurchaseOrderNumber,
+                message.Customer.Id,
+                message.Customer.Name,
+                message.Customer.Address,
+                message.Customer.City,
+                message.Customer.PostalCode,
+                message.Customer.Country,
+                message.Customer.VatIndex,
+                message.Customer.NationalIdentificationNumber,
                 message.Supplier.Id,
                 message.Supplier.Name,
                 message.Supplier.Address,
@@ -92,6 +100,14 @@ namespace Merp.Accountancy.CommandStack.Sagas
                     message.Description,
                     message.PaymentTerms,
                     message.PurchaseOrderNumber,
+                    message.Customer.Id,
+                    message.Customer.Name,
+                    message.Customer.Address,
+                    message.Customer.City,
+                    message.Customer.PostalCode,
+                    message.Customer.Country,
+                    message.Customer.VatIndex,
+                    message.Customer.NationalIdentificationNumber,
                     message.Supplier.Id,
                     message.Supplier.Name,
                     message.Supplier.Address,
@@ -117,13 +133,13 @@ namespace Merp.Accountancy.CommandStack.Sagas
             });
         }
 
-        public Task Handle(MarkIncomingInvoiceAsExpiredCommand message)
+        public Task Handle(MarkIncomingInvoiceAsOverdueCommand message)
         {
             return Task.Factory.StartNew(() =>
             {
                 var invoice = Repository.GetById<IncomingInvoice>(message.InvoiceId);
                 if (!invoice.PaymentDate.HasValue)
-                    invoice.MarkAsExpired();
+                    invoice.MarkAsOverdue();
             });
         }
 
@@ -134,7 +150,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 var invoice = Repository.GetById<IncomingInvoice>(message.InvoiceId);
                 if (!invoice.PaymentDate.HasValue)
                 {
-                    var cmd = new MarkIncomingInvoiceAsExpiredCommand(message.InvoiceId);
+                    var cmd = new MarkIncomingInvoiceAsOverdueCommand(message.InvoiceId);
                     Bus.Send(cmd);
                 }
             });

@@ -8,13 +8,14 @@ using System.Threading.Tasks;
 
 namespace Merp.Accountancy.CommandStack.Events
 {
-    public class IncomingInvoiceExpiredEvent : DomainEvent
+    public class OutgoingInvoiceGotOverdueEvent : DomainEvent
     {
         public Guid InvoiceId { get; set; }
+
         [Timestamp]
         public DateTime DueDate { get; set; }
 
-        public IncomingInvoiceExpiredEvent(Guid invoiceId, DateTime dueDate)
+        public OutgoingInvoiceGotOverdueEvent(Guid invoiceId, DateTime dueDate)
         {
             InvoiceId = invoiceId;
             DueDate = dueDate;

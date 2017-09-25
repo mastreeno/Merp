@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Rebus.Bus;
+using static Merp.Web.Site.Areas.Accountancy.AccountancyBoundedContextConfigurator;
 
 namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
 {
@@ -12,16 +13,13 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
     {
         public IBus Bus { get; private set; }
         public IDatabase Database { get; set; }
+        public InvoicingSettings Settings { get; set; }
 
-        public InvoiceControllerWorkerServices(IBus bus, IDatabase database)
+        public InvoiceControllerWorkerServices(IBus bus, IDatabase database, InvoicingSettings invoicingSettings)
         {
-            if(bus==null)
-                throw new ArgumentNullException(nameof(bus));
-            if (database == null)
-                throw new ArgumentNullException(nameof(database));
-
-            this.Bus = bus;
-            this.Database = database;
+            this.Bus = bus ?? throw new ArgumentNullException(nameof(bus));
+            this.Database = database ?? throw new ArgumentNullException(nameof(database));
+            this.Settings = invoicingSettings ?? throw new ArgumentNullException(nameof(invoicingSettings));
         }
         public IssueViewModel GetIssueViewModel()
         {
@@ -47,19 +45,18 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
                 model.PurchaseOrderNumber,
                 model.Customer.OriginalId,
                 model.Customer.Name,
-                string.Empty,
-                string.Empty,
-                string.Empty,
-                string.Empty,
-                string.Empty,
-                string.Empty,
-
-                string.Empty,
-                string.Empty,
-                string.Empty,
-                string.Empty,
-                string.Empty,
-                string.Empty,
+                Settings.Address,
+                Settings.City,
+                Settings.PostalCode,
+                Settings.Country,
+                Settings.TaxId,
+                Settings.TaxId,
+                Settings.CompanyName,
+                Settings.Address,
+                Settings.City,
+                Settings.PostalCode,
+                Settings.Country,
+                Settings.TaxId,
                 string.Empty
                 );
             Bus.Send(command);
@@ -76,6 +73,14 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
                 model.Description,
                 model.PaymentTerms,
                 model.PurchaseOrderNumber,
+                Guid.Empty,
+                Settings.CompanyName,
+                Settings.Address,
+                Settings.City,
+                Settings.PostalCode,
+                Settings.Country,
+                Settings.TaxId,
+                string.Empty,
                 model.Supplier.OriginalId,
                 model.Supplier.Name,
                 string.Empty,
@@ -95,7 +100,7 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
                         orderby i.Date
                         select new IncomingInvoicesNotLinkedToAJobOrderViewModel.Invoice
                         {
-                            Amount = i.Amount,
+                            Amount = i.TaxableAmount,
                             Number = i.Number,
                             SupplierName = i.Supplier.Name,
                             OriginalId = i.OriginalId
@@ -109,7 +114,7 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
                         where i.OriginalId == invoiceId
                         select new LinkIncomingInvoiceToJobOrderViewModel
                         {
-                            Amount = i.Amount,
+                            Amount = i.TaxableAmount,
                             DateOfLink = i.Date,
                             InvoiceNumber = i.Number,
                             InvoiceOriginalId = i.OriginalId,
@@ -135,7 +140,7 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
                          orderby i.Date
                          select new OutgoingInvoicesNotLinkedToAJobOrderViewModel.Invoice
                          {
-                             Amount = i.Amount,
+                             Amount = i.TaxableAmount,
                              Number = i.Number,
                              CustomerName = i.Customer.Name,
                              OriginalId = i.OriginalId
@@ -149,7 +154,7 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
                          where i.OriginalId == invoiceId
                          select new LinkOutgoingInvoiceToJobOrderViewModel
                          {
-                             Amount = i.Amount,
+                             Amount = i.TaxableAmount,
                              DateOfLink = i.Date,
                              InvoiceNumber = i.Number,
                              InvoiceOriginalId = i.OriginalId,
