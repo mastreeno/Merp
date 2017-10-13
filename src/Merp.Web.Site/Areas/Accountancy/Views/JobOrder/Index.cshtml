@@ -23,6 +23,7 @@
                      }
                     );
             }
+            $scope.currentOnly = true;
             $scope.refreshJobOrdersList();
         };
         module.controller('jobOrdersController', ['$scope', '$http', jobOrdersController]);
@@ -50,10 +51,10 @@
             </div>
             <div class="row">
                 <div class="form-group">
-                    <label for="currentOnly" class="control-label col-md-2">Current only</label>
+                    <label asp-for="CurrentOnly" class="control-label col-md-2"></label>
                     <div class="col-md-10">
                         <div class="checkbox">
-                            <input type="checkbox" id="currentOnly" data-ng-model="currentOnly" data-ng-click="refreshJobOrdersList()" />
+                            <input asp-for="CurrentOnly" type="checkbox" data-ng-model="currentOnly" data-ng-click="refreshJobOrdersList()" />
                         </div>
                     </div>
                 </div>

@@ -165,17 +165,18 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
             var jobOrder = Repository.GetById<Merp.Accountancy.CommandStack.Model.JobOrder>(jobOrderId);
 
             var model = new JobOrderDetailViewModel();
-            model.CustomerName = string.Empty;
+            model.ManagerId = jobOrder.ManagerId;
+            model.CustomerId = jobOrder.CustomerId;
             model.DateOfStart = jobOrder.DateOfStart;
             model.DueDate = jobOrder.DueDate;
             model.JobOrderId = jobOrder.Id;
             model.JobOrderNumber = jobOrder.Number;
             model.JobOrderName = jobOrder.Name;
-            model.Notes = jobOrder.Description;
+            model.Description = jobOrder.Description;
             model.Price = jobOrder?.Price?.Amount ?? 0;
             model.IsCompleted = jobOrder.IsCompleted;
             model.Balance = jobOrder.Balance;
-            
+                                     
             return model;
         }
 

@@ -47,7 +47,7 @@ namespace Merp.Web.Site
             var config = Rebus.Config.Configure.With(new NetCoreServiceCollectionContainerAdapter(Services))
                 //.Options(o => {
                 //    o.SetNumberOfWorkers(1);
-                //    o.SetMaxParallelism(1);
+                //    o.SetMaxParallelism(50);
                 //})
                 .Logging(l => l.Trace())
                 .Routing(r => r.TypeBased()
@@ -61,7 +61,7 @@ namespace Merp.Web.Site
             {
                 config.Transport(t => t.UseMsmq(Configuration["Rebus:QueueName"]));
             }
-            else if (Environment.IsAzure())
+            else if (Environment.IsAzureCloudServices() || Environment.IsAzureCosmosDB() || Environment.IsAzureMongoDB())
             {
                 config.Transport(t => t.UseAzureServiceBus(Configuration["Rebus:ServiceBusConnectionString"], Configuration["Rebus:QueueName"], AzureServiceBusMode.Basic));
             }
@@ -101,7 +101,10 @@ namespace Merp.Web.Site
 
             public void Configure()
             {
-                if (Environment.IsDevelopment() || Environment.IsOnPremises())
+                if (Environment.IsDevelopment() || 
+                    Environment.IsOnPremises() || 
+                    Environment.IsAzureCosmosDB() || 
+                    Environment.IsAzureMongoDB())
                 {
                     RegisterDenormalizers();
                     RegisterHandlers();
@@ -119,11 +122,18 @@ namespace Merp.Web.Site
 
     static class EnvironmentExtensions
     {
-        public static bool IsAzure(this IHostingEnvironment env)
+        public static bool IsAzureCloudServices(this IHostingEnvironment env)
         {
-            return env.EnvironmentName.Contains("Azure");
+            return env.EnvironmentName.Contains("AzureCloudServices");
         }
-
+        public static bool IsAzureCosmosDB(this IHostingEnvironment env)
+        {
+            return env.EnvironmentName.Contains("AzureCosmosDB");
+        }
+        public static bool IsAzureMongoDB(this IHostingEnvironment env)
+        {
+            return env.EnvironmentName.Contains("AzureMongoDB");
+        }
         public static bool IsOnPremises(this IHostingEnvironment env)
         {
             return env.EnvironmentName.Contains("OnPremises");

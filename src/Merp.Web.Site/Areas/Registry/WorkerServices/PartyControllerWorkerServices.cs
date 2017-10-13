@@ -47,7 +47,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             var partyViewModels = parties.Select(p => new GetPartiesViewModel { id = p.Id, uid = p.OriginalId, name = p.DisplayName });
             partyViewModels = ApplyNameFilter(partyViewModels, query);
             partyViewModels = partyViewModels.Take(20);
-            return partyViewModels;
+            return partyViewModels.ToList();
         }
 
         #region Helper Methods

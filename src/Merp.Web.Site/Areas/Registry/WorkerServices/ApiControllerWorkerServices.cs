@@ -29,10 +29,18 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             return model;
         }
 
-        public PartyInfo GetPartyInfoByPattern(int id)
+        public PartyInfo GetPartyInfoById(int id)
         {
             var model = (from p in Database.Parties
                          where p.Id == id
+                         select new PartyInfo { Id = p.Id, OriginalId = p.OriginalId, Name = p.DisplayName }).Single();
+            return model;
+        }
+
+        public PartyInfo GetPartyInfoById(Guid id)
+        {
+            var model = (from p in Database.Parties
+                         where p.OriginalId == id
                          select new PartyInfo { Id = p.Id, OriginalId = p.OriginalId, Name = p.DisplayName }).Single();
             return model;
         }

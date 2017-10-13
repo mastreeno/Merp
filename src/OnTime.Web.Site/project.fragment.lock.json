@@ -1,0 +1,45 @@
+{
+  "version": 2,
+  "exports": {
+    "OnTime.TaskManagement.CommandStack/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.5.1",
+      "compile": {
+        "bin/Debug/OnTime.TaskManagement.CommandStack.dll": {}
+      },
+      "runtime": {
+        "../../packages/MementoFX.1.2.0/lib/net451/Memento.dll": {},
+        "../../packages/Rebus.3.0.1/lib/NET45/Rebus.dll": {},
+        "bin/Debug/OnTime.TaskManagement.CommandStack.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/OnTime.TaskManagement.CommandStack.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "OnTime.TaskManagement.QueryStack/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.5.1",
+      "compile": {
+        "bin/Debug/OnTime.TaskManagement.QueryStack.dll": {}
+      },
+      "runtime": {
+        "../../packages/EntityFramework.6.1.3/lib/net45/EntityFramework.SqlServer.dll": {},
+        "../../packages/EntityFramework.6.1.3/lib/net45/EntityFramework.dll": {},
+        "../../packages/MementoFX.1.2.0/lib/net451/Memento.dll": {},
+        "../../packages/Rebus.3.0.1/lib/NET45/Rebus.dll": {},
+        "bin/Debug/OnTime.TaskManagement.QueryStack.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/OnTime.TaskManagement.QueryStack.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    }
+  }
+}

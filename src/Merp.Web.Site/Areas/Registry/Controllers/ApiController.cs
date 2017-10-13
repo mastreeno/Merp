@@ -33,7 +33,14 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
         [HttpGet]
         public PartyInfo GetPartyInfoById(int id)
         {
-            var model = WorkerServices.GetPartyInfoByPattern(id);
+            var model = WorkerServices.GetPartyInfoById(id);
+            return model;
+        }
+
+        [HttpGet]
+        public PartyInfo GetPartyInfoByUid(Guid id)
+        {
+            var model = WorkerServices.GetPartyInfoById(id);
             return model;
         }
 

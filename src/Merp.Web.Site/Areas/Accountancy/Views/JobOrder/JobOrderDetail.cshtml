@@ -44,12 +44,10 @@
 <div class="row">
     <div class="col-sm-12">
         <h2>@Html.DisplayFor(model => model.JobOrderName)</h2>
-        <h4>@Html.DisplayFor(model => model.JobOrderNumber)</h4>
-        <h5>@Html.DisplayFor(model => model.CustomerName)</h5>
         <p>
             @if (!Model.IsCompleted)
             {
-                @Html.ActionLink("Complete", "MarkJobOrderAsCompleted", new { id = Model.JobOrderId })<text> |</text>
+                @Html.ActionLink("Mark as completed", "MarkJobOrderAsCompleted", new { id = Model.JobOrderId })<text> |</text>
                 @Html.ActionLink("Extend", "ExtendJobOrder", new { id = Model.JobOrderId })<text> |</text>
             }
             @Html.ActionLink("Back to List", "Index")
@@ -61,6 +59,7 @@
         <div id="tabs">
             <ul>
                 <li><a href="#general">General</a></li>
+                <li><a href="#description">Description</a></li>
                 <li><a href="#balance">Trend Analysis</a></li>
                 <li><a href="/Accountancy/JobOrder/IncomingInvoicesAssociatedToJobOrder?jobOrderId=@Model.JobOrderId">Incoming Invoices</a></li>
                 <li><a href="/Accountancy/JobOrder/OutgoingInvoicesAssociatedToJobOrder?jobOrderId=@Model.JobOrderId">Outgoing Invoices</a></li>
@@ -68,7 +67,7 @@
             <div id="general">
                 <dl class="dl-horizontal">
                     <dt>
-                        @Html.DisplayNameFor(model => model.JobOrderNumber)
+                        <label asp-for="JobOrderNumber"></label>
                     </dt>
 
                     <dd>
@@ -76,15 +75,23 @@
                     </dd>
 
                     <dt>
-                        @Html.DisplayNameFor(model => model.CustomerName)
+                        <label asp-for="CustomerId"></label>
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.CustomerName)
+                        <span id="customerName"></span>
                     </dd>
 
                     <dt>
-                        @Html.DisplayNameFor(model => model.Price)
+                        <label asp-for="ManagerId"></label>
+                    </dt>
+
+                    <dd>
+                        <span id="managerName"></span>
+                    </dd>
+
+                    <dt>
+                        <label asp-for="Price"></label>
                     </dt>
 
                     <dd>
@@ -92,7 +99,7 @@
                     </dd>
 
                     <dt>
-                        @Html.DisplayNameFor(model => model.DateOfStart)
+                        <label asp-for="DateOfStart"></label>
                     </dt>
 
                     <dd>
@@ -100,7 +107,7 @@
                     </dd>
 
                     <dt>
-                        @Html.DisplayNameFor(model => model.DueDate)
+                        <label asp-for="DueDate"></label>
                     </dt>
 
                     <dd>
@@ -108,22 +115,17 @@
                     </dd>
 
                     <dt>
-                        @Html.DisplayNameFor(model => model.Notes)
+                        <label asp-for="Balance"></label>
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.Notes)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Balance)
-                    </dt>
-
-                    <dd>
-                        <span id="jobOrderBalance">@Model.Balance.ToString("0.00")</span>&nbsp;<input type="button" value="Refresh" onclick="evalJobOrderBalance('@Model.JobOrderId');" />
+                        @Html.DisplayFor(model => model.Balance)
                     </dd>
                 </dl>
 
+            </div>
+            <div id="description">
+                @Model.Description
             </div>
             <div id="balance">
                 <div data-ng-controller="balanceController" data-ng-app="myApp">
@@ -139,7 +141,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="scale">Scale</label>
-                                <select data-ng-model="scale">
+                                <select data-ng-model="scale" class="form-control">
                                     <option selected="selected">Daily</option>
                                     <option>Weekly</option>
                                     <option>Monthly</option>
@@ -186,32 +188,35 @@
     <script src="~/lib/Chart.js/dist/Chart.min.js"></script>
     <script src="~/lib/angular-chart.js/dist/angular-chart.min.js"></script>
     <script type="text/javascript">
-            $(function () {
-                $("#tabs").tabs({
-                    ajaxOptions: {
-                        error: function (xhr, status, index, anchor) {
-                            $(anchor.hash).html("Unable to display trend analysis");
-                        }
+        $(function () {
+            $("#tabs").tabs({
+                ajaxOptions: {
+                    error: function (xhr, status, index, anchor) {
+                        $(anchor.hash).html("Unable to display trend analysis");
                     }
-                });
-            });
-    </script>
-    <script type="text/javascript">
-            function evalJobOrderBalance(jobOrderId) {
-                jobOrderBalanceControl = $("#jobOrderBalance")[0];
-
-                $.get("/Accountancy/JobOrder/EvaluateJobOrderBalance/" + jobOrderId, function (data) {
-                    if (data === 'undefined') {
-                        jobOrderBalanceControl.innerText = 'Unable to evaluate';
-                    }
-                    else {
-                        jobOrderBalanceControl.innerText = data;
-                    }
-                })
-                .fail(function () {
-                    jobOrderBalanceControl.innerText = 'Unable to evaluate';
                 }
-                );
-            }
+            });
+        });
+
+        function displayPartyName(labelId, partyId) {
+            $.get({ url: "/Registry/api/GetPartyInfoByUid/" + partyId, async: true })
+             .success(function (data) {
+                if (data === 'undefined') {
+                    return "unknown";
+                }
+                else {
+                    partyName = data.name;
+                    $('#' + labelId).text(partyName);
+                }
+            })
+            .fail(function () {
+                return "unknown";
+            });
+        }
+
+        $(function () {
+            displayPartyName('customerName', '@Model.CustomerId');
+            displayPartyName('managerName', '@Model.ManagerId');
+        });
     </script>
 }

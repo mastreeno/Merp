@@ -17,8 +17,11 @@ namespace Merp.Web.Site.Areas.Accountancy.Models.JobOrder
         [DisplayName("Job Order name")]
         public string JobOrderName { get; set; }
 
-        [DisplayName("Customer name")]
-        public string CustomerName { get; set; }
+        [DisplayName("Customer")]
+        public Guid CustomerId { get; set; }
+
+        [DisplayName("Manager")]
+        public Guid ManagerId { get; set; }
 
         [DisplayName("Price")]
         public decimal Price { get; set; }
@@ -29,8 +32,8 @@ namespace Merp.Web.Site.Areas.Accountancy.Models.JobOrder
         [DisplayName("Due date")]
         public DateTime DueDate { get; set; }
 
-        [DisplayName("Notes")]
-        public string Notes { get; set; }
+        [DisplayName("Description")]
+        public string Description { get; set; }
 
         public bool IsCompleted { get; set; }
 
