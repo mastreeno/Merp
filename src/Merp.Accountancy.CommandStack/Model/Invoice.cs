@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Memento;
-using Memento.Domain;
+using MementoFX;
+using MementoFX.Domain;
 
 namespace Merp.Accountancy.CommandStack.Model
 {
@@ -20,6 +20,7 @@ namespace Merp.Accountancy.CommandStack.Model
         public string PurchaseOrderNumber { get; protected set; }
         public DateTime? DueDate { get; protected set; }
         public DateTime? PaymentDate { get; protected set; }
+        public string Currency { get; protected set; }
         public bool IsOverdue { get; protected set; }
 
         public class PartyInfo

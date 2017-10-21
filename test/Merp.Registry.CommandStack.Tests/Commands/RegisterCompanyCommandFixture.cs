@@ -1,5 +1,5 @@
 ﻿using Merp.Registry.CommandStack.Commands;
-using NUnit.Framework;
+using Xunit;
 using SharpTestsEx;
 using System;
 using System.Collections.Generic;
@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Merp.Registry.CommandStack.Tests.Commands
 {
-    [TestFixture]
+    
     public class RegisterCompanyCommandFixture
     {
-        [Test]
+        [Fact]
         public void Ctor_should_properly_initialise_instance()
         {
             var companyId = Guid.Empty;
@@ -32,24 +32,24 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var emailAddress = "user@info.com";
 
             var command = new RegisterCompanyCommand(companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress);
-            Assert.AreEqual(companyId, command.CompanyId);
-            Assert.AreEqual(companyName, command.CompanyName);
-            Assert.AreEqual(nationalIdentificationNumber, command.NationalIdentificationNumber);
-            Assert.AreEqual(vatNumber, command.VatNumber);
-            Assert.AreEqual(address, command.LegalAddressAddress);
-            Assert.AreEqual(city, command.LegalAddressCity);
-            Assert.AreEqual(postalCode, command.LegalAddressPostalCode);
-            Assert.AreEqual(province, command.LegalAddressProvince);
-            Assert.AreEqual(country, command.LegalAddressCountry);
-            Assert.AreEqual(mainContactId, command.MainContactId);
-            Assert.AreEqual(administrativeContactId, command.AdministrativeContactId);
-            Assert.AreEqual(phoneNumber, command.PhoneNumber);
-            Assert.AreEqual(faxNumber, command.FaxNumber);
-            Assert.AreEqual(websiteAddress, command.WebsiteAddress);
-            Assert.AreEqual(emailAddress, command.EmailAddress);
+            Assert.Equal(companyId, command.CompanyId);
+            Assert.Equal(companyName, command.CompanyName);
+            Assert.Equal(nationalIdentificationNumber, command.NationalIdentificationNumber);
+            Assert.Equal(vatNumber, command.VatNumber);
+            Assert.Equal(address, command.LegalAddressAddress);
+            Assert.Equal(city, command.LegalAddressCity);
+            Assert.Equal(postalCode, command.LegalAddressPostalCode);
+            Assert.Equal(province, command.LegalAddressProvince);
+            Assert.Equal(country, command.LegalAddressCountry);
+            Assert.Equal(mainContactId, command.MainContactId);
+            Assert.Equal(administrativeContactId, command.AdministrativeContactId);
+            Assert.Equal(phoneNumber, command.PhoneNumber);
+            Assert.Equal(faxNumber, command.FaxNumber);
+            Assert.Equal(websiteAddress, command.WebsiteAddress);
+            Assert.Equal(emailAddress, command.EmailAddress);
         }
 
-        [Test]
+        [Fact]
         public void Ctor_should_throw_on_null_companyName()
         {
             var companyId = Guid.Empty;
@@ -81,7 +81,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             .EqualTo("companyName");
         }
 
-        [Test]
+        [Fact]
         public void Ctor_should_throw_on_empty_companyName()
         {
             var companyId = Guid.Empty;
@@ -113,7 +113,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             .EqualTo("companyName");
         }
 
-        [Test]
+        [Fact]
         public void Ctor_should_throw_on_null_vatNumber()
         {
             var companyId = Guid.Empty;
@@ -145,7 +145,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             .EqualTo("vatNumber");
         }
 
-        [Test]
+        [Fact]
         public void Ctor_should_throw_on_empty_vatNumber()
         {
             var companyId = Guid.Empty;

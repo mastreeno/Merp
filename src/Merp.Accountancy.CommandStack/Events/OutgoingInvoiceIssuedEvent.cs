@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Memento;
-using Memento.Domain;
+using MementoFX;
+using MementoFX.Domain;
 using Merp.Accountancy.CommandStack.Services;
 
 namespace Merp.Accountancy.CommandStack.Events
@@ -47,8 +47,9 @@ namespace Merp.Accountancy.CommandStack.Events
         public string Description { get; set; }
         public string PaymentTerms { get; set; }
         public string PurchaseOrderNumber { get; set; }
+        public string Currency { get; set; }
 
-        public OutgoingInvoiceIssuedEvent(Guid invoiceId, string invoiceNumber, DateTime invoiceDate, DateTime? dueDate, decimal taxableAmount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, 
+        public OutgoingInvoiceIssuedEvent(Guid invoiceId, string invoiceNumber, DateTime invoiceDate, DateTime? dueDate, string currency, decimal taxableAmount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, 
             Guid customerId, string customerName, string customerAddress, string customerCity, string customerPostalCode, string customerCountry, string customerVatIndex, string customerNationalIdentificationNumber,
             string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber)
         {
@@ -78,6 +79,7 @@ namespace Merp.Accountancy.CommandStack.Events
             InvoiceNumber = invoiceNumber;
             InvoiceDate = invoiceDate;
             DueDate = dueDate;
+            Currency = currency;
             TaxableAmount = taxableAmount;
             Taxes = taxes;
             TotalPrice = totalPrice;

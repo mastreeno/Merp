@@ -1,27 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C35B83A3-A7D7-4787-875F-9954FC68C874}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Merp.Registry.CommandStack</RootNamespace>
-    <AssemblyName>Merp.Registry.CommandStack</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
-    <TargetFrameworkProfile />
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,77 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Memento, Version=1.2.0.0, Culture=neutral, PublicKeyToken=bca5f6a4d14d06d8, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MementoFX.1.2.0\lib\net451\Memento.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Memento.Messaging.Rebus, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MementoFX.Messaging.Rebus.1.1.1\lib\net451\Memento.Messaging.Rebus.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Rebus, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Rebus.4.0.1\lib\net45\Rebus.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="MementoFX" Version="2.0.0-pre5" />
+    <PackageReference Include="MementoFX.Messaging.Rebus" Version="2.0.0-pre1" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.4.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Rebus" Version="4.0.1" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Commands\AssociateMainContactToCompanyCommand.cs" />
-    <Compile Include="Commands\AssociateAdministrativeContactToCompanyCommand.cs" />
-    <Compile Include="Commands\ChangePersonContactInfoCommand.cs" />
-    <Compile Include="Commands\ChangeCompanyContactInfoCommand.cs" />
-    <Compile Include="Commands\ChangePersonAddressCommand.cs" />
-    <Compile Include="Commands\ChangeCompanyBillingAddressCommand.cs" />
-    <Compile Include="Commands\ChangeCompanyShippingAddressCommand.cs" />
-    <Compile Include="Commands\ChangeCompanyLegalAddressCommand.cs" />
-    <Compile Include="Commands\ChangeCompanyNameCommand.cs" />
-    <Compile Include="Commands\ImportCompanyCommand.cs" />
-    <Compile Include="Commands\ImportPersonCommand.cs" />
-    <Compile Include="Commands\RegisterCompanyCommand.cs" />
-    <Compile Include="Commands\RegisterPersonCommand.cs" />
-    <Compile Include="Events\CompanyMainContactAssociatedEvent.cs" />
-    <Compile Include="Events\CompanyAdministrativeContactAssociatedEvent.cs" />
-    <Compile Include="Events\CompanyNameChangedEvent.cs" />
-    <Compile Include="Events\CompanyRegisteredEvent.cs" />
-    <Compile Include="Events\PartyBillingAddressChangedEvent.cs" />
-    <Compile Include="Events\ContactInfoSetForPartyEvent.cs" />
-    <Compile Include="Events\PersonRegisteredEvent.cs" />
-    <Compile Include="Events\PartyLegalAddressChangedEvent.cs" />
-    <Compile Include="Events\PartyShippingAddressChangedEvent.cs" />
-    <Compile Include="Helpers\NationalIdentificationNumberHelper.cs" />
-    <Compile Include="Helpers\PostalAddressHelper.cs" />
-    <Compile Include="Model\ContactInfo.cs" />
-    <Compile Include="Model\Extensions\PostalAddressExtensions.cs" />
-    <Compile Include="Model\Party.cs" />
-    <Compile Include="Model\Company.cs" />
-    <Compile Include="Model\Person.cs" />
-    <Compile Include="Model\PostalAddress.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sagas\CompanySaga.cs" />
-    <Compile Include="Sagas\PersonSaga.cs" />
-    <Compile Include="Services\DefaultCountryResolver.cs" />
-    <Compile Include="Services\IDefaultCountryResolver.cs" />
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

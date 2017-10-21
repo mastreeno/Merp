@@ -2,7 +2,7 @@
 using Merp.Accountancy.CommandStack.Commands;
 using Merp.Accountancy.CommandStack.Model;
 using Merp.Accountancy.CommandStack.Services;
-using Memento.Persistence;
+using MementoFX.Persistence;
 using Rebus.Handlers;
 using Rebus.Sagas;
 using Rebus.Bus;

@@ -1,5 +1,6 @@
 ﻿using Merp.Registry.CommandStack.Events;
 using Merp.Registry.QueryStack.Model;
+using Microsoft.EntityFrameworkCore;
 using Rebus.Bus;
 using Rebus.Handlers;
 using System;
@@ -12,20 +13,21 @@ namespace Merp.Registry.QueryStack.Denormalizers
 {
     public class PartyDenormalizer :
         IHandleMessages<PartyLegalAddressChangedEvent>,
-        IHandleMessages<PartyShippingAddressChangedEvent>,
-        IHandleMessages<PartyBillingAddressChangedEvent>,
-        IHandleMessages<ContactInfoSetForPartyEvent>
+        IHandleMessages<ContactInfoSetForPartyEvent>,
+        IHandleMessages<PersonRegisteredEvent>,
+        IHandleMessages<CompanyRegisteredEvent>,
+        IHandleMessages<CompanyNameChangedEvent>
     {
-        private readonly IBus _bus;
+        private DbContextOptions<RegistryDbContext> Options;
 
-        public PartyDenormalizer(IBus bus)
+        public PartyDenormalizer(DbContextOptions<RegistryDbContext> options)
         {
-            _bus = bus ?? throw new ArgumentNullException("bus");
+            Options = options ?? throw new ArgumentNullException(nameof(options));
         }
 
         public async Task Handle(PartyLegalAddressChangedEvent message)
         {
-            using (var context = new RegistryDbContext())
+            using (var context = new RegistryDbContext(Options))
             {
                 var legalAddress = new PostalAddress()
                 {
@@ -44,78 +46,107 @@ namespace Merp.Registry.QueryStack.Denormalizers
             }
         }
 
-        public async Task Handle(PartyShippingAddressChangedEvent message)
+        public async Task Handle(ContactInfoSetForPartyEvent message)
         {
-            if(message.EffectiveDate > DateTime.UtcNow)
+            using (var context = new RegistryDbContext(Options))
             {
-                await _bus.Defer(message.EffectiveDate - DateTime.UtcNow, message);
-                return;
-            }
-            using (var context = new RegistryDbContext())
-            {
-                var shippingAddress = new PostalAddress()
-                {
-                    Address = message.Address,
-                    City = message.City,
-                    Country = message.Country,
-                    PostalCode = message.PostalCode,
-                    Province = message.Province
-                };
-                var party = (from c in context.Parties
-                               where c.OriginalId == message.PartyId
-                               select c).Single();
-                party.ShippingAddress = shippingAddress;
-
-                await context.SaveChangesAsync();
-            }
-        }
-
-        public async Task Handle(PartyBillingAddressChangedEvent message)
-        {
-            if (message.EffectiveDate > DateTime.UtcNow)
-            {
-                await _bus.Defer(message.EffectiveDate - DateTime.UtcNow, message);
-                return;
-            }
-            using (var context = new RegistryDbContext())
-            {
-                var billingAddress = new PostalAddress()
-                {
-                    Address = message.Address,
-                    City = message.City,
-                    Country = message.Country,
-                    PostalCode = message.PostalCode,
-                    Province = message.Province
-                };
+                //var contactInfo = new ContactInfo()
+                //{
+                //    PhoneNumber = message.PhoneNumber,
+                //    MobileNumber = message.MobileNumber,
+                //    FaxNumber = message.FaxNumber,
+                //    WebsiteAddress = message.WebsiteAddress,
+                //    EmailAddress = message.EmailAddress,
+                //    InstantMessaging = message.InstantMessaging
+                //};
                 var party = (from c in context.Parties
                              where c.OriginalId == message.PartyId
                              select c).Single();
-                party.BillingAddress = billingAddress;
-
+                //party.ContactInfo = contactInfo;
+                party.PhoneNumber = message.PhoneNumber;
+                party.MobileNumber = message.MobileNumber;
+                party.FaxNumber = message.FaxNumber;
+                party.WebsiteAddress = message.WebsiteAddress;
+                party.EmailAddress = message.EmailAddress;
+                party.InstantMessaging = message.InstantMessaging;
                 await context.SaveChangesAsync();
             }
         }
 
-        public async Task Handle(ContactInfoSetForPartyEvent message)
+        #region Person
+        public async Task Handle(PersonRegisteredEvent message)
         {
-            using (var context = new RegistryDbContext())
+            var p = new Party()
             {
-                var contactInfo = new ContactInfo()
+                OriginalId = message.PersonId,
+                DisplayName = $"{message.FirstName} {message.LastName}",
+                NationalIdentificationNumber = message.NationalIdentificationNumber,
+                VatIndex = message.VatNumber,
+                Type = Party.PartyType.Person,
+                LegalAddress = new PostalAddress
                 {
+                    Address = message.Address,
+                    City = message.City,
+                    Country = message.Country,
+                    PostalCode = message.PostalCode,
+                    Province = message.Province
+                },
+                //ContactInfo = new ContactInfo
+                //{
                     PhoneNumber = message.PhoneNumber,
                     MobileNumber = message.MobileNumber,
                     FaxNumber = message.FaxNumber,
                     WebsiteAddress = message.WebsiteAddress,
                     EmailAddress = message.EmailAddress,
                     InstantMessaging = message.InstantMessaging
-                };
-                var party = (from c in context.Parties
-                             where c.OriginalId == message.PartyId
-                             select c).Single();
-                party.ContactInfo = contactInfo;
+                //}
+            };
+            using (var context = new RegistryDbContext(Options))
+            {
+                context.Parties.Add(p);
+                await context.SaveChangesAsync();
+            }
+        }
+        #endregion
+
+        #region Company
+        public async Task Handle(CompanyRegisteredEvent message)
+        {
+            var p = new Party()
+            {
+                DisplayName = message.CompanyName,
+                VatIndex = message.VatIndex,
+                OriginalId = message.CompanyId,
+                NationalIdentificationNumber = message.NationalIdentificationNumber ?? "",
+                Type = Party.PartyType.Company,
+                LegalAddress = new PostalAddress
+                {
+                    Address = message.LegalAddressAddress,
+                    City = message.LegalAddressCity,
+                    Country = message.LegalAddressCountry,
+                    PostalCode = message.LegalAddressPostalCode,
+                    Province = message.LegalAddressProvince
+                }
+            };
+            using (var context = new RegistryDbContext(Options))
+            {
+                context.Parties.Add(p);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task Handle(CompanyNameChangedEvent message)
+        {
+            using (var context = new RegistryDbContext(Options))
+            {
+                var company = (from c in context.Parties
+                               where c.OriginalId == message.CompanyId
+                               select c).Single();
+                company.DisplayName = message.CompanyName;
 
                 await context.SaveChangesAsync();
             }
         }
+        #endregion
     }
 }

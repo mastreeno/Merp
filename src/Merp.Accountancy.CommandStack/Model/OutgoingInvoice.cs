@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Memento;
-using Memento.Domain;
+using MementoFX;
+using MementoFX.Domain;
 using Merp.Accountancy.CommandStack.Events;
 using Merp.Accountancy.CommandStack.Services;
 
@@ -28,6 +28,7 @@ namespace Merp.Accountancy.CommandStack.Model
             Number = evt.InvoiceNumber;
             Date = evt.InvoiceDate;
             DueDate = evt.DueDate;
+            Currency = evt.Currency;
             Amount = evt.TaxableAmount;
             Taxes = evt.Taxes;
             TotalPrice = evt.TotalPrice;
@@ -64,7 +65,7 @@ namespace Merp.Accountancy.CommandStack.Model
 
         public static class Factory
         {
-            public static OutgoingInvoice Issue(IOutgoingInvoiceNumberGenerator generator, DateTime invoiceDate, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, Guid customerId, 
+            public static OutgoingInvoice Issue(IOutgoingInvoiceNumberGenerator generator, DateTime invoiceDate, string currency, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, Guid customerId, 
                 string customerName, string customerAddress, string customerCity, string customerPostalCode, string customerCountry, string customerVatIndex, string customerNationalIdentificationNumber,
                 string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber)
             {
@@ -73,6 +74,7 @@ namespace Merp.Accountancy.CommandStack.Model
                     generator.Generate(),
                     invoiceDate,
                     invoiceDate.AddMonths(1),
+                    currency,
                     amount,
                     taxes,
                     totalPrice,
@@ -100,7 +102,7 @@ namespace Merp.Accountancy.CommandStack.Model
                 return invoice;
             }
 
-            public static OutgoingInvoice Import(Guid invoiceId, string invoiceNumber, DateTime invoiceDate, DateTime? dueDate, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, Guid customerId, 
+            public static OutgoingInvoice Import(Guid invoiceId, string invoiceNumber, DateTime invoiceDate, DateTime? dueDate, string currency, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, Guid customerId, 
                 string customerName, string customerAddress, string customerCity, string customerPostalCode, string customerCountry, string customerVatIndex, string customerNationalIdentificationNumber,
                 string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber)
             {
@@ -109,6 +111,7 @@ namespace Merp.Accountancy.CommandStack.Model
                     invoiceNumber,
                     invoiceDate,
                     dueDate,
+                    currency,
                     amount,
                     taxes,
                     totalPrice,

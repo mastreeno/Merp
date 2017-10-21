@@ -53,6 +53,17 @@ namespace Merp.Web.Site.Areas.Accountancy.Controllers
             return Redirect("/Accountancy/");
         }
 
+        public IActionResult Search()
+        {
+            return View();
+        }
+
+        public IActionResult Search_GetInvoiceList(SearchViewModel.InvoiceKind kind, SearchViewModel.InvoiceStatus status)
+        {
+            var model = WorkerServices.Search_GetInvoiceListViewModel(kind, status);
+            return Json(model);
+        }
+
         #region LinkIncomingInvoiceToJobOrder
         [HttpGet]
         public ActionResult ListOfIncomingInvoicesNotLinkedToAJobOrder()

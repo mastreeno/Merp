@@ -40,9 +40,14 @@
   <div class="row" ng-cloak>
     <div class="col-md-10">
       <p ng-cloak>Total number of items: <span class="badge">{{parties.length}}</span></p>
-      <table>
+      <table class="table table-striped">
+          <tr>
+              <th>Name</th>
+              <th>Phone #</th>
+          </tr>
         <tr data-ng-repeat="party in parties">
           <td><a href="/Registry/Party/Detail/{{party.uid}}">{{party.name}}</a></td>
+          <td><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> {{party.phoneNumber}}</td>
         </tr>
       </table>
     </div>

@@ -35,20 +35,18 @@ namespace Acl.Vies
                 throw new ArgumentException("vatNumber must be provided", nameof(vatNumber));
             }
 
-            using (var channel = new Vies.checkVatPortTypeClient())
-            {                
-                var checkVatResponse = await channel.checkVatAsync(countryCode, vatNumber);
-                var mapper = _companyInformationMapperFactory.CreateMapper(countryCode);
+            var channel = new Vies.checkVatPortTypeClient();              
+            var checkVatResponse = await channel.checkVatAsync(countryCode, vatNumber);
+            var mapper = _companyInformationMapperFactory.CreateMapper(countryCode);
 
-                if (checkVatResponse == null || !mapper.CanMap(checkVatResponse.Body))
-                {
-                    return null;
-                }
-                
-                var companyInformation = mapper.Map(checkVatResponse.Body);
-
-                return companyInformation;                
+            if (checkVatResponse == null || !mapper.CanMap(checkVatResponse))
+            {
+                return null;
             }
+                
+            var companyInformation = mapper.Map(checkVatResponse);
+
+            return companyInformation;                
                 
         }
     }

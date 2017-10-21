@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Merp.Registry.QueryStack.Model;
+﻿using Merp.Registry.QueryStack.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Merp.Registry.QueryStack
 {
@@ -12,23 +7,25 @@ namespace Merp.Registry.QueryStack
     {
         private readonly static string ContextName = "Registry";
 
-        public RegistryDbContext()
-            : base("Merp-Registry-ReadModel")
-        {
-            
-        }
-
-        public RegistryDbContext(string connectionString)
-            : base(connectionString)
-        {
-
-        }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Types().Configure(entity => entity.ToTable($"{ContextName}_{entity.ClrType.Name}"));
-        }
-
         public DbSet<Party> Parties { get; set; }
+        public DbSet<Person> People { get; set; }
+        public DbSet<Company> Companies { get; set; }
+
+        public RegistryDbContext() { }
+        public RegistryDbContext(DbContextOptions<RegistryDbContext> options) : base(options){ }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new Party());
+            modelBuilder.ApplyConfiguration(new Person());
+            modelBuilder.ApplyConfiguration(new Company());
+
+            //foreach (IMutableEntityType entity in modelBuilder.Model.GetEntityTypes())
+            //{
+            //    entity
+            //        .Relational()
+            //        .TableName = $"{ContextName}_{entity.ClrType.Name}";
+            //}
+        }
     }
 }

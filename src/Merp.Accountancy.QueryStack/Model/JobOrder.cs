@@ -1,13 +1,15 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Merp.Accountancy.QueryStack.Model
 {
-    public class JobOrder
+    public class JobOrder : IEntityTypeConfiguration<JobOrder>
     {
         public int Id { get; set; }
 
@@ -55,6 +57,13 @@ namespace Merp.Accountancy.QueryStack.Model
         public JobOrder()
         {
             IsTimeAndMaterial = false;
+        }
+
+        public void Configure(EntityTypeBuilder<JobOrder> builder)
+        {
+            builder.HasIndex(o => o.Name);
+            builder.HasIndex(o => o.CustomerName);
+            builder.HasIndex(o => o.IsCompleted);
         }
     }
 }

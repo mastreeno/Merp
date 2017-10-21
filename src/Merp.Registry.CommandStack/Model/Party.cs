@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Memento;
-using Memento.Domain;
+using MementoFX;
+using MementoFX.Domain;
 using Merp.Registry.CommandStack.Events;
 
 namespace Merp.Registry.CommandStack.Model

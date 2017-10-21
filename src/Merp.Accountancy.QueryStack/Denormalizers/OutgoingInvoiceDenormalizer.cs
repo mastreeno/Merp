@@ -4,6 +4,7 @@ using Rebus.Handlers;
 using System.Threading.Tasks;
 using System;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Merp.Accountancy.QueryStack.Denormalizers
 {
@@ -13,6 +14,12 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
         IHandleMessages<OutgoingInvoicePaidEvent>,
         IHandleMessages<OutgoingInvoiceLinkedToJobOrderEvent>
     {
+        private DbContextOptions<AccountancyDbContext> Options;
+
+        public OutgoingInvoiceDenormalizer(DbContextOptions<AccountancyDbContext> options)
+        {
+            Options = options ?? throw new ArgumentNullException(nameof(options));
+        }
 
         public async Task Handle(OutgoingInvoiceIssuedEvent message)
         {
@@ -50,7 +57,7 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
                 StreetName = message.Supplier.StreetName,
                 VatIndex = message.Supplier.VatIndex
             };
-            using (var ctx = new AccountancyContext())
+            using (var ctx = new AccountancyDbContext(Options))
             {
                 ctx.OutgoingInvoices.Add(invoice);
                 await ctx.SaveChangesAsync();
@@ -59,7 +66,7 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
 
         public async Task Handle(OutgoingInvoicePaidEvent message)
         {
-            using (var ctx = new AccountancyContext())
+            using (var ctx = new AccountancyDbContext(Options))
             {
                 var invoice = ctx.OutgoingInvoices
                     .Where(i => i.OriginalId == message.InvoiceId)
@@ -73,7 +80,7 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
 
         public async Task Handle(OutgoingInvoiceGotOverdueEvent message)
         {
-            using (var ctx = new AccountancyContext())
+            using (var ctx = new AccountancyDbContext(Options))
             {
                 var invoice = ctx.OutgoingInvoices
                     .Where(i => i.OriginalId == message.InvoiceId)
@@ -85,7 +92,7 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
 
         public async Task Handle(OutgoingInvoiceLinkedToJobOrderEvent message)
         {
-            using (var ctx = new AccountancyContext())
+            using (var ctx = new AccountancyDbContext(Options))
             {
                 var invoice = ctx.OutgoingInvoices.Where(i => i.OriginalId == message.InvoiceId).Single();
                 invoice.JobOrderId = message.JobOrderId;

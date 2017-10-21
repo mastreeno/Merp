@@ -2,7 +2,7 @@
 using Merp.Accountancy.CommandStack.Model;
 using Merp.Accountancy.CommandStack.Services;
 using System;
-using Memento.Persistence;
+using MementoFX.Persistence;
 using Rebus.Sagas;
 using Rebus.Bus;
 using System.Threading.Tasks;
@@ -54,6 +54,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 var invoice = OutgoingInvoice.Factory.Issue(
                     this.InvoiceNumberGenerator,
                     message.InvoiceDate,
+                    message.Currency,
                     message.TaxableAmount,
                     message.Taxes,
                     message.TotalPrice,
@@ -107,6 +108,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
                     message.InvoiceNumber,
                     message.InvoiceDate,
                     message.DueDate,
+                    message.Currency,
                     message.TaxableAmount,
                     message.Taxes,
                     message.TotalPrice,

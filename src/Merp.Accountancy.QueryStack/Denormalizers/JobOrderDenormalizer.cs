@@ -1,5 +1,6 @@
 ﻿using Merp.Accountancy.CommandStack.Events;
 using Merp.Accountancy.QueryStack.Model;
+using Microsoft.EntityFrameworkCore;
 using Rebus.Handlers;
 using System;
 using System.Linq;
@@ -12,6 +13,13 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
         IHandleMessages<JobOrderExtendedEvent>,
         IHandleMessages<JobOrderCompletedEvent>
     {
+        private DbContextOptions<AccountancyDbContext> Options;
+
+        public JobOrderDenormalizer(DbContextOptions<AccountancyDbContext> options)
+        {
+            Options = options ?? throw new ArgumentNullException(nameof(options));
+        }
+
         public async Task Handle(JobOrderRegisteredEvent message)
         {
             var jobOrder = new JobOrder();
@@ -31,7 +39,7 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
             jobOrder.IsCompleted = false;
             jobOrder.IsTimeAndMaterial = false;
 
-            using (var db = new AccountancyContext())
+            using (var db = new AccountancyDbContext(Options))
             {
                 db.JobOrders.Add(jobOrder);
                 try
@@ -47,7 +55,7 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
 
         public async Task Handle(JobOrderExtendedEvent message)
         {
-            using (var db = new AccountancyContext())
+            using (var db = new AccountancyDbContext(Options))
             {
                 var jobOrder = db.JobOrders.OfType<JobOrder>().Where(jo => jo.OriginalId == message.JobOrderId).Single();
                 jobOrder.DueDate = message.NewDueDate;
@@ -59,7 +67,7 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
 
         public async Task Handle(JobOrderCompletedEvent message)
         {
-            using (var db = new AccountancyContext())
+            using (var db = new AccountancyDbContext(Options))
             {
                 var jobOrder = db.JobOrders
                     .OfType<JobOrder>()

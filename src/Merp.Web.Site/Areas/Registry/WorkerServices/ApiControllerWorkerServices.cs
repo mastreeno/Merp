@@ -47,7 +47,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
 
         public IEnumerable<object> GetPersonNamesByPattern(string text)
         {
-            var model = from p in Database.Parties.OfType<Person>()
+            var model = from p in Database.People
                         where p.DisplayName.StartsWith(text)
                         orderby p.DisplayName ascending
                         select new PartyInfo { Id = p.Id, OriginalId = p.OriginalId, Name = p.DisplayName };
@@ -56,7 +56,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
 
         public PartyInfo GetPersonInfoByPattern(int id)
         {
-            var model = (from p in Database.Parties.OfType<Person>()
+            var model = (from p in Database.People
                          where p.Id == id
                          select new PartyInfo { Id = p.Id, OriginalId = p.OriginalId, Name = p.DisplayName }).Single();
             return model;

@@ -14,6 +14,7 @@ namespace Merp.Web.Site.Areas.Accountancy.Models.JobOrder
             public string Number { get; set; }
             public DateTime DateOfIssue { get; set; }
             public decimal Price { get; set; }
+            public string Currency { get; set; }
             public string SupplierName { get; set; }
         }
     }

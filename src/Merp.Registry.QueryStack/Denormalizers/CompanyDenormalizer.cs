@@ -4,6 +4,7 @@ using Rebus.Handlers;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace Merp.Registry.QueryStack.Denormalizers
 {
@@ -13,6 +14,13 @@ namespace Merp.Registry.QueryStack.Denormalizers
         IHandleMessages<CompanyAdministrativeContactAssociatedEvent>,
         IHandleMessages<CompanyMainContactAssociatedEvent>
     {
+        private DbContextOptions<RegistryDbContext> Options;
+
+        public CompanyDenormalizer(DbContextOptions<RegistryDbContext> options)
+        {
+            Options = options ?? throw new ArgumentNullException(nameof(options));
+        }
+
         public async Task Handle(CompanyRegisteredEvent message)
         {
             var p = new Company()
@@ -20,35 +28,33 @@ namespace Merp.Registry.QueryStack.Denormalizers
                 CompanyName = message.CompanyName,
                 VatIndex = message.VatIndex,
                 OriginalId = message.CompanyId,
-                DisplayName = message.CompanyName,
-                NationalIdentificationNumber = message.NationalIdentificationNumber ?? "",
-                LegalAddress = new PostalAddress
-                {
-                    Address = message.LegalAddressAddress,
-                    City = message.LegalAddressCity,
-                    Country = message.LegalAddressCountry,
-                    PostalCode = message.LegalAddressPostalCode,
-                    Province = message.LegalAddressProvince
-                },
-                ShippingAddress = new PostalAddress(),
-                BillingAddress = new PostalAddress(),
-                ContactInfo = new ContactInfo()
+                NationalIdentificationNumber = message.NationalIdentificationNumber ?? ""
+                //LegalAddress = new PostalAddress
+                //{
+                //    Address = message.LegalAddressAddress,
+                //    City = message.LegalAddressCity,
+                //    Country = message.LegalAddressCountry,
+                //    PostalCode = message.LegalAddressPostalCode,
+                //    Province = message.LegalAddressProvince
+                //},
+                //ShippingAddress = new PostalAddress(),
+                //BillingAddress = new PostalAddress(),
+                //ContactInfo = new ContactInfo()
             };
-            using (var context = new RegistryDbContext())
+            using (var context = new RegistryDbContext(Options))
             {
-                context.Parties.Add(p);
+                context.Companies.Add(p);
                 await context.SaveChangesAsync();
             }
         }
 
         public async Task Handle(CompanyNameChangedEvent message)
         {
-            using (var context = new RegistryDbContext())
+            using (var context = new RegistryDbContext(Options))
             {
-                var company = (from c in context.Parties.OfType<Company>()
+                var company = (from c in context.Companies
                                where c.OriginalId == message.CompanyId
                                select c).Single();
-                company.DisplayName = message.CompanyName;
                 company.CompanyName = message.CompanyName;
 
                 await context.SaveChangesAsync();
@@ -57,15 +63,15 @@ namespace Merp.Registry.QueryStack.Denormalizers
 
         public async Task Handle(CompanyAdministrativeContactAssociatedEvent message)
         {
-            using (var context = new RegistryDbContext())
+            using (var context = new RegistryDbContext(Options))
             {
-                var company = (from c in context.Parties.OfType<Company>()
+                var company = (from c in context.Companies
                                where c.OriginalId == message.CompanyId
                                select c).Single();
-                var person = (from c in context.Parties.OfType<Person>()
+                var person = (from c in context.People
                               where c.OriginalId == message.AdministrativeContactId
                               select c).Single();
-                company.AdministrativeContact = person;
+                company.AdministrativeContact = $"{person.FirstName} {person.LastName}";
 
                 await context.SaveChangesAsync();
             }
@@ -73,15 +79,15 @@ namespace Merp.Registry.QueryStack.Denormalizers
 
         public async Task Handle(CompanyMainContactAssociatedEvent message)
         {
-            using (var context = new RegistryDbContext())
+            using (var context = new RegistryDbContext(Options))
             {
-                var company = (from c in context.Parties.OfType<Company>()
+                var company = (from c in context.Companies
                                where c.OriginalId == message.CompanyId
                                select c).Single();
-                var person = (from c in context.Parties.OfType<Person>()
+                var person = (from c in context.People
                               where c.OriginalId == message.MainContactId
                               select c).Single();
-                company.MainContact = person;
+                company.MainContact = $"{person.FirstName} {person.LastName}";
 
                 await context.SaveChangesAsync();
             }

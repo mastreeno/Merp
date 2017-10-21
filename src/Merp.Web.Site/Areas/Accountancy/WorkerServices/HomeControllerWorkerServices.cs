@@ -20,14 +20,14 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
         {
             var model = new IndexViewModel();
             model.OutstandingIncomingInvoicesCount = Database.IncomingInvoices.Outstanding().Count();
-            model.OverdueIncomingInvoicesCount = Database.IncomingInvoices.Due().Count();
+            model.OverdueIncomingInvoicesCount = Database.IncomingInvoices.Overdue().Count();
             model.OutstandingIncomingInvoicesTotalPrice = Database.IncomingInvoices.Outstanding().Sum(i => i.TotalPrice);
-            model.OverdueIncomingInvoicesTotalPrice = Database.IncomingInvoices.Due().Sum(i => i.TotalPrice);
+            model.OverdueIncomingInvoicesTotalPrice = Database.IncomingInvoices.Overdue().Sum(i => i.TotalPrice);
 
             model.OutstandingOutgoingInvoicesCount = Database.OutgoingInvoices.Outstanding().Count();
-            model.OverdueOutgoingInvoicesCount = Database.OutgoingInvoices.Due().Count();
+            model.OverdueOutgoingInvoicesCount = Database.OutgoingInvoices.Overdue().Count();
             model.OutstandingOutgoingInvoicesTotalPrice = Database.OutgoingInvoices.Outstanding().Sum(i => i.TotalPrice);
-            model.OverdueOutgoingInvoicesTotalPrice = Database.OutgoingInvoices.Due().Sum(i => i.TotalPrice);
+            model.OverdueOutgoingInvoicesTotalPrice = Database.OutgoingInvoices.Overdue().Sum(i => i.TotalPrice);
             return model;
         }
     }

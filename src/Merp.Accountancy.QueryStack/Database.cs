@@ -9,23 +9,12 @@ namespace Merp.Accountancy.QueryStack
 {
     public class Database : IDatabase, IDisposable
     {
-        private AccountancyContext Context;
+        private AccountancyDbContext Context;
 
-        public Database()
+        public Database(AccountancyDbContext context)
         {
-            Context = new AccountancyContext();
-            Context.Configuration.AutoDetectChangesEnabled = false;
-        }
-
-        public Database(string connectionString)
-        {
-            if (string.IsNullOrWhiteSpace(connectionString))
-                throw new ArgumentNullException(nameof(connectionString));
-
-            Context = new AccountancyContext(connectionString);
-            Context.Configuration.AutoDetectChangesEnabled = false;
-            Context.Configuration.LazyLoadingEnabled = false;
-            Context.Configuration.ProxyCreationEnabled = false;
+            Context = context ?? throw new ArgumentNullException(nameof(context));
+            Context.ChangeTracker.AutoDetectChangesEnabled = false;
         }
 
         public IQueryable<JobOrder> JobOrders

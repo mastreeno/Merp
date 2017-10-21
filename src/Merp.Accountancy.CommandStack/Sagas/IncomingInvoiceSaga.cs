@@ -1,6 +1,6 @@
 ﻿using Merp.Accountancy.CommandStack.Commands;
 using Merp.Accountancy.CommandStack.Model;
-using Memento.Persistence;
+using MementoFX.Persistence;
 using Rebus.Sagas;
 using Rebus.Bus;
 using System;
@@ -52,6 +52,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 message.InvoiceNumber,
                 message.InvoiceDate,
                 message.DueDate,
+                message.Currency,
                 message.TaxableAmount,
                 message.Taxes,
                 message.TotalPrice,
@@ -94,6 +95,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
                     message.InvoiceNumber,
                     message.InvoiceDate,
                     message.DueDate,
+                    message.Currency,
                     message.TaxableAmount,
                     message.Taxes,
                     message.TotalPrice,

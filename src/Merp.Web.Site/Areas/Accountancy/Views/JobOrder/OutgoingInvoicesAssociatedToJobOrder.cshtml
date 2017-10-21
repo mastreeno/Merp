@@ -8,6 +8,7 @@
             <td>Date of issue</td>
             <td>Invoice #</td>
             <td>Price</td>
+            <td>Currency</td>
             <td>Supplier name</td>
         </tr>
         @foreach (var i in Model.OutgoingInvoices)
@@ -16,6 +17,7 @@
                 <td>@i.DateOfIssue.ToShortDateString()</td>
                 <td>@i.Number</td>
                 <td>@i.Price</td>
+                <td>@i.Currency</td>
                 <td>@i.CustomerName</td>
             </tr>
         }

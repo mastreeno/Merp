@@ -12,5 +12,6 @@ namespace Merp.Web.Site.Areas.Registry.Models.Party
         public Guid uid { get; set; }
 
         public string name { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }

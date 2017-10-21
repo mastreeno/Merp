@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NUnit.Framework;
+using Xunit;
 using SharpTestsEx;
 using Merp.Registry.CommandStack.Model;
 
 namespace Merp.Registry.CommandStack.Tests.Model
 {
-    [TestFixture]
+    
     public class PersonFactoriesFixture
     {
-        [Test]
+        [Fact]
         public void CreateNewEntry_should_throw_ArgumentException_on_null_firstName()
         {
             Executing.This(() => Person.Factory.CreateNewEntry(null, "Saltarello", "FAKE", "FAKE", null, null, null, null, null, null, null, null, null, null, null))
@@ -26,7 +26,7 @@ namespace Merp.Registry.CommandStack.Tests.Model
                 .EqualTo("firstName");
         }
 
-        [Test]
+        [Fact]
         public void CreateNewEntry_should_throw_ArgumentException_on_blank_firstName()
         {
             Executing.This(() => Person.Factory.CreateNewEntry("", "Saltarello", "FAKE", "FAKE", null, null, null, null, null, null, null, null, null, null, null))
@@ -40,7 +40,7 @@ namespace Merp.Registry.CommandStack.Tests.Model
                 .EqualTo("firstName");
         }
 
-        [Test]
+        [Fact]
         public void CreateNewEntry_should_throw_ArgumentException_on_null_lastName()
         {
             Executing.This(() => Person.Factory.CreateNewEntry("Andrea", null, "FAKE", "FAKE", null, null, null, null, null, null, null, null, null, null, null))
@@ -54,7 +54,7 @@ namespace Merp.Registry.CommandStack.Tests.Model
                 .EqualTo("lastName");
         }
 
-        [Test]
+        [Fact]
         public void CreateNewEntry_should_throw_ArgumentException_on_blank_lastName()
         {
             Executing.This(() => Person.Factory.CreateNewEntry("Andrea", "", "FAKE", "FAKE", null, null, null, null, null, null, null, null, null, null, null))

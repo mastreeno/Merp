@@ -9,12 +9,12 @@ namespace Acl.Vies.Mappers
 {
     internal abstract class CompanyInformationMapper
     {
-        internal virtual bool CanMap(checkVatResponseBody body)
+        internal virtual bool CanMap(checkVatResponse body)
         {
             return body != null && body.valid;
         }
 
-        internal virtual CompanyInformation Map(checkVatResponseBody body)
+        internal virtual CompanyInformation Map(checkVatResponse body)
         {
             if(body == null)
             {

@@ -44,7 +44,7 @@ namespace Merp.Accountancy.QueryStack
             return invoices.Where(i => !i.IsPaid);
         }
 
-        public static IQueryable<Invoice> Due(this IQueryable<Invoice> invoices)
+        public static IQueryable<Invoice> Overdue(this IQueryable<Invoice> invoices)
         {
             var today = DateTime.Now;
             return invoices

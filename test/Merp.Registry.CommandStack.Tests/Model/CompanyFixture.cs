@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NUnit.Framework;
+using Xunit;
 using SharpTestsEx;
 using Merp.Registry.CommandStack.Model;
 
 namespace Merp.Registry.CommandStack.Tests.Model
 {
-    [TestFixture]
+    
     public class CompanyFixture
     {
-        [Test]
+        [Fact]
         public void Factory_should_throw_ArgumentException_on_null_companyName()
         {
             var nationalIdentificationNumber = "FAKE";
@@ -36,7 +36,7 @@ namespace Merp.Registry.CommandStack.Tests.Model
                 .EqualTo("companyName");
         }
 
-        [Test]
+        [Fact]
         public void Factory_should_throw_ArgumentException_on_blank_companyName()
         {
             var nationalIdentificationNumber = "FAKE";
@@ -60,7 +60,7 @@ namespace Merp.Registry.CommandStack.Tests.Model
                 .EqualTo("companyName");
         }
 
-        [Test]
+        [Fact]
         public void Factory_should_throw_ArgumentException_on_null_vatNumber()
         {
             var companyName = "Mastreeno ltd";
@@ -84,7 +84,7 @@ namespace Merp.Registry.CommandStack.Tests.Model
                 .EqualTo("vatNumber");
         }
 
-        [Test]
+        [Fact]
         public void Factory_should_throw_ArgumentException_on_blank_vatNumber()
         {
             var companyName = "Mastreeno ltd";

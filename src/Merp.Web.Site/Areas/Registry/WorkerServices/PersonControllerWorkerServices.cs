@@ -3,7 +3,7 @@ using Merp.Registry.QueryStack;
 using Merp.Web.Site.Areas.Registry.Models.Person;
 using System;
 using System.Linq;
-using Memento.Persistence;
+using MementoFX.Persistence;
 using Merp.Registry.CommandStack.Model;
 using Rebus.Bus;
 
@@ -85,10 +85,10 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
                 model.EmailAddress = person.ContactInfo.EmailAddress;
                 model.InstantMessaging = person.ContactInfo.InstantMessaging;
             }
-            model.Id = Database.Parties.OfType<Merp.Registry.QueryStack.Model.Person>()
-                                                  .Where(p => p.OriginalId == person.Id)
-                                                  .Select(p => p.Id)
-                                                  .Single();
+            model.Id = Database.People
+                                .Where(p => p.OriginalId == person.Id)
+                                .Select(p => p.Id)
+                                .Single();
             return model;
         }
 

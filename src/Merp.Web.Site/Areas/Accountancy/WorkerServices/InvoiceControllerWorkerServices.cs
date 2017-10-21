@@ -37,6 +37,7 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
         {
             var command = new IssueInvoiceCommand(
                 model.Date,
+                model.Currency,
                 model.Amount,
                 model.Taxes,
                 model.TotalPrice,
@@ -67,6 +68,7 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
                 model.InvoiceNumber,
                 model.Date,
                 model.DueDate,
+                model.Currency,
                 model.Amount,
                 model.Taxes,
                 model.TotalPrice,
@@ -91,6 +93,40 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
                 string.Empty
                 );
             Bus.Send(command);
+        }
+
+        public Search_GetInvoiceListViewModel Search_GetInvoiceListViewModel(SearchViewModel.InvoiceKind kind, SearchViewModel.InvoiceStatus status)
+        {
+
+            var invoices = new List<Search_GetInvoiceListViewModel.Invoice>();
+            var incomingInvoices = Database.IncomingInvoices;
+            if(kind == SearchViewModel.InvoiceKind.Every || kind == SearchViewModel.InvoiceKind.Incoming)
+            {
+                if (status == SearchViewModel.InvoiceStatus.Overdue)
+                    incomingInvoices = incomingInvoices.Where(i => i.IsOverdue == true);
+                else if (status == SearchViewModel.InvoiceStatus.Outstanding)
+                    incomingInvoices = incomingInvoices.Where(i => i.IsPaid == false);
+                else if (status == SearchViewModel.InvoiceStatus.Paid)
+                    incomingInvoices = incomingInvoices.Where(i => i.IsPaid == true);
+                invoices.AddRange(incomingInvoices.Select(i => new Search_GetInvoiceListViewModel.Invoice { Uid = i.OriginalId, DocumentType="Incoming invoice", Number = i.Number, Date = i.Date, DueDate = i.DueDate, CustomerName = i.Customer.Name, SupplierName = i.Supplier.Name, TotalPrice = i.TotalPrice, Currency = i.Currency }).OrderByDescending(i => i.Date).Take(20));
+            }
+
+            if (kind == SearchViewModel.InvoiceKind.Every || kind == SearchViewModel.InvoiceKind.Outgoing)
+            {
+                var outgoingInvoices = Database.OutgoingInvoices;
+                if (status == SearchViewModel.InvoiceStatus.Overdue)
+                    outgoingInvoices = outgoingInvoices.Where(i => i.IsOverdue == true);
+                else if (status == SearchViewModel.InvoiceStatus.Outstanding)
+                    outgoingInvoices = outgoingInvoices.Where(i => i.IsPaid == false);
+                else if (status == SearchViewModel.InvoiceStatus.Paid)
+                    outgoingInvoices = outgoingInvoices.Where(i => i.IsPaid == true);
+                invoices.AddRange(outgoingInvoices.Select(i => new Search_GetInvoiceListViewModel.Invoice { Uid = i.OriginalId, DocumentType = "Outgoing invoice", Number = i.Number, Date = i.Date, DueDate = i.DueDate, CustomerName = i.Customer.Name, SupplierName = i.Supplier.Name, TotalPrice = i.TotalPrice, Currency = i.Currency }).OrderByDescending(i => i.Date).Take(20));
+            }
+            var model = new Search_GetInvoiceListViewModel()
+            {
+                Invoices = invoices.OrderByDescending(i => i.Date).Take(20)
+            };
+            return model;
         }
 
         #region LinkIncomingInvoiceToJobOrder

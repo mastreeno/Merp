@@ -5,7 +5,7 @@ using System.Linq;
 using Merp.Web.Site.Areas.Accountancy.Models.JobOrder;
 using Merp.Accountancy.QueryStack;
 using Merp.Accountancy.QueryStack.Model;
-using Memento.Persistence;
+using MementoFX.Persistence;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Rebus.Bus;
 
@@ -117,6 +117,7 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
                                       {
                                           DateOfIssue = i.Date,
                                           Price = i.TaxableAmount,
+                                          Currency = i.Currency,
                                           Number = i.Number,
                                           SupplierName = i.Supplier.Name
                                       }).ToArray();
@@ -132,6 +133,7 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
                                       {
                                           DateOfIssue = i.Date,
                                           Price = i.TaxableAmount,
+                                          Currency = i.Currency,
                                           Number = i.Number,
                                           CustomerName = i.Customer.Name
                                       }).ToArray();

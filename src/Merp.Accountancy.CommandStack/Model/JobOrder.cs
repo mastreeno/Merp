@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Memento.Persistence;
-using Memento;
-using Memento.Domain;
+using MementoFX.Persistence;
+using MementoFX;
+using MementoFX.Domain;
 using Merp.Accountancy.CommandStack.Events;
 using Merp.Accountancy.CommandStack.Services;
 

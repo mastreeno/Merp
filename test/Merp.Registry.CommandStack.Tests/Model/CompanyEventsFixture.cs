@@ -1,6 +1,6 @@
-﻿using Memento.Domain;
+﻿using MementoFX.Domain;
 using Merp.Registry.CommandStack.Model;
-using NUnit.Framework;
+using Xunit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +11,11 @@ using Merp.Registry.CommandStack.Events;
 
 namespace Merp.Registry.CommandStack.Tests.Model
 {
-    [TestFixture]
+    
     public class CompanyEventsFixture
     {
 
-        [Test]
+        [Fact]
         public void ChangeShippingAddress_should_raise_a_ShippingAddressSetForPartyEvent()
         {
             var companyName = "Mastreeno";
@@ -33,19 +33,19 @@ namespace Merp.Registry.CommandStack.Tests.Model
             var effectiveDate = DateTime.MaxValue;
             company.ChangeShippingAddress(address, city, postalCode, province, country, effectiveDate);
             var uncommittedEvent = ((IAggregate)company).GetUncommittedEvents();
-            Assert.AreEqual(2, uncommittedEvent.Count());
+            Assert.Equal(2, uncommittedEvent.Count());
 
             var actualEvent = uncommittedEvent.Last() as PartyShippingAddressChangedEvent;
             Assert.NotNull(actualEvent);
-            Assert.AreEqual(address, actualEvent.Address);
-            Assert.AreEqual(city, actualEvent.City);
-            Assert.AreEqual(postalCode, actualEvent.PostalCode);
-            Assert.AreEqual(province, actualEvent.Province);
-            Assert.AreEqual(country, actualEvent.Country);
+            Assert.Equal(address, actualEvent.Address);
+            Assert.Equal(city, actualEvent.City);
+            Assert.Equal(postalCode, actualEvent.PostalCode);
+            Assert.Equal(province, actualEvent.Province);
+            Assert.Equal(country, actualEvent.Country);
 
         }
 
-        [Test]
+        [Fact]
         public void ChangeBillingAddress_should_raise_a_BillingAddressSetForPartyEvent()
         {
             var companyName = "Mastreeno";
@@ -63,19 +63,19 @@ namespace Merp.Registry.CommandStack.Tests.Model
             var effectiveDate = DateTime.MaxValue;
             company.ChangeBillingAddress(address, city, postalCode, province, country, effectiveDate);
             var uncommittedEvent = ((IAggregate)company).GetUncommittedEvents();
-            Assert.AreEqual(2, uncommittedEvent.Count());
+            Assert.Equal(2, uncommittedEvent.Count());
 
             var actualEvent = uncommittedEvent.Last() as PartyBillingAddressChangedEvent;
             Assert.NotNull(actualEvent);
-            Assert.AreEqual(address, actualEvent.Address);
-            Assert.AreEqual(city, actualEvent.City);
-            Assert.AreEqual(postalCode, actualEvent.PostalCode);
-            Assert.AreEqual(province, actualEvent.Province);
-            Assert.AreEqual(country, actualEvent.Country);
+            Assert.Equal(address, actualEvent.Address);
+            Assert.Equal(city, actualEvent.City);
+            Assert.Equal(postalCode, actualEvent.PostalCode);
+            Assert.Equal(province, actualEvent.Province);
+            Assert.Equal(country, actualEvent.Country);
 
         }
 
-        [Test]
+        [Fact]
         public void ChangeLegalAddress_should_raise_a_LegalAddressSetForPartyEvent()
         {
             var companyName = "Mastreeno";
@@ -93,15 +93,15 @@ namespace Merp.Registry.CommandStack.Tests.Model
             var effectiveDate = DateTime.Now;
             company.ChangeLegalAddress(address, city, postalCode, province, country, effectiveDate);
             var uncommittedEvent = ((IAggregate)company).GetUncommittedEvents();
-            Assert.AreEqual(2, uncommittedEvent.Count());
+            Assert.Equal(2, uncommittedEvent.Count());
 
             var actualEvent = uncommittedEvent.Last() as PartyLegalAddressChangedEvent;
             Assert.NotNull(actualEvent);
-            Assert.AreEqual(address, actualEvent.Address);
-            Assert.AreEqual(city, actualEvent.City);
-            Assert.AreEqual(postalCode, actualEvent.PostalCode);
-            Assert.AreEqual(province, actualEvent.Province);
-            Assert.AreEqual(country, actualEvent.Country);
+            Assert.Equal(address, actualEvent.Address);
+            Assert.Equal(city, actualEvent.City);
+            Assert.Equal(postalCode, actualEvent.PostalCode);
+            Assert.Equal(province, actualEvent.Province);
+            Assert.Equal(country, actualEvent.Country);
 
         }
     }

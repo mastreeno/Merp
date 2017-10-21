@@ -22,11 +22,11 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
 
         public string GetDetailViewModel(Guid partyId)
         {
-            if(Database.Parties.OfType<Company>().Where(p => p.OriginalId == partyId).Count()==1)
+            if(Database.Companies.Where(p => p.OriginalId == partyId).Count()==1)
             {
                 return "Company";
             }
-            else if (Database.Parties.OfType<Person>().Where(p => p.OriginalId == partyId).Count() == 1)
+            else if (Database.People.Where(p => p.OriginalId == partyId).Count() == 1)
             {
                 return "Person";
             }
@@ -44,7 +44,14 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             parties = ApplyCityFilter(parties, city);
             parties = ApplyOrdering(parties, orderBy, orderDirection);
 
-            var partyViewModels = parties.Select(p => new GetPartiesViewModel { id = p.Id, uid = p.OriginalId, name = p.DisplayName });
+            var partyViewModels = parties.Select(
+                p => new GetPartiesViewModel {
+                    id = p.Id,
+                    uid = p.OriginalId,
+                    name = p.DisplayName,
+                    PhoneNumber = p.PhoneNumber
+                }
+                );
             partyViewModels = ApplyNameFilter(partyViewModels, query);
             partyViewModels = partyViewModels.Take(20);
             return partyViewModels.ToList();
@@ -56,11 +63,11 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
         {
             if("person".Equals(partyType, StringComparison.OrdinalIgnoreCase))
             {
-                return parties.OfType<Person>();
+                return parties.Where(p => p.Type == Party.PartyType.Person);
             }
             if ("company".Equals(partyType, StringComparison.OrdinalIgnoreCase))
             {
-                return parties.OfType<Company>();
+                return parties.Where(p => p.Type== Party.PartyType.Company);
             }
             return parties;
         }

@@ -1,4 +1,4 @@
-﻿using Memento.Persistence;
+﻿using MementoFX.Persistence;
 using Merp.Registry.CommandStack.Commands;
 using Merp.Registry.CommandStack.Model;
 using Merp.Registry.QueryStack;
@@ -142,14 +142,14 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             }
             if (company.MainContactId.HasValue)
             {
-                model.MainContactName = Database.Parties.OfType<Merp.Registry.QueryStack.Model.Person>()
+                model.MainContactName = Database.People
                                                   .Where(p => p.OriginalId == company.MainContactId.Value)
                                                   .Select(p => p.DisplayName)
                                                   .Single();
             }
             if (company.AdministrativeContactId.HasValue)
             {
-                model.AdministrativeContactName = Database.Parties.OfType<Merp.Registry.QueryStack.Model.Person>()
+                model.AdministrativeContactName = Database.People
                                                  .Where(p => p.OriginalId == company.AdministrativeContactId.Value)
                                                  .Select(p => p.DisplayName)
                                                  .Single();
@@ -440,7 +440,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             };
             if (company.AdministrativeContactId.HasValue)
             {
-                model.AdministrativeContact = Database.Parties.OfType<Merp.Registry.QueryStack.Model.Person>()
+                model.AdministrativeContact = Database.People
                                                 .Where(p => p.OriginalId == company.AdministrativeContactId.Value) 
                                                 .Select(p => new PersonInfo { Id = p.Id, OriginalId = p.OriginalId, Name = p.DisplayName })
                                                 .Single();
@@ -471,7 +471,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             };
             if (company.MainContactId.HasValue)
             {
-                model.MainContact = Database.Parties.OfType<Merp.Registry.QueryStack.Model.Person>()
+                model.MainContact = Database.People
                                                 .Where(p => p.OriginalId == company.MainContactId.Value)
                                                 .Select(p => new PersonInfo { Id = p.Id, OriginalId = p.OriginalId, Name = p.DisplayName })
                                                 .Single();

@@ -1,10 +1,11 @@
-﻿using Memento.Persistence;
+﻿using MementoFX.Persistence;
 using Merp.Registry.CommandStack.Events;
 using Merp.Registry.CommandStack.Sagas;
 using Merp.Registry.CommandStack.Services;
 using Merp.Registry.QueryStack.Denormalizers;
 using Merp.Web.Site.Areas.Registry.WorkerServices;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
@@ -30,8 +31,8 @@ namespace Merp.Web.Site.Areas.Registry
             var mongoDbDatabaseName = MongoDB.Driver.MongoUrl.Create(mongoDbConnectionString).DatabaseName;
             var mongoClient = new MongoDB.Driver.MongoClient(mongoDbConnectionString);
             Services.AddSingleton(mongoClient.GetDatabase(mongoDbDatabaseName));
-            Services.AddTransient<IEventStore, Memento.Persistence.MongoDB.MongoDbEventStore>();
-            Services.AddTransient<IRepository, Memento.Persistence.Repository>();
+            Services.AddTransient<IEventStore, MementoFX.Persistence.MongoDB.MongoDbEventStore>();
+            Services.AddTransient<IRepository, MementoFX.Persistence.Repository>();
         }
 
         protected override void SubscribeEvents()
@@ -74,9 +75,8 @@ namespace Merp.Web.Site.Areas.Registry
         {
             //Types
             var readModelConnectionString = Configuration.GetConnectionString("Merp-Registry-ReadModel");
-
-            Services.AddScoped<Merp.Registry.QueryStack.RegistryDbContext>((s) => new Merp.Registry.QueryStack.RegistryDbContext(readModelConnectionString));
-            Services.AddScoped<Merp.Registry.QueryStack.IDatabase, Merp.Registry.QueryStack.Database>((s) => new Merp.Registry.QueryStack.Database(readModelConnectionString));
+            Services.AddDbContext<Merp.Registry.QueryStack.RegistryDbContext>(options => options.UseSqlServer(readModelConnectionString));
+            Services.AddScoped<Merp.Registry.QueryStack.IDatabase, Merp.Registry.QueryStack.Database>();
         }
 
         protected override void RegisterWorkerServices()

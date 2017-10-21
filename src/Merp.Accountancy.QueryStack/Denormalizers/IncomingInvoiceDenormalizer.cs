@@ -1,6 +1,8 @@
 ﻿using Merp.Accountancy.CommandStack.Events;
 using Merp.Accountancy.QueryStack.Model;
+using Microsoft.EntityFrameworkCore;
 using Rebus.Handlers;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,6 +14,12 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
         IHandleMessages<IncomingInvoicePaidEvent>,
         IHandleMessages<IncomingInvoiceLinkedToJobOrderEvent>
     {
+        private DbContextOptions<AccountancyDbContext> Options;
+
+        public IncomingInvoiceDenormalizer(DbContextOptions<AccountancyDbContext> options)
+        {
+            Options = options ?? throw new ArgumentNullException(nameof(options));
+        }
         public async Task Handle(IncomingInvoiceRegisteredEvent message)
         {
             var invoice = new IncomingInvoice();
@@ -48,7 +56,7 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
                 StreetName = message.Supplier.StreetName,
                 VatIndex = message.Supplier.VatIndex
             };
-            using (var ctx = new AccountancyContext())
+            using (var ctx = new AccountancyDbContext(Options))
             {
                 ctx.IncomingInvoices.Add(invoice);
                 await ctx.SaveChangesAsync();
@@ -57,7 +65,7 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
 
         public async Task Handle(IncomingInvoicePaidEvent message)
         {
-            using (var ctx = new AccountancyContext())
+            using (var ctx = new AccountancyDbContext(Options))
             {
                 var invoice = ctx.IncomingInvoices
                     .Where(i => i.OriginalId == message.InvoiceId)
@@ -71,7 +79,7 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
 
         public async Task Handle(IncomingInvoiceGotOverdueEvent message)
         {
-            using (var ctx = new AccountancyContext())
+            using (var ctx = new AccountancyDbContext(Options))
             {
                 var invoice = ctx.IncomingInvoices
                     .Where(i => i.OriginalId == message.InvoiceId)
@@ -83,7 +91,7 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
 
         public async Task Handle(IncomingInvoiceLinkedToJobOrderEvent message)
         {
-            using (var ctx = new AccountancyContext())
+            using (var ctx = new AccountancyDbContext(Options))
             {
                 var invoice = ctx.IncomingInvoices.Where(i => i.OriginalId == message.InvoiceId).Single();
                 invoice.JobOrderId = message.JobOrderId;

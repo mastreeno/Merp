@@ -10,5 +10,7 @@ namespace Merp.Registry.QueryStack
     public interface IDatabase
     {
         IQueryable<Party> Parties { get; }
+        IQueryable<Person> People { get; }
+        IQueryable<Company> Companies { get; }
     }
 }

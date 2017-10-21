@@ -1,10 +1,11 @@
-﻿using Memento.Persistence;
+﻿using MementoFX.Persistence;
 using Merp.Accountancy.CommandStack.Events;
 using Merp.Accountancy.CommandStack.Sagas;
 using Merp.Accountancy.CommandStack.Services;
 using Merp.Accountancy.QueryStack.Denormalizers;
 using Merp.Web.Site.Areas.Accountancy.WorkerServices;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -35,8 +36,8 @@ namespace Merp.Web.Site.Areas.Accountancy
             var mongoDbDatabaseName = MongoDB.Driver.MongoUrl.Create(mongoDbConnectionString).DatabaseName;
             var mongoClient = new MongoDB.Driver.MongoClient(mongoDbConnectionString);
             Services.AddSingleton(mongoClient.GetDatabase(mongoDbDatabaseName));
-            Services.AddTransient<IEventStore, Memento.Persistence.MongoDB.MongoDbEventStore>();
-            Services.AddTransient<IRepository, Memento.Persistence.Repository>();
+            Services.AddTransient<IEventStore, MementoFX.Persistence.MongoDB.MongoDbEventStore>();
+            Services.AddTransient<IRepository, MementoFX.Persistence.Repository>();
         }
 
         protected override void SubscribeEvents()
@@ -83,9 +84,8 @@ namespace Merp.Web.Site.Areas.Accountancy
         {
             //Types
             var readModelConnectionString = Configuration.GetConnectionString("Merp-Accountancy-ReadModel");
-
-            Services.AddScoped<Merp.Accountancy.QueryStack.AccountancyContext>((s) => new Merp.Accountancy.QueryStack.AccountancyContext(readModelConnectionString));
-            Services.AddScoped<Merp.Accountancy.QueryStack.IDatabase, Merp.Accountancy.QueryStack.Database>((s) => new Merp.Accountancy.QueryStack.Database(readModelConnectionString));
+            Services.AddDbContext<Merp.Accountancy.QueryStack.AccountancyDbContext>(options => options.UseSqlServer(readModelConnectionString));
+            Services.AddScoped<Merp.Accountancy.QueryStack.IDatabase, Merp.Accountancy.QueryStack.Database>();
         }
 
         protected override void RegisterWorkerServices()

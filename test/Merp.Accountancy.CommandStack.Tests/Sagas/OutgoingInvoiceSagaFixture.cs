@@ -3,7 +3,7 @@ using Moq;
 using NUnit.Framework;
 using SharpTestsEx;
 using Merp.Accountancy.CommandStack.Sagas;
-using Memento.Persistence;
+using MementoFX.Persistence;
 using Rebus.Bus;
 
 namespace Merp.Accountancy.CommandStack.Tests.Sagas

@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NUnit.Framework;
+using Xunit;
 using SharpTestsEx;
 using Merp.Registry.CommandStack.Model;
 
 namespace Merp.Registry.CommandStack.Tests.Model
 {
-    [TestFixture]
+    
     public class CompanyBehaviourFixture
     {       
-        [Test]
+        [Fact]
         public void ChangeLegalAddress_should_set_LegalAddress_accordingly_to_inputs()
         {
             var companyName = "Mastreeno";
@@ -31,14 +31,14 @@ namespace Merp.Registry.CommandStack.Tests.Model
             company.ChangeLegalAddress(address, city, postalCode, province, country, effectiveDate);
 
             Assert.NotNull(company.LegalAddress);
-            Assert.AreEqual(address, company.LegalAddress.Address);
-            Assert.AreEqual(city, company.LegalAddress.City);
-            Assert.AreEqual(postalCode, company.LegalAddress.PostalCode);
-            Assert.AreEqual(province, company.LegalAddress.Province);
-            Assert.AreEqual(country, company.LegalAddress.Country);
+            Assert.Equal(address, company.LegalAddress.Address);
+            Assert.Equal(city, company.LegalAddress.City);
+            Assert.Equal(postalCode, company.LegalAddress.PostalCode);
+            Assert.Equal(province, company.LegalAddress.Province);
+            Assert.Equal(country, company.LegalAddress.Country);
         }
 
-        [Test]
+        [Fact]
         public void ChangeBillingAddress_should_set_LegalAddress_accordingly_to_inputs()
         {
             var companyName = "Mastreeno";
@@ -57,14 +57,14 @@ namespace Merp.Registry.CommandStack.Tests.Model
             company.ChangeBillingAddress(address, city, postalCode, province, country, effectiveDate);
 
             Assert.NotNull(company.BillingAddress);
-            Assert.AreEqual(address, company.BillingAddress.Address);
-            Assert.AreEqual(city, company.BillingAddress.City);
-            Assert.AreEqual(postalCode, company.BillingAddress.PostalCode);
-            Assert.AreEqual(province, company.BillingAddress.Province);
-            Assert.AreEqual(country, company.BillingAddress.Country);
+            Assert.Equal(address, company.BillingAddress.Address);
+            Assert.Equal(city, company.BillingAddress.City);
+            Assert.Equal(postalCode, company.BillingAddress.PostalCode);
+            Assert.Equal(province, company.BillingAddress.Province);
+            Assert.Equal(country, company.BillingAddress.Country);
         }
 
-        [Test]
+        [Fact]
         public void ChangeShippingAddress_should_set_LegalAddress_accordingly_to_inputs()
         {
             var companyName = "Mastreeno";
@@ -83,11 +83,11 @@ namespace Merp.Registry.CommandStack.Tests.Model
             company.ChangeShippingAddress(address, city, postalCode, province, country, effectiveDate);
 
             Assert.NotNull(company.ShippingAddress);
-            Assert.AreEqual(address, company.ShippingAddress.Address);
-            Assert.AreEqual(city, company.ShippingAddress.City);
-            Assert.AreEqual(postalCode, company.ShippingAddress.PostalCode);
-            Assert.AreEqual(province, company.ShippingAddress.Province);
-            Assert.AreEqual(country, company.ShippingAddress.Country);
+            Assert.Equal(address, company.ShippingAddress.Address);
+            Assert.Equal(city, company.ShippingAddress.City);
+            Assert.Equal(postalCode, company.ShippingAddress.PostalCode);
+            Assert.Equal(province, company.ShippingAddress.Province);
+            Assert.Equal(country, company.ShippingAddress.Country);
         }
         
 

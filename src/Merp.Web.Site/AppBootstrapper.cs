@@ -1,6 +1,6 @@
 ﻿using System;
-using Memento.Messaging;
-using Memento.Messaging.Rebus;
+using MementoFX.Messaging;
+using MementoFX.Messaging.Rebus;
 using Merp.Accountancy.CommandStack.Sagas;
 using Merp.Registry.CommandStack.Sagas;
 using Microsoft.Extensions.Configuration;
@@ -45,10 +45,6 @@ namespace Merp.Web.Site
         private void ConfigureBus()
         {
             var config = Rebus.Config.Configure.With(new NetCoreServiceCollectionContainerAdapter(Services))
-                //.Options(o => {
-                //    o.SetNumberOfWorkers(1);
-                //    o.SetMaxParallelism(50);
-                //})
                 .Logging(l => l.Trace())
                 .Routing(r => r.TypeBased()
                     .MapAssemblyOf<IncomingInvoiceSaga>(Configuration["Rebus:QueueName"])

@@ -1,5 +1,5 @@
 ﻿using Merp.Registry.CommandStack.Commands;
-using NUnit.Framework;
+using Xunit;
 using SharpTestsEx;
 using System;
 using System.Collections.Generic;
@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Merp.Registry.CommandStack.Tests.Commands
 {
-    [TestFixture]
+    
     public class RegisterPersonCommandFixture
     {
-        [Test]
+        [Fact]
         public void Ctor_should_properly_initialise_instance()
         {
             var personId = Guid.Empty;
@@ -33,25 +33,25 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var instantMessaging = "@im";
 
             var sut = new RegisterPersonCommand(firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging);
-            Assert.AreEqual(personId, sut.PersonId);
-            Assert.AreEqual(firstName, sut.FirstName);
-            Assert.AreEqual(lastName, sut.LastName);
-            Assert.AreEqual(nationalIdentificationNumber, sut.NationalIdentificationNumber);
-            Assert.AreEqual(vatNumber, sut.VatNumber);
-            Assert.AreEqual(address, sut.Address);
-            Assert.AreEqual(city, sut.City);
-            Assert.AreEqual(postalCode, sut.PostalCode);
-            Assert.AreEqual(province, sut.Province);
-            Assert.AreEqual(country, sut.Country);
-            Assert.AreEqual(phoneNumber, sut.PhoneNumber);
-            Assert.AreEqual(mobileNumber, sut.MobileNumber);
-            Assert.AreEqual(faxNumber, sut.FaxNumber);
-            Assert.AreEqual(websiteAddress, sut.WebsiteAddress);
-            Assert.AreEqual(emailAddress, sut.EmailAddress);
-            Assert.AreEqual(instantMessaging, sut.InstantMessaging);
+            Assert.Equal(personId, sut.PersonId);
+            Assert.Equal(firstName, sut.FirstName);
+            Assert.Equal(lastName, sut.LastName);
+            Assert.Equal(nationalIdentificationNumber, sut.NationalIdentificationNumber);
+            Assert.Equal(vatNumber, sut.VatNumber);
+            Assert.Equal(address, sut.Address);
+            Assert.Equal(city, sut.City);
+            Assert.Equal(postalCode, sut.PostalCode);
+            Assert.Equal(province, sut.Province);
+            Assert.Equal(country, sut.Country);
+            Assert.Equal(phoneNumber, sut.PhoneNumber);
+            Assert.Equal(mobileNumber, sut.MobileNumber);
+            Assert.Equal(faxNumber, sut.FaxNumber);
+            Assert.Equal(websiteAddress, sut.WebsiteAddress);
+            Assert.Equal(emailAddress, sut.EmailAddress);
+            Assert.Equal(instantMessaging, sut.InstantMessaging);
         }
 
-        [Test]
+        [Fact]
         public void Ctor_should_throw_on_null_firstName()
         {
             var personId = Guid.NewGuid();
@@ -84,7 +84,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             .EqualTo("firstName");
         }
 
-        [Test]
+        [Fact]
         public void Ctor_should_throw_on_null_lastName()
         {
             var personId = Guid.NewGuid();

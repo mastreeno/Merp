@@ -1,5 +1,5 @@
 ﻿using Merp.Accountancy.CommandStack.Services;
-using Memento;
+using MementoFX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +40,7 @@ namespace Merp.Accountancy.CommandStack.Commands
         public PartyInfo Supplier { get; set; }
         public DateTime InvoiceDate { get; set; }
         public DateTime DueDate { get; set; }
+        public string Currency { get; set; }
         public decimal TaxableAmount { get; set; }
         public decimal Taxes { get; set; }
         public decimal TotalPrice { get; set; }
@@ -47,7 +48,7 @@ namespace Merp.Accountancy.CommandStack.Commands
         public string PaymentTerms { get; set; }
         public string PurchaseOrderNumber { get; set; }
 
-        public ImportOutgoingInvoiceCommand(Guid invoiceId, string invoiceNumber, DateTime invoiceDate, DateTime dueDate, decimal taxable, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, 
+        public ImportOutgoingInvoiceCommand(Guid invoiceId, string invoiceNumber, DateTime invoiceDate, DateTime dueDate, string currency, decimal taxable, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, 
             Guid customerId, string customerName, string customerAddress, string customerCity, string customerPostalCode, string customerCountry, string customerVatIndex, string customerNationalIdentificationNumber,
             string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber)
         {
@@ -77,6 +78,7 @@ namespace Merp.Accountancy.CommandStack.Commands
             Supplier = supplier;
             InvoiceDate = invoiceDate;
             DueDate = dueDate;
+            Currency = currency;
             TaxableAmount = taxable;
             Taxes = taxes;
             TotalPrice = totalPrice;
