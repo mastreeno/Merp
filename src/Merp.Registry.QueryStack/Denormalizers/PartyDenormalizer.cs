@@ -69,6 +69,7 @@ namespace Merp.Registry.QueryStack.Denormalizers
                 party.WebsiteAddress = message.WebsiteAddress;
                 party.EmailAddress = message.EmailAddress;
                 party.InstantMessaging = message.InstantMessaging;
+                party.Pec = message.Pec;
                 await context.SaveChangesAsync();
             }
         }
@@ -93,12 +94,13 @@ namespace Merp.Registry.QueryStack.Denormalizers
                 },
                 //ContactInfo = new ContactInfo
                 //{
-                    PhoneNumber = message.PhoneNumber,
-                    MobileNumber = message.MobileNumber,
-                    FaxNumber = message.FaxNumber,
-                    WebsiteAddress = message.WebsiteAddress,
-                    EmailAddress = message.EmailAddress,
-                    InstantMessaging = message.InstantMessaging
+                PhoneNumber = message.PhoneNumber,
+                MobileNumber = message.MobileNumber,
+                FaxNumber = message.FaxNumber,
+                WebsiteAddress = message.WebsiteAddress,
+                EmailAddress = message.EmailAddress,
+                InstantMessaging = message.InstantMessaging,
+                Pec = message.Pec
                 //}
             };
             using (var context = new RegistryDbContext(Options))

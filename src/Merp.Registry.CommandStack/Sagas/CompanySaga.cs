@@ -82,44 +82,8 @@ namespace Merp.Registry.CommandStack.Sagas
                 var legalAddressPostalCode = legalAddressIsDefined ? message.LegalAddressPostalCode : null;
                 var legalAddressProvince = legalAddressIsDefined ? message.LegalAddressProvince : null;
                 var legalAddressCountry = legalAddressIsDefined ? !string.IsNullOrWhiteSpace(message.LegalAddressCountry) ? message.LegalAddressCountry : _defaultCountryResolver.GetDefaultCountry() : null;
-                
-                var company = Company.Factory.CreateNewEntry(message.CompanyName, message.VatNumber, message.NationalIdentificationNumber, 
-                    legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry,
-                    message.BillingAddressAddress, message.BillingAddressCity, message.BillingAddressPostalCode, message.BillingAddressProvince, message.BillingAddressCountry,
-                    message.ShippingAddressAddress, message.ShippingAddressCity, message.ShippingAddressPostalCode, message.ShippingAddressProvince, message.ShippingAddressCountry);
-                                
-                if (message.MainContactId.HasValue)
-                {
-                    Thread.Sleep(10);
-                    company.AssociateMainContact(message.MainContactId.Value);
-                }
-                if (message.AdministrativeContactId.HasValue)
-                {
-                    Thread.Sleep(10);
-                    company.AssociateAdministrativeContact(message.AdministrativeContactId.Value);
-                }
-                if(!string.IsNullOrWhiteSpace(message.PhoneNumber) || !string.IsNullOrWhiteSpace(message.FaxNumber) || !string.IsNullOrWhiteSpace(message.WebsiteAddress) || !string.IsNullOrWhiteSpace(message.EmailAddress))
-                {
-                    Thread.Sleep(10);
-                    company.SetContactInfo(message.PhoneNumber, null, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, null);
-                }
-                _repository.Save(company);
-                this.Data.CompanyId = company.Id;
-            });
-        }
 
-        public Task Handle(ImportCompanyCommand message)
-        {
-            return Task.Factory.StartNew(() =>
-            {
-                var legalAddressIsDefined = !string.IsNullOrWhiteSpace(message.LegalAddressAddress);
-                var legalAddressAddress = legalAddressIsDefined ? message.LegalAddressAddress : null;
-                var legalAddressCity = legalAddressIsDefined ? message.LegalAddressCity : null;
-                var legalAddressPostalCode = legalAddressIsDefined ? message.LegalAddressPostalCode : null;
-                var legalAddressProvince = legalAddressIsDefined ? message.LegalAddressProvince : null;
-                var legalAddressCountry = legalAddressIsDefined ? !string.IsNullOrWhiteSpace(message.LegalAddressCountry) ? message.LegalAddressCountry : _defaultCountryResolver.GetDefaultCountry() : null;
-
-                var company = Company.Factory.CreateNewEntryByImport(message.CompanyId, message.RegistrationDate, message.CompanyName, message.VatNumber, message.NationalIdentificationNumber, 
+                var company = Company.Factory.CreateNewEntry(message.CompanyName, message.VatNumber, message.NationalIdentificationNumber,
                     legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry,
                     message.BillingAddressAddress, message.BillingAddressCity, message.BillingAddressPostalCode, message.BillingAddressProvince, message.BillingAddressCountry,
                     message.ShippingAddressAddress, message.ShippingAddressCity, message.ShippingAddressPostalCode, message.ShippingAddressProvince, message.ShippingAddressCountry);
@@ -137,7 +101,43 @@ namespace Merp.Registry.CommandStack.Sagas
                 if (!string.IsNullOrWhiteSpace(message.PhoneNumber) || !string.IsNullOrWhiteSpace(message.FaxNumber) || !string.IsNullOrWhiteSpace(message.WebsiteAddress) || !string.IsNullOrWhiteSpace(message.EmailAddress))
                 {
                     Thread.Sleep(10);
-                    company.SetContactInfo(message.PhoneNumber, null, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, null);
+                    company.SetContactInfo(message.PhoneNumber, null, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, null, null);
+                }
+                _repository.Save(company);
+                this.Data.CompanyId = company.Id;
+            });
+        }
+
+        public Task Handle(ImportCompanyCommand message)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                var legalAddressIsDefined = !string.IsNullOrWhiteSpace(message.LegalAddressAddress);
+                var legalAddressAddress = legalAddressIsDefined ? message.LegalAddressAddress : null;
+                var legalAddressCity = legalAddressIsDefined ? message.LegalAddressCity : null;
+                var legalAddressPostalCode = legalAddressIsDefined ? message.LegalAddressPostalCode : null;
+                var legalAddressProvince = legalAddressIsDefined ? message.LegalAddressProvince : null;
+                var legalAddressCountry = legalAddressIsDefined ? !string.IsNullOrWhiteSpace(message.LegalAddressCountry) ? message.LegalAddressCountry : _defaultCountryResolver.GetDefaultCountry() : null;
+
+                var company = Company.Factory.CreateNewEntryByImport(message.CompanyId, message.RegistrationDate, message.CompanyName, message.VatNumber, message.NationalIdentificationNumber,
+                    legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry,
+                    message.BillingAddressAddress, message.BillingAddressCity, message.BillingAddressPostalCode, message.BillingAddressProvince, message.BillingAddressCountry,
+                    message.ShippingAddressAddress, message.ShippingAddressCity, message.ShippingAddressPostalCode, message.ShippingAddressProvince, message.ShippingAddressCountry);
+
+                if (message.MainContactId.HasValue)
+                {
+                    Thread.Sleep(10);
+                    company.AssociateMainContact(message.MainContactId.Value);
+                }
+                if (message.AdministrativeContactId.HasValue)
+                {
+                    Thread.Sleep(10);
+                    company.AssociateAdministrativeContact(message.AdministrativeContactId.Value);
+                }
+                if (!string.IsNullOrWhiteSpace(message.PhoneNumber) || !string.IsNullOrWhiteSpace(message.FaxNumber) || !string.IsNullOrWhiteSpace(message.WebsiteAddress) || !string.IsNullOrWhiteSpace(message.EmailAddress))
+                {
+                    Thread.Sleep(10);
+                    company.SetContactInfo(message.PhoneNumber, null, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, null, null);
                 }
                 _repository.Save(company);
                 this.Data.CompanyId = company.Id;
@@ -158,12 +158,12 @@ namespace Merp.Registry.CommandStack.Sagas
         {
             return Task.Factory.StartNew(() => {
                 var company = _repository.GetById<Company>(message.CompanyId);
-                if(company.LegalAddress == null || company.LegalAddress.IsDifferentAddress(message.Address, message.City, message.PostalCode, message.Province, message.Country))
+                if (company.LegalAddress == null || company.LegalAddress.IsDifferentAddress(message.Address, message.City, message.PostalCode, message.Province, message.Country))
                 {
                     var effectiveDateTime = message.EffectiveDate;
                     var effectiveDate = new DateTime(effectiveDateTime.Year, effectiveDateTime.Month, effectiveDateTime.Day);
                     company.ChangeLegalAddress(message.Address, message.City, message.PostalCode, message.Province, !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry(), effectiveDate);
-                    _repository.Save(company);                
+                    _repository.Save(company);
                 }
             });
         }
@@ -171,10 +171,10 @@ namespace Merp.Registry.CommandStack.Sagas
         public Task Handle(ChangeCompanyShippingAddressCommand message)
         {
             return Task.Factory.StartNew(() => {
-                               
+
                 var effectiveDateTime = message.EffectiveDate;
                 var effectiveDate = new DateTime(effectiveDateTime.Year, effectiveDateTime.Month, effectiveDateTime.Day);
-                
+
                 var company = _repository.GetById<Company>(message.CompanyId);
 
                 if (effectiveDate > DateTime.Now || company.ShippingAddress == null || company.ShippingAddress.IsDifferentAddress(message.Address, message.City, message.PostalCode, message.Province, message.Country))
@@ -190,7 +190,7 @@ namespace Merp.Registry.CommandStack.Sagas
             return Task.Factory.StartNew(() => {
                 var effectiveDateTime = message.EffectiveDate;
                 var effectiveDate = new DateTime(effectiveDateTime.Year, effectiveDateTime.Month, effectiveDateTime.Day);
-                
+
                 var company = _repository.GetById<Company>(message.CompanyId);
 
                 if (effectiveDate > DateTime.Now || company.BillingAddress == null || company.BillingAddress.IsDifferentAddress(message.Address, message.City, message.PostalCode, message.Province, message.Country))
@@ -231,7 +231,7 @@ namespace Merp.Registry.CommandStack.Sagas
                 var company = _repository.GetById<Company>(message.CompanyId);
                 if (company.ContactInfo == null || message.PhoneNumber != company.ContactInfo.PhoneNumber || message.FaxNumber != company.ContactInfo.FaxNumber || message.WebsiteAddress != company.ContactInfo.WebsiteAddress || message.EmailAddress != company.ContactInfo.EmailAddress)
                 {
-                    company.SetContactInfo(message.PhoneNumber, null, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, null);
+                    company.SetContactInfo(message.PhoneNumber, null, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, null, null);
                     _repository.Save(company);
                 }
             });

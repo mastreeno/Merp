@@ -14,8 +14,9 @@ namespace Merp.Registry.CommandStack.Model
         public string WebsiteAddress { get; set; }
         public string EmailAddress { get; set; }
         public string InstantMessaging { get; set; }
+        public string Pec { get; set; }
 
-        public ContactInfo(string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
+        public ContactInfo(string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging, string pec)
         {
             PhoneNumber = phoneNumber;
             MobileNumber = mobileNumber;
@@ -23,6 +24,7 @@ namespace Merp.Registry.CommandStack.Model
             WebsiteAddress = websiteAddress;
             EmailAddress = emailAddress;
             InstantMessaging = instantMessaging;
+            Pec = pec;
         }
     }
 }

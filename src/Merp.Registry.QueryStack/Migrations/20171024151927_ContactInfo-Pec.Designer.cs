@@ -12,9 +12,10 @@ using System;
 namespace Merp.Registry.QueryStack.Migrations
 {
     [DbContext(typeof(RegistryDbContext))]
-    partial class RegistryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171024151927_ContactInfo-Pec")]
+    partial class ContactInfoPec
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

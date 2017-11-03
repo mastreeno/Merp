@@ -45,13 +45,13 @@ namespace Merp.Registry.CommandStack.Sagas
                 message => message.PersonId,
                 sagaData => sagaData.PersonId);
         }
-
+        //metodo che riceve il comando e lo esegue
         public Task Handle(RegisterPersonCommand message)
         {
             return Task.Factory.StartNew(() =>
             {
                 var country = string.IsNullOrWhiteSpace(message.Address) || !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry();
-                var person = Person.Factory.CreateNewEntry(message.FirstName, message.LastName, message.NationalIdentificationNumber, message.VatNumber, message.Address, message.City, message.PostalCode, message.Province, country, message.PhoneNumber, message.MobileNumber, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, message.InstantMessaging);
+                var person = Person.Factory.CreateNewEntry(message.FirstName, message.LastName, message.NationalIdentificationNumber, message.VatNumber, message.Address, message.City, message.PostalCode, message.Province, country, message.PhoneNumber, message.MobileNumber, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, message.InstantMessaging, message.Pec);
                 _repository.Save<Person>(person);
                 this.Data.PersonId = person.Id;
             });
@@ -62,7 +62,7 @@ namespace Merp.Registry.CommandStack.Sagas
             return Task.Factory.StartNew(() =>
             {
                 var country = string.IsNullOrWhiteSpace(message.Address) || !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry();
-                var person = Person.Factory.CreateNewEntryByImport(message.PersonId,message.RegistrationDate, message.FirstName, message.LastName, message.NationalIdentificationNumber, message.VatNumber, message.Address, message.City, message.PostalCode, message.Province, country, message.PhoneNumber, message.MobileNumber, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, message.InstantMessaging);
+                var person = Person.Factory.CreateNewEntryByImport(message.PersonId, message.RegistrationDate, message.FirstName, message.LastName, message.NationalIdentificationNumber, message.VatNumber, message.Address, message.City, message.PostalCode, message.Province, country, message.PhoneNumber, message.MobileNumber, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, message.InstantMessaging, message.Pec);
                 _repository.Save<Person>(person);
                 this.Data.PersonId = person.Id;
             });
@@ -86,9 +86,9 @@ namespace Merp.Registry.CommandStack.Sagas
         {
             return Task.Factory.StartNew(() => {
                 var person = _repository.GetById<Person>(message.PersonId);
-                if (person.ContactInfo.PhoneNumber != message.PhoneNumber || person.ContactInfo.MobileNumber != message.MobileNumber || person.ContactInfo.FaxNumber != message.FaxNumber || person.ContactInfo.WebsiteAddress != message.WebsiteAddress || person.ContactInfo.EmailAddress != message.EmailAddress || person.ContactInfo.InstantMessaging != message.InstantMessaging)
+                if (person.ContactInfo.PhoneNumber != message.PhoneNumber || person.ContactInfo.MobileNumber != message.MobileNumber || person.ContactInfo.FaxNumber != message.FaxNumber || person.ContactInfo.WebsiteAddress != message.WebsiteAddress || person.ContactInfo.EmailAddress != message.EmailAddress || person.ContactInfo.InstantMessaging != message.InstantMessaging || person.ContactInfo.Pec != message.Pec)
                 {
-                    person.SetContactInfo(message.PhoneNumber, message.MobileNumber, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, message.InstantMessaging);
+                    person.SetContactInfo(message.PhoneNumber, message.MobileNumber, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, message.InstantMessaging, message.Pec);
                     _repository.Save(person);
                 }
             });

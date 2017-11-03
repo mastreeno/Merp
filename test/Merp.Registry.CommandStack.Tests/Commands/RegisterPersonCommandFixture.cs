@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Merp.Registry.CommandStack.Tests.Commands
 {
-    
+
     public class RegisterPersonCommandFixture
     {
         [Fact]
@@ -31,8 +31,10 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var websiteAddress = "http://www.info.com";
             var emailAddress = "martin@gore.com";
             var instantMessaging = "@im";
+            var pec = "martin@gore.com";
 
-            var sut = new RegisterPersonCommand(firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging);
+
+            var sut = new RegisterPersonCommand(firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging, pec);
             Assert.Equal(personId, sut.PersonId);
             Assert.Equal(firstName, sut.FirstName);
             Assert.Equal(lastName, sut.LastName);
@@ -49,6 +51,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             Assert.Equal(websiteAddress, sut.WebsiteAddress);
             Assert.Equal(emailAddress, sut.EmailAddress);
             Assert.Equal(instantMessaging, sut.InstantMessaging);
+            Assert.Equal(pec, sut.Pec);
         }
 
         [Fact]
@@ -70,9 +73,10 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var websiteAddress = "http://www.info.com";
             var emailAddress = "martin@gore.com";
             var instantMessaging = "@im";
+            var pec = "martin@gore.com";
 
             Executing.This(
-                () => new RegisterPersonCommand(firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging)
+                () => new RegisterPersonCommand(firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging, pec)
             )
             .Should()
             .Throw<ArgumentException>()
@@ -103,9 +107,10 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var websiteAddress = "http://www.info.com";
             var emailAddress = "martin@gore.com";
             var instantMessaging = "@im";
+            var pec = "martin@gore.com";
 
             Executing.This(
-                () => new RegisterPersonCommand(firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging)
+                () => new RegisterPersonCommand(firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging, pec)
             )
             .Should()
             .Throw<ArgumentException>()

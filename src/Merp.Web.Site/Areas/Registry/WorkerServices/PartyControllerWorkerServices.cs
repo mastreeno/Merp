@@ -22,7 +22,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
 
         public string GetDetailViewModel(Guid partyId)
         {
-            if(Database.Companies.Where(p => p.OriginalId == partyId).Count()==1)
+            if (Database.Companies.Where(p => p.OriginalId == partyId).Count() == 1)
             {
                 return "Company";
             }
@@ -37,19 +37,22 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
         }
 
 
-        public IEnumerable<GetPartiesViewModel> GetParties(string query, string partyType, string city, string orderBy, string orderDirection)
+        public IEnumerable<GetPartiesViewModel> GetParties(string query, string partyType, string city, bool onlyWithPec, string orderBy, string orderDirection)
         {
             var parties = Database.Parties;
             parties = ApplyPartyTypeFilter(parties, partyType);
+            parties = ApplyPecFilter(parties, onlyWithPec);
             parties = ApplyCityFilter(parties, city);
             parties = ApplyOrdering(parties, orderBy, orderDirection);
 
             var partyViewModels = parties.Select(
-                p => new GetPartiesViewModel {
-                    id = p.Id,
-                    uid = p.OriginalId,
-                    name = p.DisplayName,
-                    PhoneNumber = p.PhoneNumber
+                p => new GetPartiesViewModel
+                {
+                    Id = p.Id,
+                    Guid = p.OriginalId,
+                    Name = p.DisplayName,
+                    PhoneNumber = p.PhoneNumber,
+                    Pec = p.Pec
                 }
                 );
             partyViewModels = ApplyNameFilter(partyViewModels, query);
@@ -61,15 +64,25 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
 
         private static IQueryable<Party> ApplyPartyTypeFilter(IQueryable<Party> parties, string partyType)
         {
-            if("person".Equals(partyType, StringComparison.OrdinalIgnoreCase))
+            if ("person".Equals(partyType, StringComparison.OrdinalIgnoreCase))
             {
                 return parties.Where(p => p.Type == Party.PartyType.Person);
             }
             if ("company".Equals(partyType, StringComparison.OrdinalIgnoreCase))
             {
-                return parties.Where(p => p.Type== Party.PartyType.Company);
+                return parties.Where(p => p.Type == Party.PartyType.Company);
             }
             return parties;
+        }
+
+        private static IQueryable<Party> ApplyPecFilter(IQueryable<Party> parties, bool onlyWithPec)
+        {
+            if (onlyWithPec)
+            {
+                return parties.Where(p => !string.IsNullOrWhiteSpace(p.Pec));
+            }
+            else
+                return parties;
         }
 
         private static IQueryable<Party> ApplyOrdering(IQueryable<Party> parties, string orderBy, string orderDirection)
@@ -102,7 +115,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
         {
             if (!string.IsNullOrEmpty(query) && query != "undefined")
             {
-                partyViewModels = partyViewModels.Where(p => p.name.Contains(query));
+                partyViewModels = partyViewModels.Where(p => p.Name.Contains(query));
             }
 
             return partyViewModels;
