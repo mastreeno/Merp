@@ -34,16 +34,16 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
                     return RedirectToAction("Search");
             }
         }
-        
+
         public ActionResult Search()
         {
             return View();
         }
 
         [HttpGet]
-        public IEnumerable<GetPartiesViewModel> GetParties(string query, string partyType, string city, string orderBy, string orderDirection)
+        public IEnumerable<GetPartiesViewModel> GetParties(string query, string partyType, string city, bool onlyWithLinkedin, string orderBy, string orderDirection)
         {
-            var model = WorkerServices.GetParties(query, partyType, city, orderBy, orderDirection);
+            var model = WorkerServices.GetParties(query, partyType, city, onlyWithLinkedin, orderBy, orderDirection);
             return model;
         }
 

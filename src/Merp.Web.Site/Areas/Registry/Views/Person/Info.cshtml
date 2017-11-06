@@ -9,99 +9,102 @@
 <hr />
 
 <div class="row">
-  <div class="tabbable">
-    <ul class="nav nav-pills nav-stacked col-md-3">
-      <li class="active"><a href="#personInfoPane" data-toggle="tab">Person Info</a></li>
-      <li><a href="#personContactInfoPane" data-toggle="tab">Contact Info</a></li>
-    </ul>
-    <div class="tab-content col-md-9">
-      <div class="tab-pane active" id="personInfoPane">
-        <dl class="dl-horizontal">
-          <dt>
-            @Html.DisplayNameFor(model => model.Id)
-          </dt>
-          <dd>
-            @Html.DisplayFor(model => model.Id)
-          </dd>
+    <div class="tabbable">
+        <ul class="nav nav-pills nav-stacked col-md-3">
+            <li class="active"><a href="#personInfoPane" data-toggle="tab">Person Info</a></li>
+            <li><a href="#personContactInfoPane" data-toggle="tab">Contact Info</a></li>
+        </ul>
+        <div class="tab-content col-md-9">
+            <div class="tab-pane active" id="personInfoPane">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Id)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Id)
+                    </dd>
 
-          <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-          </dt>
-          <dd>
-            @Html.DisplayFor(model => model.FirstName)
-          </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.FirstName)
+                    </dd>
 
-          <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-          </dt>
-          <dd>
-            @Html.DisplayFor(model => model.LastName)
-          </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.LastName)
+                    </dd>
 
-          <dt>
-            @Html.DisplayNameFor(model => model.NationalIdentificationNumber)
-          </dt>
-          <dd>
-            @Html.DisplayFor(model => model.NationalIdentificationNumber)
-          </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.NationalIdentificationNumber)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.NationalIdentificationNumber)
+                    </dd>
 
-          <dt>
-            @Html.DisplayNameFor(model => model.VatNumber)
-          </dt>
-          <dd>
-            @Html.DisplayFor(model => model.VatNumber)
-          </dd>
-        </dl>
-        <h5>@Html.DisplayNameFor(model => model.Address)</h5>
-        @Html.DisplayFor(model => model.Address)
-      </div>
-      <div class="tab-pane" id="personContactInfoPane">
-        <dl class="dl-horizontal">          
-          <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-          </dt>
-          <dd>
-            @Html.DisplayFor(model => model.PhoneNumber)
-          </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.VatNumber)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.VatNumber)
+                    </dd>
+                </dl>
+                <h5>@Html.DisplayNameFor(model => model.Address)</h5>
+                @Html.DisplayFor(model => model.Address)
+            </div>
+            <div class="tab-pane" id="personContactInfoPane">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PhoneNumber)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.PhoneNumber)
+                    </dd>
 
-          <dt>
-            @Html.DisplayNameFor(model => model.MobileNumber)
-          </dt>
-          <dd>
-            @Html.DisplayFor(model => model.MobileNumber)
-          </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.MobileNumber)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.MobileNumber)
+                    </dd>
 
-          <dt>
-            @Html.DisplayNameFor(model => model.FaxNumber)
-          </dt>
-          <dd>
-            @Html.DisplayFor(model => model.FaxNumber)
-          </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.FaxNumber)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.FaxNumber)
+                    </dd>
 
-          <dt>
-            @Html.DisplayNameFor(model => model.WebsiteAddress)
-          </dt>
-          <dd>
-            @Html.DisplayFor(model => model.WebsiteAddress)
-          </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.WebsiteAddress)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.WebsiteAddress)
+                    </dd>
 
-          <dt>
-            @Html.DisplayNameFor(model => model.EmailAddress)
-          </dt>
-          <dd>
-            @Html.DisplayFor(model => model.EmailAddress)
-          </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.EmailAddress)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.EmailAddress)
+                    </dd>
 
-          <dt>
-            @Html.DisplayNameFor(model => model.InstantMessaging)
-          </dt>
-          <dd>
-            @Html.DisplayFor(model => model.InstantMessaging)
-          </dd>
-        </dl>
-      </div>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.InstantMessaging)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.InstantMessaging)
+                    </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.Pec)
+                    </dd>
+                </dl>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <hr />

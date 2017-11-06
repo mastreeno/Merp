@@ -17,17 +17,17 @@ namespace Merp.Web.Site.Areas.Registry.Models.Person
         [Required]
         [DisplayName("Last Name")]
         public string LastName { get; set; }
-        
+
         [StringLength(16, MinimumLength = 16, ErrorMessage = "National Identification Number must have a length of 16 characters")]
         [DisplayName("National Identification Number")]
         public string NationalIdentificationNumber { get; set; }
 
         [DisplayName("VAT number")]
         public string VatNumber { get; set; }
-        
+
         [DisplayName("Address")]
         public PostalAddress Address { get; set; }
-        
+
         [Phone]
         [DisplayName("Phone Number")]
         public string PhoneNumber { get; set; }
@@ -38,7 +38,7 @@ namespace Merp.Web.Site.Areas.Registry.Models.Person
 
         [DisplayName("Fax Number")]
         public string FaxNumber { get; set; }
-        
+
         [DisplayName("Website Address")]
         public string WebsiteAddress { get; set; }
 
@@ -48,6 +48,10 @@ namespace Merp.Web.Site.Areas.Registry.Models.Person
 
         [DisplayName("IM")]
         public string InstantMessaging { get; set; }
+
+        [DisplayName("Linkedin")]
+        public string Linkedin { get; set; }
+
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

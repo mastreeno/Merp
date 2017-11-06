@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Merp.Registry.CommandStack.Tests.Commands
 {
-    
+
     public class ImportPersonCommandFixture
     {
         [Fact]
@@ -31,8 +31,9 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var websiteAddress = "http://www.info.com";
             var emailAddress = "martin@gore.com";
             var instantMessaging = "@im";
+            var linkedin = "martin@gore.com";
 
-            var sut = new ImportPersonCommand(personId, DateTime.Now, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging);
+            var sut = new ImportPersonCommand(personId, DateTime.Now, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging, linkedin);
             Assert.Equal(personId, sut.PersonId);
             Assert.Equal(firstName, sut.FirstName);
             Assert.Equal(lastName, sut.LastName);
@@ -48,6 +49,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             Assert.Equal(faxNumber, sut.FaxNumber);
             Assert.Equal(websiteAddress, sut.WebsiteAddress);
             Assert.Equal(emailAddress, sut.EmailAddress);
+            Assert.Equal(instantMessaging, sut.InstantMessaging);
             Assert.Equal(instantMessaging, sut.InstantMessaging);
         }
 
@@ -70,9 +72,10 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var websiteAddress = "http://www.info.com";
             var emailAddress = "martin@gore.com";
             var instantMessaging = "@im";
+            var linkedin = "martin@gore.com";
 
             Executing.This(
-                () => new ImportPersonCommand(personId, DateTime.Now, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging)
+                () => new ImportPersonCommand(personId, DateTime.Now, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging, linkedin)
             )
             .Should()
             .Throw<ArgumentException>()
@@ -103,9 +106,10 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var websiteAddress = "http://www.info.com";
             var emailAddress = "martin@gore.com";
             var instantMessaging = "@im";
+            var linkedin = "martin@gore.com";
 
             Executing.This(
-                () => new ImportPersonCommand(personId, DateTime.Now, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging)
+                () => new ImportPersonCommand(personId, DateTime.Now, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging, linkedin)
             )
             .Should()
             .Throw<ArgumentException>()
@@ -136,9 +140,10 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var websiteAddress = "http://www.info.com";
             var emailAddress = "martin@gore.com";
             var instantMessaging = "@im";
+            var linkedin = "martin@gore.com";
 
             Executing.This(
-                () => new ImportPersonCommand(personId, DateTime.Now, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging)
+                () => new ImportPersonCommand(personId, DateTime.Now, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging, linkedin)
             )
             .Should()
             .Throw<ArgumentException>()

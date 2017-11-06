@@ -30,26 +30,29 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
         public void AddEntry(AddEntryViewModel model)
         {
             var nationalIdentificationNumber = string.IsNullOrWhiteSpace(model.NationalIdentificationNumber) ? default(string) : model.NationalIdentificationNumber.Trim().ToUpper();
+            // con il model ricevuto viene creato il comando
             var command = new RegisterPersonCommand(
-                model.FirstName, 
+                model.FirstName,
                 model.LastName,
-                nationalIdentificationNumber, 
-                model.VatNumber, 
+                nationalIdentificationNumber,
+                model.VatNumber,
 
-                model.Address.Address, 
-                model.Address.City, 
-                model.Address.PostalCode, 
-                model.Address.Province, 
+                model.Address.Address,
+                model.Address.City,
+                model.Address.PostalCode,
+                model.Address.Province,
                 model.Address.Country,
-                
+
                 model.PhoneNumber,
                 model.MobileNumber,
                 model.FaxNumber,
                 model.WebsiteAddress,
                 model.EmailAddress,
-                model.InstantMessaging
+                model.InstantMessaging,
+                model.Linkedin
                 );
 
+            // il comando viene lanciato da rebus
             Bus.Send(command);
         }
 
@@ -65,7 +68,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
                 VatNumber = person.VatNumber,
 
             };
-            if(person.LegalAddress != null)
+            if (person.LegalAddress != null)
             {
                 model.Address = new Models.PostalAddress
                 {
@@ -76,7 +79,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
                     Province = person.LegalAddress.Province
                 };
             }
-            if(person.ContactInfo != null)
+            if (person.ContactInfo != null)
             {
                 model.PhoneNumber = person.ContactInfo.PhoneNumber;
                 model.MobileNumber = person.ContactInfo.MobileNumber;
@@ -84,6 +87,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
                 model.WebsiteAddress = person.ContactInfo.WebsiteAddress;
                 model.EmailAddress = person.ContactInfo.EmailAddress;
                 model.InstantMessaging = person.ContactInfo.InstantMessaging;
+                model.Linkedin = person.ContactInfo.Linkedin;
             }
             model.Id = Database.People
                                 .Where(p => p.OriginalId == person.Id)
@@ -101,7 +105,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
                 PersonFirstName = person.FirstName,
                 PersonLastName = person.LastName
             };
-            if(person.LegalAddress != null)
+            if (person.LegalAddress != null)
             {
                 model.Address = new Models.PostalAddress
                 {
@@ -143,7 +147,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
 
         public ChangeAddressViewModel.PersonDto GetChangeAddressViewModelPersonDto(Guid personId)
         {
-            var person = Repository.GetById<Person>(personId);            
+            var person = Repository.GetById<Person>(personId);
             var model = new ChangeAddressViewModel.PersonDto
             {
                 RegistrationDate = person.RegistrationDate
@@ -200,7 +204,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
                 throw new ArgumentNullException(nameof(model));
             }
 
-            var cmd = new ChangePersonContactInfoCommand(model.PersonId, model.PhoneNumber, model.MobileNumber, model.FaxNumber, model.WebsiteAddress, model.EmailAddress, model.InstantMessaging);
+            var cmd = new ChangePersonContactInfoCommand(model.PersonId, model.PhoneNumber, model.MobileNumber, model.FaxNumber, model.WebsiteAddress, model.EmailAddress, model.InstantMessaging, model.Linkedin);
 
             Bus.Send(cmd);
         }

@@ -34,6 +34,7 @@ namespace Merp.Registry.QueryStack.Model
         public string WebsiteAddress { get; set; }
         public string EmailAddress { get; set; }
         public string InstantMessaging { get; set; }
+        public string Linkedin { get; set; }
 
         public enum PartyType
         {
@@ -50,3 +51,4 @@ namespace Merp.Registry.QueryStack.Model
         }
     }
 }
+

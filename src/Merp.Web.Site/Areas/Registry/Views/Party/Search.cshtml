@@ -6,147 +6,159 @@
 
 <div data-ng-app="partySearchTool" data-ng-controller="partySearchToolController">
 
-  <div class="row">
-    <div class="col-md-12">
-      <form id="search-form" class="form-inline" role="form" data-ng-submit="refreshParties()">
-        <div class="input-group">
-          <label class="input-group-addon" for="partyType">Type</label>
-          <select id="partyType" class="form-control" ng-model="partyType" ng-options="partyType.label for partyType in partyTypes track by partyType.value"></select>
-        </div>
+    <div class="row">
+        <div class="col-md-12">
+            <form id="search-form" class="form-inline" role="form" data-ng-submit="refreshParties()">
+                <div class="input-group">
+                    <label class="input-group-addon" for="partyType">Type</label>
+                    <select id="partyType" class="form-control" ng-model="partyType" ng-options="partyType.label for partyType in partyTypes track by partyType.value"></select>
+                </div>
 
-        <div class="input-group">
-          <label class="input-group-addon" for="query">Name</label>
-          <input type="search" id="query" data-ng-model="query" class="form-control" placeholder="Party name...">
-        </div>
+                <div class="input-group">
+                    <label class="input-group-addon" for="query">Name</label>
+                    <input type="search" id="query" data-ng-model="query" class="form-control" placeholder="Party name...">
+                </div>
 
-        <div class="input-group">
-          <label class="input-group-addon" for="city">City</label>
-          <input type="search" id="city" data-ng-model="city" class="form-control" placeholder="City name...">
-        </div>
+                <div class="input-group">
+                    <label class="input-group-addon" for="city">City</label>
+                    <input type="search" id="city" data-ng-model="city" class="form-control" placeholder="City name...">
+                </div>
 
-        <div class="input-group">
-          <label class="input-group-addon " for="sort">Sort</label>
-          <select id="sort" class="form-control" ng-model="ordering" ng-options="ordering.label for ordering in orderings track by ordering.value"></select>
+                <div class="input-group">
+                    <label class="input-group-addon" for="sort">Sort</label>
+                    <select id="sort" class="form-control" ng-model="ordering" ng-options="ordering.label for ordering in orderings track by ordering.value"></select>
+                </div>
+                <br />
+                <div class="input-group">
+                    <input type="checkbox" class="checkbox-inline" data-ng-model="checkBoxValue" data-ng-click="checkValue()" />
+                    <label for="onlyWithLinkedin"> Only with Linkedin</label>
+                </div>
+                <br />
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-search"></span>
+                    Search
+                </button>
+            </form>
         </div>
-
-        <button type="submit" class="btn btn-primary">
-          <span class="glyphicon glyphicon-search"></span>
-          Search
-        </button>
-      </form>
     </div>
-  </div>
-
-  <div class="row" ng-cloak>
-    <div class="col-md-10">
-      <p ng-cloak>Total number of items: <span class="badge">{{parties.length}}</span></p>
-      <table class="table table-striped">
-          <tr>
-              <th>Name</th>
-              <th>Phone #</th>
-          </tr>
-        <tr data-ng-repeat="party in parties">
-          <td><a href="/Registry/Party/Detail/{{party.uid}}">{{party.name}}</a></td>
-          <td><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> {{party.phoneNumber}}</td>
-        </tr>
-      </table>
-    </div>
-    <div class="col-md-2">      
-      <div class="btn-toolbar" role="toolbar">
-        <div class="btn-group-vertical" role="group">
-          <a href="@UrlBuilder.Registry.CompanyAddEntry()" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Company</a>
-          <a href="@UrlBuilder.Registry.PersonAddEntry()" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Person</a>
+    <div class="row" ng-cloak>
+        <div class="col-md-10">
+            <p ng-cloak>Total number of items: <span class="badge">{{parties.length}}</span></p>
+            <table class="table table-striped">
+                <tr>
+                    <th>Name</th>
+                    <th>Phone #</th>
+                    <th>Linkedin</th>
+                </tr>
+                <tr data-ng-repeat="party in parties">
+                    <td><a href="/Registry/Party/Detail/{{party.guid}}">{{party.name}}</a></td>
+                    <td><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> {{party.phoneNumber}}</td>
+                    <td><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> {{party.linkedin}}</td>
+                </tr>
+            </table>
         </div>
-      </div>
+        <div class="col-md-2">
+            <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group-vertical" role="group">
+                    <a href="@UrlBuilder.Registry.CompanyAddEntry()" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Company</a>
+                    <a href="@UrlBuilder.Registry.PersonAddEntry()" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Person</a>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 @section scripts {
-  @{ await Html.RenderPartialAsync("_JqueryUIPartial"); }
-  <script type="text/javascript">
-    (function () {
-      var partySearchTool = angular.module('partySearchTool', []);
-    }());
-    (function (module) {
-      var partySearchToolController = function ($scope, $http) {
-        $scope.query = '';
-        $scope.city = '';
-        $scope.partyTypes = [
-          { label: 'Any', value: '' },
-          { label: 'Person', value: 'person' },
-          { label: 'Company', value: 'company' }
-        ];
-        $scope.partyType = $scope.partyTypes[0];
-        $scope.orderings = [
-          { label: 'Alphabetical (ascending)', value: '+name', orderBy: 'name', orderDirection: 'asc' },
-          { label: 'Alphabetical (descending)', value: '-name', orderBy: 'name', orderDirection: 'desc' }
-        ];
-        $scope.ordering = $scope.orderings[0];
-
-        $scope.refreshParties = function () {
-          var url = '/Registry/Party/GetParties';
-          var params = {
-            query: $scope.query,
-            partyType: $scope.partyType.value,
-            city: $scope.city,
-            orderBy: $scope.ordering.orderBy,
-            orderDirection: $scope.ordering.orderDirection
-          };
-          $http.get(url, { params: params })
-                .then(
-                    function (data) {
-                        $scope.parties = data.data;
-                    },
-                    function (data) { })
-        }
-
-        $scope.refreshParties();
-      }
-      module.controller('partySearchToolController', ['$scope', '$http', partySearchToolController]);
-    }(angular.module('partySearchTool')))
-  </script>
-  <script type="text/javascript">
-    $(function () {
-      $('#query').autocomplete({
-        minLength: 2,
-        delay: 500,
-        autoFocus: true,
-        source: function (request, response) {
-          $.ajax({
-            url: "/Registry/Api/GetPartyInfoByPattern",
-            dataType: "json",
-            data: {
-              text: request.term
-            },
-            success: function (data) {
-              response($.map(data, function (item) {
-                return {
-                  label: item.name,
-                  value: item.name,
-                  originalId: item.originalId
+    @{ await Html.RenderPartialAsync("_JqueryUIPartial"); }
+    <script type="text/javascript">
+        (function () {
+            var partySearchTool = angular.module('partySearchTool', []);
+        }());
+        (function (module) {
+            var partySearchToolController = function ($scope, $http) {
+                $scope.query = '';
+                $scope.city = '';
+                $scope.checkValue = function () {
+                    console.log($scope.checkBoxValue);
                 }
-              }));
+                $scope.checkBoxValue = false;
+                $scope.partyTypes = [
+                    { label: 'Any', value: '' },
+                    { label: 'Person', value: 'person' },
+                    { label: 'Company', value: 'company' }
+                ];
+                $scope.partyType = $scope.partyTypes[0];
+                $scope.orderings = [
+                    { label: 'Alphabetical (ascending)', value: '+name', orderBy: 'name', orderDirection: 'asc' },
+                    { label: 'Alphabetical (descending)', value: '-name', orderBy: 'name', orderDirection: 'desc' }
+                ];
+                $scope.ordering = $scope.orderings[0];
+
+                $scope.refreshParties = function () {
+                    var url = '/Registry/Party/GetParties';
+                    var params = {
+                        query: $scope.query,
+                        partyType: $scope.partyType.value,
+                        city: $scope.city,
+                        onlyWithLinkedin: $scope.checkBoxValue,
+                        orderBy: $scope.ordering.orderBy,
+                        orderDirection: $scope.ordering.orderDirection
+                    };
+                    $http.get(url, { params: params })
+                        .then(
+                        function (data) {
+                            $scope.parties = data.data;
+                            console.log(data.data);
+                        },
+                        function (data) { })
+                }
+
+                $scope.refreshParties();
             }
-          });
-        },
-        select: function (event, ui) {
-          var url = '/Registry/Party/Detail/' + ui.item.originalId;
-          $(location).attr('href', url);
-        }
-      });
-      $('#search-form').on('submit', function () {
-        $("#query").autocomplete("close");
-      });
-    });
-  </script>
+            module.controller('partySearchToolController', ['$scope', '$http', partySearchToolController]);
+        }(angular.module('partySearchTool')))
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('#query').autocomplete({
+                minLength: 2,
+                delay: 500,
+                autoFocus: true,
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/Registry/Api/GetPartyInfoByPattern",
+                        dataType: "json",
+                        data: {
+                            text: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return {
+                                    label: item.name,
+                                    value: item.name,
+                                    originalId: item.originalId
+                                }
+                            }));
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    var url = '/Registry/Party/Detail/' + ui.item.originalId;
+                    $(location).attr('href', url);
+                }
+            });
+            $('#search-form').on('submit', function () {
+                $("#query").autocomplete("close");
+            });
+        });
+    </script>
 }
 @section head {
-  <environment names="Development">
-    <link type="text/css" rel="stylesheet" href="~/lib/jquery-ui/themes/smoothness/jquery-ui.css" />
-  </environment>
-  <environment names="Staging,Production,OnPremises,AzureCosmosDB,AzureMongoDB,AzureCloudServices">
-    <link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/themes/smoothness/jquery-ui.css"
-          asp-fallback-href="~/lib/jquery-ui/themes/smoothness/jquery-ui.css"
-          asp-fallback-test-class="ui-helper-hidden" asp-fallback-test-property="display" asp-fallback-test-value="hidden" />
-  </environment>
+    <environment names="Development">
+        <link type="text/css" rel="stylesheet" href="~/lib/jquery-ui/themes/smoothness/jquery-ui.css" />
+    </environment>
+    <environment names="Staging,Production,OnPremises,AzureCosmosDB,AzureMongoDB,AzureCloudServices">
+        <link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/themes/smoothness/jquery-ui.css"
+              asp-fallback-href="~/lib/jquery-ui/themes/smoothness/jquery-ui.css"
+              asp-fallback-test-class="ui-helper-hidden" asp-fallback-test-property="display" asp-fallback-test-value="hidden" />
+    </environment>
 }

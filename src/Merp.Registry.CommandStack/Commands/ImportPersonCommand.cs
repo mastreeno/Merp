@@ -30,8 +30,9 @@ namespace Merp.Registry.CommandStack.Commands
         public string WebsiteAddress { get; set; }
         public string EmailAddress { get; set; }
         public string InstantMessaging { get; set; }
+        public string Linkedin { get; set; }
 
-        public ImportPersonCommand(Guid personId, DateTime registrationDate, string firstName, string lastName, string nationalIdentificationNumber, string vatNumber, string address, string city, string postalCode, string province, string country, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
+        public ImportPersonCommand(Guid personId, DateTime registrationDate, string firstName, string lastName, string nationalIdentificationNumber, string vatNumber, string address, string city, string postalCode, string province, string country, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging, string linkedin)
         {
             if (personId == Guid.Empty)
                 throw new ArgumentException("A non-empty personId should be provided", nameof(personId));
@@ -62,6 +63,7 @@ namespace Merp.Registry.CommandStack.Commands
             WebsiteAddress = websiteAddress;
             EmailAddress = emailAddress;
             InstantMessaging = instantMessaging;
+            Linkedin = linkedin;
         }
     }
 }

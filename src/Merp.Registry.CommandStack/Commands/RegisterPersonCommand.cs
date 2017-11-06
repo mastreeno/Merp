@@ -26,8 +26,9 @@ namespace Merp.Registry.CommandStack.Commands
         public string WebsiteAddress { get; set; }
         public string EmailAddress { get; set; }
         public string InstantMessaging { get; set; }
+        public string Linkedin { get; set; }
 
-        public RegisterPersonCommand(string firstName, string lastName, string nationalIdentificationNumber, string vatNumber, string address, string city, string postalCode, string province, string country, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
+        public RegisterPersonCommand(string firstName, string lastName, string nationalIdentificationNumber, string vatNumber, string address, string city, string postalCode, string province, string country, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging, string linkedin)
         {
             if (string.IsNullOrWhiteSpace(firstName))
             {
@@ -46,7 +47,7 @@ namespace Merp.Registry.CommandStack.Commands
             NationalIdentificationNumber = nationalIdentificationNumber;
             VatNumber = vatNumber;
             Address = address;
-            City = city ;
+            City = city;
             PostalCode = postalCode;
             Province = province;
             Country = country;
@@ -56,6 +57,7 @@ namespace Merp.Registry.CommandStack.Commands
             WebsiteAddress = websiteAddress;
             EmailAddress = emailAddress;
             InstantMessaging = instantMessaging;
+            Linkedin = linkedin;
         }
     }
 }
