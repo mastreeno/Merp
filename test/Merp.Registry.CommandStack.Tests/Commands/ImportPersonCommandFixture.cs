@@ -31,9 +31,9 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var websiteAddress = "http://www.info.com";
             var emailAddress = "martin@gore.com";
             var instantMessaging = "@im";
-            var pec = "martin@gore.com";
+            var linkedin = "martin@gore.com";
 
-            var sut = new ImportPersonCommand(personId, DateTime.Now, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging, pec);
+            var sut = new ImportPersonCommand(personId, DateTime.Now, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging, linkedin);
             Assert.Equal(personId, sut.PersonId);
             Assert.Equal(firstName, sut.FirstName);
             Assert.Equal(lastName, sut.LastName);
@@ -72,10 +72,10 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var websiteAddress = "http://www.info.com";
             var emailAddress = "martin@gore.com";
             var instantMessaging = "@im";
-            var pec = "martin@gore.com";
+            var linkedin = "martin@gore.com";
 
             Executing.This(
-                () => new ImportPersonCommand(personId, DateTime.Now, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging, pec)
+                () => new ImportPersonCommand(personId, DateTime.Now, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging, linkedin)
             )
             .Should()
             .Throw<ArgumentException>()
@@ -106,10 +106,10 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var websiteAddress = "http://www.info.com";
             var emailAddress = "martin@gore.com";
             var instantMessaging = "@im";
-            var pec = "martin@gore.com";
+            var linkedin = "martin@gore.com";
 
             Executing.This(
-                () => new ImportPersonCommand(personId, DateTime.Now, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging, pec)
+                () => new ImportPersonCommand(personId, DateTime.Now, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging, linkedin)
             )
             .Should()
             .Throw<ArgumentException>()
@@ -140,10 +140,10 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var websiteAddress = "http://www.info.com";
             var emailAddress = "martin@gore.com";
             var instantMessaging = "@im";
-            var pec = "martin@gore.com";
+            var linkedin = "martin@gore.com";
 
             Executing.This(
-                () => new ImportPersonCommand(personId, DateTime.Now, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging, pec)
+                () => new ImportPersonCommand(personId, DateTime.Now, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging, linkedin)
             )
             .Should()
             .Throw<ArgumentException>()

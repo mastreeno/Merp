@@ -37,11 +37,11 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
         }
 
 
-        public IEnumerable<GetPartiesViewModel> GetParties(string query, string partyType, string city, bool onlyWithPec, string orderBy, string orderDirection)
+        public IEnumerable<GetPartiesViewModel> GetParties(string query, string partyType, string city, bool onlyWithLinkedin, string orderBy, string orderDirection)
         {
             var parties = Database.Parties;
             parties = ApplyPartyTypeFilter(parties, partyType);
-            parties = ApplyPecFilter(parties, onlyWithPec);
+            parties = ApplyLinkedinFilter(parties, onlyWithLinkedin);
             parties = ApplyCityFilter(parties, city);
             parties = ApplyOrdering(parties, orderBy, orderDirection);
 
@@ -52,7 +52,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
                     Guid = p.OriginalId,
                     Name = p.DisplayName,
                     PhoneNumber = p.PhoneNumber,
-                    Pec = p.Pec
+                    Linkedin = p.Linkedin
                 }
                 );
             partyViewModels = ApplyNameFilter(partyViewModels, query);
@@ -75,11 +75,11 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             return parties;
         }
 
-        private static IQueryable<Party> ApplyPecFilter(IQueryable<Party> parties, bool onlyWithPec)
+        private static IQueryable<Party> ApplyLinkedinFilter(IQueryable<Party> parties, bool onlyWithLinkedin)
         {
-            if (onlyWithPec)
+            if (onlyWithLinkedin)
             {
-                return parties.Where(p => !string.IsNullOrWhiteSpace(p.Pec));
+                return parties.Where(p => !string.IsNullOrWhiteSpace(p.Linkedin));
             }
             else
                 return parties;

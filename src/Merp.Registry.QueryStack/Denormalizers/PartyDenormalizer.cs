@@ -69,7 +69,7 @@ namespace Merp.Registry.QueryStack.Denormalizers
                 party.WebsiteAddress = message.WebsiteAddress;
                 party.EmailAddress = message.EmailAddress;
                 party.InstantMessaging = message.InstantMessaging;
-                party.Pec = message.Pec;
+                party.Linkedin = message.Linkedin;
                 await context.SaveChangesAsync();
             }
         }
@@ -100,7 +100,7 @@ namespace Merp.Registry.QueryStack.Denormalizers
                 WebsiteAddress = message.WebsiteAddress,
                 EmailAddress = message.EmailAddress,
                 InstantMessaging = message.InstantMessaging,
-                Pec = message.Pec
+                Linkedin = message.Linkedin
                 //}
             };
             using (var context = new RegistryDbContext(Options))

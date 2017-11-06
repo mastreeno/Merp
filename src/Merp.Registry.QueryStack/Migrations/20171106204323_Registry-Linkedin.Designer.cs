@@ -12,8 +12,8 @@ using System;
 namespace Merp.Registry.QueryStack.Migrations
 {
     [DbContext(typeof(RegistryDbContext))]
-    [Migration("20171024151927_ContactInfo-Pec")]
-    partial class ContactInfoPec
+    [Migration("20171106204323_Registry-Linkedin")]
+    partial class RegistryLinkedin
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -61,13 +61,13 @@ namespace Merp.Registry.QueryStack.Migrations
 
                     b.Property<string>("InstantMessaging");
 
+                    b.Property<string>("Linkedin");
+
                     b.Property<string>("MobileNumber");
 
                     b.Property<string>("NationalIdentificationNumber");
 
                     b.Property<Guid>("OriginalId");
-
-                    b.Property<string>("Pec");
 
                     b.Property<string>("PhoneNumber");
 

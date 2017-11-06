@@ -31,7 +31,7 @@
                 <br />
                 <div class="input-group">
                     <input type="checkbox" class="checkbox-inline" data-ng-model="checkBoxValue" data-ng-click="checkValue()" />
-                    <label for="onlyWithPec"> Only with PEC</label>
+                    <label for="onlyWithLinkedin"> Only with Linkedin</label>
                 </div>
                 <br />
                 <button type="submit" class="btn btn-primary">
@@ -48,12 +48,12 @@
                 <tr>
                     <th>Name</th>
                     <th>Phone #</th>
-                    <th>PEC</th>
+                    <th>Linkedin</th>
                 </tr>
                 <tr data-ng-repeat="party in parties">
                     <td><a href="/Registry/Party/Detail/{{party.guid}}">{{party.name}}</a></td>
                     <td><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> {{party.phoneNumber}}</td>
-                    <td><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> {{party.pec}}</td>
+                    <td><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> {{party.linkedin}}</td>
                 </tr>
             </table>
         </div>
@@ -99,7 +99,7 @@
                         query: $scope.query,
                         partyType: $scope.partyType.value,
                         city: $scope.city,
-                        onlyWithPec: $scope.checkBoxValue,
+                        onlyWithLinkedin: $scope.checkBoxValue,
                         orderBy: $scope.ordering.orderBy,
                         orderDirection: $scope.ordering.orderDirection
                     };

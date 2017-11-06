@@ -49,7 +49,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
                 model.WebsiteAddress,
                 model.EmailAddress,
                 model.InstantMessaging,
-                model.Pec
+                model.Linkedin
                 );
 
             // il comando viene lanciato da rebus
@@ -87,7 +87,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
                 model.WebsiteAddress = person.ContactInfo.WebsiteAddress;
                 model.EmailAddress = person.ContactInfo.EmailAddress;
                 model.InstantMessaging = person.ContactInfo.InstantMessaging;
-                model.Pec = person.ContactInfo.Pec;
+                model.Linkedin = person.ContactInfo.Linkedin;
             }
             model.Id = Database.People
                                 .Where(p => p.OriginalId == person.Id)
@@ -204,7 +204,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
                 throw new ArgumentNullException(nameof(model));
             }
 
-            var cmd = new ChangePersonContactInfoCommand(model.PersonId, model.PhoneNumber, model.MobileNumber, model.FaxNumber, model.WebsiteAddress, model.EmailAddress, model.InstantMessaging, model.Pec);
+            var cmd = new ChangePersonContactInfoCommand(model.PersonId, model.PhoneNumber, model.MobileNumber, model.FaxNumber, model.WebsiteAddress, model.EmailAddress, model.InstantMessaging, model.Linkedin);
 
             Bus.Send(cmd);
         }

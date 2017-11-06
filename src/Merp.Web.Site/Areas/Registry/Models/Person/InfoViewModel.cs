@@ -34,7 +34,7 @@ namespace Merp.Web.Site.Areas.Registry.Models.Person
         public string EmailAddress { get; set; }
         [DisplayName("IM")]
         public string InstantMessaging { get; set; }
-        [DisplayName("PEC")]
-        public string Pec { get; set; }
+        [DisplayName("Linkedin")]
+        public string Linkedin { get; set; }
     }
 }

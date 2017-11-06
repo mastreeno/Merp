@@ -60,13 +60,13 @@ namespace Merp.Registry.QueryStack.Migrations
 
                     b.Property<string>("InstantMessaging");
 
+                    b.Property<string>("Linkedin");
+
                     b.Property<string>("MobileNumber");
 
                     b.Property<string>("NationalIdentificationNumber");
 
                     b.Property<Guid>("OriginalId");
-
-                    b.Property<string>("Pec");
 
                     b.Property<string>("PhoneNumber");
 

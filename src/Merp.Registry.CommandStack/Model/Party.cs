@@ -98,7 +98,7 @@ namespace Merp.Registry.CommandStack.Model
         /// <param name="evt">The event</param>
         public void ApplyEvent([AggregateId(nameof(ContactInfoSetForPartyEvent.PartyId))] ContactInfoSetForPartyEvent evt)
         {
-            var contactInfo = new ContactInfo(evt.PhoneNumber, evt.MobileNumber, evt.FaxNumber, evt.WebsiteAddress, evt.EmailAddress, evt.InstantMessaging, evt.Pec);
+            var contactInfo = new ContactInfo(evt.PhoneNumber, evt.MobileNumber, evt.FaxNumber, evt.WebsiteAddress, evt.EmailAddress, evt.InstantMessaging, evt.Linkedin);
             this.ContactInfo = contactInfo;
         }
 
@@ -188,9 +188,9 @@ namespace Merp.Registry.CommandStack.Model
         /// <param name="emailAddress"></param>
         /// <param name="instantMessaging"></param>
         /// <param name="pec"></param>
-        public void SetContactInfo(string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging, string pec)
+        public void SetContactInfo(string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging, string linkedin)
         {
-            var e = new ContactInfoSetForPartyEvent(Id, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging, pec);
+            var e = new ContactInfoSetForPartyEvent(Id, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging, linkedin);
             RaiseEvent(e);
         }
     }

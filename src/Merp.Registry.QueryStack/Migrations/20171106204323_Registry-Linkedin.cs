@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace Merp.Registry.QueryStack.Migrations
 {
-    public partial class ContactInfoPec : Migration
+    public partial class RegistryLinkedin : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Pec",
+                name: "Linkedin",
                 table: "Parties",
                 type: "nvarchar(max)",
                 nullable: true);
@@ -18,7 +18,7 @@ namespace Merp.Registry.QueryStack.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Pec",
+                name: "Linkedin",
                 table: "Parties");
         }
     }

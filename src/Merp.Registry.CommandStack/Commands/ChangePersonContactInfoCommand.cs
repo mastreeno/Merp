@@ -16,9 +16,9 @@ namespace Merp.Registry.CommandStack.Commands
         public string WebsiteAddress { get; set; }
         public string EmailAddress { get; set; }
         public string InstantMessaging { get; set; }
-        public string Pec { get; set; }
+        public string Linkedin { get; set; }
 
-        public ChangePersonContactInfoCommand(Guid personId, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging, string pec)
+        public ChangePersonContactInfoCommand(Guid personId, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging, string linkedin)
         {
             PersonId = personId;
             PhoneNumber = phoneNumber;
@@ -27,7 +27,7 @@ namespace Merp.Registry.CommandStack.Commands
             WebsiteAddress = websiteAddress;
             EmailAddress = emailAddress;
             InstantMessaging = instantMessaging;
-            Pec = pec;
+            Linkedin = linkedin;
         }
     }
 }

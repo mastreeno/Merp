@@ -28,9 +28,9 @@ namespace Merp.Registry.CommandStack.Events
         public string WebsiteAddress { get; set; }
         public string EmailAddress { get; set; }
         public string InstantMessaging { get; set; }
-        public string Pec { get; set; }
+        public string Linkedin { get; set; }
 
-        public PersonRegisteredEvent(Guid personId, DateTime registrationDate, string firstName, string lastName, string nationalIdentificationNumber, string vatNumber, string address, string city, string postalCode, string province, string country, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging, string pec)
+        public PersonRegisteredEvent(Guid personId, DateTime registrationDate, string firstName, string lastName, string nationalIdentificationNumber, string vatNumber, string address, string city, string postalCode, string province, string country, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging, string linkedin)
         {
             PersonId = personId;
             RegistrationDate = registrationDate;
@@ -49,7 +49,7 @@ namespace Merp.Registry.CommandStack.Events
             WebsiteAddress = websiteAddress;
             EmailAddress = emailAddress;
             InstantMessaging = instantMessaging;
-            Pec = pec;
+            Linkedin = linkedin;
         }
     }
 }

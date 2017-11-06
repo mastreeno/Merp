@@ -13,6 +13,6 @@ namespace Merp.Web.Site.Areas.Registry.Models.Party
 
         public string Name { get; set; }
         public string PhoneNumber { get; set; }
-        public string Pec { get; set; }
+        public string Linkedin { get; set; }
     }
 }

@@ -49,8 +49,8 @@ namespace Merp.Web.Site.Areas.Registry.Models.Person
         [DisplayName("IM")]
         public string InstantMessaging { get; set; }
 
-        [DisplayName("PEC")]
-        public string Pec { get; set; }
+        [DisplayName("Linkedin")]
+        public string Linkedin { get; set; }
 
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
