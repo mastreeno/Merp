@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace Merp.Registry.CommandStack.Tests.Commands
 {
-    
     public class RegisterCompanyCommandFixture
     {
         [Fact]

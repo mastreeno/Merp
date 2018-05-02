@@ -53,8 +53,11 @@ namespace Merp.Registry.CommandStack.Commands
             if (string.IsNullOrWhiteSpace(companyName))
                 throw new ArgumentException("Company name must be provided", nameof(companyName));
 
-            if (string.IsNullOrWhiteSpace(vatNumber) && string.IsNullOrWhiteSpace(nationalIdentificationNumber))
-                throw new ArgumentException("Either the VAT number or the NIN must be provided", nameof(vatNumber));
+            if (string.IsNullOrWhiteSpace(nationalIdentificationNumber))
+                throw new ArgumentException("The NIN must be specified", nameof(nationalIdentificationNumber));
+
+            if (string.IsNullOrWhiteSpace(vatNumber))
+                throw new ArgumentException("The VAT number must be specified", nameof(vatNumber));
 
             if (!PostalAddressHelper.IsValidAddress(legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry))
                 throw new ArgumentException("legal address must either be empty or comprehensive of both address and city");

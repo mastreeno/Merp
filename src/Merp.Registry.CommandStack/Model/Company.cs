@@ -123,8 +123,11 @@ namespace Merp.Registry.CommandStack.Model
                 if (string.IsNullOrWhiteSpace(companyName))
                     throw new ArgumentException("The company name must be specified", nameof(companyName));
 
-                if (string.IsNullOrWhiteSpace(nationalIdentificationNumber) && string.IsNullOrWhiteSpace(vatNumber))
-                    throw new ArgumentException("Either the VAT number or the NIN must be specified", nameof(vatNumber));
+                if (string.IsNullOrWhiteSpace(nationalIdentificationNumber))
+                    throw new ArgumentException("The NIN must be specified", nameof(nationalIdentificationNumber));
+
+                if (string.IsNullOrWhiteSpace(vatNumber))
+                    throw new ArgumentException("The VAT number must be specified", nameof(vatNumber));
 
                 var companyId = Guid.NewGuid();
                 var p = new Company();
