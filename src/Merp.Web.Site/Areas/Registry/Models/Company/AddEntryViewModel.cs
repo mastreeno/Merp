@@ -17,6 +17,7 @@ namespace Merp.Web.Site.Areas.Registry.Models.Company
         [DisplayName("Vat Number")]
         public string VatNumber { get; set; }
 
+        //[Required]
         [DisplayName("National Identification Number")]
         public string NationalIdentificationNumber { get; set; }
 
