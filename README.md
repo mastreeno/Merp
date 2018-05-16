@@ -4,7 +4,7 @@ An event-based Micro ERP, developed by Andrea Saltarello using ASP.NET Core 2.0
 **Release notes** 
 
 03/05/2018
- - Add DataSeeder class, that creates initial data. 
+ - Add DataSeeder class, that creates a user with both "_Accountancy_" and "_Registry_" IdentityRoles. 
  
  **IMPORTANT**: Remember to insert your email and password. (TIP: Create a partial class of DataSeeder with two string constants)
 
