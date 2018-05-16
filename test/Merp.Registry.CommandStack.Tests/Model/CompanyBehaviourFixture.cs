@@ -9,7 +9,6 @@ using Merp.Registry.CommandStack.Model;
 
 namespace Merp.Registry.CommandStack.Tests.Model
 {
-    
     public class CompanyBehaviourFixture
     {       
         [Fact]

@@ -11,10 +11,8 @@ using Merp.Registry.CommandStack.Events;
 
 namespace Merp.Registry.CommandStack.Tests.Model
 {
-    
     public class CompanyEventsFixture
     {
-
         [Fact]
         public void ChangeShippingAddress_should_raise_a_ShippingAddressSetForPartyEvent()
         {
@@ -102,7 +100,6 @@ namespace Merp.Registry.CommandStack.Tests.Model
             Assert.Equal(postalCode, actualEvent.PostalCode);
             Assert.Equal(province, actualEvent.Province);
             Assert.Equal(country, actualEvent.Country);
-
         }
     }
 }

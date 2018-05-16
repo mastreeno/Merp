@@ -4,10 +4,9 @@ using Merp.Accountancy.CommandStack.Commands;
 
 namespace Merp.Accountancy.CommandStack.Tests.Commands
 {
-    [TestFixture]
     public class IssueInvoiceCommandFixture
     {
-        [Test]
+        [Xunit.Fact]
         public void Ctor_should_set_properties_according_to_parameters()
         {
             DateTime invoiceDate = new DateTime(1990, 11, 11);

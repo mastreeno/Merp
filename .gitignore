@@ -215,3 +215,6 @@ ModelManifest.xml
 /src/Merp.Web.Site/App_Data/EventStore
 /src/Merp.Web.Site/Assemblies
 /src/Merp.Web.Site/CompiledIndexCache
+
+# Partial class with my Data
+/src/Merp.Web.Site/Data/MyUserData.cs

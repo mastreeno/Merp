@@ -9,7 +9,6 @@ using Merp.Registry.CommandStack.Model;
 
 namespace Merp.Registry.CommandStack.Tests.Model
 {
-    
     public class CompanyFixture
     {
         [Fact]
@@ -22,7 +21,7 @@ namespace Merp.Registry.CommandStack.Tests.Model
             var postalCode = "20123";
             var province = "MI";
             var country = "Italy";
-            Executing.This(() => Company.Factory.CreateNewEntry(null, vatNumber, nationalIdentificationNumber, 
+            Executing.This(() => Company.Factory.CreateNewEntry(null, vatNumber, nationalIdentificationNumber,
                 null, null, null, null, null,
                 null, null, null, null, null,
                 null, null, null, null, null))
@@ -46,7 +45,7 @@ namespace Merp.Registry.CommandStack.Tests.Model
             var postalCode = "20123";
             var province = "MI";
             var country = "Italy";
-            Executing.This(() => Company.Factory.CreateNewEntry("", vatNumber, nationalIdentificationNumber, 
+            Executing.This(() => Company.Factory.CreateNewEntry("", vatNumber, nationalIdentificationNumber,
                 null, null, null, null, null,
                 null, null, null, null, null,
                 null, null, null, null, null))
@@ -70,18 +69,19 @@ namespace Merp.Registry.CommandStack.Tests.Model
             var postalCode = "20123";
             var province = "MI";
             var country = "Italy";
-            Executing.This(() => Company.Factory.CreateNewEntry(companyName, null, nationalIdentificationNumber, 
-                null, null, null, null, null,
-                null, null, null, null, null,
-                null, null, null, null, null))
-                .Should()
-                .Throw<ArgumentException>()
-                .And
-                .ValueOf
-                .ParamName
-                .Should()
-                .Be
-                .EqualTo("vatNumber");
+
+            Executing.This(() => Company.Factory.CreateNewEntry(companyName, null, nationalIdentificationNumber,
+                   null, null, null, null, null,
+                   null, null, null, null, null,
+                   null, null, null, null, null))
+                   .Should()
+                   .Throw<ArgumentException>()
+                   .And
+                   .ValueOf
+                   .ParamName
+                   .Should()
+                   .Be
+                   .EqualTo("vatNumber");
         }
 
         [Fact]
@@ -94,7 +94,7 @@ namespace Merp.Registry.CommandStack.Tests.Model
             var postalCode = "20123";
             var province = "MI";
             var country = "Italy";
-            Executing.This(() => Company.Factory.CreateNewEntry(companyName, "", nationalIdentificationNumber, 
+            Executing.This(() => Company.Factory.CreateNewEntry(companyName, "", nationalIdentificationNumber,
                 null, null, null, null, null,
                 null, null, null, null, null,
                 null, null, null, null, null))

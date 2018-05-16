@@ -2,6 +2,11 @@
 An event-based Micro ERP, developed by Andrea Saltarello using ASP.NET Core 2.0
 
 **Release notes** 
+03/05/2018
+Add DataSeeder class.
+**IMPORTANT**: Remember to insert your email and password.
+(TIP: Use a partial class of DataSeeder)
+
 21/10/2017
 - AzureCloudServices environment removed
 - All projects but the web app were migrated to .NET Standard 2.0
