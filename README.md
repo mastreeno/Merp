@@ -4,6 +4,7 @@ An event-based Micro ERP, developed by Andrea Saltarello using ASP.NET Core 2.0
 **Release notes** 
 03/05/2018
 Add DataSeeder class.
+
 **IMPORTANT**: Remember to insert your email and password.
 (TIP: Use a partial class of DataSeeder)
 
