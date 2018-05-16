@@ -21,19 +21,21 @@ namespace Merp.Web.Site.Data
 
         private static void SeedRoles(RoleManager<IdentityRole> roleManager)
         {
-            IdentityResult roleResult = null;
-
             if (!roleManager.RoleExistsAsync("Accountancy").Result)
-                roleResult = roleManager.CreateAsync(new IdentityRole("Accountancy")).Result;
+            {
+                var roleResult = roleManager.CreateAsync(new IdentityRole("Accountancy")).Result;
 
-            if (!roleResult.Succeeded)
-                throw new InvalidOperationException("Cannot add Accountancy role.");
+                if (!roleResult.Succeeded)
+                    throw new InvalidOperationException("Cannot add Accountancy role.");
+            }
 
             if (!roleManager.RoleExistsAsync("Registry").Result)
-                roleResult = roleManager.CreateAsync(new IdentityRole("Registry")).Result;
+            {
+                var roleResult = roleManager.CreateAsync(new IdentityRole("Registry")).Result;
 
-            if (!roleResult.Succeeded)
-                throw new InvalidOperationException("Cannot add Registry role.");
+                if (!roleResult.Succeeded)
+                    throw new InvalidOperationException("Cannot add Registry role.");
+            }
         }
 
         private static void SeedUsers(UserManager<ApplicationUser> userManager)
