@@ -56,5 +56,9 @@ namespace Merp.Web.Site.Areas.Registry.Models.Company
         [DisplayName("Email Address")]
         [EmailAddress]
         public string EmailAddress { get; set; }
+
+        [StringLength(40, MinimumLength = 5)]
+        [DisplayName("Skype username")]
+        public string Skype { get; set; }
     }
 }
