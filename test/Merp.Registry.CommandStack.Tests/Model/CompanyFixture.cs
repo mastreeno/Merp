@@ -24,7 +24,8 @@ namespace Merp.Registry.CommandStack.Tests.Model
             Executing.This(() => Company.Factory.CreateNewEntry(null, vatNumber, nationalIdentificationNumber,
                 null, null, null, null, null,
                 null, null, null, null, null,
-                null, null, null, null, null))
+                null, null, null, null, null,
+                null))
                 .Should()
                 .Throw<ArgumentException>()
                 .And
@@ -48,7 +49,8 @@ namespace Merp.Registry.CommandStack.Tests.Model
             Executing.This(() => Company.Factory.CreateNewEntry("", vatNumber, nationalIdentificationNumber,
                 null, null, null, null, null,
                 null, null, null, null, null,
-                null, null, null, null, null))
+                null, null, null, null, null,
+                null))
                 .Should()
                 .Throw<ArgumentException>()
                 .And
@@ -73,7 +75,8 @@ namespace Merp.Registry.CommandStack.Tests.Model
             Executing.This(() => Company.Factory.CreateNewEntry(companyName, null, nationalIdentificationNumber,
                    null, null, null, null, null,
                    null, null, null, null, null,
-                   null, null, null, null, null))
+                   null, null, null, null, null,
+                   null))
                    .Should()
                    .Throw<ArgumentException>()
                    .And
@@ -97,7 +100,8 @@ namespace Merp.Registry.CommandStack.Tests.Model
             Executing.This(() => Company.Factory.CreateNewEntry(companyName, "", nationalIdentificationNumber,
                 null, null, null, null, null,
                 null, null, null, null, null,
-                null, null, null, null, null))
+                null, null, null, null, null,
+                null))
                 .Should()
                 .Throw<ArgumentException>()
                 .And
