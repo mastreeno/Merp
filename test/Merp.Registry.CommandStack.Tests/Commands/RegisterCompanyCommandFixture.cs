@@ -29,8 +29,9 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var faxNumber = "012345679";
             var websiteAddress = "www.info.com";
             var emailAddress = "user@info.com";
+            var skype = "skypeuser";
 
-            var command = new RegisterCompanyCommand(companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress);
+            var command = new RegisterCompanyCommand(companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress, skype);
             Assert.Equal(companyId, command.CompanyId);
             Assert.Equal(companyName, command.CompanyName);
             Assert.Equal(nationalIdentificationNumber, command.NationalIdentificationNumber);
@@ -46,6 +47,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             Assert.Equal(faxNumber, command.FaxNumber);
             Assert.Equal(websiteAddress, command.WebsiteAddress);
             Assert.Equal(emailAddress, command.EmailAddress);
+            Assert.Equal(skype, command.Skype);
         }
 
         [Fact]
@@ -66,9 +68,10 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var faxNumber = "012345679";
             var websiteAddress = "www.info.com";
             var emailAddress = "user@info.com";
+            var skype = "skypeuser";
 
             Executing.This(
-                () => new RegisterCompanyCommand(companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress)
+                () => new RegisterCompanyCommand(companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress, skype)
             )
             .Should()
             .Throw<ArgumentException>()
@@ -98,9 +101,10 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var faxNumber = "012345679";
             var websiteAddress = "www.info.com";
             var emailAddress = "user@info.com";
+            var skype = "skypeuser";
 
             Executing.This(
-                () => new RegisterCompanyCommand(companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress)
+                () => new RegisterCompanyCommand(companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress, skype)
             )
             .Should()
             .Throw<ArgumentException>()
@@ -130,9 +134,10 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var faxNumber = "012345679";
             var websiteAddress = "www.info.com";
             var emailAddress = "user@info.com";
+            var skype = "skypeuser";
 
             Executing.This(
-                () => new RegisterCompanyCommand(companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress)
+                () => new RegisterCompanyCommand(companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress, skype)
             )
             .Should()
             .Throw<ArgumentException>()
@@ -162,9 +167,10 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var faxNumber = "012345679";
             var websiteAddress = "www.info.com";
             var emailAddress = "user@info.com";
+            var skype = "skypeuser";
 
             Executing.This(
-                () => new RegisterCompanyCommand(companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress)
+                () => new RegisterCompanyCommand(companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress, skype)
             )
             .Should()
             .Throw<ArgumentException>()

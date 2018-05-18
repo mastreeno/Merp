@@ -45,7 +45,9 @@ namespace Merp.Registry.CommandStack.Commands
         public string WebsiteAddress { get; set; }
         public string EmailAddress { get; set; }
 
-        public ImportCompanyCommand(Guid companyId, DateTime registrationDate, string companyName, string nationalIdentificationNumber, string vatNumber, string legalAddressAddress, string legalAddressPostalCode, string legalAddressCity, string legalAddressProvince, string legalAddressCountry, string shippingAddressAddress, string shippingAddressPostalCode, string shippingAddressCity, string shippingAddressProvince, string shippingAddressCountry, string billingAddressAddress, string billingAddressPostalCode, string billingAddressCity, string billingAddressProvince, string billingAddressCountry, Guid? mainContactId, Guid? administrativeContactId, string phoneNumber, string faxNumber, string websiteAddress, string emailAddress)
+        public string Skype { get; set; }
+
+        public ImportCompanyCommand(Guid companyId, DateTime registrationDate, string companyName, string nationalIdentificationNumber, string vatNumber, string legalAddressAddress, string legalAddressPostalCode, string legalAddressCity, string legalAddressProvince, string legalAddressCountry, string shippingAddressAddress, string shippingAddressPostalCode, string shippingAddressCity, string shippingAddressProvince, string shippingAddressCountry, string billingAddressAddress, string billingAddressPostalCode, string billingAddressCity, string billingAddressProvince, string billingAddressCountry, Guid? mainContactId, Guid? administrativeContactId, string phoneNumber, string faxNumber, string websiteAddress, string emailAddress, string skype)
         {
             if (companyId == Guid.Empty)
                 throw new ArgumentException("A non-empty companyId must be provided.", nameof(companyId));
@@ -98,7 +100,8 @@ namespace Merp.Registry.CommandStack.Commands
             FaxNumber = faxNumber;
             WebsiteAddress = websiteAddress;
             EmailAddress = emailAddress;
-        }
 
+            Skype = skype;
+        }
     }
 }

@@ -35,10 +35,13 @@ namespace Merp.Registry.CommandStack.Events
         public string BillingAddressCountry { get; set; }
         public string BillingAddressProvince { get; set; }
 
+        public string Skype { get; set; }
+
         public CompanyRegisteredEvent(Guid companyId, DateTime registrationDate, string companyName, string vatIndex, string nationalIdentificationNumber,
             string legalAddressAddress, string legalAddressCity, string legalAddressPostalCode, string legalAddressProvince, string legalAddressCountry,
             string billingAddressAddress, string billingAddressCity, string billingAddressPostalCode, string billingAddressProvince, string billingAddressCountry,
-            string shippingAddressAddress, string shippingAddressCity, string shippingAddressPostalCode, string shippingAddressProvince, string shippingAddressCountry)
+            string shippingAddressAddress, string shippingAddressCity, string shippingAddressPostalCode, string shippingAddressProvince, string shippingAddressCountry,
+            string skype)
         {
             CompanyId = companyId;
             RegistrationDate = registrationDate;
@@ -63,6 +66,8 @@ namespace Merp.Registry.CommandStack.Events
             ShippingAddressPostalCode = shippingAddressPostalCode;
             ShippingAddressProvince = shippingAddressProvince;
             ShippingAddressCountry = shippingAddressCountry;
+
+            Skype = skype;
         }
     }
 }

@@ -47,7 +47,9 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
                 model.FaxNumber,
                 model.WebsiteAddress,
                 model.EmailAddress,
-                model.InstantMessaging
+                model.InstantMessaging,
+
+                model.Skype
                 );
 
             Bus.Send(command);

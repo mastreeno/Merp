@@ -24,7 +24,7 @@ namespace Merp.Registry.CommandStack.Model
         /// Gets or sets National Identification Number
         /// </summary>
         public string NationalIdentificationNumber { get; protected set; }
-        
+
         /// <summary>
         /// Gets or sets the VAT index
         /// </summary>
@@ -51,6 +51,11 @@ namespace Merp.Registry.CommandStack.Model
         public ContactInfo ContactInfo { get; protected set; }
 
         /// <summary>
+        /// Gets or sets the Skype username
+        /// </summary>
+        public string Skype { get; set; }
+
+        /// <summary>
         /// Apply an event to the current instance
         /// </summary>
         /// <param name="evt">The event</param>
@@ -69,7 +74,7 @@ namespace Merp.Registry.CommandStack.Model
         /// </summary>
         /// <param name="evt">The event</param>
         public void ApplyEvent([AggregateId(nameof(PartyLegalAddressChangedEvent.PartyId))] PartyLegalAddressChangedEvent evt)
-        {            
+        {
             var legalAddress = new PostalAddress(evt.Address, evt.City, evt.Country)
             {
                 PostalCode = evt.PostalCode,
@@ -121,12 +126,12 @@ namespace Merp.Registry.CommandStack.Model
             {
                 throw new ArgumentException("The legal address change cannot be scheduled in the future", nameof(effectiveDate));
             }
-            if(effectiveDate < RegistrationDate.ToLocalTime())
+            if (effectiveDate < RegistrationDate.ToLocalTime())
             {
                 throw new ArgumentException("Cannot change the legal address to an effective date before the registration date", nameof(effectiveDate));
             }
 
-            var e = new PartyLegalAddressChangedEvent(Id, address, city, postalCode, province, country, effectiveDate);            
+            var e = new PartyLegalAddressChangedEvent(Id, address, city, postalCode, province, country, effectiveDate);
             RaiseEvent(e);
         }
 
@@ -188,7 +193,7 @@ namespace Merp.Registry.CommandStack.Model
         /// <param name="emailAddress"></param>
         /// <param name="instantMessaging"></param>
         public void SetContactInfo(string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
-        {     
+        {
             var e = new ContactInfoSetForPartyEvent(Id, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging);
             RaiseEvent(e);
         }

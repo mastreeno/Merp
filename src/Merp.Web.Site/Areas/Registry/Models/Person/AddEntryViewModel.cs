@@ -49,6 +49,10 @@ namespace Merp.Web.Site.Areas.Registry.Models.Person
         [DisplayName("IM")]
         public string InstantMessaging { get; set; }
 
+        [StringLength(40, MinimumLength = 5)]
+        [DisplayName("Skype username")]
+        public string Skype { get; set; }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var validationResults = new List<ValidationResult>();

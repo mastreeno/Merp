@@ -49,7 +49,9 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
                     id = p.Id,
                     uid = p.OriginalId,
                     name = p.DisplayName,
-                    PhoneNumber = p.PhoneNumber
+                    PhoneNumber = p.PhoneNumber,
+
+                    skype = p.Skype
                 }
                 );
             partyViewModels = ApplyNameFilter(partyViewModels, query);
