@@ -9,10 +9,9 @@ using Merp.Accountancy.CommandStack.Model;
 
 namespace Merp.Accountancy.CommandStack.Tests.Model
 {
-    [TestFixture]
     public class PositiveMoneyFixture
     {
-        [Test]
+        [Xunit.Fact]
         public void Ctor_should_throw_ArgumentException_on_amount_less_than_zero()
         {
             Executing.This(() => new PositiveMoney(-1, "EUR"))

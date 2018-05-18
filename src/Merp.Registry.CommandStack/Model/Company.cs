@@ -65,6 +65,8 @@ namespace Merp.Registry.CommandStack.Model
                 };
                 this.ShippingAddress = shippingAddress;
             }
+
+            this.Skype = evt.Skype;
         }
 
         public void ApplyEvent(CompanyNameChangedEvent evt)
@@ -118,20 +120,25 @@ namespace Merp.Registry.CommandStack.Model
             public static Company CreateNewEntry(string companyName, string vatNumber, string nationalIdentificationNumber, 
                 string legalAddressAddress, string legalAddressCity, string legalAddressPostalCode, string legalAddressProvince, string legalAddressCountry,
                 string billingAddressAddress, string billingAddressCity, string billingAddressPostalCode, string billingAddressProvince, string billingAddressCountry,
-                string shippingAddressAddress, string shippingAddressCity, string shippingAddressPostalCode, string shippingAddressProvince, string shippingAddressCountry)
+                string shippingAddressAddress, string shippingAddressCity, string shippingAddressPostalCode, string shippingAddressProvince, string shippingAddressCountry,
+                string skype)
             {
                 if (string.IsNullOrWhiteSpace(companyName))
                     throw new ArgumentException("The company name must be specified", nameof(companyName));
 
-                if (string.IsNullOrWhiteSpace(nationalIdentificationNumber) && string.IsNullOrWhiteSpace(vatNumber))
-                    throw new ArgumentException("Either the VAT number or the NIN must be specified", nameof(vatNumber));
+                if (string.IsNullOrWhiteSpace(nationalIdentificationNumber))
+                    throw new ArgumentException("The NIN must be specified", nameof(nationalIdentificationNumber));
+
+                if (string.IsNullOrWhiteSpace(vatNumber))
+                    throw new ArgumentException("The VAT number must be specified", nameof(vatNumber));
 
                 var companyId = Guid.NewGuid();
                 var p = new Company();
                 var e = new CompanyRegisteredEvent(companyId, DateTime.Now, companyName, vatNumber, nationalIdentificationNumber,
                     legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry,
                     billingAddressAddress, billingAddressCity, billingAddressPostalCode, billingAddressProvince, billingAddressCountry,
-                    shippingAddressAddress, shippingAddressCity, shippingAddressPostalCode, shippingAddressProvince, shippingAddressCountry);
+                    shippingAddressAddress, shippingAddressCity, shippingAddressPostalCode, shippingAddressProvince, shippingAddressCountry,
+                    skype);
                 p.RaiseEvent(e);
                 return p;
             }
@@ -139,7 +146,8 @@ namespace Merp.Registry.CommandStack.Model
             public static Company CreateNewEntryByImport(Guid companyId, DateTime registrationDate, string companyName, string vatNumber, string nationalIdentificationNumber, 
                 string legalAddressAddress, string legalAddressCity, string legalAddressPostalCode, string legalAddressProvince, string legalAddressCountry,
                 string billingAddressAddress, string billingAddressCity, string billingAddressPostalCode, string billingAddressProvince, string billingAddressCountry,
-                string shippingAddressAddress, string shippingAddressCity, string shippingAddressPostalCode, string shippingAddressProvince, string shippingAddressCountry)
+                string shippingAddressAddress, string shippingAddressCity, string shippingAddressPostalCode, string shippingAddressProvince, string shippingAddressCountry,
+                string skype)
             {
                 if (string.IsNullOrWhiteSpace(companyName))
                     throw new ArgumentException("The company name must be specified", nameof(companyName));
@@ -151,7 +159,8 @@ namespace Merp.Registry.CommandStack.Model
                 var e = new CompanyRegisteredEvent(companyId, registrationDate, companyName, vatNumber, nationalIdentificationNumber, 
                     legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry,
                     billingAddressAddress, billingAddressCity, billingAddressPostalCode, billingAddressProvince, billingAddressCountry,
-                    shippingAddressAddress, shippingAddressCity, shippingAddressPostalCode, shippingAddressProvince, shippingAddressCountry);
+                    shippingAddressAddress, shippingAddressCity, shippingAddressPostalCode, shippingAddressProvince, shippingAddressCountry,
+                    skype);
                 p.RaiseEvent(e);
                 return p;
             }

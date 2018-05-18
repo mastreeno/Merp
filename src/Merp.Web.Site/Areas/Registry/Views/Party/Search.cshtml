@@ -6,64 +6,66 @@
 
 <div data-ng-app="partySearchTool" data-ng-controller="partySearchToolController">
 
-  <div class="row">
-    <div class="col-md-12">
-      <form id="search-form" class="form-inline" role="form" data-ng-submit="refreshParties()">
-        <div class="input-group">
-          <label class="input-group-addon" for="partyType">Type</label>
-          <select id="partyType" class="form-control" ng-model="partyType" ng-options="partyType.label for partyType in partyTypes track by partyType.value"></select>
-        </div>
+    <div class="row">
+        <div class="col-md-12">
+            <form id="search-form" class="form-inline" role="form" data-ng-submit="refreshParties()">
+                <div class="input-group">
+                    <label class="input-group-addon" for="partyType">Type</label>
+                    <select id="partyType" class="form-control" ng-model="partyType" ng-options="partyType.label for partyType in partyTypes track by partyType.value"></select>
+                </div>
 
-        <div class="input-group">
-          <label class="input-group-addon" for="query">Name</label>
-          <input type="search" id="query" data-ng-model="query" class="form-control" placeholder="Party name...">
-        </div>
+                <div class="input-group">
+                    <label class="input-group-addon" for="query">Name</label>
+                    <input type="search" id="query" data-ng-model="query" class="form-control" placeholder="Party name...">
+                </div>
 
-        <div class="input-group">
-          <label class="input-group-addon" for="city">City</label>
-          <input type="search" id="city" data-ng-model="city" class="form-control" placeholder="City name...">
-        </div>
+                <div class="input-group">
+                    <label class="input-group-addon" for="city">City</label>
+                    <input type="search" id="city" data-ng-model="city" class="form-control" placeholder="City name...">
+                </div>
 
-        <div class="input-group">
-          <label class="input-group-addon " for="sort">Sort</label>
-          <select id="sort" class="form-control" ng-model="ordering" ng-options="ordering.label for ordering in orderings track by ordering.value"></select>
-        </div>
+                <div class="input-group">
+                    <label class="input-group-addon " for="sort">Sort</label>
+                    <select id="sort" class="form-control" ng-model="ordering" ng-options="ordering.label for ordering in orderings track by ordering.value"></select>
+                </div>
 
-        <button type="submit" class="btn btn-primary">
-          <span class="glyphicon glyphicon-search"></span>
-          Search
-        </button>
-      </form>
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-search"></span>
+                    Search
+                </button>
+            </form>
+        </div>
     </div>
-  </div>
 
-  <div class="row" ng-cloak>
-    <div class="col-md-10">
-      <p ng-cloak>Total number of items: <span class="badge">{{parties.length}}</span></p>
-      <table class="table table-striped">
-          <tr>
-              <th>Name</th>
-              <th>Phone #</th>
-          </tr>
-        <tr data-ng-repeat="party in parties">
-          <td><a href="/Registry/Party/Detail/{{party.uid}}">{{party.name}}</a></td>
-          <td><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> {{party.phoneNumber}}</td>
-        </tr>
-      </table>
-    </div>
-    <div class="col-md-2">      
-      <div class="btn-toolbar" role="toolbar">
-        <div class="btn-group-vertical" role="group">
-          <a href="@UrlBuilder.Registry.CompanyAddEntry()" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Company</a>
-          <a href="@UrlBuilder.Registry.PersonAddEntry()" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Person</a>
+    <div class="row" ng-cloak>
+        <div class="col-md-10">
+            <p ng-cloak>Total number of items: <span class="badge">{{parties.length}}</span></p>
+            <table class="table table-striped">
+                <tr>
+                    <th>Name</th>
+                    <th>Phone #</th>
+                    <th>Skype Username</th>
+                </tr>
+                <tr data-ng-repeat="party in parties">
+                    <td><a href="/Registry/Party/Detail/{{party.uid}}">{{party.name}}</a></td>
+                    <td><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> {{party.phoneNumber}}</td>
+                    <td><a href="">{{party.skype}}</a></td>
+                </tr>
+            </table>
         </div>
-      </div>
+        <div class="col-md-2">
+            <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group-vertical" role="group">
+                    <a href="@UrlBuilder.Registry.CompanyAddEntry()" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Company</a>
+                    <a href="@UrlBuilder.Registry.PersonAddEntry()" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Person</a>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 @section scripts {
-  @{ await Html.RenderPartialAsync("_JqueryUIPartial"); }
-  <script type="text/javascript">
+    @{ await Html.RenderPartialAsync("_JqueryUIPartial"); }
+    <script type="text/javascript">
     (function () {
       var partySearchTool = angular.module('partySearchTool', []);
     }());
@@ -104,8 +106,8 @@
       }
       module.controller('partySearchToolController', ['$scope', '$http', partySearchToolController]);
     }(angular.module('partySearchTool')))
-  </script>
-  <script type="text/javascript">
+    </script>
+    <script type="text/javascript">
     $(function () {
       $('#query').autocomplete({
         minLength: 2,
@@ -138,15 +140,15 @@
         $("#query").autocomplete("close");
       });
     });
-  </script>
+    </script>
 }
 @section head {
-  <environment names="Development">
-    <link type="text/css" rel="stylesheet" href="~/lib/jquery-ui/themes/smoothness/jquery-ui.css" />
-  </environment>
-  <environment names="Staging,Production,OnPremises,AzureCosmosDB,AzureMongoDB,AzureCloudServices">
-    <link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/themes/smoothness/jquery-ui.css"
-          asp-fallback-href="~/lib/jquery-ui/themes/smoothness/jquery-ui.css"
-          asp-fallback-test-class="ui-helper-hidden" asp-fallback-test-property="display" asp-fallback-test-value="hidden" />
-  </environment>
+    <environment names="Development">
+        <link type="text/css" rel="stylesheet" href="~/lib/jquery-ui/themes/smoothness/jquery-ui.css" />
+    </environment>
+    <environment names="Staging,Production,OnPremises,AzureCosmosDB,AzureMongoDB,AzureCloudServices">
+        <link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/themes/smoothness/jquery-ui.css"
+              asp-fallback-href="~/lib/jquery-ui/themes/smoothness/jquery-ui.css"
+              asp-fallback-test-class="ui-helper-hidden" asp-fallback-test-property="display" asp-fallback-test-value="hidden" />
+    </environment>
 }

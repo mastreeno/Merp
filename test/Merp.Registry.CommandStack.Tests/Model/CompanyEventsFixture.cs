@@ -11,10 +11,8 @@ using Merp.Registry.CommandStack.Events;
 
 namespace Merp.Registry.CommandStack.Tests.Model
 {
-    
     public class CompanyEventsFixture
     {
-
         [Fact]
         public void ChangeShippingAddress_should_raise_a_ShippingAddressSetForPartyEvent()
         {
@@ -29,7 +27,8 @@ namespace Merp.Registry.CommandStack.Tests.Model
             var company = Company.Factory.CreateNewEntry(companyName, vatNumber, nationalIdentificationNumber, 
                 null, null, null, null, null,
                 null, null, null, null, null,
-                null, null, null, null, null);
+                null, null, null, null, null,
+                null);
             var effectiveDate = DateTime.MaxValue;
             company.ChangeShippingAddress(address, city, postalCode, province, country, effectiveDate);
             var uncommittedEvent = ((IAggregate)company).GetUncommittedEvents();
@@ -59,7 +58,8 @@ namespace Merp.Registry.CommandStack.Tests.Model
             var company = Company.Factory.CreateNewEntry(companyName, vatNumber, nationalIdentificationNumber, 
                 null, null, null, null, null,
                 null, null, null, null, null,
-                null, null, null, null, null);
+                null, null, null, null, null,
+                null);
             var effectiveDate = DateTime.MaxValue;
             company.ChangeBillingAddress(address, city, postalCode, province, country, effectiveDate);
             var uncommittedEvent = ((IAggregate)company).GetUncommittedEvents();
@@ -89,7 +89,8 @@ namespace Merp.Registry.CommandStack.Tests.Model
             var company = Company.Factory.CreateNewEntry(companyName, vatNumber, nationalIdentificationNumber, 
                 null, null, null, null, null,
                 null, null, null, null, null,
-                null, null, null, null, null);
+                null, null, null, null, null,
+                null);
             var effectiveDate = DateTime.Now;
             company.ChangeLegalAddress(address, city, postalCode, province, country, effectiveDate);
             var uncommittedEvent = ((IAggregate)company).GetUncommittedEvents();
@@ -102,7 +103,6 @@ namespace Merp.Registry.CommandStack.Tests.Model
             Assert.Equal(postalCode, actualEvent.PostalCode);
             Assert.Equal(province, actualEvent.Province);
             Assert.Equal(country, actualEvent.Country);
-
         }
     }
 }

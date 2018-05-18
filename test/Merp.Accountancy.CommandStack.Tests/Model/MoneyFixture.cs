@@ -9,10 +9,9 @@ using Merp.Accountancy.CommandStack.Model;
 
 namespace Merp.Accountancy.CommandStack.Tests.Model
 {
-    [TestFixture]
     public class MoneyFixture
     {
-        [Test]
+        [Xunit.Fact]
         public void Ctor_should_throw_ArgumentException_on_empty_Currency()
         {
             Executing.This(() => new Money(42, string.Empty))
@@ -26,7 +25,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                 .EqualTo("currency");
         }
 
-        [Test]
+        [Xunit.Fact]
         public void Ctor_should_throw_ArgumentException_on_null_Currency()
         {
             Executing.This(() => new Money(42, null))

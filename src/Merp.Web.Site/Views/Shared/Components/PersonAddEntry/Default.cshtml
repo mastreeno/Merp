@@ -1,98 +1,104 @@
 @model Merp.Web.Site.Areas.Registry.Models.Person.AddEntryViewModel
-@{ 
+@{
     var fieldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix;
     var personInfoPaneId = $"{fieldPrefix}_PersonInfoPane";
     var contactInfoPaneId = $"{fieldPrefix}_ContactInfoPane";
 }
 <form asp-controller="Person" asp-action="AddEntry" class="form-horizontal" data-form-tabbed="true" asp-route-fieldPrefix="@ViewData.TemplateInfo.HtmlFieldPrefix" method="post">
-  <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-  <ul class="nav nav-pills nav-stacked col-md-3">
-    <li class="active"><a href="#@personInfoPaneId" data-toggle="tab">Person Info</a></li>
-    <li><a href="#@contactInfoPaneId" data-toggle="tab">Contact Info</a></li>
-  </ul>
-  <div class="tab-content col-md-9">
-    <div class="tab-pane active" id="@personInfoPaneId">
-      <div class="form-horizontal">
-        <div class="form-group">
-          <label asp-for="FirstName" class="col-md-2 control-label"></label>
-          <div class="col-md-10">
-            <input asp-for="FirstName" class="form-control" />
-            <span asp-validation-for="FirstName" class="text-danger"></span>
-          </div>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <ul class="nav nav-pills nav-stacked col-md-3">
+        <li class="active"><a href="#@personInfoPaneId" data-toggle="tab">Person Info</a></li>
+        <li><a href="#@contactInfoPaneId" data-toggle="tab">Contact Info</a></li>
+    </ul>
+    <div class="tab-content col-md-9">
+        <div class="tab-pane active" id="@personInfoPaneId">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label asp-for="FirstName" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NationalIdentificationNumber" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="NationalIdentificationNumber" class="form-control" />
+                        <span asp-validation-for="NationalIdentificationNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="VatNumber" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="VatNumber" class="form-control" />
+                        <span asp-validation-for="VatNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <h5>@Html.DisplayNameFor(model => model.Address)</h5>
+                @Html.EditorFor(m => m.Address)
+            </div>
         </div>
-        <div class="form-group">
-          <label asp-for="LastName" class="col-md-2 control-label"></label>
-          <div class="col-md-10">
-            <input asp-for="LastName" class="form-control" />
-            <span asp-validation-for="LastName" class="text-danger"></span>
-          </div>
+        <div class="tab-pane" id="@contactInfoPaneId">
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="MobileNumber" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="MobileNumber" class="form-control" />
+                    <span asp-validation-for="MobileNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="FaxNumber" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="FaxNumber" class="form-control" />
+                    <span asp-validation-for="FaxNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="WebsiteAddress" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="WebsiteAddress" class="form-control" />
+                    <span asp-validation-for="WebsiteAddress" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmailAddress" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="EmailAddress" class="form-control" />
+                    <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="InstantMessaging" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="InstantMessaging" class="form-control" />
+                    <span asp-validation-for="InstantMessaging" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Skype" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Skype" class="form-control">
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-          <label asp-for="NationalIdentificationNumber" class="col-md-2 control-label"></label>
-          <div class="col-md-10">
-            <input asp-for="NationalIdentificationNumber" class="form-control" />
-            <span asp-validation-for="NationalIdentificationNumber" class="text-danger"></span>
-          </div>
-        </div>
-        <div class="form-group">
-          <label asp-for="VatNumber" class="col-md-2 control-label"></label>
-          <div class="col-md-10">
-            <input asp-for="VatNumber" class="form-control" />
-            <span asp-validation-for="VatNumber" class="text-danger"></span>
-          </div>
-        </div>
-        <h5>@Html.DisplayNameFor(model => model.Address)</h5>
-        @Html.EditorFor(m => m.Address)
-      </div>
     </div>
-    <div class="tab-pane" id="@contactInfoPaneId">
-      <div class="form-group">
-        <label asp-for="PhoneNumber" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-          <input asp-for="PhoneNumber" class="form-control" />
-          <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-primary" />
         </div>
-      </div>
-      <div class="form-group">
-        <label asp-for="MobileNumber" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-          <input asp-for="MobileNumber" class="form-control" />
-          <span asp-validation-for="MobileNumber" class="text-danger"></span>
-        </div>
-      </div>
-      <div class="form-group">
-        <label asp-for="FaxNumber" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-          <input asp-for="FaxNumber" class="form-control" />
-          <span asp-validation-for="FaxNumber" class="text-danger"></span>
-        </div>
-      </div>
-      <div class="form-group">
-        <label asp-for="WebsiteAddress" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-          <input asp-for="WebsiteAddress" class="form-control" />
-          <span asp-validation-for="WebsiteAddress" class="text-danger"></span>
-        </div>
-      </div>
-      <div class="form-group">
-        <label asp-for="EmailAddress" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-          <input asp-for="EmailAddress" class="form-control" />
-          <span asp-validation-for="EmailAddress" class="text-danger"></span>
-        </div>
-      </div>
-      <div class="form-group">
-        <label asp-for="InstantMessaging" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-          <input asp-for="InstantMessaging" class="form-control" />
-          <span asp-validation-for="InstantMessaging" class="text-danger"></span>
-        </div>
-      </div>
     </div>
-  </div>
-  <div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
-      <input type="submit" value="Save" class="btn btn-primary" />
-    </div>
-  </div>
 </form> 
