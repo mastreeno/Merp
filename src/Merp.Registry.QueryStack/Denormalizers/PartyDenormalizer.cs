@@ -98,8 +98,10 @@ namespace Merp.Registry.QueryStack.Denormalizers
                     FaxNumber = message.FaxNumber,
                     WebsiteAddress = message.WebsiteAddress,
                     EmailAddress = message.EmailAddress,
-                    InstantMessaging = message.InstantMessaging
+                    InstantMessaging = message.InstantMessaging,
                 //}
+
+                Skype = message.Skype
             };
             using (var context = new RegistryDbContext(Options))
             {
@@ -126,7 +128,9 @@ namespace Merp.Registry.QueryStack.Denormalizers
                     Country = message.LegalAddressCountry,
                     PostalCode = message.LegalAddressPostalCode,
                     Province = message.LegalAddressProvince
-                }
+                },
+
+                Skype = message.Skype
             };
             using (var context = new RegistryDbContext(Options))
             {
