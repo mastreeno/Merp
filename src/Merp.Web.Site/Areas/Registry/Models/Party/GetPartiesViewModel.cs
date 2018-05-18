@@ -13,5 +13,7 @@ namespace Merp.Web.Site.Areas.Registry.Models.Party
 
         public string name { get; set; }
         public string PhoneNumber { get; set; }
+
+        public string skype { get; set; }
     }
 }
