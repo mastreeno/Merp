@@ -34,6 +34,8 @@ namespace Merp.Registry.QueryStack.Model
         public string WebsiteAddress { get; set; }
         public string EmailAddress { get; set; }
         public string InstantMessaging { get; set; }
+        [StringLength(40, MinimumLength = 5)]
+        public string Skype { get; set; }
 
         public enum PartyType
         {

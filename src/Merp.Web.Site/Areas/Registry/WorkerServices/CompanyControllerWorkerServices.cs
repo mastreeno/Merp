@@ -91,7 +91,9 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
                 phoneNumber,
                 faxNumber,
                 websiteAddress,
-                emailAddress
+                emailAddress,
+
+                model.Skype
                 );
             Bus.Send(command);
         }

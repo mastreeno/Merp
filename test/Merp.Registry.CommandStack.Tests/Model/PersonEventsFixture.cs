@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace Merp.Registry.CommandStack.Tests.Model
 {
-    
     public class PersonEventsFixture
     {
     }

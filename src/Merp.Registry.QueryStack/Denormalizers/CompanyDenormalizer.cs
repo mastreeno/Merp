@@ -39,7 +39,7 @@ namespace Merp.Registry.QueryStack.Denormalizers
                 //},
                 //ShippingAddress = new PostalAddress(),
                 //BillingAddress = new PostalAddress(),
-                //ContactInfo = new ContactInfo()
+                //ContactInfo = new ContactInfo
             };
             using (var context = new RegistryDbContext(Options))
             {

@@ -86,7 +86,8 @@ namespace Merp.Registry.CommandStack.Sagas
                 var company = Company.Factory.CreateNewEntry(message.CompanyName, message.VatNumber, message.NationalIdentificationNumber, 
                     legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry,
                     message.BillingAddressAddress, message.BillingAddressCity, message.BillingAddressPostalCode, message.BillingAddressProvince, message.BillingAddressCountry,
-                    message.ShippingAddressAddress, message.ShippingAddressCity, message.ShippingAddressPostalCode, message.ShippingAddressProvince, message.ShippingAddressCountry);
+                    message.ShippingAddressAddress, message.ShippingAddressCity, message.ShippingAddressPostalCode, message.ShippingAddressProvince, message.ShippingAddressCountry
+                    , message.Skype);
                                 
                 if (message.MainContactId.HasValue)
                 {
@@ -122,7 +123,8 @@ namespace Merp.Registry.CommandStack.Sagas
                 var company = Company.Factory.CreateNewEntryByImport(message.CompanyId, message.RegistrationDate, message.CompanyName, message.VatNumber, message.NationalIdentificationNumber, 
                     legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry,
                     message.BillingAddressAddress, message.BillingAddressCity, message.BillingAddressPostalCode, message.BillingAddressProvince, message.BillingAddressCountry,
-                    message.ShippingAddressAddress, message.ShippingAddressCity, message.ShippingAddressPostalCode, message.ShippingAddressProvince, message.ShippingAddressCountry);
+                    message.ShippingAddressAddress, message.ShippingAddressCity, message.ShippingAddressPostalCode, message.ShippingAddressProvince, message.ShippingAddressCountry,
+                    message.Skype);
 
                 if (message.MainContactId.HasValue)
                 {

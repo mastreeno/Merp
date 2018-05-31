@@ -5,13 +5,13 @@ using SharpTestsEx;
 using Merp.Accountancy.CommandStack.Sagas;
 using MementoFX.Persistence;
 using Rebus.Bus;
+using Xunit;
 
 namespace Merp.Accountancy.CommandStack.Tests.Sagas
 {
-    [TestFixture]
     public class JobOrderSagaFixture
     {
-        [Test]
+        [Fact]
         public void Ctor_should_throw_ArgumentNullException_on_null_jobOrderNumberGenerator()
         {
             var bus = new Mock<IBus>().Object;
