@@ -8,12 +8,12 @@
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker.css"/>
+        <link rel="stylesheet" href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" />
         <link rel="stylesheet" href="~/css/site.css" />
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script type="text/javascript" src="~/lib/angular/angular.js"></script>
     </environment>
-    <environment names="Staging,Production,OnPremises,AzureCosmosDB,AzureMongoDB,AzureCloudServices">
+    <environment names="Staging,Production,OnPremises,AzureCosmosDB,AzureMongoDB">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
                 asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
                 asp-fallback-test="window.jQuery">
@@ -26,7 +26,7 @@
         <script type="text/javascript" src="~/lib/angular/angular.js"></script>
     </environment>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <link href="https://cdn.botframework.com/botframework-webchat/latest/botchat.css" rel="stylesheet" />
     @RenderSection("head", required: false)
 </head>
 <body>
@@ -48,27 +48,27 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                     <li><a href="/Accountancy/">Accountancy</a></li>
                     <li><a asp-route="registry">Registry</a></li>
+                    <li><a href="/OnTime/Task">Task Management</a></li>
                 </ul>
-                @await Html.PartialAsync("_LoginPartial")
+                <partial name="_LoginPartial" />
             </div>
         </div>
     </div>
     <div class="container body-content">
         @RenderBody()
+    </div>
+    <div class="container">
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - Mastreeno ltd</p>
         </footer>
     </div>
-
     <environment names="Development">
-        
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
-    <environment names="Staging,Production,OnPremises,AzureCosmosDB,AzureMongoDB,AzureCloudServices">
-
+    <environment names="Staging,Production,OnPremises,AzureCosmosDB,AzureMongoDB">
         <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
@@ -78,12 +78,11 @@
     </environment>
 
     <script type="text/javascript">
-            if (!$.fn.bootstrapDP && $.fn.datepicker && $.fn.datepicker.noConflict) {
-                var datepicker = $.fn.datepicker.noConflict();
-                $.fn.bootstrapDP = datepicker;
-            }
+        if (!$.fn.bootstrapDP && $.fn.datepicker && $.fn.datepicker.noConflict) {
+            var datepicker = $.fn.datepicker.noConflict();
+            $.fn.bootstrapDP = datepicker;
+        }
     </script>
-
 
     @RenderSection("scripts", required: false)
 </body>

@@ -46,52 +46,42 @@ namespace Merp.Registry.CommandStack.Sagas
                 sagaData => sagaData.PersonId);
         }
 
-        public Task Handle(RegisterPersonCommand message)
+        public async Task Handle(RegisterPersonCommand message)
         {
-            return Task.Factory.StartNew(() =>
+            var country = string.IsNullOrWhiteSpace(message.Address) || !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry();
+            var person = Person.Factory.CreateNewEntry(message.FirstName, message.LastName, message.NationalIdentificationNumber, message.VatNumber, message.Address, message.City, message.PostalCode, message.Province, country, message.PhoneNumber, message.MobileNumber, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, message.InstantMessaging);
+            await _repository.SaveAsync(person);
+            this.Data.PersonId = person.Id;
+        }
+
+        public async Task Handle(ImportPersonCommand message)
+        {
+            var country = string.IsNullOrWhiteSpace(message.Address) || !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry();
+            var person = Person.Factory.CreateNewEntryByImport(message.PersonId,message.RegistrationDate, message.FirstName, message.LastName, message.NationalIdentificationNumber, message.VatNumber, message.Address, message.City, message.PostalCode, message.Province, country, message.PhoneNumber, message.MobileNumber, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, message.InstantMessaging);
+            await _repository.SaveAsync(person);
+            this.Data.PersonId = person.Id;
+        }
+
+        public async Task Handle(ChangePersonAddressCommand message)
+        {
+            var person = _repository.GetById<Person>(message.PersonId);
+            if (person.ShippingAddress == null || person.ShippingAddress.IsDifferentAddress(message.Address, message.City, message.PostalCode, message.Province, message.Country))
             {
-                var country = string.IsNullOrWhiteSpace(message.Address) || !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry();
-                var person = Person.Factory.CreateNewEntry(message.FirstName, message.LastName, message.NationalIdentificationNumber, message.VatNumber, message.Address, message.City, message.PostalCode, message.Province, country, message.PhoneNumber, message.MobileNumber, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, message.InstantMessaging);
-                _repository.Save<Person>(person);
-                this.Data.PersonId = person.Id;
-            });
+                var effectiveDateTime = message.EffectiveDate;
+                var effectiveDate = new DateTime(effectiveDateTime.Year, effectiveDateTime.Month, effectiveDateTime.Day);
+                person.ChangeAddress(message.Address, message.City, message.PostalCode, message.Province, !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry(), effectiveDate);
+                await _repository.SaveAsync(person);
+            }
         }
 
-        public Task Handle(ImportPersonCommand message)
+        public async Task Handle(ChangePersonContactInfoCommand message)
         {
-            return Task.Factory.StartNew(() =>
+            var person = _repository.GetById<Person>(message.PersonId);
+            if (person.ContactInfo.PhoneNumber != message.PhoneNumber || person.ContactInfo.MobileNumber != message.MobileNumber || person.ContactInfo.FaxNumber != message.FaxNumber || person.ContactInfo.WebsiteAddress != message.WebsiteAddress || person.ContactInfo.EmailAddress != message.EmailAddress || person.ContactInfo.InstantMessaging != message.InstantMessaging)
             {
-                var country = string.IsNullOrWhiteSpace(message.Address) || !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry();
-                var person = Person.Factory.CreateNewEntryByImport(message.PersonId,message.RegistrationDate, message.FirstName, message.LastName, message.NationalIdentificationNumber, message.VatNumber, message.Address, message.City, message.PostalCode, message.Province, country, message.PhoneNumber, message.MobileNumber, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, message.InstantMessaging);
-                _repository.Save<Person>(person);
-                this.Data.PersonId = person.Id;
-            });
-        }
-
-        public Task Handle(ChangePersonAddressCommand message)
-        {
-            return Task.Factory.StartNew(() => {
-                var person = _repository.GetById<Person>(message.PersonId);
-                if (person.ShippingAddress == null || person.ShippingAddress.IsDifferentAddress(message.Address, message.City, message.PostalCode, message.Province, message.Country))
-                {
-                    var effectiveDateTime = message.EffectiveDate;
-                    var effectiveDate = new DateTime(effectiveDateTime.Year, effectiveDateTime.Month, effectiveDateTime.Day);
-                    person.ChangeAddress(message.Address, message.City, message.PostalCode, message.Province, !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry(), effectiveDate);
-                    _repository.Save(person);
-                }
-            });
-        }
-
-        public Task Handle(ChangePersonContactInfoCommand message)
-        {
-            return Task.Factory.StartNew(() => {
-                var person = _repository.GetById<Person>(message.PersonId);
-                if (person.ContactInfo.PhoneNumber != message.PhoneNumber || person.ContactInfo.MobileNumber != message.MobileNumber || person.ContactInfo.FaxNumber != message.FaxNumber || person.ContactInfo.WebsiteAddress != message.WebsiteAddress || person.ContactInfo.EmailAddress != message.EmailAddress || person.ContactInfo.InstantMessaging != message.InstantMessaging)
-                {
-                    person.SetContactInfo(message.PhoneNumber, message.MobileNumber, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, message.InstantMessaging);
-                    _repository.Save(person);
-                }
-            });
+                person.SetContactInfo(message.PhoneNumber, message.MobileNumber, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, message.InstantMessaging);
+                await _repository.SaveAsync(person);
+            }
         }
 
         public class PersonSagaData : SagaData

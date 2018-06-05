@@ -1,7 +1,12 @@
 # Merp
-An event-based Micro ERP, developed by Andrea Saltarello using ASP.NET Core 2.0
+An open source, event-based Micro ERP developed by Andrea Saltarello using ASP.NET Core 2.1
 
-**Release notes** 
+**Release notes**
+05/06/2018
+- web project migrated to ASP .NET Core 2.1
+- web project's area moved to Razor UI class libraries
+- added Martin @ Merp, a bot built on top of LUIS and Microsoft's Bot Framework
+
 21/10/2017
 - AzureCloudServices environment removed
 - All projects but the web app were migrated to .NET Standard 2.0

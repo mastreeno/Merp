@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Martin @ Merp";
+}
+@section head  {
+    <link href="https://cdn.botframework.com/botframework-webchat/latest/botchat.css" rel="stylesheet" />
+}
+<div class="row">
+    <div id="bot" />
+    <script src="https://cdn.botframework.com/botframework-webchat/latest/botchat.js"></script>
+    <script>
+            BotChat.App({
+                directLine: { secret: '8V0SKSrI_wo.cwA.3g0.P0mPxV85qNFYRdd1cDG0DFXGm2TAikXROk8twIgASiE' },
+                user: { id: 'userid' },
+            bot: { id: 'MartinAtMerp' },
+            resize: 'detect'
+            }, document.getElementById("bot"));
+    </script>
+</div> 

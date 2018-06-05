@@ -78,33 +78,6 @@ namespace Merp.Accountancy.CommandStack.Model
             }
         }
 
-        [Obsolete()]
-        public static decimal CalculateBalance(IEventStore es, Guid jobOrderId, DateTime balanceDate)
-        {
-            if (es == null)
-                throw new ArgumentNullException(nameof(es));
-
-            var outgoingInvoicesIds = es
-                .Find<OutgoingInvoiceLinkedToJobOrderEvent>(e => e.JobOrderId == jobOrderId && e.TimeStamp <= balanceDate)
-                .Select(e => e.InvoiceId)
-                .ToArray();
-            var earnings = es
-                .Find<OutgoingInvoiceIssuedEvent>(e => outgoingInvoicesIds.Contains(e.InvoiceId))
-                .Sum(e => e.TaxableAmount);
-
-            var incomingInvoicesIds = es
-                .Find<IncomingInvoiceLinkedToJobOrderEvent>(e => e.JobOrderId == jobOrderId && e.TimeStamp <= balanceDate)
-                .Select(e => e.InvoiceId)
-                .ToArray();
-            var costs = es
-                .Find<IncomingInvoiceRegisteredEvent>(e => incomingInvoicesIds.Any(id => e.InvoiceId == id))
-                .Sum(e => e.TaxableAmount);
-
-            decimal balance = earnings - costs;
-
-            return balance;
-        }
-
         public void ApplyEvent(IncomingInvoiceLinkedToJobOrderEvent evt)
         {
             this.Balance -= evt.Amount;
@@ -155,9 +128,6 @@ namespace Merp.Accountancy.CommandStack.Model
         {
             if (this.IsCompleted)
                 throw new InvalidOperationException("Can't relate new costs to a completed job order");
-            var count = eventStore.Find<IncomingInvoiceLinkedToJobOrderEvent>(e => e.InvoiceId == invoiceId && e.JobOrderId == this.Id).Count();
-            if(count>0)
-                throw new InvalidOperationException("The specified invoice is already associated to a Job Order.");
             var @event = new IncomingInvoiceLinkedToJobOrderEvent(invoiceId, this.Id, dateOfLink, amount);
             RaiseEvent(@event);
         }
@@ -172,9 +142,6 @@ namespace Merp.Accountancy.CommandStack.Model
         {
             if (this.IsCompleted)
                 throw new InvalidOperationException("Can't relate new revenues to a completed job order");
-            var count = eventStore.Find<OutgoingInvoiceLinkedToJobOrderEvent>(e => e.InvoiceId == invoiceId && e.JobOrderId == this.Id).Count();
-            if (count > 0)
-                throw new InvalidOperationException("The specified invoice is already associated to a Job Order.");
             var @event = new OutgoingInvoiceLinkedToJobOrderEvent(invoiceId, this.Id, dateOfLink, amount);
             RaiseEvent(@event);
         }
@@ -210,7 +177,7 @@ namespace Merp.Accountancy.CommandStack.Model
 
         public class Factory
         {
-            public static JobOrder CreateNewInstance(IJobOrderNumberGenerator jobOrderNumberGenerator, Guid customerId, string customerName, Guid managerId, decimal? price, string currency, DateTime dateOfStart, DateTime dueDate, bool isTimeAndMaterial, string name, string purchaseOrderNumber, string description)
+            public static JobOrder RegisterNew(IJobOrderNumberGenerator jobOrderNumberGenerator, Guid customerId, string customerName, Guid managerId, decimal? price, string currency, DateTime dateOfStart, DateTime dueDate, bool isTimeAndMaterial, string name, string purchaseOrderNumber, string description)
             {
                 if (jobOrderNumberGenerator == null)
                     throw new ArgumentNullException(nameof(jobOrderNumberGenerator));

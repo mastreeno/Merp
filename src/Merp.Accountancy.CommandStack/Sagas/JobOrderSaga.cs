@@ -7,6 +7,8 @@ using Rebus.Handlers;
 using Rebus.Sagas;
 using Rebus.Bus;
 using System.Threading.Tasks;
+using Merp.Accountancy.CommandStack.Events;
+using System.Linq;
 
 namespace Merp.Accountancy.CommandStack.Sagas
 {
@@ -18,16 +20,16 @@ namespace Merp.Accountancy.CommandStack.Sagas
         IHandleMessages<LinkOutgoingInvoiceToJobOrderCommand>,
         IHandleMessages<MarkJobOrderAsCompletedCommand>
     {
-        private readonly IRepository _repository;
-        private readonly IEventStore _eventStore;
-        private readonly IBus _bus;
-        public IJobOrderNumberGenerator JobOrderNumberGenerator { get; private set; }
+        public readonly IRepository repository;
+        public readonly IEventStore eventStore;
+        public readonly IBus bus;
+        public readonly IJobOrderNumberGenerator JobOrderNumberGenerator;
 
         public JobOrderSaga(IBus bus, IEventStore eventStore, IRepository repository, IJobOrderNumberGenerator jobOrderNumberGenerator)
         {
-            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
-            _bus = bus ?? throw new ArgumentNullException(nameof(bus));
-            _eventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
+            this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            this.bus = bus ?? throw new ArgumentNullException(nameof(bus));
+            this.eventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
             JobOrderNumberGenerator = jobOrderNumberGenerator ?? throw new ArgumentNullException(nameof(jobOrderNumberGenerator));
         }
 
@@ -58,93 +60,81 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 sagaData => sagaData.JobOrderId);
         }
 
-        public Task Handle(ImportJobOrderCommand message)
+        public async Task Handle(ImportJobOrderCommand message)
         {
-            return Task.Factory.StartNew(() =>
-            {
-                var jobOrder = JobOrder.Factory.Import(
-                    message.JobOrderId,
-                    message.JobOrderNumber,
-                    message.Customer.Id,
-                    message.Customer.Name,
-                    message.ManagerId,
-                    message.Price,
-                    message.Currency,
-                    message.DateOfRegistration,
-                    message.DateOfStart,
-                    message.DueDate,
-                    message.IsTimeAndMaterial,
-                    message.JobOrderName,
-                    message.PurchaseOrderNumber,
-                    message.Description
-                );
-                this._repository.Save(jobOrder);
-                this.Data.JobOrderId = jobOrder.Id;
-            });
-        }
-
-        public Task Handle(RegisterJobOrderCommand message)
-        {
-            return Task.Factory.StartNew(() =>
-            {
-                var jobOrder = JobOrder.Factory.CreateNewInstance(
-                JobOrderNumberGenerator,
-                message.CustomerId,
-                message.CustomerName,
+            var jobOrder = JobOrder.Factory.Import(
+                message.JobOrderId,
+                message.JobOrderNumber,
+                message.Customer.Id,
+                message.Customer.Name,
                 message.ManagerId,
                 message.Price,
                 message.Currency,
+                message.DateOfRegistration,
                 message.DateOfStart,
                 message.DueDate,
                 message.IsTimeAndMaterial,
                 message.JobOrderName,
                 message.PurchaseOrderNumber,
                 message.Description
-                );
-                this._repository.Save(jobOrder);
-                this.Data.JobOrderId = jobOrder.Id;
-            });
+            );
+            await this.repository.SaveAsync(jobOrder);
+            this.Data.JobOrderId = jobOrder.Id;
         }
 
-        public Task Handle(ExtendJobOrderCommand message)
+        public async Task Handle(RegisterJobOrderCommand message)
         {
-            return Task.Factory.StartNew(() =>
-            {
-                var jobOrder = _repository.GetById<JobOrder>(message.JobOrderId);
-                jobOrder.Extend(message.NewDueDate, message.Price);
-                _repository.Save(jobOrder);
-            });
+            var jobOrder = JobOrder.Factory.RegisterNew(
+            JobOrderNumberGenerator,
+            message.CustomerId,
+            message.CustomerName,
+            message.ManagerId,
+            message.Price,
+            message.Currency,
+            message.DateOfStart,
+            message.DueDate,
+            message.IsTimeAndMaterial,
+            message.JobOrderName,
+            message.PurchaseOrderNumber,
+            message.Description
+            );
+            await this.repository.SaveAsync(jobOrder);
+            this.Data.JobOrderId = jobOrder.Id;
         }
 
-        public Task Handle(MarkJobOrderAsCompletedCommand message)
+        public async Task Handle(ExtendJobOrderCommand message)
         {
-            return Task.Factory.StartNew(() =>
-            {
-                var jobOrder = _repository.GetById<JobOrder>(message.JobOrderId);
-                jobOrder.MarkAsCompleted(message.DateOfCompletion);
-                _repository.Save(jobOrder);
-                this.MarkAsComplete();
-            });
+            var jobOrder = repository.GetById<JobOrder>(message.JobOrderId);
+            jobOrder.Extend(message.NewDueDate, message.Price);
+            await repository.SaveAsync(jobOrder);
         }
 
-        public Task Handle(LinkIncomingInvoiceToJobOrderCommand message)
+        public async Task Handle(MarkJobOrderAsCompletedCommand message)
         {
-            return Task.Factory.StartNew(() =>
-            {
-                var jobOrder = _repository.GetById<JobOrder>(message.JobOrderId);
-                jobOrder.LinkIncomingInvoice(_eventStore, message.InvoiceId, message.DateOfLink, message.Amount);
-                _repository.Save(jobOrder);
-            });
+            var jobOrder = repository.GetById<JobOrder>(message.JobOrderId);
+            jobOrder.MarkAsCompleted(message.DateOfCompletion);
+            await repository.SaveAsync(jobOrder);
+            this.MarkAsComplete();
         }
 
-        public Task Handle(LinkOutgoingInvoiceToJobOrderCommand message)
+        public async Task Handle(LinkIncomingInvoiceToJobOrderCommand message)
         {
-            return Task.Factory.StartNew(() =>
-            {
-                var jobOrder = _repository.GetById<JobOrder>(message.JobOrderId);
-                jobOrder.LinkOutgoingInvoice(_eventStore, message.InvoiceId, message.DateOfLink, message.Amount);
-                _repository.Save(jobOrder);
-            });
+            var count = eventStore.Find<IncomingInvoiceLinkedToJobOrderEvent>(e => e.InvoiceId == message.InvoiceId && e.JobOrderId == message.JobOrderId).Count();
+            if (count > 0)
+                throw new InvalidOperationException("The specified invoice is already associated to a Job Order.");
+            var jobOrder = repository.GetById<JobOrder>(message.JobOrderId);
+            jobOrder.LinkIncomingInvoice(eventStore, message.InvoiceId, message.DateOfLink, message.Amount);
+            await repository.SaveAsync(jobOrder);
+        }
+
+        public async Task Handle(LinkOutgoingInvoiceToJobOrderCommand message)
+        {
+            var count = eventStore.Find<OutgoingInvoiceLinkedToJobOrderEvent>(e => e.InvoiceId == message.InvoiceId && e.JobOrderId == message.JobOrderId).Count();
+            if (count > 0)
+                throw new InvalidOperationException("The specified invoice is already associated to a Job Order.");
+            var jobOrder = repository.GetById<JobOrder>(message.JobOrderId);
+            jobOrder.LinkOutgoingInvoice(eventStore, message.InvoiceId, message.DateOfLink, message.Amount);
+            await repository.SaveAsync(jobOrder);
         }
 
         public class JobOrderSagaData : SagaData

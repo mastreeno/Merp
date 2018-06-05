@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+﻿using Xunit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +9,10 @@ using Merp.Accountancy.CommandStack.Model;
 
 namespace Merp.Accountancy.CommandStack.Tests.Model
 {
-    [TestFixture]
+    
     public class PositiveMoneyFixture
     {
-        [Test]
+        [Fact]
         public void Ctor_should_throw_ArgumentException_on_amount_less_than_zero()
         {
             Executing.This(() => new PositiveMoney(-1, "EUR"))

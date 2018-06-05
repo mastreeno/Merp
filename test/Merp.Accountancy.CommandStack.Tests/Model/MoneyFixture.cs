@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+﻿using Xunit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +9,10 @@ using Merp.Accountancy.CommandStack.Model;
 
 namespace Merp.Accountancy.CommandStack.Tests.Model
 {
-    [TestFixture]
+    
     public class MoneyFixture
     {
-        [Test]
+        [Fact]
         public void Ctor_should_throw_ArgumentException_on_empty_Currency()
         {
             Executing.This(() => new Money(42, string.Empty))
@@ -26,7 +26,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                 .EqualTo("currency");
         }
 
-        [Test]
+        [Fact]
         public void Ctor_should_throw_ArgumentException_on_null_Currency()
         {
             Executing.This(() => new Money(42, null))

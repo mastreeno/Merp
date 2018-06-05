@@ -44,11 +44,49 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 sagaData => sagaData.InvoiceId);
         }
 
-        public Task Handle(RegisterIncomingInvoiceCommand message)
+        public async Task Handle(RegisterIncomingInvoiceCommand message)
         {
-            return Task.Factory.StartNew(() =>
+            var invoice = IncomingInvoice.Factory.Register(
+            message.InvoiceNumber,
+            message.InvoiceDate,
+            message.DueDate,
+            message.Currency,
+            message.TaxableAmount,
+            message.Taxes,
+            message.TotalPrice,
+            message.Description,
+            message.PaymentTerms,
+            message.PurchaseOrderNumber,
+            message.Customer.Id,
+            message.Customer.Name,
+            message.Customer.Address,
+            message.Customer.City,
+            message.Customer.PostalCode,
+            message.Customer.Country,
+            message.Customer.VatIndex,
+            message.Customer.NationalIdentificationNumber,
+            message.Supplier.Id,
+            message.Supplier.Name,
+            message.Supplier.Address,
+            message.Supplier.City,
+            message.Supplier.PostalCode,
+            message.Supplier.Country,
+            message.Supplier.VatIndex,
+            message.Supplier.NationalIdentificationNumber
+            );
+            this.Repository.Save(invoice);
+            this.Data.InvoiceId = invoice.Id;
+
+            if (invoice.DueDate.HasValue)
             {
-                var invoice = IncomingInvoice.Factory.Register(
+                var timeout = new IncomingInvoiceExpiredTimeout(invoice.Id);
+                await Bus.Defer(invoice.DueDate.Value.Subtract(DateTime.Today), timeout);
+            }
+        }
+        public async Task Handle(ImportIncomingInvoiceCommand message)
+        {
+            var invoice = IncomingInvoice.Factory.Import(
+                message.InvoiceId,
                 message.InvoiceNumber,
                 message.InvoiceDate,
                 message.DueDate,
@@ -76,63 +114,16 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 message.Supplier.VatIndex,
                 message.Supplier.NationalIdentificationNumber
                 );
-                this.Repository.Save(invoice);
-                this.Data.InvoiceId = invoice.Id;
-
-                if (invoice.DueDate.HasValue)
-                {
-                    var timeout = new IncomingInvoiceExpiredTimeout(invoice.Id);
-                    Bus.Defer(invoice.DueDate.Value.Subtract(DateTime.Today), timeout);
-                }
-            });
-        }
-        public Task Handle(ImportIncomingInvoiceCommand message)
-        {
-            return Task.Factory.StartNew(() =>
-            {
-                var invoice = IncomingInvoice.Factory.Import(
-                    message.InvoiceId,
-                    message.InvoiceNumber,
-                    message.InvoiceDate,
-                    message.DueDate,
-                    message.Currency,
-                    message.TaxableAmount,
-                    message.Taxes,
-                    message.TotalPrice,
-                    message.Description,
-                    message.PaymentTerms,
-                    message.PurchaseOrderNumber,
-                    message.Customer.Id,
-                    message.Customer.Name,
-                    message.Customer.Address,
-                    message.Customer.City,
-                    message.Customer.PostalCode,
-                    message.Customer.Country,
-                    message.Customer.VatIndex,
-                    message.Customer.NationalIdentificationNumber,
-                    message.Supplier.Id,
-                    message.Supplier.Name,
-                    message.Supplier.Address,
-                    message.Supplier.City,
-                    message.Supplier.PostalCode,
-                    message.Supplier.Country,
-                    message.Supplier.VatIndex,
-                    message.Supplier.NationalIdentificationNumber
-                    );
-                this.Repository.Save(invoice);
-                this.Data.InvoiceId = invoice.Id;
-            });
+            await this.Repository.SaveAsync(invoice);
+            this.Data.InvoiceId = invoice.Id;
         }
 
-        public Task Handle(MarkIncomingInvoiceAsPaidCommand message)
+        public async Task Handle(MarkIncomingInvoiceAsPaidCommand message)
         {
-            return Task.Factory.StartNew(() =>
-            {
-                var invoice = Repository.GetById<IncomingInvoice>(message.InvoiceId);
-                invoice.MarkAsPaid(message.PaymentDate);
-                Repository.Save(invoice);
-                this.MarkAsComplete();
-            });
+            var invoice = Repository.GetById<IncomingInvoice>(message.InvoiceId);
+            invoice.MarkAsPaid(message.PaymentDate);
+            await Repository.SaveAsync(invoice);
+            this.MarkAsComplete();
         }
 
         public Task Handle(MarkIncomingInvoiceAsOverdueCommand message)
@@ -145,17 +136,14 @@ namespace Merp.Accountancy.CommandStack.Sagas
             });
         }
 
-        public Task Handle(IncomingInvoiceExpiredTimeout message)
+        public async Task Handle(IncomingInvoiceExpiredTimeout message)
         {
-            return Task.Factory.StartNew(() =>
+            var invoice = Repository.GetById<IncomingInvoice>(message.InvoiceId);
+            if (!invoice.PaymentDate.HasValue)
             {
-                var invoice = Repository.GetById<IncomingInvoice>(message.InvoiceId);
-                if (!invoice.PaymentDate.HasValue)
-                {
-                    var cmd = new MarkIncomingInvoiceAsOverdueCommand(message.InvoiceId);
-                    Bus.Send(cmd);
-                }
-            });
+                var cmd = new MarkIncomingInvoiceAsOverdueCommand(message.InvoiceId);
+                await Bus.Send(cmd);
+            }
         }
 
         public class IncomingInvoiceSagaData : SagaData

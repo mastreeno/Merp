@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net462</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.0" />
+    <PackageReference Include="Rebus" Version="4.2.1" />
+    <PackageReference Include="Rebus.AzureServiceBus" Version="4.0.1" />
+    <PackageReference Include="Rebus.Msmq" Version="4.0.0" />
+    <PackageReference Include="Rebus.ServiceProvider" Version="4.0.1" />
+    <PackageReference Include="Rebus.SqlServer" Version="4.0.0" />
+  </ItemGroup>
+</Project>

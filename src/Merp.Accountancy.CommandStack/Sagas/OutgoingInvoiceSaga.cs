@@ -47,116 +47,102 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 sagaData => sagaData.InvoiceId);
         }
 
-        public Task Handle(IssueInvoiceCommand message)
+        public async Task Handle(IssueInvoiceCommand message)
         {
-            return Task.Factory.StartNew(() =>
-            {
-                var invoice = OutgoingInvoice.Factory.Issue(
-                    this.InvoiceNumberGenerator,
-                    message.InvoiceDate,
-                    message.Currency,
-                    message.TaxableAmount,
-                    message.Taxes,
-                    message.TotalPrice,
-                    message.Description,
-                    message.PaymentTerms,
-                    message.PurchaseOrderNumber,
-                    message.Customer.Id,
-                    message.Customer.Name,
-                    message.Customer.StreetName,
-                    message.Customer.City,
-                    message.Customer.PostalCode,
-                    message.Customer.Country,
-                    message.Customer.VatIndex,
-                    message.Customer.NationalIdentificationNumber,
-                    message.Supplier.Name,
-                    message.Supplier.StreetName,
-                    message.Supplier.City,
-                    message.Supplier.PostalCode,
-                    message.Supplier.Country,
-                    message.Supplier.VatIndex,
-                    message.Supplier.NationalIdentificationNumber
-                );
-                this.Repository.Save(invoice);
-                this.Data.InvoiceId = invoice.Id;
+            var invoice = OutgoingInvoice.Factory.Issue(
+                this.InvoiceNumberGenerator,
+                message.InvoiceDate,
+                message.Currency,
+                message.TaxableAmount,
+                message.Taxes,
+                message.TotalPrice,
+                message.Description,
+                message.PaymentTerms,
+                message.PurchaseOrderNumber,
+                message.Customer.Id,
+                message.Customer.Name,
+                message.Customer.StreetName,
+                message.Customer.City,
+                message.Customer.PostalCode,
+                message.Customer.Country,
+                message.Customer.VatIndex,
+                message.Customer.NationalIdentificationNumber,
+                message.Supplier.Name,
+                message.Supplier.StreetName,
+                message.Supplier.City,
+                message.Supplier.PostalCode,
+                message.Supplier.Country,
+                message.Supplier.VatIndex,
+                message.Supplier.NationalIdentificationNumber
+            );
+            this.Repository.Save(invoice);
+            this.Data.InvoiceId = invoice.Id;
                 
-                if(invoice.DueDate.HasValue)
-                {
-                    var timeout = new OutgoingInvoiceExpiredTimeout(invoice.Id);
-                    Bus.Defer(invoice.DueDate.Value.Subtract(DateTime.Today), timeout);
-                }    
-            });
+            if(invoice.DueDate.HasValue)
+            {
+                var timeout = new OutgoingInvoiceExpiredTimeout(invoice.Id);
+                await Bus.Defer(invoice.DueDate.Value.Subtract(DateTime.Today), timeout);
+            }    
         }
 
-        public Task Handle(MarkOutgoingInvoiceAsPaidCommand message)
+        public async Task Handle(MarkOutgoingInvoiceAsPaidCommand message)
         {
-            return Task.Factory.StartNew(() =>
-            {
-                var invoice = Repository.GetById<OutgoingInvoice>(message.InvoiceId);
-                invoice.MarkAsPaid(message.PaymentDate);
-                Repository.Save(invoice);
-                this.MarkAsComplete();
-            });
+            var invoice = Repository.GetById<OutgoingInvoice>(message.InvoiceId);
+            invoice.MarkAsPaid(message.PaymentDate);
+            await Repository.SaveAsync(invoice);
+            this.MarkAsComplete();
         }
 
-        public Task Handle(ImportOutgoingInvoiceCommand message)
+        public async Task Handle(ImportOutgoingInvoiceCommand message)
         {
-            return Task.Factory.StartNew(() =>
-            {
-                var invoice = OutgoingInvoice.Factory.Import(
-                    message.InvoiceId,
-                    message.InvoiceNumber,
-                    message.InvoiceDate,
-                    message.DueDate,
-                    message.Currency,
-                    message.TaxableAmount,
-                    message.Taxes,
-                    message.TotalPrice,
-                    message.Description,
-                    message.PaymentTerms,
-                    message.PurchaseOrderNumber,
-                    message.Customer.Id,
-                    message.Customer.Name,
-                    message.Customer.StreetName,
-                    message.Customer.City,
-                    message.Customer.PostalCode,
-                    message.Customer.Country,
-                    message.Customer.VatIndex,
-                    message.Customer.NationalIdentificationNumber,
-                    message.Supplier.Name,
-                    message.Supplier.StreetName,
-                    message.Supplier.City,
-                    message.Supplier.PostalCode,
-                    message.Supplier.Country,
-                    message.Supplier.VatIndex,
-                    message.Supplier.NationalIdentificationNumber
-                );
-                this.Repository.Save(invoice);
-                this.Data.InvoiceId = invoice.Id;
-            });
+            var invoice = OutgoingInvoice.Factory.Import(
+                message.InvoiceId,
+                message.InvoiceNumber,
+                message.InvoiceDate,
+                message.DueDate,
+                message.Currency,
+                message.TaxableAmount,
+                message.Taxes,
+                message.TotalPrice,
+                message.Description,
+                message.PaymentTerms,
+                message.PurchaseOrderNumber,
+                message.Customer.Id,
+                message.Customer.Name,
+                message.Customer.StreetName,
+                message.Customer.City,
+                message.Customer.PostalCode,
+                message.Customer.Country,
+                message.Customer.VatIndex,
+                message.Customer.NationalIdentificationNumber,
+                message.Supplier.Name,
+                message.Supplier.StreetName,
+                message.Supplier.City,
+                message.Supplier.PostalCode,
+                message.Supplier.Country,
+                message.Supplier.VatIndex,
+                message.Supplier.NationalIdentificationNumber
+            );
+            await this.Repository.SaveAsync(invoice);
+            this.Data.InvoiceId = invoice.Id;
         }
 
-        public Task Handle(MarkOutgoingInvoiceAsOverdueCommand message)
+        public async Task Handle(MarkOutgoingInvoiceAsOverdueCommand message)
         {
-            return Task.Factory.StartNew(() =>
-            {
-                var invoice = Repository.GetById<OutgoingInvoice>(message.InvoiceId);
-                if (!invoice.PaymentDate.HasValue)
-                    invoice.MarkAsOverdue();
-            });
+            var invoice = Repository.GetById<OutgoingInvoice>(message.InvoiceId);
+            if (!invoice.PaymentDate.HasValue)
+                invoice.MarkAsOverdue();
+            await Repository.SaveAsync(invoice);
         }
 
-        public Task Handle(OutgoingInvoiceExpiredTimeout message)
+        public async Task Handle(OutgoingInvoiceExpiredTimeout message)
         {
-            return Task.Factory.StartNew(() =>
+            var invoice = Repository.GetById<OutgoingInvoice>(message.InvoiceId);
+            if (!invoice.PaymentDate.HasValue)
             {
-                var invoice = Repository.GetById<OutgoingInvoice>(message.InvoiceId);
-                if (!invoice.PaymentDate.HasValue)
-                {
-                    var cmd = new MarkOutgoingInvoiceAsOverdueCommand(message.InvoiceId);
-                    Bus.Send(cmd);
-                }
-            });
+                var cmd = new MarkOutgoingInvoiceAsOverdueCommand(message.InvoiceId);
+                await Bus.Send(cmd);
+            }
         }
 
         public class OutgoingInvoiceSagaData : SagaData
