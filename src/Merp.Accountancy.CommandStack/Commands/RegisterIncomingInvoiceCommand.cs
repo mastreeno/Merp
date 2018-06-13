@@ -71,7 +71,7 @@ namespace Merp.Accountancy.CommandStack.Commands
                 address: supplierAddress,
                 vatIndex: supplierVatIndex
             );
-            Supplier = customer;
+            Supplier = supplier;
             InvoiceNumber = invoiceNumber;
             InvoiceDate = invoiceDate;
             DueDate = dueDate;

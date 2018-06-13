@@ -24,6 +24,7 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
         {
             var invoice = new IncomingInvoice();
             invoice.TaxableAmount = message.TaxableAmount;
+            invoice.Currency = message.Currency;
             invoice.Date = message.InvoiceDate;
             invoice.DueDate = message.DueDate;
             invoice.Description = message.Description;
