@@ -35,7 +35,4 @@
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Rebus" Version="4.2.1" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Model\Domain Model.cd" />
-  </ItemGroup>
 </Project>
