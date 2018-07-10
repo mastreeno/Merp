@@ -21,6 +21,8 @@ namespace Merp.Accountancy.QueryStack.Model
 
         public string CustomerName { get; set; }
 
+        public Guid? ContactPersonId { get; set; }
+
         [Required]
         public Guid ManagerId { get; set; }
 

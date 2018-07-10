@@ -11,6 +11,7 @@ namespace Merp.Accountancy.CommandStack.Commands
     {
         public Guid JobOrderId { get; set; }
         public PartyInfo Customer { get; set; }
+        public Guid? ContactPersonId { get; set; }
         public Guid ManagerId { get; set; }
         public decimal? Price { get; set; }
         public string Currency { get; set; }

@@ -26,11 +26,12 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
             jobOrder.OriginalId = message.JobOrderId;
             jobOrder.CustomerId = message.CustomerId;
             jobOrder.CustomerName = message.CustomerName;
-            jobOrder.Description = message.Description;
+            jobOrder.ContactPersonId = message.ContactPersonId;
             jobOrder.ManagerId = message.ManagerId;
             jobOrder.DateOfRegistration = message.DateOfRegistration;
             jobOrder.DateOfStart = message.DateOfStart;
             jobOrder.DueDate = message.DueDate;
+            jobOrder.Description = message.Description;
             jobOrder.Name = message.JobOrderName;
             jobOrder.Number = message.JobOrderNumber;
             jobOrder.Price = message.Price;

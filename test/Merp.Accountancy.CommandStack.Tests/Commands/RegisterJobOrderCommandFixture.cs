@@ -17,6 +17,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Commands
             string jobOrderName = "fake";
             Guid customerId = Guid.NewGuid();
             string customerName = string.Empty;
+            Guid contactPersonId = Guid.NewGuid();
             Guid managerId = Guid.NewGuid();
             string purchaseOrderNumber = "42";
             string description = "xyz";
@@ -24,6 +25,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Commands
             var sut = new RegisterJobOrderCommand(
                 customerId,
                 customerName,
+                contactPersonId,
                 managerId,
                 price,
                 currency,

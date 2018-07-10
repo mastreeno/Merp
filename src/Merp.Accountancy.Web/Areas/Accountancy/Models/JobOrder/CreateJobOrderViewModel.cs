@@ -11,6 +11,8 @@ namespace Merp.Web.Site.Areas.Accountancy.Models.JobOrder
     public class CreateJobOrderViewModel : IValidatableObject
     {
         public PartyInfo Customer { get; set; }
+        [DisplayName("Contact")]
+        public PersonInfo ContactPerson { get; set; }
         public PersonInfo Manager { get; set; }
 
         [DisplayName("Job Order name")]

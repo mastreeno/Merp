@@ -20,6 +20,9 @@ namespace Merp.Web.Site.Areas.Accountancy.Models.JobOrder
         [DisplayName("Customer")]
         public Guid CustomerId { get; set; }
 
+        [DisplayName("Contact")]
+        public Guid? ContactPersonId { get; set; }
+
         [DisplayName("Manager")]
         public Guid ManagerId { get; set; }
 

@@ -83,6 +83,14 @@
                     </dd>
 
                     <dt>
+                        <label asp-for="ContactPersonId"></label>
+                    </dt>
+
+                    <dd>
+                        <span id="contactPersonName"></span>
+                    </dd>
+
+                    <dt>
                         <label asp-for="ManagerId"></label>
                     </dt>
 
@@ -216,6 +224,7 @@
 
         $(function () {
             displayPartyName('customerName', '@Model.CustomerId');
+            displayPartyName('contactPersonName', '@Model.ContactPersonId');
             displayPartyName('managerName', '@Model.ManagerId');
         });
     </script>

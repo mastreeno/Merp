@@ -4,14 +4,16 @@ using Merp.Accountancy.QueryStack;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Merp.Accountancy.QueryStack.Migrations
 {
     [DbContext(typeof(AccountancyDbContext))]
-    partial class AccountancyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180710160051_JobOrder_ContactPerson")]
+    partial class JobOrder_ContactPerson
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

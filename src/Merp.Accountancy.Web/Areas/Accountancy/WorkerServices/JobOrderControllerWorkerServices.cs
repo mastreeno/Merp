@@ -169,6 +169,7 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
             var model = new JobOrderDetailViewModel();
             model.ManagerId = jobOrder.ManagerId;
             model.CustomerId = jobOrder.CustomerId;
+            model.ContactPersonId = jobOrder.ContactPersonId;
             model.DateOfStart = jobOrder.DateOfStart;
             model.DueDate = jobOrder.DueDate;
             model.JobOrderId = jobOrder.Id;
@@ -200,6 +201,7 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
             var command = new RegisterJobOrderCommand( 
                     model.Customer.OriginalId,
                     model.Customer.Name,
+                    model.ContactPerson.OriginalId,
                     model.Manager.OriginalId,
                     model.Price.Amount,
                     model.Price.Currency,
