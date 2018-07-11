@@ -21,44 +21,56 @@
               </ul>
               <div class="tab-content col-md-9">
                   <div class="tab-pane active" id="personInfoPane">
-                      <dl class="dl-horizontal">
-                          <dt>
-                              @Html.DisplayNameFor(model => model.Id)
-                          </dt>
-                          <dd>
-                              @Html.DisplayFor(model => model.Id)
-                          </dd>
+                      <section>
+                          <dl class="dl-horizontal">
+                              <dt>
+                                  @Html.DisplayNameFor(model => model.Id)
+                              </dt>
+                              <dd>
+                                  @Html.DisplayFor(model => model.Id)
+                              </dd>
 
-                          <dt>
-                              @Html.DisplayNameFor(model => model.FirstName)
-                          </dt>
-                          <dd>
-                              @Html.DisplayFor(model => model.FirstName)
-                          </dd>
+                              <dt>
+                                  @Html.DisplayNameFor(model => model.FirstName)
+                              </dt>
+                              <dd>
+                                  @Html.DisplayFor(model => model.FirstName)
+                              </dd>
 
-                          <dt>
-                              @Html.DisplayNameFor(model => model.LastName)
-                          </dt>
-                          <dd>
-                              @Html.DisplayFor(model => model.LastName)
-                          </dd>
+                              <dt>
+                                  @Html.DisplayNameFor(model => model.LastName)
+                              </dt>
+                              <dd>
+                                  @Html.DisplayFor(model => model.LastName)
+                              </dd>
 
-                          <dt>
-                              @Html.DisplayNameFor(model => model.NationalIdentificationNumber)
-                          </dt>
-                          <dd>
-                              @Html.DisplayFor(model => model.NationalIdentificationNumber)
-                          </dd>
+                              <dt>
+                                  @Html.DisplayNameFor(model => model.NationalIdentificationNumber)
+                              </dt>
+                              <dd>
+                                  @Html.DisplayFor(model => model.NationalIdentificationNumber)
+                              </dd>
 
-                          <dt>
-                              @Html.DisplayNameFor(model => model.VatNumber)
-                          </dt>
-                          <dd>
-                              @Html.DisplayFor(model => model.VatNumber)
-                          </dd>
-                      </dl>
-                      <h5>@Html.DisplayNameFor(model => model.Address)</h5>
-                      @Html.DisplayFor(model => model.Address)
+                              <dt>
+                                  @Html.DisplayNameFor(model => model.VatNumber)
+                              </dt>
+                              <dd>
+                                  @Html.DisplayFor(model => model.VatNumber)
+                              </dd>
+                          </dl>
+                      </section>
+                      <section id="personAddressSection" data-original-id="@Model.OriginalId" data-url="@UrlBuilder.Registry.PersonChangeAddress()">
+                          <div class="row">
+                              <h5 class="col-md-3">@Html.DisplayNameFor(model => model.Address)</h5>
+                              <a class="btn pull-left" id="changeAddressBtn" href="#">Change address</a>
+                              <div class="btn-group change-address-actions hidden" role="group" aria-label="changeAddress">
+                                  <button type="button" id="saveAddress" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                                  <button type="button" id="cancelAddress" class="btn btn-default"><i class="fa fa-undo"></i> Cancel</button>
+                              </div>
+                          </div>
+                          @Html.DisplayFor(model => model.Address)
+                      </section>
+                      
                   </div>
                   <div class="tab-pane" id="personContactInfoPane" data-original-id="@Model.OriginalId" data-url="@UrlBuilder.Registry.PersonChangeContactInfo()">
                       <a class="btn" id="changeContactInfoBtn" href="#"><i class="fa fa-edit"></i> Change contact info</a>
@@ -119,7 +131,7 @@
 
 <hr />
 
-<a href="@UrlBuilder.Registry.PersonChangeAddress(Model.OriginalId)">Change address</a> |
+@*<a href="@UrlBuilder.Registry.PersonChangeAddress(Model.OriginalId)">Change address</a> |*@
 @*<a href="@UrlBuilder.Registry.PersonChangeContactInfo(Model.OriginalId)">Change contact info</a> |*@
 <a href="@UrlBuilder.Registry.Search()">Back to List</a>
 

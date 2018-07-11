@@ -80,11 +80,10 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
             ValidateAgainstPersistence(model);
             if (!ModelState.IsValid)
             {
-                var rehydratedModel = WorkerServices.GetChangeAddressViewModel(model);
-                return View(model);
+                return BadRequest(ModelState);
             }
             WorkerServices.ChangeAddress(model);
-            return RedirectToRoute("registry", new { });
+            return Ok();
         }
 
         [HttpGet]
@@ -101,7 +100,7 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
             WorkerServices.ChangeContactInfo(model);
             return Ok();

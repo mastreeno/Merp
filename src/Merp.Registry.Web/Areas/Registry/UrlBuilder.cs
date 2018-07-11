@@ -76,6 +76,11 @@ namespace Merp.Web.Site.Areas.Registry
                 return $"/{areaName}/Person/ChangeAddress/{personId}";
             }
 
+            public static string PersonChangeAddress()
+            {
+                return $"/{areaName}/Person/ChangeAddress";
+            }
+
             public static string PersonChangeContactInfo(Guid personId)
             {
                 return $"/{areaName}/Person/ChangeContactInfo/{personId}";
