@@ -1,0 +1,90 @@
+﻿@model Merp.Web.Site.Areas.Accountancy.Models.JobOrder.IndexViewModel
+@{
+    ViewBag.Title = "Index";
+}
+<script>
+    (function () {
+        var homePageApp = angular.module('myApp', []);
+    }());
+    (function (module) {
+        var jobOrdersController = function ($scope, $http) {
+            $scope.refreshJobOrdersList = function () {
+                var url = '/Accountancy/JobOrder/GetList?currentOnly=' + $scope.currentOnly + '&customerId=' + $scope.SelectedCustomerId;
+                if ($scope.jobOrderName)
+                    url += '&jobOrderName=' + $scope.jobOrderName;
+                $http.get(url)
+                    .then(
+                    function (data) {
+                        $scope.JobOrders = data.data;
+
+                    },
+                    function (data) {
+                        console.log('some error happened.');
+                     }
+                    );
+            }
+            $scope.currentOnly = true;
+            $scope.refreshJobOrdersList();
+        };
+        module.controller('jobOrdersController', ['$scope', '$http', jobOrdersController]);
+    }(angular.module('myApp')))
+</script>
+<div class="row">
+    <h2>Job orders</h2>
+    <div id="JobOrdersBox" class="col-md-10 pull-left" data-ng-app="myApp">
+        <div id="JobOrdersTab" data-ng-controller="jobOrdersController">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Customers" class="col-md-2 control-label"></label>
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.SelectedCustomerId, Model.Customers, new { @class = "form-control", data_ng_change = "refreshJobOrdersList()", data_ng_model = "SelectedCustomerId" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="jobOrderName" class="control-label col-md-2">Job Order</label>
+                        <div class="col-md-10">
+                            <input type="text" id="jobOrderName" class="form-control" data-ng-model="jobOrderName" data-ng-change="refreshJobOrdersList()" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label asp-for="CurrentOnly" class="control-label col-md-2"></label>
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            <input asp-for="CurrentOnly" type="checkbox" data-ng-model="currentOnly" data-ng-click="refreshJobOrdersList()" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*<div>
+                <a id="refreshJobOrdersList" class="btn" data-ng-click="refreshJobOrdersList()">refresh</a>
+            </div>*@
+            <div class="row">
+                <table id="JobOrdersTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Customer name</th>
+                            <th>Job Order name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="jobOrder in JobOrders">
+                            <td>{{jobOrder.customerName}}</td>
+                            <td><a href="/Accountancy/JobOrder/Detail/{{jobOrder.originalId}}">{{jobOrder.name}}</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="CommandsBox" class="col-md-2 pull-right">
+        <ul class="list-unstyled">
+            <li><a href="/Accountancy/JobOrder/CreateJobOrder">Create Job Order</a></li>
+        </ul>
+    </div>
+</div>

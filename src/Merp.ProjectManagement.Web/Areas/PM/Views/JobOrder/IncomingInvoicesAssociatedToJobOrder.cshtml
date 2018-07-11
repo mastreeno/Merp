@@ -1,0 +1,30 @@
+﻿@model Merp.Web.Site.Areas.Accountancy.Models.JobOrder.IncomingInvoicesAssociatedToJobOrderViewModel
+@{
+    Layout = "";
+}
+<div id="incomingInvoices" class="row table-responsive">
+    <table class="table table-striped">
+        <tr>
+            <td>Date of issue</td>
+            <td>Invoice #</td>
+            <td>Price</td>
+            <td>Currency</td>
+            <td>Supplier name</td>
+        </tr>
+        @foreach (var i in Model.IncomingInvoices)
+        {
+            <tr>
+                <td>@i.DateOfIssue.ToShortDateString()</td>
+                <td>@i.Number</td>
+                <td>@i.Price</td>
+                <td>@i.Currency</td>
+                <td>@i.SupplierName</td>
+            </tr>
+        }
+    </table>
+</div>
+
+
+
+
+

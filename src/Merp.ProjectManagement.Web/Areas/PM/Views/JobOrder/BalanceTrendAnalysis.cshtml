@@ -1,0 +1,83 @@
+﻿@model System.Guid
+@{
+    Layout = "";
+}
+<script type="text/javascript">
+    (function () {
+        var homePageApp = angular.module('myApp', []);
+    }());
+    (function (module) {
+        var balanceController = function ($scope, $http) {
+            $scope.dateFrom;
+            $scope.dateTo;
+            $scope.series = ['balance'];
+            $scope.onClick = function (points, evt) {
+                console.log(points, evt);
+            };
+            $scope.refreshBalance = function () {
+                var jobOrderId = '@Model';
+                if ($scope.dateFrom != null && $scope.dateFrom !== '' && $scope.dateTo != null && $scope.dateTo !== '') {
+                    var url = '/Accountancy/JobOrder/GetBalance/?jobOrderId=' + jobOrderId + '&dateFrom=' + dateFrom.value + '&dateTo=' + dateTo.value + '&scale=' + $scope.scale;
+                    $http.get(url)
+                        .then(
+                            function (data) {
+                                $scope.Balances = data.data;
+                                $scope.labels = [];
+                                angular.forEach($scope.Balances, function (balance) {
+                                    $scope.labels.push(moment(balance.Date).format("DD/MM/YYYY"));
+                                });
+                                $scope.data = [[]];
+                                angular.forEach($scope.Balances, function (balance) {
+                                    $scope.data[0].push(balance.Balance);
+                                });
+                    });
+                }
+            }
+        }
+        module.controller('balanceController', ['$scope', '$http', balanceController]);
+    }(angular.module('myApp', ['chart.js'])))
+</script>
+
+<div data-ng-controller="balanceController" data-ng-app="myApp">
+    <div class="row">
+        <form class="form-inline">
+            <div class="form-group">
+                <label class="sr-only" for="dateFrom">Date From</label>
+                <input type="date" class="form-control" id="dateFrom" data-ng-model="dateFrom" placeholder="Date From">
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="dateTo">Date To</label>
+                <input type="date" class="form-control" id="dateTo" data-ng-model="dateTo" placeholder="Date To">
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="scale">Scale</label>
+                <select data-ng-model="scale">
+                    <option selected="selected">Daily</option>
+                    <option>Weekly</option>
+                    <option>Monthly</option>
+                    <option>Quarterly</option>
+                    <option>Yearly</option>
+                </select>
+            </div>
+            <button type="button" class="btn btn-default" data-ng-click="refreshBalance()">Apply</button>
+        </form>
+    </div>
+    <div class="row">
+        <canvas id="line" class="chart chart-line" data="data"
+                labels="labels" legend="false" series="series"
+                click="onClick"></canvas>
+    </div>
+    <div class="row">
+        <table class="table table-striped table-hover">
+            <tr>
+                <td>Date</td>
+                <td>Balance</td>
+            </tr>
+            <tr data-ng-repeat="balance in Balances">
+                <td>{{balance.Date | date:'dd-MM-yyyy'}}</td>
+                <td>{{balance.Balance}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
