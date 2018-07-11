@@ -36,14 +36,29 @@ namespace Merp.Web.Site.Areas.Registry
                 return $"/{areaName}/Company/ChangeLegalAddress/{companyId}";
             }
 
+            public static string CompanyChangeLegalAddress()
+            {
+                return $"/{areaName}/Company/ChangeLegalAddress";
+            }
+
             public static string CompanyChangeShippingAddress(Guid companyId)
             {
                 return $"/{areaName}/Company/ChangeShippingAddress/{companyId}";
             }
 
+            public static string CompanyChangeShippingAddress()
+            {
+                return $"/{areaName}/Company/ChangeShippingAddress";
+            }
+
             public static string CompanyChangeBillingAddress(Guid companyId)
             {
                 return $"/{areaName}/Company/ChangeBillingAddress/{companyId}";
+            }
+
+            public static string CompanyChangeBillingAddress()
+            {
+                return $"/{areaName}/Company/ChangeBillingAddress";
             }
 
             public static string CompanyAssociateAdministrativeContact(Guid companyId)
@@ -59,6 +74,11 @@ namespace Merp.Web.Site.Areas.Registry
             public static string CompanyChangeContactInfo(Guid companyId)
             {
                 return $"/{areaName}/Company/ChangeContactInfo/{companyId}";
+            }
+
+            public static string CompanyChangeContactInfo()
+            {
+                return $"/{areaName}/Company/ChangeContactInfo";
             }
 
             public static string PersonAddEntry()

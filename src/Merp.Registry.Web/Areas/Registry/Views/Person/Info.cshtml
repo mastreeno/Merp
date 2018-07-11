@@ -5,128 +5,128 @@
 }
 
 @*<h2></h2>
-<h4>Person Info</h4>
-<hr />*@
+    <h4>Person Info</h4>
+    <hr />*@
 
 <div class="row">
-  <div class="panel panel-default">
-      <div class="panel-heading">
-          <h3 class="panel-title"><i class="fa fa-user"></i> @($"{Model.FirstName} {Model.LastName}")</h3>
-      </div>
-      <div class="panel-body">
-          <div class="tabbable tabs-left">
-              <ul class="nav nav-tabs col-md-3">
-                  <li class="active"><a role="tab" href="#personInfoPane" data-toggle="tab">Person Info</a></li>
-                  <li><a href="#personContactInfoPane" data-toggle="tab">Contact Info</a></li>
-              </ul>
-              <div class="tab-content col-md-9">
-                  <div class="tab-pane active" id="personInfoPane">
-                      <section>
-                          <dl class="dl-horizontal">
-                              <dt>
-                                  @Html.DisplayNameFor(model => model.Id)
-                              </dt>
-                              <dd>
-                                  @Html.DisplayFor(model => model.Id)
-                              </dd>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-user"></i> @($"{Model.FirstName} {Model.LastName}")</h3>
+        </div>
+        <div class="panel-body">
+            <div class="tabbable tabs-left">
+                <ul class="nav nav-tabs col-md-3">
+                    <li class="active"><a role="tab" href="#personInfoPane" data-toggle="tab">Person Info</a></li>
+                    <li><a href="#personContactInfoPane" data-toggle="tab">Contact Info</a></li>
+                </ul>
+                <div class="tab-content col-md-9">
+                    <div class="tab-pane active" id="personInfoPane">
+                        <section>
+                            <dl class="dl-horizontal">
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.Id)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Id)
+                                </dd>
 
-                              <dt>
-                                  @Html.DisplayNameFor(model => model.FirstName)
-                              </dt>
-                              <dd>
-                                  @Html.DisplayFor(model => model.FirstName)
-                              </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.FirstName)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.FirstName)
+                                </dd>
 
-                              <dt>
-                                  @Html.DisplayNameFor(model => model.LastName)
-                              </dt>
-                              <dd>
-                                  @Html.DisplayFor(model => model.LastName)
-                              </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.LastName)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.LastName)
+                                </dd>
 
-                              <dt>
-                                  @Html.DisplayNameFor(model => model.NationalIdentificationNumber)
-                              </dt>
-                              <dd>
-                                  @Html.DisplayFor(model => model.NationalIdentificationNumber)
-                              </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.NationalIdentificationNumber)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.NationalIdentificationNumber)
+                                </dd>
 
-                              <dt>
-                                  @Html.DisplayNameFor(model => model.VatNumber)
-                              </dt>
-                              <dd>
-                                  @Html.DisplayFor(model => model.VatNumber)
-                              </dd>
-                          </dl>
-                      </section>
-                      <section id="personAddressSection" data-original-id="@Model.OriginalId" data-url="@UrlBuilder.Registry.PersonChangeAddress()">
-                          <div class="row">
-                              <h5 class="col-md-3">@Html.DisplayNameFor(model => model.Address)</h5>
-                              <a class="btn pull-left" id="changeAddressBtn" href="#">Change address</a>
-                              <div class="btn-group change-address-actions hidden" role="group" aria-label="changeAddress">
-                                  <button type="button" id="saveAddress" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
-                                  <button type="button" id="cancelAddress" class="btn btn-default"><i class="fa fa-undo"></i> Cancel</button>
-                              </div>
-                          </div>
-                          @Html.DisplayFor(model => model.Address)
-                      </section>
-                      
-                  </div>
-                  <div class="tab-pane" id="personContactInfoPane" data-original-id="@Model.OriginalId" data-url="@UrlBuilder.Registry.PersonChangeContactInfo()">
-                      <a class="btn" id="changeContactInfoBtn" href="#"><i class="fa fa-edit"></i> Change contact info</a>
-                      <div class="btn-group change-contact-info-actions hidden" role="group" aria-label="changeContactInfo">
-                          <button type="button" id="saveContactInfo" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
-                          <button type="button" id="cancelContactInfo" class="btn btn-default"><i class="fa fa-undo"></i> Cancel</button>
-                      </div>
-                      <hr />
-                      <dl class="dl-horizontal">
-                          <dt>
-                              @Html.DisplayNameFor(model => model.PhoneNumber)
-                          </dt>
-                          <dd class="contact-phone">
-                              @Html.DisplayFor(model => model.PhoneNumber)
-                          </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.VatNumber)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.VatNumber)
+                                </dd>
+                            </dl>
+                        </section>
+                        <section id="personAddressSection" data-original-id="@Model.OriginalId" data-url="@UrlBuilder.Registry.PersonChangeAddress()">
+                            <div class="row">
+                                <h5 class="col-md-3">@Html.DisplayNameFor(model => model.Address)</h5>
+                                <a class="btn pull-left" id="changeAddressBtn" href="#"><i class="fa fa-edit"></i> Change address</a>
+                                <div class="btn-group change-address-actions hidden" role="group" aria-label="changeAddress">
+                                    <button type="button" id="saveAddress" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                                    <button type="button" id="cancelAddress" class="btn btn-default"><i class="fa fa-undo"></i> Cancel</button>
+                                </div>
+                            </div>
+                            @Html.DisplayFor(model => model.Address)
+                        </section>
 
-                          <dt>
-                              @Html.DisplayNameFor(model => model.MobileNumber)
-                          </dt>
-                          <dd class="contact-mobile">
-                              @Html.DisplayFor(model => model.MobileNumber)
-                          </dd>
+                    </div>
+                    <div class="tab-pane" id="personContactInfoPane" data-original-id="@Model.OriginalId" data-url="@UrlBuilder.Registry.PersonChangeContactInfo()">
+                        <a class="btn" id="changeContactInfoBtn" href="#"><i class="fa fa-edit"></i> Change contact info</a>
+                        <div class="btn-group change-contact-info-actions hidden" role="group" aria-label="changeContactInfo">
+                            <button type="button" id="saveContactInfo" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                            <button type="button" id="cancelContactInfo" class="btn btn-default"><i class="fa fa-undo"></i> Cancel</button>
+                        </div>
+                        <hr />
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.PhoneNumber)
+                            </dt>
+                            <dd class="contact-phone">
+                                @Html.DisplayFor(model => model.PhoneNumber)
+                            </dd>
 
-                          <dt>
-                              @Html.DisplayNameFor(model => model.FaxNumber)
-                          </dt>
-                          <dd class="contact-fax">
-                              @Html.DisplayFor(model => model.FaxNumber)
-                          </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.MobileNumber)
+                            </dt>
+                            <dd class="contact-mobile">
+                                @Html.DisplayFor(model => model.MobileNumber)
+                            </dd>
 
-                          <dt>
-                              @Html.DisplayNameFor(model => model.WebsiteAddress)
-                          </dt>
-                          <dd class="contact-website">
-                              @Html.DisplayFor(model => model.WebsiteAddress)
-                          </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.FaxNumber)
+                            </dt>
+                            <dd class="contact-fax">
+                                @Html.DisplayFor(model => model.FaxNumber)
+                            </dd>
 
-                          <dt>
-                              @Html.DisplayNameFor(model => model.EmailAddress)
-                          </dt>
-                          <dd class="contact-email">
-                              @Html.DisplayFor(model => model.EmailAddress)
-                          </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.WebsiteAddress)
+                            </dt>
+                            <dd class="contact-website">
+                                @Html.DisplayFor(model => model.WebsiteAddress)
+                            </dd>
 
-                          <dt>
-                              @Html.DisplayNameFor(model => model.InstantMessaging)
-                          </dt>
-                          <dd class="contact-im">
-                              @Html.DisplayFor(model => model.InstantMessaging)
-                          </dd>
-                      </dl>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.EmailAddress)
+                            </dt>
+                            <dd class="contact-email">
+                                @Html.DisplayFor(model => model.EmailAddress)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.InstantMessaging)
+                            </dt>
+                            <dd class="contact-im">
+                                @Html.DisplayFor(model => model.InstantMessaging)
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <hr />
@@ -135,7 +135,7 @@
 @*<a href="@UrlBuilder.Registry.PersonChangeContactInfo(Model.OriginalId)">Change contact info</a> |*@
 <a href="@UrlBuilder.Registry.Search()">Back to List</a>
 
-@section scripts{ 
-<script type="text/javascript" src="~/js/registry/person-info.js"></script>
+@section scripts{
+    <script type="text/javascript" src="~/js/registry/person-info.js"></script>
 }
 
