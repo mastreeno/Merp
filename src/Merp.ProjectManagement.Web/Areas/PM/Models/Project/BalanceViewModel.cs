@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Merp.Web.Site.Areas.Accountancy.Models.JobOrder
+namespace Merp.Web.Site.Areas.ProjectManagement.Models.Project
 {
     public class BalanceViewModel
     {

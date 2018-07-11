@@ -1,19 +1,19 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Merp.Web.Site.Areas.Accountancy.Models.JobOrder;
+using Merp.Web.Site.Areas.ProjectManagement.Models.Project;
 using Merp.Web.Site.Areas.Accountancy.WorkerServices;
 using System.Collections.Generic;
 
 namespace Merp.Web.Site.Areas.Accountancy.Controllers
 {
-    [Area("Accountancy")]
-    [Authorize(Roles = "Accountancy")]
-    public class JobOrderController : Controller
+    [Area("PM")]
+    [Authorize(Roles = "ProjectManagement")]
+    public class ProjectController : Controller
     {
-        public JobOrderControllerWorkerServices WorkerServices { get; private set; }
+        public ProjectControllerWorkerServices WorkerServices { get; private set; }
 
-        public JobOrderController(JobOrderControllerWorkerServices workerServices)
+        public ProjectController(ProjectControllerWorkerServices workerServices)
         {
             WorkerServices = workerServices ?? throw new ArgumentNullException(nameof(workerServices));
         }
@@ -27,7 +27,7 @@ namespace Merp.Web.Site.Areas.Accountancy.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<IndexViewModel.JobOrder> GetList(bool? currentOnly, Guid? customerId, string jobOrderName)
+        public IEnumerable<IndexViewModel.Project> GetList(bool? currentOnly, Guid? customerId, string jobOrderName)
         {
             var model = WorkerServices.GetList(currentOnly.HasValue ? currentOnly.Value : false, 
                                             customerId, 
@@ -51,18 +51,6 @@ namespace Merp.Web.Site.Areas.Accountancy.Controllers
             return Merp.Web.Mvc.JsonNetResult.JsonNet(model);
         }
 
-        public ActionResult IncomingInvoicesAssociatedToJobOrder(Guid jobOrderId)
-        {
-            var model = WorkerServices.GetIncomingInvoicesAssociatedToJobOrderViewModel(jobOrderId);
-            return View(model);
-        }
-
-        public ActionResult OutgoingInvoicesAssociatedToJobOrder(Guid jobOrderId)
-        {
-            var model = WorkerServices.GetOutgoingInvoicesAssociatedToJobOrderViewModel(jobOrderId);
-            return View(model);
-        }
-
         #region Job Orders
         [HttpGet]
         public ActionResult CreateJobOrder()
@@ -72,7 +60,7 @@ namespace Merp.Web.Site.Areas.Accountancy.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateJobOrder(CreateJobOrderViewModel model)
+        public ActionResult CreateJobOrder(RegisterProjectViewModel model)
         {
             if(!this.ModelState.IsValid)
             {
@@ -99,7 +87,7 @@ namespace Merp.Web.Site.Areas.Accountancy.Controllers
         }
 
         [HttpPost]
-        public ActionResult ExtendJobOrder(ExtendJobOrderViewModel model)
+        public ActionResult ExtendJobOrder(ExtendProjectViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -117,7 +105,7 @@ namespace Merp.Web.Site.Areas.Accountancy.Controllers
         }
 
         [HttpPost]
-        public ActionResult MarkJobOrderAsCompleted(MarkJobOrderAsCompletedViewModel model)
+        public ActionResult MarkJobOrderAsCompleted(MarkProjectAsCompletedViewModel model)
         {
             if (!this.ModelState.IsValid)
             {

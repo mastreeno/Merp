@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel;
 
-namespace Merp.Web.Site.Areas.Accountancy.Models.JobOrder
+namespace Merp.Web.Site.Areas.ProjectManagement.Models.Project
 {
     public class IndexViewModel
     {
@@ -20,10 +20,9 @@ namespace Merp.Web.Site.Areas.Accountancy.Models.JobOrder
             public string Name { get; set; }
         }
 
-        public class JobOrder
+        public class Project
         {
-            public int Id { get; set; }
-            public Guid OriginalId { get; set; }
+            public Guid Id { get; set; }
             public Guid CustomerId { get; set; }
             public string CustomerName { get; set; }
             public string Name { get; set; }

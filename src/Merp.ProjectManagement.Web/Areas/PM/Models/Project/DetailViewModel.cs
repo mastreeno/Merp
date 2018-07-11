@@ -4,18 +4,18 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web;
 
-namespace Merp.Web.Site.Areas.Accountancy.Models.JobOrder
+namespace Merp.Web.Site.Areas.ProjectManagement.Models.Project
 {
-    public class JobOrderDetailViewModel
+    public class DetailViewModel
     {
-        [DisplayName("Job Order Id")]
-        public Guid JobOrderId { get; set; }
+        [DisplayName("Project Id")]
+        public Guid ProjectId { get; set; }
 
-        [DisplayName("Job Order #")]
-        public string JobOrderNumber { get; set; }
+        [DisplayName("Project #")]
+        public string ProjectNumber { get; set; }
 
-        [DisplayName("Job Order name")]
-        public string JobOrderName { get; set; }
+        [DisplayName("Project name")]
+        public string ProjectName { get; set; }
 
         [DisplayName("Customer")]
         public Guid CustomerId { get; set; }

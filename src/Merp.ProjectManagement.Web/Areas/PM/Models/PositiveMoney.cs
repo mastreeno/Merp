@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Merp.Web.Site.Areas.Accountancy.Models
+namespace Merp.Web.Site.Areas.ProjectManagement.Models
 {
     public class PositiveMoney
     {

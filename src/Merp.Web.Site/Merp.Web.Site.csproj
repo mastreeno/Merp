@@ -33,6 +33,7 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
     <ProjectReference Include="..\Merp.Accountancy.Web\Merp.Accountancy.Web.csproj" />
+    <ProjectReference Include="..\Merp.ProjectManagement.Web\Merp.ProjectManagement.Web.csproj" />
     <ProjectReference Include="..\Merp.Registry.Web\Merp.Registry.Web.csproj" />
     <ProjectReference Include="..\Merp.Web\Merp.Web.csproj" />
     <ProjectReference Include="..\OnTime.TaskManagement.Web\OnTime.TaskManagement.Web.csproj" />

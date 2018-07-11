@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Merp.Web.Site.Areas.Accountancy.Models.JobOrder;
+using Merp.Web.Site.Areas.ProjectManagement.Models.Project;
 using Merp.Accountancy.QueryStack;
 using Merp.Accountancy.QueryStack.Model;
 using MementoFX.Persistence;
@@ -11,13 +11,13 @@ using Rebus.Bus;
 
 namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
 {
-    public class JobOrderControllerWorkerServices
+    public class ProjectControllerWorkerServices
     {
         public IBus Bus { get; private set; }
         public IDatabase Database { get; private set; }
         public IRepository Repository { get; private set; }
         public IEventStore EventStore { get; private set; }
-        public JobOrderControllerWorkerServices(IBus bus, IDatabase database, IRepository repository, IEventStore eventStore)
+        public ProjectControllerWorkerServices(IBus bus, IDatabase database, IRepository repository, IEventStore eventStore)
         {
             if(bus==null)
                 throw new ArgumentNullException(nameof(bus));
@@ -47,19 +47,18 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
             return model;
         }
 
-        public IEnumerable<IndexViewModel.JobOrder> GetList(bool currentOnly, Guid? customerId, string jobOrderName)
+        public IEnumerable<IndexViewModel.Project> GetList(bool currentOnly, Guid? customerId, string jobOrderName)
         {
             var query = from jo in Database.JobOrders
                         orderby jo.CustomerName, jo.Name
-                        select new IndexViewModel.JobOrder
+                        select new IndexViewModel.Project
                         {
                             CustomerId = jo.CustomerId,
                             CustomerName = jo.CustomerName,
                             IsCompleted = jo.IsCompleted,
                             Name = jo.Name,
                             Number = jo.Number,
-                            Id = jo.Id,
-                            OriginalId = jo.OriginalId
+                            Id = jo.OriginalId
                         };
             if (currentOnly)
                 query = query.Where(jo => jo.IsCompleted == false);
@@ -108,73 +107,41 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
             return model;
         }
 
-        public IncomingInvoicesAssociatedToJobOrderViewModel GetIncomingInvoicesAssociatedToJobOrderViewModel(Guid jobOrderId)
-        {
-            var model = new IncomingInvoicesAssociatedToJobOrderViewModel();
-            model.IncomingInvoices = (from i in Database.IncomingInvoices.PerJobOrder(jobOrderId)
-                                      orderby i.Date
-                                      select new IncomingInvoicesAssociatedToJobOrderViewModel.Invoice
-                                      {
-                                          DateOfIssue = i.Date,
-                                          Price = i.TaxableAmount,
-                                          Currency = i.Currency,
-                                          Number = i.Number,
-                                          SupplierName = i.Supplier.Name
-                                      }).ToArray();
-            return model;
-        }
-
-        public OutgoingInvoicesAssociatedToJobOrderViewModel GetOutgoingInvoicesAssociatedToJobOrderViewModel(Guid jobOrderId)
-        {
-            var model = new OutgoingInvoicesAssociatedToJobOrderViewModel();
-            model.OutgoingInvoices = (from i in Database.OutgoingInvoices.PerJobOrder(jobOrderId)
-                                      orderby i.Date
-                                      select new OutgoingInvoicesAssociatedToJobOrderViewModel.Invoice
-                                      {
-                                          DateOfIssue = i.Date,
-                                          Price = i.TaxableAmount,
-                                          Currency = i.Currency,
-                                          Number = i.Number,
-                                          CustomerName = i.Customer.Name
-                                      }).ToArray();
-            return model;
-        }
-
         #region Job Orders
-        public CreateJobOrderViewModel GetCreateJobOrderViewModel()
+        public RegisterProjectViewModel GetCreateJobOrderViewModel()
         {
-            var model = new CreateJobOrderViewModel();
+            var model = new RegisterProjectViewModel();
             model.DateOfStart = DateTime.Now;
             model.DueDate = DateTime.Now;
             return model;
         }
 
-        public ExtendJobOrderViewModel GetExtendJobOrderViewModel(Guid jobOrderId)
+        public ExtendProjectViewModel GetExtendJobOrderViewModel(Guid jobOrderId)
         {
             var jobOrder = Repository.GetById<Merp.Accountancy.CommandStack.Model.JobOrder>(jobOrderId);
-            var model = new ExtendJobOrderViewModel();
+            var model = new ExtendProjectViewModel();
             model.NewDueDate = jobOrder.DueDate;
             model.Price = jobOrder.Price.Amount;
-            model.JobOrderNumber = jobOrder.Number;
-            model.JobOrderId = jobOrder.Id;
-            model.JobOrderName = jobOrder.Name;
+            model.ProjectNumber = jobOrder.Number;
+            model.ProjectId = jobOrder.Id;
+            model.ProjectName = jobOrder.Name;
             model.CustomerName = string.Empty;
             return model;
         }
 
-        public JobOrderDetailViewModel GetJobOrderDetailViewModel(Guid jobOrderId)
+        public DetailViewModel GetJobOrderDetailViewModel(Guid jobOrderId)
         {
             var jobOrder = Repository.GetById<Merp.Accountancy.CommandStack.Model.JobOrder>(jobOrderId);
 
-            var model = new JobOrderDetailViewModel();
+            var model = new DetailViewModel();
             model.ManagerId = jobOrder.ManagerId;
             model.CustomerId = jobOrder.CustomerId;
             model.ContactPersonId = jobOrder.ContactPersonId;
             model.DateOfStart = jobOrder.DateOfStart;
             model.DueDate = jobOrder.DueDate;
-            model.JobOrderId = jobOrder.Id;
-            model.JobOrderNumber = jobOrder.Number;
-            model.JobOrderName = jobOrder.Name;
+            model.ProjectId = jobOrder.Id;
+            model.ProjectNumber = jobOrder.Number;
+            model.ProjectName = jobOrder.Name;
             model.Description = jobOrder.Description;
             model.Price = jobOrder?.Price?.Amount ?? 0;
             model.IsCompleted = jobOrder.IsCompleted;
@@ -183,20 +150,20 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
             return model;
         }
 
-        public MarkJobOrderAsCompletedViewModel GetMarkJobOrderAsCompletedViewModel(Guid jobOrderId)
+        public MarkProjectAsCompletedViewModel GetMarkJobOrderAsCompletedViewModel(Guid jobOrderId)
         {
             var jobOrder = Repository.GetById<Merp.Accountancy.CommandStack.Model.JobOrder>(jobOrderId);
 
-            var model = new MarkJobOrderAsCompletedViewModel();
+            var model = new MarkProjectAsCompletedViewModel();
             model.DateOfCompletion = DateTime.Now;
             model.CustomerName = string.Empty;
-            model.JobOrderId = jobOrder.Id;
-            model.JobOrderNumber = jobOrder.Number;
-            model.JobOrderName = jobOrder.Name;
+            model.ProjectId = jobOrder.Id;
+            model.ProjectNumber = jobOrder.Number;
+            model.ProjectName = jobOrder.Name;
             return model;
         }
 
-        public void CreateJobOrder(CreateJobOrderViewModel model)
+        public void CreateJobOrder(RegisterProjectViewModel model)
         {
             var command = new RegisterJobOrderCommand( 
                     model.Customer.OriginalId,
@@ -209,21 +176,21 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
                     model.DueDate,
                     model.IsTimeAndMaterial,
                     model.Name, 
-                    model.PurchaseOrderNumber,
+                    model.CustomerPurchaseOrderNumber,
                     model.Description
                 );
             Bus.Send(command);
         }
 
-        public void ExtendJobOrder(ExtendJobOrderViewModel model)
+        public void ExtendJobOrder(ExtendProjectViewModel model)
         {
-            var command = new ExtendJobOrderCommand(model.JobOrderId, model.NewDueDate, model.Price);
+            var command = new ExtendJobOrderCommand(model.ProjectId, model.NewDueDate, model.Price);
             Bus.Send(command);
         }
 
-        public void MarkJobOrderAsCompleted(MarkJobOrderAsCompletedViewModel model)
+        public void MarkJobOrderAsCompleted(MarkProjectAsCompletedViewModel model)
         {
-            var command = new MarkJobOrderAsCompletedCommand(model.JobOrderId, model.DateOfCompletion);
+            var command = new MarkJobOrderAsCompletedCommand(model.ProjectId, model.DateOfCompletion);
             Bus.Send(command);
         }
 

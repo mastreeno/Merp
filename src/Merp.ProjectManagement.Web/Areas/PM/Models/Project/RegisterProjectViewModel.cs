@@ -6,16 +6,16 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Merp.Web.Site.Areas.Accountancy.Models.JobOrder
+namespace Merp.Web.Site.Areas.ProjectManagement.Models.Project
 {
-    public class CreateJobOrderViewModel : IValidatableObject
+    public class RegisterProjectViewModel : IValidatableObject
     {
         public PartyInfo Customer { get; set; }
         [DisplayName("Contact")]
         public PersonInfo ContactPerson { get; set; }
         public PersonInfo Manager { get; set; }
 
-        [DisplayName("Job Order name")]
+        [DisplayName("Project name")]
         [Required]
         public string Name { get; set; }
 
@@ -38,7 +38,7 @@ namespace Merp.Web.Site.Areas.Accountancy.Models.JobOrder
         public string Description { get; set; }
 
         [DisplayName("PO #")]
-        public string PurchaseOrderNumber { get; set; }
+        public string CustomerPurchaseOrderNumber { get; set; }
 
         IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
