@@ -60,47 +60,53 @@
                       <h5>@Html.DisplayNameFor(model => model.Address)</h5>
                       @Html.DisplayFor(model => model.Address)
                   </div>
-                  <div class="tab-pane" id="personContactInfoPane">
+                  <div class="tab-pane" id="personContactInfoPane" data-original-id="@Model.OriginalId" data-url="@UrlBuilder.Registry.PersonChangeContactInfo()">
+                      <a class="btn" id="changeContactInfoBtn" href="#"><i class="fa fa-edit"></i> Change contact info</a>
+                      <div class="btn-group change-contact-info-actions hidden" role="group" aria-label="changeContactInfo">
+                          <button type="button" id="saveContactInfo" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                          <button type="button" id="cancelContactInfo" class="btn btn-default"><i class="fa fa-undo"></i> Cancel</button>
+                      </div>
+                      <hr />
                       <dl class="dl-horizontal">
                           <dt>
                               @Html.DisplayNameFor(model => model.PhoneNumber)
                           </dt>
-                          <dd>
+                          <dd class="contact-phone">
                               @Html.DisplayFor(model => model.PhoneNumber)
                           </dd>
 
                           <dt>
                               @Html.DisplayNameFor(model => model.MobileNumber)
                           </dt>
-                          <dd>
+                          <dd class="contact-mobile">
                               @Html.DisplayFor(model => model.MobileNumber)
                           </dd>
 
                           <dt>
                               @Html.DisplayNameFor(model => model.FaxNumber)
                           </dt>
-                          <dd>
+                          <dd class="contact-fax">
                               @Html.DisplayFor(model => model.FaxNumber)
                           </dd>
 
                           <dt>
                               @Html.DisplayNameFor(model => model.WebsiteAddress)
                           </dt>
-                          <dd>
+                          <dd class="contact-website">
                               @Html.DisplayFor(model => model.WebsiteAddress)
                           </dd>
 
                           <dt>
                               @Html.DisplayNameFor(model => model.EmailAddress)
                           </dt>
-                          <dd>
+                          <dd class="contact-email">
                               @Html.DisplayFor(model => model.EmailAddress)
                           </dd>
 
                           <dt>
                               @Html.DisplayNameFor(model => model.InstantMessaging)
                           </dt>
-                          <dd>
+                          <dd class="contact-im">
                               @Html.DisplayFor(model => model.InstantMessaging)
                           </dd>
                       </dl>
@@ -114,6 +120,10 @@
 <hr />
 
 <a href="@UrlBuilder.Registry.PersonChangeAddress(Model.OriginalId)">Change address</a> |
-<a href="@UrlBuilder.Registry.PersonChangeContactInfo(Model.OriginalId)">Change contact info</a> |
+@*<a href="@UrlBuilder.Registry.PersonChangeContactInfo(Model.OriginalId)">Change contact info</a> |*@
 <a href="@UrlBuilder.Registry.Search()">Back to List</a>
+
+@section scripts{ 
+<script type="text/javascript" src="~/js/registry/person-info.js"></script>
+}
 

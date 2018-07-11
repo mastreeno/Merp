@@ -101,10 +101,10 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return BadRequest();
             }
             WorkerServices.ChangeContactInfo(model);
-            return RedirectToRoute("registry", new { });
+            return Ok();
         }
 
         #region Helper Methods        

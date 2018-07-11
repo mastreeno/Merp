@@ -80,6 +80,11 @@ namespace Merp.Web.Site.Areas.Registry
             {
                 return $"/{areaName}/Person/ChangeContactInfo/{personId}";
             }
+            
+            public static string PersonChangeContactInfo()
+            {
+                return $"/{areaName}/Person/ChangeContactInfo";
+            }
 
             public static string Search()
             {
