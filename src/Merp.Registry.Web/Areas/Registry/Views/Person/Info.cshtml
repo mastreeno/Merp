@@ -59,17 +59,17 @@
                                 </dd>
                             </dl>
                         </section>
-                        <section id="personAddressSection" data-original-id="@Model.OriginalId" data-url="@UrlBuilder.Registry.PersonChangeAddress()">
+                        <form name="personAddressSection" id="personAddressSection" data-original-id="@Model.OriginalId" method="post" action="@UrlBuilder.Registry.PersonChangeAddress()" novalidate="novalidate">
                             <div class="row">
                                 <h5 class="col-md-3">@Html.DisplayNameFor(model => model.Address)</h5>
                                 <a class="btn pull-left" id="changeAddressBtn" href="#"><i class="fa fa-edit"></i> Change address</a>
                                 <div class="btn-group change-address-actions hidden" role="group" aria-label="changeAddress">
-                                    <button type="button" id="saveAddress" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                                    <button type="submit" id="saveAddress" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
                                     <button type="button" id="cancelAddress" class="btn btn-default"><i class="fa fa-undo"></i> Cancel</button>
                                 </div>
                             </div>
                             @Html.DisplayFor(model => model.Address)
-                        </section>
+                        </form>
 
                     </div>
                     <div class="tab-pane" id="personContactInfoPane" data-original-id="@Model.OriginalId" data-url="@UrlBuilder.Registry.PersonChangeContactInfo()">
@@ -136,6 +136,7 @@
 <a href="@UrlBuilder.Registry.Search()">Back to List</a>
 
 @section scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
     <script type="text/javascript" src="~/js/registry/person-info.js"></script>
 }
 

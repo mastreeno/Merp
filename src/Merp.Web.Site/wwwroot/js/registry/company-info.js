@@ -53,6 +53,10 @@
             this.rootElement.find('.change-contact-info-actions').addClass('hidden');
             this._replaceWithValues();
             this.rootElement.find('#changeContactInfoBtn').removeClass('hidden');
+
+            if (this.rootElement.find('.alert.alert-danger').length) {
+                this.rootElement.find('.alert.alert-danger').remove();
+            }
         };
 
         ctor.prototype.save = function () {
@@ -80,8 +84,19 @@
                 alert('Contact info changed correctly');
             }).fail(function (xhr, textStatus, errorThrown) {
                 self.rootElement.find('.change-contact-info-actions > button').prop('disabled', false);
-                alert('There was an error changing this info');
+                self._buildErrorList(xhr.responseJSON);
             });
+        };
+
+        ctor.prototype._buildErrorList = function (errors) {
+            var alertContainer = $('<div class="alert alert-danger alert-dismissable" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+            var errorList = $('<ul></ul>');
+            for (var key in errors) {
+                errorList.append($('<li>' + errors[key].join(',') + '</li>'));
+            }
+            alertContainer.append(errorList);
+
+            this.rootElement.prepend(alertContainer);
         };
 
         return ctor;
@@ -89,9 +104,9 @@
 
     var ChangeShippingAddressViewModel = (function () {
         var ctor = function () {
-            this.rootElement = $('#shippingAddressPane');
+            this.rootElement = $('#shippingAddressForm');
             this.originalId = this.rootElement.data('originalId');
-            this.changeShippingAddressUrl = this.rootElement.data('url');
+            this.changeShippingAddressUrl = this.rootElement.attr('action');
             this.model = {};
             this._copyInitialValues();
         };
@@ -116,28 +131,31 @@
         };
 
         ctor.prototype._replaceWithInputs = function () {
-            var addressInput = $('<input type="text" class="form-control" />');
+            var addressInput = $('<input type="text" class="form-control" id="Address_Address" name="Address.Address" data-val="true" data-val-required="The address is required" /><span class="text-danger field-validation-valid" data-valmsg-for="Address.Address" data-valmsg-replace="true"></span>');
             addressInput.val(this.model.address);
             this.rootElement.find('.address').html(addressInput);
 
-            var postalCodeInput = $('<input type="text" class="form-control" />');
+            var postalCodeInput = $('<input type="text" class="form-control" id="Address_PostalCode" name="Address.PostalCode" />');
             postalCodeInput.val(this.model.postalCode);
             this.rootElement.find('.postal-code').html(postalCodeInput);
 
-            var cityInput = $('<input type="text" class="form-control" />');
+            var cityInput = $('<input type="text" class="form-control" id="Address_City" name="Address.City" data-val="true" data-val-required="The city is required" /><span class="text-danger field-validation-valid" data-valmsg-for="Address.City" data-valmsg-replace="true"></span>');
             cityInput.val(this.model.city);
             this.rootElement.find('.city').html(cityInput);
 
-            var countryInput = $('<input type="text" class="form-control" />');
+            var countryInput = $('<input type="text" class="form-control" id="Address_Country" name="Address.Country" />');
             countryInput.val(this.model.country);
             this.rootElement.find('.country').html(countryInput);
 
-            var provinceInput = $('<input type="text" class="form-control" />');
+            var provinceInput = $('<input type="text" class="form-control" id="Address_Province" name="Address.Province" />');
             provinceInput.val(this.model.province);
             this.rootElement.find('.province').html(provinceInput);
 
-            var effectiveDate = $('<dt class="shipping-effective-date">Effective date</dt><dd class="shipping-effective-date effective-date-input"><input type="date" class="form-control" /></dd>');
+            var effectiveDate = $('<dt class="shipping-effective-date">Effective date</dt><dd class="shipping-effective-date effective-date-input"><input type="date" class="form-control" id="EffectiveDate" name="EffectiveDate" /></dd>');
             this.rootElement.find('.province').after(effectiveDate);
+
+            this.rootElement.removeData("validator").removeData("unobtrusiveValidation");
+            $.validator.unobtrusive.parse(this.rootElement);
         };
 
         ctor.prototype.enableEdit = function () {
@@ -150,9 +168,17 @@
             this.rootElement.find('.change-shipping-address-actions').addClass('hidden');
             this._replaceWithValues();
             this.rootElement.find('#changeShippingAddressBtn').removeClass('hidden');
+
+            if (this.rootElement.find('.alert.alert-danger').length) {
+                this.rootElement.find('.alert.alert-danger').remove();
+            }
         };
 
         ctor.prototype.save = function () {
+            if (!this.rootElement.valid()) {
+                return;
+            }
+
             this.rootElement.find('.change-shipping-address-actions > button').prop('disabled', true);
             var values = {
                 CompanyId: this.originalId,
@@ -182,8 +208,19 @@
                 alert('Address changed correctly');
             }).fail(function (xhr, textStatus, errorThrown) {
                 self.rootElement.find('.change-shipping-address-actions > button').prop('disabled', false);
-                alert('There was an error changing the address');
+                self._buildErrorList(xhr.responseJSON);
             });
+        };
+
+        ctor.prototype._buildErrorList = function (errors) {
+            var alertContainer = $('<div class="alert alert-danger alert-dismissable" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+            var errorList = $('<ul></ul>');
+            for (var key in errors) {
+                errorList.append($('<li>' + errors[key].join(',') + '</li>'));
+            }
+            alertContainer.append(errorList);
+
+            this.rootElement.prepend(alertContainer);
         };
 
         return ctor;
@@ -191,9 +228,9 @@
 
     var ChangeBillingAddressViewModel = (function () {
         var ctor = function () {
-            this.rootElement = $('#billingAddressPane');
+            this.rootElement = $('#billingAddressForm');
             this.originalId = this.rootElement.data('originalId');
-            this.changeBillingAddressUrl = this.rootElement.data('url');
+            this.changeBillingAddressUrl = this.rootElement.attr('action');
             this.model = {};
             this._copyInitialValues();
         };
@@ -218,28 +255,31 @@
         };
 
         ctor.prototype._replaceWithInputs = function () {
-            var addressInput = $('<input type="text" class="form-control" />');
+            var addressInput = $('<input type="text" class="form-control" id="Address_Address" name="Address.Address" data-val="true" data-val-required="The address is required" /><span class="text-danger field-validation-valid" data-valmsg-for="Address.Address" data-valmsg-replace="true"></span>');
             addressInput.val(this.model.address);
             this.rootElement.find('.address').html(addressInput);
 
-            var postalCodeInput = $('<input type="text" class="form-control" />');
+            var postalCodeInput = $('<input type="text" class="form-control" id="Address_PostalCode" name="Address.PostalCode" />');
             postalCodeInput.val(this.model.postalCode);
             this.rootElement.find('.postal-code').html(postalCodeInput);
 
-            var cityInput = $('<input type="text" class="form-control" />');
+            var cityInput = $('<input type="text" class="form-control" id="Address_City" name="Address.City" data-val="true" data-val-required="The city is required" /><span class="text-danger field-validation-valid" data-valmsg-for="Address.City" data-valmsg-replace="true"></span>');
             cityInput.val(this.model.city);
             this.rootElement.find('.city').html(cityInput);
 
-            var countryInput = $('<input type="text" class="form-control" />');
+            var countryInput = $('<input type="text" class="form-control" id="Address_Country" name="Address.Country" />');
             countryInput.val(this.model.country);
             this.rootElement.find('.country').html(countryInput);
 
-            var provinceInput = $('<input type="text" class="form-control" />');
+            var provinceInput = $('<input type="text" class="form-control" id="Address_Province" name="Address.Province" />');
             provinceInput.val(this.model.province);
             this.rootElement.find('.province').html(provinceInput);
 
-            var effectiveDate = $('<dt class="billing-effective-date">Effective date</dt><dd class="billing-effective-date effective-date-input"><input type="date" class="form-control" /></dd>');
+            var effectiveDate = $('<dt class="billing-effective-date">Effective date</dt><dd class="billing-effective-date effective-date-input"><input type="date" class="form-control" id="EffectiveDate" name="EffectiveDate" /></dd>');
             this.rootElement.find('.province').after(effectiveDate);
+
+            this.rootElement.removeData("validator").removeData("unobtrusiveValidation");
+            $.validator.unobtrusive.parse(this.rootElement);
         };
 
         ctor.prototype.enableEdit = function () {
@@ -252,9 +292,17 @@
             this.rootElement.find('.change-billing-address-actions').addClass('hidden');
             this._replaceWithValues();
             this.rootElement.find('#changeBillingAddressBtn').removeClass('hidden');
+
+            if (this.rootElement.find('.alert.alert-danger').length) {
+                this.rootElement.find('.alert.alert-danger').remove();
+            }
         };
 
         ctor.prototype.save = function () {
+            if (!this.rootElement.valid()) {
+                return;
+            }
+
             this.rootElement.find('.change-billing-address-actions > button').prop('disabled', true);
             var values = {
                 CompanyId: this.originalId,
@@ -284,8 +332,19 @@
                 alert('Address changed correctly');
             }).fail(function (xhr, textStatus, errorThrown) {
                 self.rootElement.find('.change-billing-address-actions > button').prop('disabled', false);
-                alert('There was an error changing the address');
+                self._buildErrorList(xhr.responseJSON);
             });
+        };
+
+        ctor.prototype._buildErrorList = function (errors) {
+            var alertContainer = $('<div class="alert alert-danger alert-dismissable" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+            var errorList = $('<ul></ul>');
+            for (var key in errors) {
+                errorList.append($('<li>' + errors[key].join(',') + '</li>'));
+            }
+            alertContainer.append(errorList);
+
+            this.rootElement.prepend(alertContainer);
         };
 
         return ctor;
@@ -295,7 +354,7 @@
         var ctor = function () {
             this.rootElement = $('#legalAddressPane');
             this.originalId = this.rootElement.data('originalId');
-            this.changeLegalAddressUrl = this.rootElement.data('url');
+            this.changeLegalAddressUrl = this.rootElement.attr('action');
             this.model = {};
             this._copyInitialValues();
         };
@@ -320,28 +379,31 @@
         };
 
         ctor.prototype._replaceWithInputs = function () {
-            var addressInput = $('<input type="text" class="form-control" />');
+            var addressInput = $('<input type="text" class="form-control" id="Address_Address" name="Address.Address" data-val="true" data-val-required="The address is required" /><span class="text-danger field-validation-valid" data-valmsg-for="Address.Address" data-valmsg-replace="true"></span>');
             addressInput.val(this.model.address);
             this.rootElement.find('.address').html(addressInput);
 
-            var postalCodeInput = $('<input type="text" class="form-control" />');
+            var postalCodeInput = $('<input type="text" class="form-control" id="Address_PostalCode" name="Address.PostalCode" />');
             postalCodeInput.val(this.model.postalCode);
             this.rootElement.find('.postal-code').html(postalCodeInput);
 
-            var cityInput = $('<input type="text" class="form-control" />');
+            var cityInput = $('<input type="text" class="form-control" id="Address_City" name="Address.City" data-val="true" data-val-required="The city is required" /><span class="text-danger field-validation-valid" data-valmsg-for="Address.City" data-valmsg-replace="true"></span>');
             cityInput.val(this.model.city);
             this.rootElement.find('.city').html(cityInput);
 
-            var countryInput = $('<input type="text" class="form-control" />');
+            var countryInput = $('<input type="text" class="form-control" id="Address_Country" name="Address.Country" />');
             countryInput.val(this.model.country);
             this.rootElement.find('.country').html(countryInput);
 
-            var provinceInput = $('<input type="text" class="form-control" />');
+            var provinceInput = $('<input type="text" class="form-control" id="Address_Province" name="Address.Province" />');
             provinceInput.val(this.model.province);
             this.rootElement.find('.province').html(provinceInput);
 
-            var effectiveDate = $('<dt class="legal-effective-date">Effective date</dt><dd class="legal-effective-date effective-date-input"><input type="date" class="form-control" /></dd>');
+            var effectiveDate = $('<dt class="legal-effective-date">Effective date</dt><dd class="legal-effective-date effective-date-input"><input type="date" class="form-control" id="EffectiveDate" name="EffectiveDate" /></dd>');
             this.rootElement.find('.province').after(effectiveDate);
+
+            this.rootElement.removeData("validator").removeData("unobtrusiveValidation");
+            $.validator.unobtrusive.parse(this.rootElement);
         };
 
         ctor.prototype.enableEdit = function () {
@@ -354,9 +416,17 @@
             this.rootElement.find('.change-legal-address-actions').addClass('hidden');
             this._replaceWithValues();
             this.rootElement.find('#changeLegalAddressBtn').removeClass('hidden');
+
+            if (this.rootElement.find('.alert.alert-danger').length) {
+                this.rootElement.find('.alert.alert-danger').remove();
+            }
         };
 
         ctor.prototype.save = function () {
+            if (!this.rootElement.valid()) {
+                return;
+            }
+
             this.rootElement.find('.change-legal-address-actions > button').prop('disabled', true);
             var values = {
                 CompanyId: this.originalId,
@@ -386,8 +456,19 @@
                 alert('Address changed correctly');
             }).fail(function (xhr, textStatus, errorThrown) {
                 self.rootElement.find('.change-legal-address-actions > button').prop('disabled', false);
-                alert('There was an error changing the address');
+                self._buildErrorList(xhr.responseJSON);
             });
+        };
+
+        ctor.prototype._buildErrorList = function (errors) {
+            var alertContainer = $('<div class="alert alert-danger alert-dismissable" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+            var errorList = $('<ul></ul>');
+            for (var key in errors) {
+                errorList.append($('<li>' + errors[key].join(',') + '</li>'));
+            }
+            alertContainer.append(errorList);
+
+            this.rootElement.prepend(alertContainer);
         };
 
         return ctor;
@@ -419,6 +500,10 @@
             $('.change-company-name-actions').addClass('hidden');
             this._replaceWithValues();
             $('#changeCompanyNameBtn').removeClass('hidden');
+
+            if (this.rootElement.find('.alert.alert-danger').length) {
+                this.rootElement.find('.alert.alert-danger').remove();
+            }
         };
 
         ctor.prototype.save = function () {
@@ -442,8 +527,19 @@
                 alert('Company name changed correctly');
             }).fail(function (xhr, textStatus, errorThrown) {
                 self.rootElement.find('.change-company-name-actions > button').prop('disabled', false);
-                alert('There was an error changing the company name');
+                self._buildErrorList(xhr.responseJSON);
             });
+        };
+
+        ctor.prototype._buildErrorList = function (errors) {
+            var alertContainer = $('<div class="alert alert-danger alert-dismissable" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+            var errorList = $('<ul></ul>');
+            for (var key in errors) {
+                errorList.append($('<li>' + errors[key].join(',') + '</li>'));
+            }
+            alertContainer.append(errorList);
+
+            this.rootElement.prepend(alertContainer);
         };
 
         ctor.prototype.enableEdit = function () {
@@ -487,7 +583,7 @@
             changeShippingAddress.cancel();
         });
 
-        $('#saveShippingAddress').click(function (e) {
+        $('#shippingAddressForm').submit(function (e) {
             e.preventDefault();
             changeShippingAddress.save();
         });
@@ -502,7 +598,7 @@
             changeBillingAddress.cancel();
         });
 
-        $('#saveBillingAddress').click(function (e) {
+        $('#billingAddressForm').submit(function (e) {
             e.preventDefault();
             changeBillingAddress.save();
         });
@@ -517,7 +613,7 @@
             changeLegalAddress.cancel();
         });
 
-        $('#saveLegalAddress').click(function (e) {
+        $('#legalAddressPane').submit(function (e) {
             e.preventDefault();
             changeLegalAddress.save();
         });
