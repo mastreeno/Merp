@@ -7,38 +7,51 @@
 <div data-ng-app="partySearchTool" data-ng-controller="partySearchToolController">
 
   <div class="row">
-    <div class="col-md-12">
-      <form id="search-form" class="form-inline" role="form" data-ng-submit="refreshParties()">
-        <div class="input-group">
-          <label class="input-group-addon" for="partyType">Type</label>
-          <select id="partyType" class="form-control" ng-model="partyType" ng-options="partyType.label for partyType in partyTypes track by partyType.value"></select>
-        </div>
+      <form id="search-form" role="form" data-ng-submit="refreshParties()">
+          <div class="col-md-2">
+              <div class="input-group form-group">
+                  <label class="input-group-addon" for="partyType">Type</label>
+                  <select id="partyType" class="form-control" ng-model="partyType" ng-options="partyType.label for partyType in partyTypes track by partyType.value"></select>
+              </div>
+          </div>
 
-        <div class="input-group">
-          <label class="input-group-addon" for="query">Name</label>
-          <input type="search" id="query" data-ng-model="query" class="form-control" placeholder="Party name...">
-        </div>
+          <div class="col-md-3">
+              <div class="input-group form-group">
+                  <label class="input-group-addon" for="query">Name</label>
+                  <input type="search" id="query" data-ng-model="query" class="form-control" placeholder="Party name...">
+              </div>
+          </div>
 
-        <div class="input-group">
-          <label class="input-group-addon" for="city">City</label>
-          <input type="search" id="city" data-ng-model="city" class="form-control" placeholder="City name...">
-        </div>
+          <div class="col-md-3">
+              <div class="input-group form-group">
+                  <label class="input-group-addon" for="city">City</label>
+                  <input type="search" id="city" data-ng-model="city" class="form-control" placeholder="City name...">
+              </div>
+          </div>
 
-        <div class="input-group">
-          <label class="input-group-addon " for="sort">Sort</label>
-          <select id="sort" class="form-control" ng-model="ordering" ng-options="ordering.label for ordering in orderings track by ordering.value"></select>
-        </div>
+          <div class="col-md-4">
+              <div class="input-group form-group">
+                  <label class="input-group-addon" for="sort">Sort</label>
+                  <select id="sort" class="form-control" ng-model="ordering" ng-options="ordering.label for ordering in orderings track by ordering.value"></select>
+              </div>
+          </div>
 
-        <button type="submit" class="btn btn-primary">
-          <span class="glyphicon glyphicon-search"></span>
-          Search
-        </button>
+          <div class="col-md-6">
+              <button type="submit" class="btn btn-primary">
+                  <span class="glyphicon glyphicon-search"></span>
+                  Search
+              </button>
+          </div>
+          <div class="col-md-6">
+              <div class="btn-group pull-right" role="group">
+                  <a href="@UrlBuilder.Registry.CompanyAddEntry()" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Company</a>
+                  <a href="@UrlBuilder.Registry.PersonAddEntry()" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Person</a>
+              </div>
+          </div>
       </form>
-    </div>
   </div>
-
   <div class="row" ng-cloak>
-    <div class="col-md-10">
+    <div class="col-md-12">
       <p ng-cloak>Total number of items: <span class="badge">{{parties.length}}</span></p>
       <table class="table table-striped">
           <tr>
@@ -50,14 +63,6 @@
           <td><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> {{party.phoneNumber}}</td>
         </tr>
       </table>
-    </div>
-    <div class="col-md-2">      
-      <div class="btn-toolbar" role="toolbar">
-        <div class="btn-group-vertical" role="group">
-          <a href="@UrlBuilder.Registry.CompanyAddEntry()" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Company</a>
-          <a href="@UrlBuilder.Registry.PersonAddEntry()" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Person</a>
-        </div>
-      </div>
     </div>
   </div>
 </div>
