@@ -393,11 +393,74 @@
         return ctor;
     }());
 
+    var ChangeCompanyNameViewModel = (function () {
+        var ctor = function () {
+            this.rootElement = $('#companyInfoPane');
+            this.originalId = this.rootElement.data('originalId');
+            this.changeCompanyNameUrl = this.rootElement.data('url');
+            this.companyName = this.rootElement.find('.company-name').html().trim();
+        };
+
+        ctor.prototype._replaceWithInputs = function () {
+            var companyNameInput = $('<input type="text" class="form-control" />');
+            companyNameInput.val(this.companyName);
+            this.rootElement.find('.company-name').html(companyNameInput);
+
+            var effectiveDate = $('<div class="form-group company-effective-date"><label>Effective date</label><input type="date" class="form-control company-effective-date-input" />');
+            this.rootElement.find('.company-name').after(effectiveDate);
+        };
+
+        ctor.prototype._replaceWithValues = function () {
+            this.rootElement.find('.company-effective-date').remove();
+            this.rootElement.find('.company-name').html(this.companyName);
+        };
+
+        ctor.prototype.cancel = function () {
+            $('.change-company-name-actions').addClass('hidden');
+            this._replaceWithValues();
+            $('#changeCompanyNameBtn').removeClass('hidden');
+        };
+
+        ctor.prototype.save = function () {
+            this.rootElement.find('.change-company-name-actions > button').prop('disabled', false);
+
+            var values = {
+                CompanyId: this.originalId,
+                NewCompanyName: this.rootElement.find('.company-name > input').val(),
+                EffectiveDate: this.rootElement.find('.company-effective-date > input.company-effective-date-input').val()
+            };
+
+            var self = this;
+            $.ajax(this.changeCompanyNameUrl, {
+                method: 'POST',
+                data: values
+            }).done(function (data, textStatus) {
+                self.companyName = values.NewCompanyName;
+
+                self.cancel();
+                self.rootElement.find('.change-company-name-actions > button').prop('disabled', false);
+                alert('Company name changed correctly');
+            }).fail(function (xhr, textStatus, errorThrown) {
+                self.rootElement.find('.change-company-name-actions > button').prop('disabled', false);
+                alert('There was an error changing the company name');
+            });
+        };
+
+        ctor.prototype.enableEdit = function () {
+            $('#changeCompanyNameBtn').addClass('hidden');
+            this._replaceWithInputs();
+            $('.change-company-name-actions').removeClass('hidden');
+        };
+
+        return ctor;
+    }());
+
     $(document).ready(function () {
         var changeShippingAddress = new ChangeShippingAddressViewModel();
         var changeBillingAddress = new ChangeBillingAddressViewModel();
         var changeLegalAddress = new ChangeLegalAddressViewModel();
         var changeContactInfo = new ChangeContactInfoViewModel();
+        var changeCompanyName = new ChangeCompanyNameViewModel();
 
         $('#changeContactInfoBtn').click(function (e) {
             e.preventDefault();
@@ -457,6 +520,21 @@
         $('#saveLegalAddress').click(function (e) {
             e.preventDefault();
             changeLegalAddress.save();
+        });
+
+        $('#changeCompanyNameBtn').click(function (e) {
+            e.preventDefault();
+            changeCompanyName.enableEdit();
+        });
+
+        $('#cancelCompanyName').click(function (e) {
+            e.preventDefault();
+            changeCompanyName.cancel();
+        });
+
+        $('#saveCompanyName').click(function (e) {
+            e.preventDefault();
+            changeCompanyName.save();
         });
     });
 }(jQuery));

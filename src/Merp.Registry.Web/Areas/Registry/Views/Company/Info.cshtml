@@ -22,14 +22,19 @@
                     <li><a href="#companyContactInfoPane" data-toggle="tab">Contact Info</a></li>
                 </ul>
                 <div class="tab-content col-md-9">
-                    <div class="tab-pane active" id="companyInfoPane">
+                    <div class="tab-pane active" id="companyInfoPane" data-original-id="@Model.CompanyUid" data-url="@UrlBuilder.Registry.CompanyChangeName()">
                         <section>
                             <dl class="dl-horizontal">
                                 <dt>
                                     @Html.DisplayNameFor(model => model.CompanyName)
                                 </dt>
-                                <dd>
-                                    @Html.DisplayFor(model => model.CompanyName)
+                                <dd class="form-inline">
+                                    <span class="company-name">@Html.DisplayFor(model => model.CompanyName)</span>
+                                    <a id="changeCompanyNameBtn" class="btn" href="#"><i class="fa fa-edit"></i> change name</a>
+                                    <div class="hidden btn-group change-company-name-actions" role="group" aria-label="changeCompanyName">
+                                        <button type="button" id="saveCompanyName" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Save new company name"><i class="fa fa-save"></i></button>
+                                        <button type="button" id="cancelCompanyName" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Reset changes"><i class="fa fa-undo"></i></button>
+                                    </div>
                                 </dd>
 
                                 <dt>
@@ -142,7 +147,7 @@
 
 <hr />
 
-<a href="@UrlBuilder.Registry.CompanyChangeName(Model.CompanyUid)">Change name</a> |
+@*<a href="@UrlBuilder.Registry.CompanyChangeName(Model.CompanyUid)">Change name</a> |*@
 @*<a href="@UrlBuilder.Registry.CompanyChangeLegalAddress(Model.CompanyUid)">Change legal address</a> |
 <a href="@UrlBuilder.Registry.CompanyChangeShippingAddress(Model.CompanyUid)">Change shipping address</a> |
 <a href="@UrlBuilder.Registry.CompanyChangeBillingAddress(Model.CompanyUid)">Change billing address</a> |*@

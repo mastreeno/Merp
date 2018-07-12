@@ -90,11 +90,10 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
             ValidateAgainstPersistence(model);
             if (!this.ModelState.IsValid)
             {
-                var rehydratedModel = WorkerServices.GetChangeNameViewModel(model);
-                return View(rehydratedModel);
+                return BadRequest(ModelState);
             }
             WorkerServices.ChangeName(model);
-            return RedirectToRoute("registry", new { });
+            return Ok();
         }
 
         [HttpGet]

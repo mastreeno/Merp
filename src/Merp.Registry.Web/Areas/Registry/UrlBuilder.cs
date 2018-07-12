@@ -31,6 +31,11 @@ namespace Merp.Web.Site.Areas.Registry
                 return $"/{areaName}/Company/ChangeName/{companyId}";
             }
 
+            public static string CompanyChangeName()
+            {
+                return $"/{areaName}/Company/ChangeName";
+            }
+
             public static string CompanyChangeLegalAddress(Guid companyId)
             {
                 return $"/{areaName}/Company/ChangeLegalAddress/{companyId}";
