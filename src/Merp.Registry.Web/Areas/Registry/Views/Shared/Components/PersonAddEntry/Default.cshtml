@@ -39,6 +39,9 @@
           <div class="col-md-10">
             <input asp-for="VatNumber" class="form-control" />
             <span asp-validation-for="VatNumber" class="text-danger"></span>
+            <button type="button" class="btn btn-info" data-toggle="modal">
+              <span class="glyphicon glyphicon-search">VIES</span>
+            </button>
           </div>
         </div>
         <h5>@Html.DisplayNameFor(model => model.Address)</h5>
