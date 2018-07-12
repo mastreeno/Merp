@@ -106,6 +106,16 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        public IActionResult LookupPersonInfoByVies(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return BadRequest();
+            }
+            return ViewComponent(typeof(LookupPersonInfoByViesViewComponent), new { id });
+        }
+
         #region Helper Methods        
 
         private void ValidateAgainstPersistence(ChangeAddressViewModel model)

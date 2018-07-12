@@ -3,6 +3,20 @@
     var fieldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix;
     var personInfoPaneId = $"{fieldPrefix}_PersonInfoPane";
     var contactInfoPaneId = $"{fieldPrefix}_ContactInfoPane";
+
+    var viesModalId = $"{fieldPrefix}vies_modal";
+    var viesModalUrl = Url.Action("LookupPersonInfoByVies", "Person", new { area = "Registry", ajax = true, id = viesModalId });
+    var personInformationFoundEvent = "vies_person_information_found";
+
+    var firstNameTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName(nameof(Model.FirstName)).Replace(".", "_");
+    var lastNameTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName(nameof(Model.LastName)).Replace(".", "_");
+    var vatNumberTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName(nameof(Model.VatNumber)).Replace(".", "_");
+
+    var addressAddressTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.Address)}.{nameof(Model.Address.Address)}").Replace(".", "_");
+    var addressCityTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.Address)}.{nameof(Model.Address.City)}").Replace(".", "_");
+    var addressPostalCodeTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.Address)}.{nameof(Model.Address.PostalCode)}").Replace(".", "_");
+    var addressProvinceTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.Address)}.{nameof(Model.Address.Province)}").Replace(".", "_");
+    var addressCountryTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.Address)}.{nameof(Model.Address.Country)}").Replace(".", "_");
 }
 <form asp-controller="Person" asp-action="AddEntry" class="form-horizontal" data-form-tabbed="true" asp-route-fieldPrefix="@ViewData.TemplateInfo.HtmlFieldPrefix" method="post">
   <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -39,7 +53,7 @@
           <div class="col-md-10">
             <input asp-for="VatNumber" class="form-control" />
             <span asp-validation-for="VatNumber" class="text-danger"></span>
-            <button type="button" class="btn btn-info" data-toggle="modal">
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#@viesModalId">
               <span class="glyphicon glyphicon-search">VIES</span>
             </button>
           </div>
@@ -99,3 +113,30 @@
     </div>
   </div>
 </form> 
+
+<script type="text/javascript">
+  //# sourceURL=registry/views/person/components/addentry/modal.js
+  $(function () {
+
+    var placeholder = $('<div></div>');
+    $('body .container').prepend(placeholder);
+    placeholder.load('@Html.Raw(viesModalUrl)', function () {
+      placeholder.on('@personInformationFoundEvent', '#@viesModalId', function (event) {
+        var personInformation = event.personInformation;
+        if (!personInformation) {
+          return
+        }
+
+        $('#@firstNameTextBoxName').val(personInformation.firstName || '');
+        $('#@lastNameTextBoxName').val(personInformation.lastName || '');
+        $('#@vatNumberTextBoxName').val(personInformation.vatNumber || '');
+        $('#@addressAddressTextBoxName').val(personInformation.address || '');
+        $('#@addressCityTextBoxName').val(personInformation.city || '');
+        $('#@addressPostalCodeTextBoxName').val(personInformation.postalCode || '');
+        $('#@addressProvinceTextBoxName').val(personInformation.province || '');
+        $('#@addressCountryTextBoxName').val(personInformation.country || '');
+      });
+    });
+
+  });
+</script>
