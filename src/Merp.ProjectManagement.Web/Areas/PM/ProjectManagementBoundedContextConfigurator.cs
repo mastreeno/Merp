@@ -1,4 +1,6 @@
-﻿using Merp.Web;
+﻿using Merp.ProjectManagement.CommandStack.Events;
+using Merp.Web;
+using Merp.Web.Site.Areas.ProjectManagement.WorkerServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -22,47 +24,50 @@ namespace Merp.ProjectManagement.Web.Areas.PM
 
         protected override void ConfigureEventStore()
         {
-            throw new NotImplementedException();
+            
         }
 
         protected override void RegisterAclServices()
         {
-            throw new NotImplementedException();
+            
         }
 
         protected override void RegisterDenormalizers()
         {
-            throw new NotImplementedException();
+            
         }
 
         protected override void RegisterHandlers()
         {
-            throw new NotImplementedException();
+            
         }
 
         protected override void RegisterSagas()
         {
-            throw new NotImplementedException();
+            
         }
 
         protected override void RegisterServices()
         {
-            throw new NotImplementedException();
+            
         }
 
         protected override void RegisterTypes()
         {
-            throw new NotImplementedException();
+            
         }
 
         protected override void RegisterWorkerServices()
         {
-            throw new NotImplementedException();
+            Services.AddScoped<HomeControllerWorkerServices, HomeControllerWorkerServices>();
         }
 
         protected override void SubscribeEvents()
         {
-            throw new NotImplementedException();
+            //Events
+            Bus.Subscribe<ProjectCompletedEvent>();
+            Bus.Subscribe<ProjectExtendedEvent>();
+            Bus.Subscribe<ProjectRegisteredEvent>();
         }
     }
 }

@@ -14,6 +14,7 @@ using Merp.Web.Site.Areas.Registry;
 using Merp.Web.Site.Areas.OnTime;
 using OnTime.TaskManagement.CommandStack.Sagas;
 using Merp.Web.Site.Services.Rebus;
+using Merp.ProjectManagement.Web.Areas.PM;
 
 namespace Merp.Web.Site
 {
@@ -37,6 +38,7 @@ namespace Merp.Web.Site
             var bus = Services.BuildServiceProvider().GetService<IBus>();
             new AccountancyBoundedContextConfigurator(Configuration, Services).Configure();
             new OnTimeBoundedContextConfigurator(Configuration, Services).Configure();
+            new ProjectManagementBoundedContextConfigurator(Configuration, Services).Configure();
             new RegistryBoundedContextConfigurator(Configuration, Services).Configure();
         }
 

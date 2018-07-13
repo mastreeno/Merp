@@ -1,0 +1,117 @@
+﻿@model Merp.Web.Site.Areas.ProjectManagement.Models.Home.RegisterProjectViewModel
+
+@{
+    ViewBag.Title = "Create Project";
+}
+
+<h2>Create Project</h2>
+
+
+<form method="post">
+
+    <div class="form-horizontal">
+        <hr />
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="Customer" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Customer, new { htmlAttributes = new { @class = "form-control" } })
+                <span asp-validation-for="Customer" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ContactPerson" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ContactPerson, new { htmlAttributes = new { @class = "form-control" } })
+                <span asp-validation-for="ContactPerson" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Manager" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Manager, new { htmlAttributes = new { @class = "form-control" } })
+                <span asp-validation-for="Manager" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Name" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="DateOfStart" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DateOfStart, new { htmlAttributes = new { @class = "form-control" } })
+                <span asp-validation-for="DateOfStart" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="DueDate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control" } })
+                <span asp-validation-for="DueDate" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="IsTimeAndMaterial" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="IsTimeAndMaterial" class="form-control" />
+                <span asp-validation-for="IsTimeAndMaterial" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <div class="col-md-12">
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PurchaseOrderNumber" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="PurchaseOrderNumber" class="form-control" />
+                <span asp-validation-for="PurchaseOrderNumber" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Description" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section head {
+    <environment names="Development">
+        <link type="text/css" rel="stylesheet" href="~/lib/jquery-ui/themes/smoothness/jquery-ui.css" />
+    </environment>
+    <environment names="Staging,Production,OnPremises,AzureCosmosDB,AzureMongoDB,AzureCloudServices">
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/themes/smoothness/jquery-ui.css"
+                asp-fallback-src="~/lib/jquery-ui/themes/smoothness/jquery-ui.css"
+                asp-fallback-test="window.jQuery">
+        </script>
+    </environment>
+}
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    @{ await Html.RenderPartialAsync("_JqueryValidationBootstrapPartial"); }
+    @{ await Html.RenderPartialAsync("_JqueryUIPartial"); }
+}

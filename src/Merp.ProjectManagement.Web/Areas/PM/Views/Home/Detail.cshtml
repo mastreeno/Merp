@@ -1,0 +1,147 @@
+﻿@model Merp.Web.Site.Areas.ProjectManagement.Models.Home.DetailViewModel
+
+@{
+    ViewBag.Title = "Job Order detail";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <h2>@Html.DisplayFor(model => model.ProjectName)</h2>
+        <p>
+            @if (!Model.IsCompleted)
+            {
+                @Html.ActionLink("Mark as completed", "MarkJobOrderAsCompleted", new { id = Model.JobOrderId })<text> |</text>
+                @Html.ActionLink("Extend", "ExtendJobOrder", new { id = Model.ProjectId })<text> |</text>
+            }
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div id="tabs">
+            <ul>
+                <li><a href="#general">General</a></li>
+                <li><a href="#description">Description</a></li>
+                <li><a href="#balance">Trend Analysis</a></li>
+            </ul>
+            <div id="general">
+                <dl class="dl-horizontal">
+                    <dt>
+                        <label asp-for="JobOrderNumber"></label>
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.ProjectNumber)
+                    </dd>
+
+                    <dt>
+                        <label asp-for="CustomerId"></label>
+                    </dt>
+
+                    <dd>
+                        <span id="customerName"></span>
+                    </dd>
+
+                    <dt>
+                        <label asp-for="ContactPersonId"></label>
+                    </dt>
+
+                    <dd>
+                        <span id="contactPersonName"></span>
+                    </dd>
+
+                    <dt>
+                        <label asp-for="ManagerId"></label>
+                    </dt>
+
+                    <dd>
+                        <span id="managerName"></span>
+                    </dd>
+
+                    <dt>
+                        <label asp-for="Price"></label>
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Price)
+                    </dd>
+
+                    <dt>
+                        <label asp-for="DateOfStart"></label>
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.DateOfStart)
+                    </dd>
+
+                    <dt>
+                        <label asp-for="DueDate"></label>
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.DueDate)
+                    </dd>
+
+                    <dt>
+                        <label asp-for="Balance"></label>
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Balance)
+                    </dd>
+                </dl>
+
+            </div>
+            <div id="description">
+                @Model.Description
+            </div>
+        </div>
+    </div>
+</div>
+
+@section head
+{
+    <link rel="stylesheet" type="text/css" href="~/lib/jquery-ui/themes/base/all.css" />
+    <script src="~/lib/moment/moment.js"></script>
+}
+@section scripts
+{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+    <script src="~/lib/Chart.js/dist/Chart.min.js"></script>
+    <script src="~/lib/angular-chart.js/dist/angular-chart.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#tabs").tabs({
+                ajaxOptions: {
+                    error: function (xhr, status, index, anchor) {
+                        $(anchor.hash).html("Unable to display trend analysis");
+                    }
+                }
+            });
+        });
+
+        function displayPartyName(labelId, partyId) {
+            $.get({ url: "/Registry/api/GetPartyInfoByUid/" + partyId, async: true })
+             .success(function (data) {
+                if (data === 'undefined') {
+                    return "unknown";
+                }
+                else {
+                    partyName = data.name;
+                    $('#' + labelId).text(partyName);
+                }
+            })
+            .fail(function () {
+                return "unknown";
+            });
+        }
+
+        $(function () {
+            displayPartyName('customerName', '@Model.CustomerId');
+            displayPartyName('contactPersonName', '@Model.ContactPersonId');
+            displayPartyName('managerName', '@Model.ManagerId');
+        });
+    </script>
+}
