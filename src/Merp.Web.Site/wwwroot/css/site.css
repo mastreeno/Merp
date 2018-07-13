@@ -156,3 +156,7 @@ textarea {
         border-color: #ddd #ddd #ddd transparent;
         *border-left-color: #ffffff;
     }
+
+.input-group > .input-group-btn.input-group-btn-block{
+    display: block;
+}
