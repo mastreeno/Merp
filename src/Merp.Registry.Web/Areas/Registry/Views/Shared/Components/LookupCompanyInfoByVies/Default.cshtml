@@ -153,8 +153,15 @@
         }
       }
 
+      function setVatNumber(event, data) {
+        if (data.vatNumber) {
+          $('#@vatNumberFieldId').val(data.vatNumber);
+        }
+      }
+
       viesModal.on('shown.bs.modal', focusSearchVatNumber);
       viesModal.on('hidden.bs.modal', resetModal);
+      viesModal.on('loadCompanyVatNumber', setVatNumber);
       searchForm.on('submit', function (event) { event.preventDefault(); searchVies(); return false; });
       searchButton.on('click', function (event) { event.preventDefault(); searchVies(); return false; });  
 

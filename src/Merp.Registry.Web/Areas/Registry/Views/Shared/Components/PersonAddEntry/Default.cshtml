@@ -17,6 +17,8 @@
     var addressPostalCodeTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.Address)}.{nameof(Model.Address.PostalCode)}").Replace(".", "_");
     var addressProvinceTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.Address)}.{nameof(Model.Address.Province)}").Replace(".", "_");
     var addressCountryTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.Address)}.{nameof(Model.Address.Country)}").Replace(".", "_");
+
+    var openViesModalSearchButtonId = $"{fieldPrefix}open_vies_modal";
 }
 <form asp-controller="Person" asp-action="AddEntry" class="form-horizontal" data-form-tabbed="true" asp-route-fieldPrefix="@ViewData.TemplateInfo.HtmlFieldPrefix" method="post">
   <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -53,7 +55,7 @@
           <div class="col-md-10">
             <input asp-for="VatNumber" class="form-control" />
             <span asp-validation-for="VatNumber" class="text-danger"></span>
-            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#@viesModalId">
+            <button id="@openViesModalSearchButtonId" type="button" class="btn btn-info" data-toggle="modal" data-target="#@viesModalId">
               <span class="glyphicon glyphicon-search">VIES</span>
             </button>
           </div>
@@ -136,6 +138,10 @@
         $('#@addressProvinceTextBoxName').val(personInformation.province || '');
         $('#@addressCountryTextBoxName').val(personInformation.country || '');
       });
+    });
+
+    $('#@openViesModalSearchButtonId').on('click', function (evt) {
+      $('#@viesModalId').trigger('loadPersonVatNumber', { vatNumber: $('#@vatNumberTextBoxName').val() || '' });
     });
 
   });

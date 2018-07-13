@@ -24,6 +24,8 @@
 
     var acquireShippingAddressFromLegalAddressCheckBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName(nameof(Model.AcquireShippingAddressFromLegalAddress)).Replace(".", "_");
     var acquireBillingAddressFromLegalAddressCheckBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName(nameof(Model.AcquireBillingAddressFromLegalAddress)).Replace(".", "_");
+
+    var openViesModalSearchButtonId = $"{fieldPrefix}open_vies_modal";
 }
 <form asp-controller="Company" asp-action="AddEntry" class="form-horizontal" data-form-tabbed="true" asp-route-fieldPrefix="@ViewData.TemplateInfo.HtmlFieldPrefix" method="post">
   <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -45,9 +47,9 @@
       <div class="form-group">
         <label asp-for="VatNumber" class="col-md-2 control-label"></label>
         <div class="col-md-10">
-          <input asp-for="VatNumber" class="form-control" >
+          <input asp-for="VatNumber" class="form-control" />
           <span asp-validation-for="VatNumber" class="text-danger"></span>
-          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#@viesModalId">
+          <button id="@openViesModalSearchButtonId" type="button" class="btn btn-info" data-toggle="modal" data-target="#@viesModalId">
             <span class="glyphicon glyphicon-search">VIES</span>
           </button>
         </div>
@@ -151,6 +153,10 @@
         $('#@legalAddressProvinceTextBoxName').val(companyInformation.province || '');
         $('#@legalAddressCountryTextBoxName').val(companyInformation.country || '');
       });
+    });
+
+    $('#@openViesModalSearchButtonId').on('click', function (evt) {
+      $('#@viesModalId').trigger('loadCompanyVatNumber', { vatNumber: $('#@vatNumberTextBoxName').val() || '' });
     });
 
     var acquireShippingAddressFromLegalAddressCheckBox = $('#@acquireShippingAddressFromLegalAddressCheckBoxName'),
