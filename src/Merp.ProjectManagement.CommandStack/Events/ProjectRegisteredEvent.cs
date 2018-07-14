@@ -15,23 +15,22 @@ namespace Merp.ProjectManagement.CommandStack.Events
         public string CustomerName { get; set; }
         public Guid? ContactPersonId { get; set; }
         public Guid ManagerId { get; set; }
-        public decimal? Price { get; set; }
+        public decimal Price { get; set; }
         public string Currency { get; set; }
         [Timestamp]
         public DateTime DateOfRegistration { get; set; }
-        public DateTime DateOfStart { get; set; }
-        public DateTime DueDate { get; set; }
+        public DateTime? DateOfStart { get; set; }
+        public DateTime? DueDate { get; set; }
         public bool IsTimeAndMaterial { get; set; }
         public string ProjectName { get; set; }
         public string ProjectNumber { get; set; }
-        public string PurchaseOrderNumber { get; set; }
+        public string CustomerPurchaseOrderNumber { get; set; }
         public string Description { get; set; }
 
-        public ProjectRegisteredEvent(Guid jobOrderId, Guid customerId, string customerName, Guid? contactPersonId, Guid managerId, decimal? price, string currency, DateTime dateOfRegistration, DateTime dateOfStart, DateTime dueDate, bool isTimeAndMaterial, string projectName, string projectNumber, string purchaseOrderNumber, string description)
+        public ProjectRegisteredEvent(Guid jobOrderId, Guid customerId, Guid? contactPersonId, Guid managerId, decimal price, string currency, DateTime dateOfRegistration, DateTime? dateOfStart, DateTime? dueDate, bool isTimeAndMaterial, string projectName, string projectNumber, string purchaseOrderNumber, string description)
         {
             ProjectId = jobOrderId;
             CustomerId = customerId;
-            CustomerName = customerName;
             ContactPersonId = contactPersonId;
             ManagerId = managerId;
             Price = price;
@@ -42,7 +41,7 @@ namespace Merp.ProjectManagement.CommandStack.Events
             IsTimeAndMaterial = isTimeAndMaterial;
             ProjectName = projectName;
             ProjectNumber = projectNumber;
-            PurchaseOrderNumber = purchaseOrderNumber;
+            CustomerPurchaseOrderNumber = purchaseOrderNumber;
             Description = description;
         }
     }

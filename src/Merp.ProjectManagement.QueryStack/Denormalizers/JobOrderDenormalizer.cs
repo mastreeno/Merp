@@ -25,7 +25,6 @@ namespace Merp.ProjectManagement.QueryStack.Denormalizers
             var jobOrder = new Project();
             jobOrder.Id = message.ProjectId;
             jobOrder.CustomerId = message.CustomerId;
-            jobOrder.CustomerName = message.CustomerName;
             jobOrder.ContactPersonId = message.ContactPersonId;
             jobOrder.ManagerId = message.ManagerId;
             jobOrder.DateOfRegistration = message.DateOfRegistration;
@@ -36,7 +35,7 @@ namespace Merp.ProjectManagement.QueryStack.Denormalizers
             jobOrder.Number = message.ProjectNumber;
             jobOrder.Price = message.Price;
             jobOrder.Currency = message.Currency;
-            jobOrder.CustomerPurchaseOrderNumber = message.PurchaseOrderNumber;
+            jobOrder.CustomerPurchaseOrderNumber = message.CustomerPurchaseOrderNumber;
             jobOrder.IsCompleted = false;
             jobOrder.IsTimeAndMaterial = false;
 

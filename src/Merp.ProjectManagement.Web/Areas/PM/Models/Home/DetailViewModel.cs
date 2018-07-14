@@ -30,10 +30,10 @@ namespace Merp.Web.Site.Areas.ProjectManagement.Models.Home
         public decimal Price { get; set; }
 
         [DisplayName("Date of start")]
-        public DateTime DateOfStart { get; set; }
+        public DateTime? DateOfStart { get; set; }
 
         [DisplayName("Due date")]
-        public DateTime DueDate { get; set; }
+        public DateTime? DueDate { get; set; }
 
         [DisplayName("Description")]
         public string Description { get; set; }

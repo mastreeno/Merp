@@ -32,7 +32,11 @@ namespace Merp.Web.Site.Areas.ProjectManagement.Models.Home
 
         [DisplayName("Price")]
         [Required]
-        public PositiveMoney Price { get; set; }
+        public decimal Price { get; set; }
+
+        [DisplayName("Currency")]
+        [Required]
+        public string Currency { get; set; }
 
         [DisplayName("Description")]
         public string Description { get; set; }

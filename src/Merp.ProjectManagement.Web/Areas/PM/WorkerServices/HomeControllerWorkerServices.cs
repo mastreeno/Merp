@@ -8,6 +8,7 @@ using Merp.ProjectManagement.QueryStack.Model;
 using MementoFX.Persistence;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Rebus.Bus;
+using Merp.Domain.Model;
 
 namespace Merp.Web.Site.Areas.ProjectManagement.WorkerServices
 {
@@ -111,12 +112,12 @@ namespace Merp.Web.Site.Areas.ProjectManagement.WorkerServices
         {
             var project = Repository.GetById<Merp.ProjectManagement.CommandStack.Model.Project>(projectId);
             var model = new ExtendProjectViewModel();
-            model.NewDueDate = project.DueDate;
+            if(project.DueDate.HasValue)
+                model.NewDueDate = project.DueDate.Value;
             model.Price = project.Price.Amount;
             model.ProjectNumber = project.Number;
             model.ProjectId = project.Id;
             model.ProjectName = project.Name;
-            model.CustomerName = string.Empty;
             return model;
         }
 
@@ -156,13 +157,12 @@ namespace Merp.Web.Site.Areas.ProjectManagement.WorkerServices
 
         public void CreateJobOrder(RegisterProjectViewModel model)
         {
+            var price = new Money(model.Price, model.Currency);
             var command = new RegisterProjectCommand( 
                     model.Customer.OriginalId,
-                    model.Customer.Name,
                     model.ContactPerson.OriginalId,
                     model.Manager.OriginalId,
-                    model.Price.Amount,
-                    model.Price.Currency,
+                    price,
                     model.DateOfStart,
                     model.DueDate,
                     model.IsTimeAndMaterial,

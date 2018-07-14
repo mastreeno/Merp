@@ -25,14 +25,11 @@ namespace Merp.ProjectManagement.QueryStack.Model
         [Required]
         public Guid ManagerId { get; set; }
 
-        public string ManagerName { get; set; }
-
         public DateTime DateOfRegistration { get; set; }
 
-        public DateTime DateOfStart { get; set; }
+        public DateTime? DateOfStart { get; set; }
 
-        [Required]
-        public DateTime DueDate { get; set; }
+        public DateTime? DueDate { get; set; }
 
         public DateTime? DateOfCompletion { get; set; }
 
