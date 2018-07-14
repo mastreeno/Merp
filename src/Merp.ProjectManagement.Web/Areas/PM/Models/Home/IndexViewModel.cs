@@ -24,7 +24,6 @@ namespace Merp.Web.Site.Areas.ProjectManagement.Models.Home
         {
             public Guid Id { get; set; }
             public Guid CustomerId { get; set; }
-            public string CustomerName { get; set; }
             public string Name { get; set; }
             public string Number { get; set; }
             public bool IsCompleted { get; set; }

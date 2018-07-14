@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Merp.Web.Site.Areas.ProjectManagement.Models.Home;
-using Merp.Web.Site.Areas.ProjectManagement.WorkerServices;
 using System.Collections.Generic;
+using Merp.ProjectManagement.Web.Areas.PM.WorkerServices;
 
-namespace Merp.Web.Site.Areas.ProjectManagement.Controllers
+namespace Merp.ProjectManagement.Web.Areas.PM.Controllers
 {
     [Area("PM")]
     [Authorize(Roles = "ProjectManagement")]

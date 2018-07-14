@@ -18,8 +18,6 @@ namespace Merp.ProjectManagement.QueryStack.Model
         [Required]
         public Guid CustomerId { get; set; }
 
-        public string CustomerName { get; set; }
-
         public Guid? ContactPersonId { get; set; }
 
         [Required]
@@ -38,11 +36,6 @@ namespace Merp.ProjectManagement.QueryStack.Model
         public bool IsTimeAndMaterial { get; set; }
 
         [Required]
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
-        [Required]
         public string Number { get; set; }
 
         public string CustomerPurchaseOrderNumber { get; set; }
@@ -53,6 +46,11 @@ namespace Merp.ProjectManagement.QueryStack.Model
         [StringLength(3)]
         public string Currency { get; set; }
 
+        [Required]
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+
         public Project()
         {
             IsTimeAndMaterial = false;
@@ -60,8 +58,9 @@ namespace Merp.ProjectManagement.QueryStack.Model
 
         public void Configure(EntityTypeBuilder<Project> builder)
         {
+            builder.HasIndex(o => o.CustomerId);
+            builder.HasIndex(o => o.ManagerId);
             builder.HasIndex(o => o.Name);
-            builder.HasIndex(o => o.CustomerName);
             builder.HasIndex(o => o.IsCompleted);
         }
     }

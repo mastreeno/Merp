@@ -9,7 +9,7 @@
         <p>
             @if (!Model.IsCompleted)
             {
-                @Html.ActionLink("Mark as completed", "MarkJobOrderAsCompleted", new { id = Model.JobOrderId })<text> |</text>
+                @Html.ActionLink("Mark as completed", "MarkJobOrderAsCompleted", new { id = Model.ProjectId })<text> |</text>
                 @Html.ActionLink("Extend", "ExtendJobOrder", new { id = Model.ProjectId })<text> |</text>
             }
             @Html.ActionLink("Back to List", "Index")
@@ -27,7 +27,7 @@
             <div id="general">
                 <dl class="dl-horizontal">
                     <dt>
-                        <label asp-for="JobOrderNumber"></label>
+                        <label asp-for="ProjectNumber"></label>
                     </dt>
 
                     <dd>

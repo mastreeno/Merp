@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Rebus.Bus;
 using Merp.Domain.Model;
 
-namespace Merp.Web.Site.Areas.ProjectManagement.WorkerServices
+namespace Merp.ProjectManagement.Web.Areas.PM.WorkerServices
 {
     public class HomeControllerWorkerServices
     {
@@ -28,25 +28,24 @@ namespace Merp.Web.Site.Areas.ProjectManagement.WorkerServices
 
         public IndexViewModel GetIndexViewModel()
         {
-            var customers = (from jo in Database.Projects
-                               orderby jo.CustomerName
-                               select new SelectListItem { Value = jo.CustomerId.ToString(), Text = jo.CustomerName })
-                               .Distinct()
-                               .ToList();
-            customers.Insert(0, new SelectListItem { Value = string.Empty, Text = string.Empty });
+            //var customers = (from jo in Database.Projects
+                               //orderby jo.CustomerName
+                               //select new SelectListItem { Value = jo.CustomerId.ToString(), Text = jo.CustomerName })
+                               //.Distinct()
+                               //.ToList();
+            //customers.Insert(0, new SelectListItem { Value = string.Empty, Text = string.Empty });
             var model = new IndexViewModel();
-            model.Customers = customers; 
+            //model.Customers = customers; 
             return model;
         }
 
         public IEnumerable<IndexViewModel.Project> GetList(bool currentOnly, Guid? customerId, string projectName)
         {
             var query = from jo in Database.Projects
-                        orderby jo.CustomerName, jo.Name
+                        orderby jo.Name
                         select new IndexViewModel.Project
                         {
                             CustomerId = jo.CustomerId,
-                            CustomerName = jo.CustomerName,
                             IsCompleted = jo.IsCompleted,
                             Name = jo.Name,
                             Number = jo.Number,

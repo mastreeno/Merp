@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Merp.Web.Site.Areas.ProjectManagement.Models
+namespace Merp.ProjectManagement.Web.Areas.PM.Models
 {
-    public class PositiveMoney
+    public class Money
     {
         [Range(0, int.MaxValue)]
         [Required]

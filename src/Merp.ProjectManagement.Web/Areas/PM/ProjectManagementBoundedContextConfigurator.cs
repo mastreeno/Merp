@@ -1,15 +1,10 @@
 ﻿using Merp.ProjectManagement.CommandStack.Events;
 using Merp.ProjectManagement.CommandStack.Services;
+using Merp.ProjectManagement.Web.Areas.PM.WorkerServices;
 using Merp.Web;
-using Merp.Web.Site.Areas.ProjectManagement.WorkerServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Merp.ProjectManagement.Web.Areas.PM
 {
@@ -65,6 +60,7 @@ namespace Merp.ProjectManagement.Web.Areas.PM
         protected override void RegisterWorkerServices()
         {
             Services.AddScoped<HomeControllerWorkerServices, HomeControllerWorkerServices>();
+            Services.AddScoped<ProjectControllerWorkerServices, ProjectControllerWorkerServices>();
         }
 
         protected override void SubscribeEvents()

@@ -1,0 +1,10 @@
+﻿@model Merp.ProjectManagement.Web.Areas.PM.Models.Project.SearchModel
+
+@section head {
+    <environment names="Development">
+        <script src="/wwwroot/lib/vue/dist/vue.min.js"></script>
+    </environment>
+    <environment names="Staging,Production,OnPremises,AzureCosmosDB,AzureMongoDB">
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </environment>
+}
