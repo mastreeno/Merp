@@ -1,0 +1,57 @@
+﻿@model Merp.ProjectManagement.Web.Areas.PM.Models.Project.SearchModel
+
+<div class="row">
+    <div class="form-horizontal" id="ProjectSearchApp">
+        
+        <div class="form-group">
+            <label asp-for="State" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select id="state" name="state" asp-items="Html.GetEnumSelectList<Merp.ProjectManagement.Web.Areas.PM.Models.Project.SearchModel.ProjectState>()" class="form-control">
+                    <option value="any" selected>Any</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+        <div class="row">
+            <table id="projects" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Customer name</th>
+                        <th>Project name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="project in Projects">
+                        <td>{{project.customerName}}</td>
+                        <td><a href="/PM/JobOrder/Detail/{{project.id}}">{{project.name}}</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+<script>
+    var app = new Vue({
+        el: '#ProjectSearchApp',
+        data: {
+            projects: [
+                { id: 1, name: 'Lorem' },
+                { id: 2, name: 'Ipsum' }
+            ]
+        }
+    })
+
+</script>
+@section head {
+    <environment names="Development">
+        <script src="/wwwroot/lib/vue/dist/vue.js"></script>
+    </environment>
+    <environment names="Staging,Production,OnPremises,AzureCosmosDB,AzureMongoDB">
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </environment>
+}

@@ -21,14 +21,14 @@ namespace Merp.ProjectManagement.CommandStack.Sagas
         public readonly IRepository repository;
         public readonly IEventStore eventStore;
         public readonly IBus bus;
-        public readonly IProjectNumberGenerator JobOrderNumberGenerator;
+        public readonly IProjectNumberGenerator ProjectNumberGenerator;
 
         public ProjectSaga(IBus bus, IEventStore eventStore, IRepository repository, IProjectNumberGenerator jobOrderNumberGenerator)
         {
             this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
             this.bus = bus ?? throw new ArgumentNullException(nameof(bus));
             this.eventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
-            JobOrderNumberGenerator = jobOrderNumberGenerator ?? throw new ArgumentNullException(nameof(jobOrderNumberGenerator));
+            ProjectNumberGenerator = jobOrderNumberGenerator ?? throw new ArgumentNullException(nameof(jobOrderNumberGenerator));
         }
 
         protected override void CorrelateMessages(ICorrelationConfig<ProjectSagaData> config)
@@ -54,19 +54,17 @@ namespace Merp.ProjectManagement.CommandStack.Sagas
         {
             var jobOrder = Project.Factory.Import(
                 message.ProjectId,
-                message.JobOrderNumber,
-                message.Customer.Id,
-                message.Customer.Name,
+                message.ProjectNumber,
+                message.CustomerId,
                 message.ContactPersonId,
                 message.ManagerId,
                 message.Price,
-                message.Currency,
                 message.DateOfRegistration,
                 message.DateOfStart,
                 message.DueDate,
                 message.IsTimeAndMaterial,
-                message.JobOrderName,
                 message.PurchaseOrderNumber,
+                message.ProjectName,
                 message.Description
             );
             await this.repository.SaveAsync(jobOrder);
@@ -76,18 +74,16 @@ namespace Merp.ProjectManagement.CommandStack.Sagas
         public async Task Handle(RegisterProjectCommand message)
         {
             var jobOrder = Project.Factory.RegisterNew(
-            JobOrderNumberGenerator,
+            ProjectNumberGenerator,
             message.CustomerId,
-            message.CustomerName,
             message.ContactPersonId,
             message.ManagerId,
             message.Price,
-            message.Currency,
             message.DateOfStart,
             message.DueDate,
             message.IsTimeAndMaterial,
+            message.CustomerPurchaseOrderNumber,
             message.ProjectName,
-            message.PurchaseOrderNumber,
             message.Description
             );
             await this.repository.SaveAsync(jobOrder);

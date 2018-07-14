@@ -17,7 +17,7 @@ namespace Merp.ProjectManagement.QueryStack
             Context.ChangeTracker.AutoDetectChangesEnabled = false;
         }
 
-        public IQueryable<Project> JobOrders
+        public IQueryable<Project> Projects
         {
             get
             {

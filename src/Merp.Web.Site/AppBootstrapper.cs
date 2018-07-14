@@ -1,18 +1,19 @@
 ﻿using System;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Hosting;
+using Rebus.Bus;
+using Rebus.Config;
+using Rebus.Routing.TypeBased;
 using MementoFX.Messaging;
 using MementoFX.Messaging.Rebus;
 using Merp.Accountancy.CommandStack.Sagas;
 using Merp.Registry.CommandStack.Sagas;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Rebus.Bus;
-using Rebus.Config;
-using Rebus.Routing.TypeBased;
-using Microsoft.AspNetCore.Hosting;
+using Merp.ProjectManagement.Web.Areas.PM;
+using OnTime.TaskManagement.CommandStack.Sagas;
 using Merp.Web.Site.Areas.Accountancy;
 using Merp.Web.Site.Areas.Registry;
 using Merp.Web.Site.Areas.OnTime;
-using OnTime.TaskManagement.CommandStack.Sagas;
 using Merp.Web.Site.Services.Rebus;
 
 namespace Merp.Web.Site
@@ -37,6 +38,7 @@ namespace Merp.Web.Site
             var bus = Services.BuildServiceProvider().GetService<IBus>();
             new AccountancyBoundedContextConfigurator(Configuration, Services).Configure();
             new OnTimeBoundedContextConfigurator(Configuration, Services).Configure();
+            new ProjectManagementBoundedContextConfigurator(Configuration, Services).Configure();
             new RegistryBoundedContextConfigurator(Configuration, Services).Configure();
         }
 
@@ -68,10 +70,5 @@ namespace Merp.Web.Site
             Services.AddSingleton(bus);
             Services.AddTransient<IEventDispatcher, RebusEventDispatcher>();
         }
-
-
-
     }
-
-    
 }

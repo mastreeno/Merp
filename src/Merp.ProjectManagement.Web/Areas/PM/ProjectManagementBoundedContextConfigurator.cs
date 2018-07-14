@@ -1,11 +1,10 @@
-﻿using Merp.Web;
+﻿using Merp.ProjectManagement.CommandStack.Events;
+using Merp.ProjectManagement.CommandStack.Services;
+using Merp.ProjectManagement.Web.Areas.PM.WorkerServices;
+using Merp.Web;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Merp.ProjectManagement.Web.Areas.PM
 {
@@ -22,47 +21,54 @@ namespace Merp.ProjectManagement.Web.Areas.PM
 
         protected override void ConfigureEventStore()
         {
-            throw new NotImplementedException();
+            
         }
 
         protected override void RegisterAclServices()
         {
-            throw new NotImplementedException();
+            
         }
 
         protected override void RegisterDenormalizers()
         {
-            throw new NotImplementedException();
+            
         }
 
         protected override void RegisterHandlers()
         {
-            throw new NotImplementedException();
+            
         }
 
         protected override void RegisterSagas()
         {
-            throw new NotImplementedException();
+            
         }
 
         protected override void RegisterServices()
         {
-            throw new NotImplementedException();
+            Services.AddScoped<IProjectNumberGenerator, ProjectNumberGenerator>();
         }
 
         protected override void RegisterTypes()
         {
-            throw new NotImplementedException();
+            //Types
+            var readModelConnectionString = Configuration.GetConnectionString("Merp-ProjectManagement-ReadModel");
+            Services.AddDbContext<Merp.ProjectManagement.QueryStack.ProjectManagementDbContext>(options => options.UseSqlServer(readModelConnectionString));
+            Services.AddScoped<Merp.ProjectManagement.QueryStack.IDatabase, Merp.ProjectManagement.QueryStack.Database>();
         }
 
         protected override void RegisterWorkerServices()
         {
-            throw new NotImplementedException();
+            Services.AddScoped<HomeControllerWorkerServices, HomeControllerWorkerServices>();
+            Services.AddScoped<ProjectControllerWorkerServices, ProjectControllerWorkerServices>();
         }
 
         protected override void SubscribeEvents()
         {
-            throw new NotImplementedException();
+            //Events
+            Bus.Subscribe<ProjectCompletedEvent>();
+            Bus.Subscribe<ProjectExtendedEvent>();
+            Bus.Subscribe<ProjectRegisteredEvent>();
         }
     }
 }

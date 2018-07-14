@@ -9,6 +9,6 @@ namespace Merp.ProjectManagement.QueryStack
 {
     public interface IDatabase
     {
-        IQueryable<Project> JobOrders { get; }
+        IQueryable<Project> Projects { get; }
     }
 }

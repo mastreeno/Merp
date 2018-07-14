@@ -10,9 +10,19 @@ namespace Merp.ProjectManagement.Web.Areas.PM
     {
         private const string areaName = "PM";
 
-        public static string JobOrderGetListUrl()
+        public static string ProjectGetListUrl()
         {
             return $"/{areaName}/Api/GetList";
+        }
+
+        public static string ProjectDetail()
+        {
+            return string.Empty;
+        }
+
+        public static string RegisterProgect()
+        {
+            return $"/{areaName}/Project/Register";
         }
     }
 }

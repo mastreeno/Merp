@@ -58,7 +58,7 @@ namespace Merp.Web.Site.Areas.Accountancy.Controllers
             return View();
         }
 
-        public IActionResult Search_GetInvoiceList(SearchViewModel.InvoiceKind kind, SearchViewModel.InvoiceStatus status)
+        public IActionResult Search_GetInvoiceList(SearchViewModel.InvoiceKind kind, SearchViewModel.InvoiceState status)
         {
             var model = WorkerServices.Search_GetInvoiceListViewModel(kind, status);
             return Json(model);

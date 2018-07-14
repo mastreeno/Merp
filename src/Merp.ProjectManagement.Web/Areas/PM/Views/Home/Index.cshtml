@@ -1,0 +1,41 @@
+﻿@model Merp.Web.Site.Areas.ProjectManagement.Models.Home.IndexViewModel
+@{
+    ViewBag.Title = "Index";
+}
+<script>
+
+</script>
+<div class="row">
+    <h2>Projects</h2>
+    <div id="ProjectsBox" class="col-md-10 pull-left">
+        <div class="row">
+            <table id="JobOrdersTable" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Customer name</th>
+                        <th>Project name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="project in Projects">
+                        <td>{{project.customerName}}</td>
+                        <td><a href="/PM/JobOrder/Detail/{{project.Id}}">{{project.name}}</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="CommandsBox" class="col-md-2 pull-right">
+        <ul class="list-unstyled">
+            <li><a href="/PM/Project/Register">Register new project</a></li>
+        </ul>
+    </div>
+</div>
+@section head {
+    <environment names="Development">
+        <script src="/wwwroot/lib/vue/dist/vue.min.js"></script>
+    </environment>
+    <environment names="Staging,Production,OnPremises,AzureCosmosDB,AzureMongoDB">
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </environment>
+}

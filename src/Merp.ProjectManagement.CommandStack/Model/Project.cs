@@ -25,13 +25,13 @@ namespace Merp.ProjectManagement.CommandStack.Model
 
         public string Number { get; protected set; }
 
-        public DateTime DateOfStart { get; protected set; }
+        public DateTime? DateOfStart { get; protected set; }
 
         public DateTime? DateOfCompletion { get; protected set; }
 
-        public DateTime DueDate { get; private set; }
+        public DateTime? DueDate { get; private set; }
 
-        public PositiveMoney Price { get; private set; }
+        public Money Price { get; private set; }
 
         public bool IsCompleted { get; protected set; }
 
@@ -41,46 +41,10 @@ namespace Merp.ProjectManagement.CommandStack.Model
 
         public decimal Balance { get; private set; }
 
-        public class CustomerInfo
-        {
-            public Guid Id { get; private set; }
-            public string Name { get; private set; }
-
-            public CustomerInfo(Guid id, string name)
-            {
-                if (id == Guid.Empty)
-                    throw new ArgumentException("Id cannot be empty", nameof(id));
-                if(string.IsNullOrWhiteSpace(name))
-                    throw new ArgumentException("Name cannot be null or empty", nameof(name));
-                Id = id;
-                Name = name;
-            }
-        }
-
-        public class ManagerInfo
-        {
-            public Guid Id { get; private set; }
-            public string Name { get; private set; }
-
-            public ManagerInfo(Guid id, string name)
-            {
-                if (id == Guid.Empty)
-                {
-                    throw new ArgumentException("Id cannot be empty", "id");
-                }
-                if (string.IsNullOrWhiteSpace(name))
-                {
-                    throw new ArgumentException("Name cannot be null or empty", "name");
-                }
-                Id = id;
-                Name = name;
-            }
-        }
-
         public void ApplyEvent(ProjectExtendedEvent evt)
         {
             this.DueDate = evt.NewDueDate;
-            this.Price = new PositiveMoney(evt.Price, this.Price.Currency);
+            this.Price = new Money(evt.Price, this.Price.Currency);
         }
 
         public void ApplyEvent(ProjectCompletedEvent evt)
@@ -100,12 +64,9 @@ namespace Merp.ProjectManagement.CommandStack.Model
             Name = evt.ProjectName;
             Number = evt.ProjectNumber;
             IsCompleted = false;
-            CustomerPurchaseOrderNumber = evt.PurchaseOrderNumber;
+            CustomerPurchaseOrderNumber = evt.CustomerPurchaseOrderNumber;
             Description = evt.Description;
-            if (evt.Price.HasValue)
-                Price = new PositiveMoney(evt.Price.Value, evt.Currency);
-            else
-                evt.Price = null;
+            Price = new Money(evt.Price, evt.Currency);
         }
 
         public void Extend(DateTime newDueDate, decimal price)
@@ -139,34 +100,29 @@ namespace Merp.ProjectManagement.CommandStack.Model
 
         public class Factory
         {
-            public static Project RegisterNew(IProjectNumberGenerator jobOrderNumberGenerator, Guid customerId, string customerName, Guid? contactPersonId, Guid managerId, decimal? price, string currency, DateTime dateOfStart, DateTime dueDate, bool isTimeAndMaterial, string name, string purchaseOrderNumber, string description)
+            public static Project RegisterNew(IProjectNumberGenerator projectNumberGenerator, Guid customerId, Guid? contactPersonId, Guid managerId, Money price, DateTime? dateOfStart, DateTime? dueDate, bool isTimeAndMaterial, string customerPurchaseOrderNumber, string name, string description)
             {
-                if (jobOrderNumberGenerator == null)
-                    throw new ArgumentNullException(nameof(jobOrderNumberGenerator));
-                if (price < 0)
-                    throw new ArgumentException("The price must be zero or higher", nameof(price));
-                if (string.IsNullOrWhiteSpace(currency))
-                    throw new ArgumentException("The currency must me specified", nameof(currency));
+                if (projectNumberGenerator == null)
+                    throw new ArgumentNullException(nameof(projectNumberGenerator));
                 if (dueDate < dateOfStart)
                     throw new ArgumentException("The due date cannot precede the starting date", nameof(dueDate));
                 if (string.IsNullOrWhiteSpace(name))
-                    throw new ArgumentException("The job order must have a name", nameof(name));
+                    throw new ArgumentException("The project must have a name", nameof(name));
 
                 var @event = new ProjectRegisteredEvent(
                     Guid.NewGuid(),
                     customerId,
-                    customerName,
                     contactPersonId,
                     managerId,
-                    price,
-                    currency,
+                    price.Amount,
+                    price.Currency,
                     DateTime.Now,
                     dateOfStart,
                     dueDate,
                     isTimeAndMaterial,
                     name,
-                    jobOrderNumberGenerator.Generate(),
-                    purchaseOrderNumber,
+                    projectNumberGenerator.Generate(),
+                    customerPurchaseOrderNumber,
                     description
                     );
                 var jobOrder = new Project();
@@ -174,33 +130,28 @@ namespace Merp.ProjectManagement.CommandStack.Model
                 return jobOrder;
             }
 
-            public static Project Import(Guid jobOrderId, string jobOrderNumber, Guid customerId, string customerName, Guid? contactPersonId, Guid managerId, decimal? price, string currency, DateTime dateOfRegistration, DateTime dateOfStart, DateTime dueDate, bool isTimeAndMaterial, string name, string purchaseOrderNumber, string description)
+            public static Project Import(Guid projectId, string projectNumber, Guid customerId, Guid? contactPersonId, Guid managerId, Money price, DateTime dateOfRegistration, DateTime? dateOfStart, DateTime? dueDate, bool isTimeAndMaterial, string name, string purchaseOrderNumber, string description)
             {
-                if (string.IsNullOrWhiteSpace(jobOrderNumber))
-                    throw new ArgumentNullException(nameof(jobOrderNumber), "A job order number must be provided");
-                if (price < 0 && price != -1)
-                    throw new ArgumentException("The price must be zero or higher", nameof(price));
-                if (string.IsNullOrWhiteSpace(currency))
-                    throw new ArgumentException("The currency must me specified", nameof(currency));
+                if (string.IsNullOrWhiteSpace(projectNumber))
+                    throw new ArgumentNullException(nameof(projectNumber), "A job order number must be provided");
                 if (dueDate < dateOfStart)
                     throw new ArgumentException("The due date cannot precede the starting date", nameof(dueDate));
                 if (string.IsNullOrWhiteSpace(name))
                     throw new ArgumentException("The job order must have a name", nameof(name));
 
                 var @event = new ProjectRegisteredEvent(
-                    jobOrderId,
+                    projectId,
                     customerId,
-                    customerName,
                     contactPersonId,
                     managerId,
-                    price,
-                    currency,
+                    price.Amount,
+                    price.Currency,
                     dateOfRegistration,
                     dateOfStart,
                     dueDate,
                     isTimeAndMaterial,
                     name,
-                    jobOrderNumber,
+                    projectNumber,
                     purchaseOrderNumber,
                     description
                     );

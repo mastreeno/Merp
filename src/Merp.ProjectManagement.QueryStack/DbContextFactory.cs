@@ -12,7 +12,7 @@ namespace Merp.ProjectManagement.QueryStack
         public ProjectManagementDbContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<ProjectManagementDbContext>();
-            builder.UseSqlServer("Server=.\\SQLExpress;Database=Merp-Accountancy-ReadModel;Trusted_Connection=True;MultipleActiveResultSets=true");
+            builder.UseSqlServer("Server=.\\SQLExpress;Database=Merp-ProjectManagement-ReadModel;Trusted_Connection=True;MultipleActiveResultSets=true");
             return new ProjectManagementDbContext(builder.Options);
         }
     }

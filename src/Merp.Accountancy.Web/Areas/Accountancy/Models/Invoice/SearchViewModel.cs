@@ -25,7 +25,7 @@ namespace Merp.Web.Site.Areas.Accountancy.Models.Invoice
             Outgoing
         }
 
-        public enum InvoiceStatus
+        public enum InvoiceState
         {
             Outstanding,
             Overdue,

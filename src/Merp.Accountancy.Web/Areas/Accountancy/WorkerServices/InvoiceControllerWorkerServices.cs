@@ -95,18 +95,18 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
             Bus.Send(command);
         }
 
-        public Search_GetInvoiceListViewModel Search_GetInvoiceListViewModel(SearchViewModel.InvoiceKind kind, SearchViewModel.InvoiceStatus status)
+        public Search_GetInvoiceListViewModel Search_GetInvoiceListViewModel(SearchViewModel.InvoiceKind kind, SearchViewModel.InvoiceState status)
         {
 
             var invoices = new List<Search_GetInvoiceListViewModel.Invoice>();
             var incomingInvoices = Database.IncomingInvoices;
             if(kind == SearchViewModel.InvoiceKind.Any || kind == SearchViewModel.InvoiceKind.Incoming)
             {
-                if (status == SearchViewModel.InvoiceStatus.Overdue)
+                if (status == SearchViewModel.InvoiceState.Overdue)
                     incomingInvoices = incomingInvoices.Where(i => i.IsOverdue == true);
-                else if (status == SearchViewModel.InvoiceStatus.Outstanding)
+                else if (status == SearchViewModel.InvoiceState.Outstanding)
                     incomingInvoices = incomingInvoices.Where(i => i.IsPaid == false);
-                else if (status == SearchViewModel.InvoiceStatus.Paid)
+                else if (status == SearchViewModel.InvoiceState.Paid)
                     incomingInvoices = incomingInvoices.Where(i => i.IsPaid == true);
                 invoices.AddRange(incomingInvoices.Select(i => new Search_GetInvoiceListViewModel.Invoice { Uid = i.OriginalId, DocumentType="Incoming invoice", Number = i.Number, Date = i.Date, DueDate = i.DueDate, CustomerName = i.Customer.Name, SupplierName = i.Supplier.Name, TotalPrice = i.TotalPrice, Currency = i.Currency }).OrderByDescending(i => i.Date).Take(20));
             }
@@ -114,11 +114,11 @@ namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
             if (kind == SearchViewModel.InvoiceKind.Any || kind == SearchViewModel.InvoiceKind.Outgoing)
             {
                 var outgoingInvoices = Database.OutgoingInvoices;
-                if (status == SearchViewModel.InvoiceStatus.Overdue)
+                if (status == SearchViewModel.InvoiceState.Overdue)
                     outgoingInvoices = outgoingInvoices.Where(i => i.IsOverdue == true);
-                else if (status == SearchViewModel.InvoiceStatus.Outstanding)
+                else if (status == SearchViewModel.InvoiceState.Outstanding)
                     outgoingInvoices = outgoingInvoices.Where(i => i.IsPaid == false);
-                else if (status == SearchViewModel.InvoiceStatus.Paid)
+                else if (status == SearchViewModel.InvoiceState.Paid)
                     outgoingInvoices = outgoingInvoices.Where(i => i.IsPaid == true);
                 invoices.AddRange(outgoingInvoices.Select(i => new Search_GetInvoiceListViewModel.Invoice { Uid = i.OriginalId, DocumentType = "Outgoing invoice", Number = i.Number, Date = i.Date, DueDate = i.DueDate, CustomerName = i.Customer.Name, SupplierName = i.Supplier.Name, TotalPrice = i.TotalPrice, Currency = i.Currency }).OrderByDescending(i => i.Date).Take(20));
             }
