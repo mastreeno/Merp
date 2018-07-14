@@ -1,6 +1,8 @@
 ﻿using Merp.ProjectManagement.CommandStack.Events;
+using Merp.ProjectManagement.CommandStack.Services;
 using Merp.Web;
 using Merp.Web.Site.Areas.ProjectManagement.WorkerServices;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -49,12 +51,15 @@ namespace Merp.ProjectManagement.Web.Areas.PM
 
         protected override void RegisterServices()
         {
-            
+            Services.AddScoped<IProjectNumberGenerator, ProjectNumberGenerator>();
         }
 
         protected override void RegisterTypes()
         {
-            
+            //Types
+            var readModelConnectionString = Configuration.GetConnectionString("Merp-ProjectManagement-ReadModel");
+            Services.AddDbContext<Merp.ProjectManagement.QueryStack.ProjectManagementDbContext>(options => options.UseSqlServer(readModelConnectionString));
+            Services.AddScoped<Merp.ProjectManagement.QueryStack.IDatabase, Merp.ProjectManagement.QueryStack.Database>();
         }
 
         protected override void RegisterWorkerServices()
