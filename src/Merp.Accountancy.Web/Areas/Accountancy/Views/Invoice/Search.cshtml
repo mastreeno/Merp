@@ -77,7 +77,7 @@
             <div class="form-group">
                 <label for="outstanding" class="control-label col-md-2">Status:</label>
                 <div class="col-md-10">
-                    <select id="status" name="status" asp-items="Html.GetEnumSelectList<Merp.Web.Site.Areas.Accountancy.Models.Invoice.SearchViewModel.InvoiceStatus>()" data-ng-model="status" class="form-control">
+                    <select id="status" name="status" asp-items="Html.GetEnumSelectList<Merp.Web.Site.Areas.Accountancy.Models.Invoice.SearchViewModel.InvoiceState>()" data-ng-model="status" class="form-control">
                         <option value="any" selected>Any</option>
                     </select>
                 </div>
