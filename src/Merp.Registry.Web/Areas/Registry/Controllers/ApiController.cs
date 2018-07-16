@@ -82,5 +82,30 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
             }
 
         }
+
+        [HttpGet]
+        public async Task<IActionResult> LookupPersonInfoByViesService(string vatNumber, string countryCode)
+        {
+            if (string.IsNullOrWhiteSpace(vatNumber) || string.IsNullOrWhiteSpace(countryCode))
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var personInformation = await ViesServiceProxy.LookupPersonInfoByViesServiceAsync(countryCode, vatNumber);
+                if (personInformation == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(personInformation);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+        }
     }
 }

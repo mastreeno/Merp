@@ -3,96 +3,157 @@
     var fieldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix;
     var personInfoPaneId = $"{fieldPrefix}_PersonInfoPane";
     var contactInfoPaneId = $"{fieldPrefix}_ContactInfoPane";
+
+    var viesModalId = $"{fieldPrefix}vies_modal";
+    var viesModalUrl = Url.Action("LookupPersonInfoByVies", "Person", new { area = "Registry", ajax = true, id = viesModalId });
+    var personInformationFoundEvent = "vies_person_information_found";
+
+    var firstNameTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName(nameof(Model.FirstName)).Replace(".", "_");
+    var lastNameTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName(nameof(Model.LastName)).Replace(".", "_");
+    var vatNumberTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName(nameof(Model.VatNumber)).Replace(".", "_");
+
+    var addressAddressTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.Address)}.{nameof(Model.Address.Address)}").Replace(".", "_");
+    var addressCityTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.Address)}.{nameof(Model.Address.City)}").Replace(".", "_");
+    var addressPostalCodeTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.Address)}.{nameof(Model.Address.PostalCode)}").Replace(".", "_");
+    var addressProvinceTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.Address)}.{nameof(Model.Address.Province)}").Replace(".", "_");
+    var addressCountryTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.Address)}.{nameof(Model.Address.Country)}").Replace(".", "_");
+
+    var openViesModalSearchButtonId = $"{fieldPrefix}open_vies_modal";
 }
-<form asp-controller="Person" asp-action="AddEntry" class="form-horizontal" data-form-tabbed="true" asp-route-fieldPrefix="@ViewData.TemplateInfo.HtmlFieldPrefix" method="post">
-  <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-  <ul class="nav nav-pills nav-stacked col-md-3">
-    <li class="active"><a href="#@personInfoPaneId" data-toggle="tab">Person Info</a></li>
-    <li><a href="#@contactInfoPaneId" data-toggle="tab">Contact Info</a></li>
-  </ul>
-  <div class="tab-content col-md-9">
-    <div class="tab-pane active" id="@personInfoPaneId">
-      <div class="form-horizontal">
-        <div class="form-group">
-          <label asp-for="FirstName" class="col-md-2 control-label"></label>
-          <div class="col-md-10">
-            <input asp-for="FirstName" class="form-control" />
-            <span asp-validation-for="FirstName" class="text-danger"></span>
-          </div>
-        </div>
-        <div class="form-group">
-          <label asp-for="LastName" class="col-md-2 control-label"></label>
-          <div class="col-md-10">
-            <input asp-for="LastName" class="form-control" />
-            <span asp-validation-for="LastName" class="text-danger"></span>
-          </div>
-        </div>
-        <div class="form-group">
-          <label asp-for="NationalIdentificationNumber" class="col-md-2 control-label"></label>
-          <div class="col-md-10">
-            <input asp-for="NationalIdentificationNumber" class="form-control" />
-            <span asp-validation-for="NationalIdentificationNumber" class="text-danger"></span>
-          </div>
-        </div>
-        <div class="form-group">
-          <label asp-for="VatNumber" class="col-md-2 control-label"></label>
-          <div class="col-md-10">
-            <input asp-for="VatNumber" class="form-control" />
-            <span asp-validation-for="VatNumber" class="text-danger"></span>
-          </div>
-        </div>
-        <h5>@Html.DisplayNameFor(model => model.Address)</h5>
-        @Html.EditorFor(m => m.Address)
-      </div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="fa fa-user fa-2x"></i>
     </div>
-    <div class="tab-pane" id="@contactInfoPaneId">
-      <div class="form-group">
-        <label asp-for="PhoneNumber" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-          <input asp-for="PhoneNumber" class="form-control" />
-          <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-        </div>
-      </div>
-      <div class="form-group">
-        <label asp-for="MobileNumber" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-          <input asp-for="MobileNumber" class="form-control" />
-          <span asp-validation-for="MobileNumber" class="text-danger"></span>
-        </div>
-      </div>
-      <div class="form-group">
-        <label asp-for="FaxNumber" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-          <input asp-for="FaxNumber" class="form-control" />
-          <span asp-validation-for="FaxNumber" class="text-danger"></span>
-        </div>
-      </div>
-      <div class="form-group">
-        <label asp-for="WebsiteAddress" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-          <input asp-for="WebsiteAddress" class="form-control" />
-          <span asp-validation-for="WebsiteAddress" class="text-danger"></span>
-        </div>
-      </div>
-      <div class="form-group">
-        <label asp-for="EmailAddress" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-          <input asp-for="EmailAddress" class="form-control" />
-          <span asp-validation-for="EmailAddress" class="text-danger"></span>
-        </div>
-      </div>
-      <div class="form-group">
-        <label asp-for="InstantMessaging" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-          <input asp-for="InstantMessaging" class="form-control" />
-          <span asp-validation-for="InstantMessaging" class="text-danger"></span>
-        </div>
-      </div>
+    <div class="panel-body">
+        <form asp-controller="Person" asp-action="AddEntry" class="form-horizontal tabs-left" data-form-tabbed="true" asp-route-fieldPrefix="@ViewData.TemplateInfo.HtmlFieldPrefix" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <ul class="nav nav-tabs col-md-3">
+                <li class="active"><a href="#@personInfoPaneId" data-toggle="tab">Person Info</a></li>
+                <li><a href="#@contactInfoPaneId" data-toggle="tab">Contact Info</a></li>
+            </ul>
+            <div class="tab-content col-md-9">
+                <div class="tab-pane active" id="@personInfoPaneId">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label asp-for="FirstName" class="col-md-2 control-label"></label>
+                            <div class="col-md-10">
+                                <input asp-for="FirstName" class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="LastName" class="col-md-2 control-label"></label>
+                            <div class="col-md-10">
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="NationalIdentificationNumber" class="col-md-2 control-label"></label>
+                            <div class="col-md-10">
+                                <input asp-for="NationalIdentificationNumber" class="form-control" />
+                                <span asp-validation-for="NationalIdentificationNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="VatNumber" class="col-md-2 control-label"></label>
+                            <div class="col-md-10">
+                                <div class="input-group">
+                                    <input asp-for="VatNumber" class="form-control" />
+                                    <div class="input-group-btn input-group-btn-block">
+                                        <button id="@openViesModalSearchButtonId" type="button" class="btn btn-info" data-toggle="modal" data-target="#@viesModalId">
+                                            <span class="glyphicon glyphicon-search">VIES</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <span asp-validation-for="VatNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <h5>@Html.DisplayNameFor(model => model.Address)</h5>
+                        @Html.EditorFor(m => m.Address)
+                    </div>
+                </div>
+                <div class="tab-pane" id="@contactInfoPaneId">
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber" class="col-md-2 control-label"></label>
+                        <div class="col-md-10">
+                            <input asp-for="PhoneNumber" class="form-control" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MobileNumber" class="col-md-2 control-label"></label>
+                        <div class="col-md-10">
+                            <input asp-for="MobileNumber" class="form-control" />
+                            <span asp-validation-for="MobileNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FaxNumber" class="col-md-2 control-label"></label>
+                        <div class="col-md-10">
+                            <input asp-for="FaxNumber" class="form-control" />
+                            <span asp-validation-for="FaxNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="WebsiteAddress" class="col-md-2 control-label"></label>
+                        <div class="col-md-10">
+                            <input asp-for="WebsiteAddress" class="form-control" />
+                            <span asp-validation-for="WebsiteAddress" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EmailAddress" class="col-md-2 control-label"></label>
+                        <div class="col-md-10">
+                            <input asp-for="EmailAddress" class="form-control" />
+                            <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="InstantMessaging" class="col-md-2 control-label"></label>
+                        <div class="col-md-10">
+                            <input asp-for="InstantMessaging" class="form-control" />
+                            <span asp-validation-for="InstantMessaging" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
     </div>
-  </div>
-  <div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
-      <input type="submit" value="Save" class="btn btn-primary" />
-    </div>
-  </div>
-</form> 
+</div>
+
+<script type="text/javascript">
+  //# sourceURL=registry/views/person/components/addentry/modal.js
+  $(function () {
+
+    var placeholder = $('<div></div>');
+    $('body .container').prepend(placeholder);
+    placeholder.load('@Html.Raw(viesModalUrl)', function () {
+      placeholder.on('@personInformationFoundEvent', '#@viesModalId', function (event) {
+        var personInformation = event.personInformation;
+        if (!personInformation) {
+          return
+        }
+
+        $('#@firstNameTextBoxName').val(personInformation.firstName || '');
+        $('#@lastNameTextBoxName').val(personInformation.lastName || '');
+        $('#@vatNumberTextBoxName').val(personInformation.vatNumber || '');
+        $('#@addressAddressTextBoxName').val(personInformation.address || '');
+        $('#@addressCityTextBoxName').val(personInformation.city || '');
+        $('#@addressPostalCodeTextBoxName').val(personInformation.postalCode || '');
+        $('#@addressProvinceTextBoxName').val(personInformation.province || '');
+        $('#@addressCountryTextBoxName').val(personInformation.country || '');
+      });
+    });
+
+    $('#@openViesModalSearchButtonId').on('click', function (evt) {
+      $('#@viesModalId').trigger('loadPersonVatNumber', { vatNumber: $('#@vatNumberTextBoxName').val() || '' });
+    });
+
+  });
+</script>

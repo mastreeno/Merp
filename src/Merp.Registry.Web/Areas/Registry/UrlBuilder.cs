@@ -31,9 +31,19 @@ namespace Merp.Web.Site.Areas.Registry
                 return $"/{areaName}/Company/ChangeName/{companyId}";
             }
 
+            public static string CompanyChangeName()
+            {
+                return $"/{areaName}/Company/ChangeName";
+            }
+
             public static string CompanyChangeLegalAddress(Guid companyId)
             {
                 return $"/{areaName}/Company/ChangeLegalAddress/{companyId}";
+            }
+
+            public static string CompanyChangeLegalAddress()
+            {
+                return $"/{areaName}/Company/ChangeLegalAddress";
             }
 
             public static string CompanyChangeShippingAddress(Guid companyId)
@@ -41,9 +51,19 @@ namespace Merp.Web.Site.Areas.Registry
                 return $"/{areaName}/Company/ChangeShippingAddress/{companyId}";
             }
 
+            public static string CompanyChangeShippingAddress()
+            {
+                return $"/{areaName}/Company/ChangeShippingAddress";
+            }
+
             public static string CompanyChangeBillingAddress(Guid companyId)
             {
                 return $"/{areaName}/Company/ChangeBillingAddress/{companyId}";
+            }
+
+            public static string CompanyChangeBillingAddress()
+            {
+                return $"/{areaName}/Company/ChangeBillingAddress";
             }
 
             public static string CompanyAssociateAdministrativeContact(Guid companyId)
@@ -61,6 +81,11 @@ namespace Merp.Web.Site.Areas.Registry
                 return $"/{areaName}/Company/ChangeContactInfo/{companyId}";
             }
 
+            public static string CompanyChangeContactInfo()
+            {
+                return $"/{areaName}/Company/ChangeContactInfo";
+            }
+
             public static string PersonAddEntry()
             {
                 return $"/{areaName}/Person/AddEntry";
@@ -76,9 +101,19 @@ namespace Merp.Web.Site.Areas.Registry
                 return $"/{areaName}/Person/ChangeAddress/{personId}";
             }
 
+            public static string PersonChangeAddress()
+            {
+                return $"/{areaName}/Person/ChangeAddress";
+            }
+
             public static string PersonChangeContactInfo(Guid personId)
             {
                 return $"/{areaName}/Person/ChangeContactInfo/{personId}";
+            }
+            
+            public static string PersonChangeContactInfo()
+            {
+                return $"/{areaName}/Person/ChangeContactInfo";
             }
 
             public static string Search()

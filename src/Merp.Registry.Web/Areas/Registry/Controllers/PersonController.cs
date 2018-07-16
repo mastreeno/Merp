@@ -80,11 +80,10 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
             ValidateAgainstPersistence(model);
             if (!ModelState.IsValid)
             {
-                var rehydratedModel = WorkerServices.GetChangeAddressViewModel(model);
-                return View(model);
+                return BadRequest(ModelState);
             }
             WorkerServices.ChangeAddress(model);
-            return RedirectToRoute("registry", new { });
+            return Ok();
         }
 
         [HttpGet]
@@ -101,10 +100,20 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return BadRequest(ModelState);
             }
             WorkerServices.ChangeContactInfo(model);
-            return RedirectToRoute("registry", new { });
+            return Ok();
+        }
+
+        [HttpGet]
+        public IActionResult LookupPersonInfoByVies(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return BadRequest();
+            }
+            return ViewComponent(typeof(LookupPersonInfoByViesViewComponent), new { id });
         }
 
         #region Helper Methods        

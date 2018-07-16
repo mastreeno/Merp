@@ -90,11 +90,10 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
             ValidateAgainstPersistence(model);
             if (!this.ModelState.IsValid)
             {
-                var rehydratedModel = WorkerServices.GetChangeNameViewModel(model);
-                return View(rehydratedModel);
+                return BadRequest(ModelState);
             }
             WorkerServices.ChangeName(model);
-            return RedirectToRoute("registry", new { });
+            return Ok();
         }
 
         [HttpGet]
@@ -112,11 +111,10 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
             ValidateAgainstPersistence(model);
             if (!ModelState.IsValid)
             {
-                var rehydratedModel = WorkerServices.GetChangeLegalAddressViewModel(model);
-                return View(rehydratedModel);
+                return BadRequest(ModelState);
             }
             WorkerServices.ChangeLegalAddress(model);
-            return RedirectToRoute("registry", new { });
+            return Ok(); ;
         }
 
         [HttpGet]
@@ -134,11 +132,10 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
             ValidateAgainstPersistence(model);
             if (!ModelState.IsValid)
             {
-                var rehydratedModel = WorkerServices.GetChangeShippingAddressViewModel(model);
-                return View(rehydratedModel);
+                return BadRequest(ModelState);
             }
             WorkerServices.ChangeShippingAddress(model);
-            return RedirectToRoute("registry", new { });
+            return Ok();
         }
         
         [HttpGet]
@@ -217,10 +214,10 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
         {
             if (!this.ModelState.IsValid)
             {
-                return View(model);
+                return BadRequest(ModelState);
             }
             WorkerServices.ChangeContactInfo(model);
-            return RedirectToRoute("registry", new { });
+            return Ok();
         }
 
         #region Helper Methods        

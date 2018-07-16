@@ -24,112 +24,126 @@
 
     var acquireShippingAddressFromLegalAddressCheckBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName(nameof(Model.AcquireShippingAddressFromLegalAddress)).Replace(".", "_");
     var acquireBillingAddressFromLegalAddressCheckBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName(nameof(Model.AcquireBillingAddressFromLegalAddress)).Replace(".", "_");
+
+    var openViesModalSearchButtonId = $"{fieldPrefix}open_vies_modal";
 }
-<form asp-controller="Company" asp-action="AddEntry" class="form-horizontal" data-form-tabbed="true" asp-route-fieldPrefix="@ViewData.TemplateInfo.HtmlFieldPrefix" method="post">
-  <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-  <ul class="nav nav-pills nav-stacked col-md-3">
-    <li class="active"><a href="#@companyInfoPaneId" data-toggle="tab">Company Info</a></li>
-    <li><a href="#@shippingAddressPaneId" data-toggle="tab">@Html.DisplayNameFor(model => model.ShippingAddress)</a></li>
-    <li><a href="#@billingAddressPaneId" data-toggle="tab">@Html.DisplayNameFor(model => model.BillingAddress)</a></li>
-    <li><a href="#@contactInfoPaneId" data-toggle="tab">Contact Info</a></li>
-  </ul>
-  <div class="tab-content col-md-9">
-    <div class="tab-pane active" id="@companyInfoPaneId">
-      <div class="form-group">
-        <label asp-for="CompanyName" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-          <input asp-for="CompanyName" class="form-control" >
-          <span asp-validation-for="CompanyName" class="text-danger"></span>
-        </div>
-      </div>
-      <div class="form-group">
-        <label asp-for="VatNumber" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-          <input asp-for="VatNumber" class="form-control" >
-          <span asp-validation-for="VatNumber" class="text-danger"></span>
-          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#@viesModalId">
-            <span class="glyphicon glyphicon-search">VIES</span>
-          </button>
-        </div>
-      </div>
-      <div class="form-group">
-        <label asp-for="NationalIdentificationNumber" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-          <input asp-for="NationalIdentificationNumber" class="form-control" >
-        </div>
-      </div>
-      <h5>@Html.DisplayNameFor(model => model.LegalAddress)</h5>
-      @Html.EditorFor(model => model.LegalAddress)
-    </div>
-    <div class="tab-pane" id="@shippingAddressPaneId">
-      <h5>@Html.DisplayNameFor(model => model.ShippingAddress)</h5>
-      <div class="form-group">
-        <label asp-for="AcquireShippingAddressFromLegalAddress" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-          <input asp-for="AcquireShippingAddressFromLegalAddress">
-        </div>
-      </div>
-      @Html.EditorFor(model => model.ShippingAddress)
-    </div>
-    <div class="tab-pane" id="@billingAddressPaneId">
-      <h5>@Html.DisplayNameFor(model => model.BillingAddress)</h5>
-      <div class="form-group">
-        <label asp-for="AcquireBillingAddressFromLegalAddress" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-          <input asp-for="AcquireBillingAddressFromLegalAddress">
-        </div>
-      </div>
-      @Html.EditorFor(model => model.BillingAddress)
-    </div>
-    <div class="tab-pane" id="@contactInfoPaneId">
-      <div class="form-group">
-        <label asp-for="MainContact.Id" class="col-md-2 control-label">Main Contact</label>
-        <div class="col-md-10">
-          @Html.EditorFor(model => model.MainContact, new { htmlAttributes = new { @class = "form-control" } })
-        </div>
-      </div>
-      <div class="form-group">
-        <label asp-for="AdministrativeContact.Id" class="col-md-2 control-label">Administrative Contact</label>
-        <div class="col-md-10">
-          @Html.EditorFor(model => model.AdministrativeContact, new { htmlAttributes = new { @class = "form-control" } })
-        </div>
-      </div>
-      <div class="form-group">
-        <label asp-for="PhoneNumber" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-          <input asp-for="PhoneNumber" class="form-control" >
-          <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-        </div>
-      </div>
-      <div class="form-group">
-        <label asp-for="FaxNumber" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-          <input asp-for="FaxNumber" class="form-control" >
-          <span asp-validation-for="FaxNumber" class="text-danger"></span>
-        </div>
-      </div>
-      <div class="form-group">
-        <label asp-for="WebsiteAddress" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-          <input asp-for="WebsiteAddress" class="form-control" >
-          <span asp-validation-for="WebsiteAddress" class="text-danger"></span>
-        </div>
-      </div>
-      <div class="form-group">
-        <label asp-for="EmailAddress" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-          <input asp-for="EmailAddress" class="form-control" >
-          <span asp-validation-for="EmailAddress" class="text-danger"></span>
-        </div>
-      </div>
-    </div>
-  </div>  
-  <div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
-      <input type="submit" value="Save" class="btn btn-primary" />
-    </div>
+<div class="panel panel-default">
+  <div class="panel-heading">
+      <i class="fa fa-industry fa-2x"></i>
   </div>
-</form>
+  <div class="panel-body">
+      <form asp-controller="Company" asp-action="AddEntry" class="form-horizontal tabs-left" data-form-tabbed="true" asp-route-fieldPrefix="@ViewData.TemplateInfo.HtmlFieldPrefix" method="post">
+          <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+          <ul class="nav nav-tabs col-md-3">
+              <li class="active"><a href="#@companyInfoPaneId" data-toggle="tab">Company Info</a></li>
+              <li><a href="#@shippingAddressPaneId" data-toggle="tab">@Html.DisplayNameFor(model => model.ShippingAddress)</a></li>
+              <li><a href="#@billingAddressPaneId" data-toggle="tab">@Html.DisplayNameFor(model => model.BillingAddress)</a></li>
+              <li><a href="#@contactInfoPaneId" data-toggle="tab">Contact Info</a></li>
+          </ul>
+          <div class="tab-content col-md-9">
+              <div class="tab-pane active" id="@companyInfoPaneId">
+                  <div class="form-group">
+                      <label asp-for="CompanyName" class="col-md-2 control-label"></label>
+                      <div class="col-md-10">
+                          <input asp-for="CompanyName" class="form-control">
+                          <span asp-validation-for="CompanyName" class="text-danger"></span>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label asp-for="VatNumber" class="col-md-2 control-label"></label>
+                      <div class="col-md-10">
+                          <div class="input-group">
+                              <input asp-for="VatNumber" class="form-control" />
+                              <div class="input-group-btn input-group-btn-block">
+                                  <button id="@openViesModalSearchButtonId" type="button" class="btn btn-info" data-toggle="modal" data-target="#@viesModalId">
+                                      <span class="glyphicon glyphicon-search">VIES</span>
+                                  </button>
+                              </div>
+                          </div>
+                          <span asp-validation-for="VatNumber" class="text-danger"></span>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label asp-for="NationalIdentificationNumber" class="col-md-2 control-label"></label>
+                      <div class="col-md-10">
+                          <input asp-for="NationalIdentificationNumber" class="form-control">
+                      </div>
+                  </div>
+                  <h5>@Html.DisplayNameFor(model => model.LegalAddress)</h5>
+                  @Html.EditorFor(model => model.LegalAddress)
+              </div>
+              <div class="tab-pane" id="@shippingAddressPaneId">
+                  <h5>@Html.DisplayNameFor(model => model.ShippingAddress)</h5>
+                  <div class="form-group">
+                      <label asp-for="AcquireShippingAddressFromLegalAddress" class="col-md-2 control-label"></label>
+                      <div class="col-md-10">
+                          <input asp-for="AcquireShippingAddressFromLegalAddress">
+                      </div>
+                  </div>
+                  @Html.EditorFor(model => model.ShippingAddress)
+              </div>
+              <div class="tab-pane" id="@billingAddressPaneId">
+                  <h5>@Html.DisplayNameFor(model => model.BillingAddress)</h5>
+                  <div class="form-group">
+                      <label asp-for="AcquireBillingAddressFromLegalAddress" class="col-md-2 control-label"></label>
+                      <div class="col-md-10">
+                          <input asp-for="AcquireBillingAddressFromLegalAddress">
+                      </div>
+                  </div>
+                  @Html.EditorFor(model => model.BillingAddress)
+              </div>
+              <div class="tab-pane" id="@contactInfoPaneId">
+                  <div class="form-group">
+                      <label asp-for="MainContact.Id" class="col-md-2 control-label">Main Contact</label>
+                      <div class="col-md-10">
+                          @Html.EditorFor(model => model.MainContact, new { htmlAttributes = new { @class = "form-control" } })
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label asp-for="AdministrativeContact.Id" class="col-md-2 control-label">Administrative Contact</label>
+                      <div class="col-md-10">
+                          @Html.EditorFor(model => model.AdministrativeContact, new { htmlAttributes = new { @class = "form-control" } })
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label asp-for="PhoneNumber" class="col-md-2 control-label"></label>
+                      <div class="col-md-10">
+                          <input asp-for="PhoneNumber" class="form-control">
+                          <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label asp-for="FaxNumber" class="col-md-2 control-label"></label>
+                      <div class="col-md-10">
+                          <input asp-for="FaxNumber" class="form-control">
+                          <span asp-validation-for="FaxNumber" class="text-danger"></span>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label asp-for="WebsiteAddress" class="col-md-2 control-label"></label>
+                      <div class="col-md-10">
+                          <input asp-for="WebsiteAddress" class="form-control">
+                          <span asp-validation-for="WebsiteAddress" class="text-danger"></span>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label asp-for="EmailAddress" class="col-md-2 control-label"></label>
+                      <div class="col-md-10">
+                          <input asp-for="EmailAddress" class="form-control">
+                          <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="form-group">
+              <div class="col-md-offset-2 col-md-10">
+                  <input type="submit" value="Save" class="btn btn-primary" />
+              </div>
+          </div>
+      </form>
+  </div>
+</div>
+
 <script type="text/javascript">
   //# sourceURL=registry/views/company/components/addentry/modal.js
   $(function () {
@@ -151,6 +165,10 @@
         $('#@legalAddressProvinceTextBoxName').val(companyInformation.province || '');
         $('#@legalAddressCountryTextBoxName').val(companyInformation.country || '');
       });
+    });
+
+    $('#@openViesModalSearchButtonId').on('click', function (evt) {
+      $('#@viesModalId').trigger('loadCompanyVatNumber', { vatNumber: $('#@vatNumberTextBoxName').val() || '' });
     });
 
     var acquireShippingAddressFromLegalAddressCheckBox = $('#@acquireShippingAddressFromLegalAddressCheckBoxName'),
