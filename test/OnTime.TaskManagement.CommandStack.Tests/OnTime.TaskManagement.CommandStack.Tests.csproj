@@ -32,12 +32,12 @@
     <ProjectReference Include="..\..\src\OnTime.TaskManagement.CommandStack\OnTime.TaskManagement.CommandStack.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Castle.Core" Version="4.2.1" />
+    <PackageReference Include="Castle.Core" Version="4.3.1" />
     <PackageReference Include="MementoFX" Version="2.0.0-pre5" />
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
-    <PackageReference Include="Moq" Version="4.8.2" />
+    <PackageReference Include="Moq" Version="4.9.0" />
     <PackageReference Include="SharpTestsEx" Version="2.0.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
   </ItemGroup>
