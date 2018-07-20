@@ -45,13 +45,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.Domain", "src\Merp.Dom
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project Management", "Project Management", "{27F5E273-8089-4F0C-B255-6F7290E596EE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.ProjectManagement.CommandStack", "src\Merp.ProjectManagement.CommandStack\Merp.ProjectManagement.CommandStack.csproj", "{4E623B9C-DE97-4BF8-83CC-912B099B48ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.Sales.CommandStack", "src\Merp.Sales.CommandStack\Merp.Sales.CommandStack.csproj", "{4E623B9C-DE97-4BF8-83CC-912B099B48ED}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.ProjectManagement.CommandStack.Tests", "test\Merp.ProjectManagement.CommandStack.Tests\Merp.ProjectManagement.CommandStack.Tests.csproj", "{6198AE73-A853-4039-AD6E-14AB6D4C68FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.Sales.CommandStack.Tests", "test\Merp.Sales.CommandStack.Tests\Merp.Sales.CommandStack.Tests.csproj", "{6198AE73-A853-4039-AD6E-14AB6D4C68FE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.ProjectManagement.QueryStack", "src\Merp.ProjectManagement.QueryStack\Merp.ProjectManagement.QueryStack.csproj", "{11DCC79B-22B5-41F8-B05B-925A83421AC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.Sales.QueryStack", "src\Merp.Sales.QueryStack\Merp.Sales.QueryStack.csproj", "{11DCC79B-22B5-41F8-B05B-925A83421AC8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.ProjectManagement.Web", "src\Merp.ProjectManagement.Web\Merp.ProjectManagement.Web.csproj", "{0D77D308-59C1-4866-8430-CF84B099CC32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.Sales.Web", "src\Merp.Sales.Web\Merp.Sales.Web.csproj", "{0D77D308-59C1-4866-8430-CF84B099CC32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -9,7 +9,7 @@ using MementoFX.Messaging;
 using MementoFX.Messaging.Rebus;
 using Merp.Accountancy.CommandStack.Sagas;
 using Merp.Registry.CommandStack.Sagas;
-using Merp.ProjectManagement.Web.Areas.PM;
+using Merp.Sales.Web.Areas.Sales;
 using OnTime.TaskManagement.CommandStack.Sagas;
 using Merp.Web.Site.Areas.Accountancy;
 using Merp.Web.Site.Areas.Registry;
