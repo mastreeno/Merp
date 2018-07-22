@@ -15,11 +15,21 @@ namespace Merp.Registry.CommandStack.Commands
         public string LastName { get; set; }
         public string NationalIdentificationNumber { get; set; }
         public string VatNumber { get; set; }
-        public string Address { get; set; }
-        public string City { get; set; }
-        public string PostalCode { get; set; }
-        public string Province { get; set; }
-        public string Country { get; set; }
+        public string LegalAddressAddress { get; set; }
+        public string LegalAddressCity { get; set; }
+        public string LegalAddressPostalCode { get; set; }
+        public string LegalAddressProvince { get; set; }
+        public string LegalAddressCountry { get; set; }
+        public string ShippingAddressAddress { get; set; }
+        public string ShippingAddressPostalCode { get; set; }
+        public string ShippingAddressCity { get; set; }
+        public string ShippingAddressCountry { get; set; }
+        public string ShippingAddressProvince { get; set; }
+        public string BillingAddressAddress { get; set; }
+        public string BillingAddressPostalCode { get; set; }
+        public string BillingAddressCity { get; set; }
+        public string BillingAddressCountry { get; set; }
+        public string BillingAddressProvince { get; set; }
         public string PhoneNumber { get; set; }
         public string MobileNumber { get; set; }
         public string FaxNumber { get; set; }
@@ -27,7 +37,7 @@ namespace Merp.Registry.CommandStack.Commands
         public string EmailAddress { get; set; }
         public string InstantMessaging { get; set; }
 
-        public RegisterPersonCommand(string firstName, string lastName, string nationalIdentificationNumber, string vatNumber, string address, string city, string postalCode, string province, string country, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
+        public RegisterPersonCommand(string firstName, string lastName, string nationalIdentificationNumber, string vatNumber, string legalAddressAddress, string legalAddressCity, string legalAddressPostalCode, string legalAddressProvince, string legalAddressCountry, string shippingAddressAddress, string shippingAddressPostalCode, string shippingAddressCity, string shippingAddressProvince, string shippingAddressCountry, string billingAddressAddress, string billingAddressPostalCode, string billingAddressCity, string billingAddressProvince, string billingAddressCountry, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
         {
             if (string.IsNullOrWhiteSpace(firstName))
             {
@@ -37,19 +47,37 @@ namespace Merp.Registry.CommandStack.Commands
             {
                 throw new ArgumentException("Last name must be provided", nameof(lastName));
             }
-            if (!PostalAddressHelper.IsValidAddress(address, city, postalCode, province, country))
+            if (!PostalAddressHelper.IsValidAddress(legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry))
             {
-                throw new ArgumentException("postal address must either be empty or comprehensive of both address and city");
+                throw new ArgumentException("legal address must either be empty or comprehensive of both address and city");
+            }
+            if (!PostalAddressHelper.IsValidAddress(shippingAddressAddress, shippingAddressCity, shippingAddressPostalCode, shippingAddressProvince, shippingAddressCountry))
+            {
+                throw new ArgumentException("shipping address must either be empty or comprehensive of both address and city");
+            }
+            if (!PostalAddressHelper.IsValidAddress(billingAddressAddress, billingAddressCity, billingAddressPostalCode, billingAddressProvince, billingAddressCountry))
+            {
+                throw new ArgumentException("billing address must either be empty or comprehensive of both address and city");
             }
             FirstName = firstName;
             LastName = lastName;
             NationalIdentificationNumber = nationalIdentificationNumber;
             VatNumber = vatNumber;
-            Address = address;
-            City = city ;
-            PostalCode = postalCode;
-            Province = province;
-            Country = country;
+            LegalAddressAddress = legalAddressAddress;
+            LegalAddressCity = legalAddressCity ;
+            LegalAddressPostalCode = legalAddressPostalCode;
+            LegalAddressProvince = legalAddressProvince;
+            LegalAddressCountry = legalAddressCountry;
+            ShippingAddressAddress = shippingAddressAddress;
+            ShippingAddressPostalCode = shippingAddressPostalCode;
+            ShippingAddressCity = shippingAddressCity;
+            ShippingAddressProvince = shippingAddressProvince;
+            ShippingAddressCountry = shippingAddressCountry;
+            BillingAddressAddress = billingAddressAddress;
+            BillingAddressPostalCode = billingAddressPostalCode;
+            BillingAddressCity = billingAddressCity;
+            BillingAddressProvince = billingAddressProvince;
+            BillingAddressCountry = billingAddressCountry;
             PhoneNumber = phoneNumber;
             MobileNumber = mobileNumber;
             FaxNumber = faxNumber;

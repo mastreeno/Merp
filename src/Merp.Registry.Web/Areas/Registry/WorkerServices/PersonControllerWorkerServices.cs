@@ -30,18 +30,39 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
         public void AddEntry(AddEntryViewModel model)
         {
             var nationalIdentificationNumber = string.IsNullOrWhiteSpace(model.NationalIdentificationNumber) ? default(string) : model.NationalIdentificationNumber.Trim().ToUpper();
+
+            var shippingAddressAddress = model.AcquireShippingAddressFromLegalAddress ? model.LegalAddress.Address : model.ShippingAddress.Address;
+            var shippingAddressPostalCode = model.AcquireShippingAddressFromLegalAddress ? model.LegalAddress.PostalCode : model.ShippingAddress.PostalCode;
+            var shippingAddressCity = model.AcquireShippingAddressFromLegalAddress ? model.LegalAddress.City : model.ShippingAddress.City;
+            var shippingAddressProvince = model.AcquireShippingAddressFromLegalAddress ? model.LegalAddress.Province : model.ShippingAddress.Province;
+            var shippingAddressCountry = model.AcquireShippingAddressFromLegalAddress ? model.LegalAddress.Country : model.ShippingAddress.Country;
+
+            var billingAddressAddress = model.AcquireBillingAddressFromLegalAddress ? model.LegalAddress.Address : model.BillingAddress.Address;
+            var billingAddressPostalCode = model.AcquireBillingAddressFromLegalAddress ? model.LegalAddress.PostalCode : model.BillingAddress.PostalCode;
+            var billingAddressCity = model.AcquireBillingAddressFromLegalAddress ? model.LegalAddress.City : model.BillingAddress.City;
+            var billingAddressProvince = model.AcquireBillingAddressFromLegalAddress ? model.LegalAddress.Province : model.BillingAddress.Province;
+            var billingAddressCountry = model.AcquireBillingAddressFromLegalAddress ? model.LegalAddress.Country : model.BillingAddress.Country;
+
             var command = new RegisterPersonCommand(
                 model.FirstName, 
                 model.LastName,
                 nationalIdentificationNumber, 
                 model.VatNumber, 
-
-                model.Address.Address, 
-                model.Address.City, 
-                model.Address.PostalCode, 
-                model.Address.Province, 
-                model.Address.Country,
-                
+                model.LegalAddress.Address, 
+                model.LegalAddress.City, 
+                model.LegalAddress.PostalCode, 
+                model.LegalAddress.Province, 
+                model.LegalAddress.Country,
+                shippingAddressAddress,
+                shippingAddressPostalCode,
+                shippingAddressCity,
+                shippingAddressProvince,
+                shippingAddressCountry,
+                billingAddressAddress,
+                billingAddressPostalCode,
+                billingAddressCity,
+                billingAddressProvince,
+                billingAddressCountry,
                 model.PhoneNumber,
                 model.MobileNumber,
                 model.FaxNumber,
@@ -67,7 +88,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             };
             if(person.LegalAddress != null)
             {
-                model.Address = new Models.PostalAddress
+                model.LegalAddress = new Models.PostalAddress
                 {
                     Address = person.LegalAddress.Address,
                     City = person.LegalAddress.City,
@@ -76,7 +97,29 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
                     Province = person.LegalAddress.Province
                 };
             }
-            if(person.ContactInfo != null)
+            if (person.ShippingAddress != null)
+            {
+                model.ShippingAddress = new Models.PostalAddress
+                {
+                    Address = person.ShippingAddress.Address,
+                    City = person.ShippingAddress.City,
+                    Country = person.ShippingAddress.Country,
+                    PostalCode = person.ShippingAddress.PostalCode,
+                    Province = person.ShippingAddress.Province
+                };
+            }
+            if (person.BillingAddress != null)
+            {
+                model.BillingAddress = new Models.PostalAddress
+                {
+                    Address = person.BillingAddress.Address,
+                    City = person.BillingAddress.City,
+                    Country = person.BillingAddress.Country,
+                    PostalCode = person.BillingAddress.PostalCode,
+                    Province = person.BillingAddress.Province
+                };
+            }
+            if (person.ContactInfo != null)
             {
                 model.PhoneNumber = person.ContactInfo.PhoneNumber;
                 model.MobileNumber = person.ContactInfo.MobileNumber;
@@ -91,11 +134,11 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
                                 .Single();
             return model;
         }
-
-        public ChangeAddressViewModel GetChangeAddressViewModel(Guid personId)
+        
+        public ChangeLegalAddressViewModel GetChangeAddressViewModel(Guid personId)
         {
             var person = Repository.GetById<Person>(personId);
-            var model = new ChangeAddressViewModel()
+            var model = new ChangeLegalAddressViewModel()
             {
                 PersonId = person.Id,
                 PersonFirstName = person.FirstName,
@@ -115,7 +158,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             return model;
         }
 
-        public ChangeAddressViewModel GetChangeAddressViewModel(ChangeAddressViewModel model)
+        public ChangeLegalAddressViewModel GetChangeAddressViewModel(ChangeLegalAddressViewModel model)
         {
             if (model == null)
             {
@@ -123,7 +166,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             }
 
             var person = Repository.GetById<Person>(model.PersonId);
-            var rehydratedModel = new ChangeAddressViewModel()
+            var rehydratedModel = new ChangeLegalAddressViewModel()
             {
                 PersonId = person.Id,
                 PersonFirstName = person.FirstName,
@@ -141,17 +184,17 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             return rehydratedModel;
         }
 
-        public ChangeAddressViewModel.PersonDto GetChangeAddressViewModelPersonDto(Guid personId)
+        public ChangeLegalAddressViewModel.PersonDto GetChangeLegalAddressViewModelPersonDto(Guid personId)
         {
             var person = Repository.GetById<Person>(personId);            
-            var model = new ChangeAddressViewModel.PersonDto
+            var model = new ChangeLegalAddressViewModel.PersonDto
             {
                 RegistrationDate = person.RegistrationDate
             };
             return model;
         }
 
-        public void ChangeAddress(ChangeAddressViewModel model)
+        public void ChangeLegalAddress(ChangeLegalAddressViewModel model)
         {
             if (model == null)
             {
@@ -161,7 +204,7 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             var effectiveDateTime = model.EffectiveDate;
             var effectiveDate = new DateTime(effectiveDateTime.Year, effectiveDateTime.Month, effectiveDateTime.Day);
 
-            var cmd = new ChangePersonAddressCommand(model.PersonId,
+            var cmd = new ChangePersonLegalAddressCommand(model.PersonId,
                 model.Address.Address,
                 model.Address.PostalCode,
                 model.Address.City,
@@ -201,6 +244,70 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             }
 
             var cmd = new ChangePersonContactInfoCommand(model.PersonId, model.PhoneNumber, model.MobileNumber, model.FaxNumber, model.WebsiteAddress, model.EmailAddress, model.InstantMessaging);
+
+            Bus.Send(cmd);
+        }
+
+        public ChangeShippingAddressViewModel.PersonDto GetChangeShippingAddressViewModelPersonDto(Guid personId)
+        {
+            var person = Repository.GetById<Person>(personId);
+            var model = new ChangeShippingAddressViewModel.PersonDto
+            {
+                RegistrationDate = person.RegistrationDate
+            };
+            return model;
+        }
+
+        public void ChangeShippingAddress(ChangeShippingAddressViewModel model)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            var effectiveDateTime = model.EffectiveDate;
+            var effectiveDate = new DateTime(effectiveDateTime.Year, effectiveDateTime.Month, effectiveDateTime.Day);
+
+            var cmd = new ChangePersonShippingAddressCommand(
+                model.PersonId,
+                model.Address.Address,
+                model.Address.PostalCode,
+                model.Address.City,
+                model.Address.Province,
+                model.Address.Country,
+                effectiveDate);
+
+            Bus.Send(cmd);
+        }
+
+        public ChangeBillingAddressViewModel.PersonDto GetChangeBillingAddressViewModelPersonDto(Guid personId)
+        {
+            var person = Repository.GetById<Person>(personId);
+            var model = new ChangeBillingAddressViewModel.PersonDto
+            {
+                RegistrationDate = person.RegistrationDate
+            };
+            return model;
+        }
+
+        public void ChangeBillingAddress(ChangeBillingAddressViewModel model)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            var effectiveDateTime = model.EffectiveDate;
+            var effectiveDate = new DateTime(effectiveDateTime.Year, effectiveDateTime.Month, effectiveDateTime.Day);
+
+            var cmd = new ChangePersonBillingAddressCommand(
+                model.PersonId,
+                model.Address.Address,
+                model.Address.PostalCode,
+                model.Address.City,
+                model.Address.Province,
+                model.Address.Country,
+                effectiveDate);
 
             Bus.Send(cmd);
         }

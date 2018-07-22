@@ -2,6 +2,8 @@
 @{ 
     var fieldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix;
     var personInfoPaneId = $"{fieldPrefix}_PersonInfoPane";
+    var shippingAddressPaneId = $"{fieldPrefix}_ShippingAddressPane";
+    var billingAddressPaneId = $"{fieldPrefix}_BillingAddressPane";
     var contactInfoPaneId = $"{fieldPrefix}_ContactInfoPane";
 
     var viesModalId = $"{fieldPrefix}vies_modal";
@@ -12,11 +14,17 @@
     var lastNameTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName(nameof(Model.LastName)).Replace(".", "_");
     var vatNumberTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName(nameof(Model.VatNumber)).Replace(".", "_");
 
-    var addressAddressTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.Address)}.{nameof(Model.Address.Address)}").Replace(".", "_");
-    var addressCityTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.Address)}.{nameof(Model.Address.City)}").Replace(".", "_");
-    var addressPostalCodeTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.Address)}.{nameof(Model.Address.PostalCode)}").Replace(".", "_");
-    var addressProvinceTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.Address)}.{nameof(Model.Address.Province)}").Replace(".", "_");
-    var addressCountryTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.Address)}.{nameof(Model.Address.Country)}").Replace(".", "_");
+    var legalAddressAddressTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.LegalAddress)}.{nameof(Model.LegalAddress.Address)}").Replace(".", "_");
+    var legalAddressCityTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.LegalAddress)}.{nameof(Model.LegalAddress.City)}").Replace(".", "_");
+    var legalAddressPostalCodeTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.LegalAddress)}.{nameof(Model.LegalAddress.PostalCode)}").Replace(".", "_");
+    var legalAddressProvinceTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.LegalAddress)}.{nameof(Model.LegalAddress.Province)}").Replace(".", "_");
+    var legalAddressCountryTextBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.LegalAddress)}.{nameof(Model.LegalAddress.Country)}").Replace(".", "_");
+
+    var shippingAddressName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.ShippingAddress)}").Replace(".", "_");
+    var billingAddressName = ViewData.TemplateInfo.GetFullHtmlFieldName($"{nameof(Model.BillingAddress)}").Replace(".", "_");
+
+    var acquireShippingAddressFromLegalAddressCheckBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName(nameof(Model.AcquireShippingAddressFromLegalAddress)).Replace(".", "_");
+    var acquireBillingAddressFromLegalAddressCheckBoxName = ViewData.TemplateInfo.GetFullHtmlFieldName(nameof(Model.AcquireBillingAddressFromLegalAddress)).Replace(".", "_");
 
     var openViesModalSearchButtonId = $"{fieldPrefix}open_vies_modal";
 }
@@ -29,6 +37,8 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <ul class="nav nav-tabs col-md-3">
                 <li class="active"><a href="#@personInfoPaneId" data-toggle="tab">Person Info</a></li>
+                <li><a href="#@shippingAddressPaneId" data-toggle="tab">Shipping Address</a></li>
+                <li><a href="#@billingAddressPaneId" data-toggle="tab">Billing Address</a></li>
                 <li><a href="#@contactInfoPaneId" data-toggle="tab">Contact Info</a></li>
             </ul>
             <div class="tab-content col-md-9">
@@ -69,9 +79,29 @@
                                 <span asp-validation-for="VatNumber" class="text-danger"></span>
                             </div>
                         </div>
-                        <h5>@Html.DisplayNameFor(model => model.Address)</h5>
-                        @Html.EditorFor(m => m.Address)
+                        <h5>@Html.DisplayNameFor(model => model.LegalAddress)</h5>
+                        @Html.EditorFor(m => m.LegalAddress)
                     </div>
+                </div>
+                <div class="tab-pane" id="@shippingAddressPaneId">
+                    <h5>@Html.DisplayNameFor(model => model.ShippingAddress)</h5>
+                    <div class="form-group">
+                        <label asp-for="AcquireShippingAddressFromLegalAddress" class="col-md-2 control-label"></label>
+                        <div class="col-md-10">
+                            <input asp-for="AcquireShippingAddressFromLegalAddress">
+                        </div>
+                    </div>
+                    @Html.EditorFor(model => model.ShippingAddress)
+                </div>
+                <div class="tab-pane" id="@billingAddressPaneId">
+                    <h5>@Html.DisplayNameFor(model => model.BillingAddress)</h5>
+                    <div class="form-group">
+                        <label asp-for="AcquireBillingAddressFromLegalAddress" class="col-md-2 control-label"></label>
+                        <div class="col-md-10">
+                            <input asp-for="AcquireBillingAddressFromLegalAddress">
+                        </div>
+                    </div>
+                    @Html.EditorFor(model => model.BillingAddress)
                 </div>
                 <div class="tab-pane" id="@contactInfoPaneId">
                     <div class="form-group">
@@ -143,11 +173,11 @@
         $('#@firstNameTextBoxName').val(personInformation.firstName || '');
         $('#@lastNameTextBoxName').val(personInformation.lastName || '');
         $('#@vatNumberTextBoxName').val(personInformation.vatNumber || '');
-        $('#@addressAddressTextBoxName').val(personInformation.address || '');
-        $('#@addressCityTextBoxName').val(personInformation.city || '');
-        $('#@addressPostalCodeTextBoxName').val(personInformation.postalCode || '');
-        $('#@addressProvinceTextBoxName').val(personInformation.province || '');
-        $('#@addressCountryTextBoxName').val(personInformation.country || '');
+        $('#@legalAddressAddressTextBoxName').val(personInformation.address || '');
+        $('#@legalAddressCityTextBoxName').val(personInformation.city || '');
+        $('#@legalAddressPostalCodeTextBoxName').val(personInformation.postalCode || '');
+        $('#@legalAddressProvinceTextBoxName').val(personInformation.province || '');
+        $('#@legalAddressCountryTextBoxName').val(personInformation.country || '');
       });
     });
 
@@ -155,5 +185,30 @@
       $('#@viesModalId').trigger('loadPersonVatNumber', { vatNumber: $('#@vatNumberTextBoxName').val() || '' });
     });
 
+
+    var acquireShippingAddressFromLegalAddressCheckBox = $('#@acquireShippingAddressFromLegalAddressCheckBoxName'),
+      acquireBillingAddressFromLegalAddressCheckBox = $('#@acquireBillingAddressFromLegalAddressCheckBoxName');
+
+    acquireShippingAddressFromLegalAddressCheckBox.on('change', updateShippingAddressPaneInputStatus);
+    acquireBillingAddressFromLegalAddressCheckBox.on('change', updateBillingAddressPaneInputStatus);
+
+    function updateShippingAddressPaneInputStatus() {
+      if (acquireShippingAddressFromLegalAddressCheckBox.is(':checked')) {
+        $('#@shippingAddressPaneId input[name^="@shippingAddressName."]').attr('disabled', true).val('');
+      } else {
+        $('#@shippingAddressPaneId input[name^="@shippingAddressName."]').attr('disabled', false);
+      }
+    }
+
+    function updateBillingAddressPaneInputStatus() {
+      if (acquireBillingAddressFromLegalAddressCheckBox.is(':checked')) {
+        $('#@billingAddressPaneId input[name^="@billingAddressName."]').attr('disabled', true).val('');
+      } else {
+        $('#@billingAddressPaneId input[name^="@billingAddressName."]').attr('disabled', false);
+      }
+    }
+
+    updateShippingAddressPaneInputStatus();
+    updateBillingAddressPaneInputStatus();
   });
 </script>

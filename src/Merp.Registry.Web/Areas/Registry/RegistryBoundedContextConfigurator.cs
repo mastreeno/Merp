@@ -47,6 +47,7 @@ namespace Merp.Web.Site.Areas.Registry
             Bus.Subscribe<CompanyAdministrativeContactAssociatedEvent>();
             Bus.Subscribe<CompanyMainContactAssociatedEvent>();
             Bus.Subscribe<ContactInfoSetForPartyEvent>();
+            Bus.Subscribe<PartyUnlistedEvent>();
         }
 
         protected override void RegisterDenormalizers()

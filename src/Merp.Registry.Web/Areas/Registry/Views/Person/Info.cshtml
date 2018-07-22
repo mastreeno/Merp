@@ -17,6 +17,8 @@
             <div class="tabbable tabs-left">
                 <ul class="nav nav-tabs col-md-3">
                     <li class="active"><a role="tab" href="#personInfoPane" data-toggle="tab">Person Info</a></li>
+                    <li><a role="tab" href="#personShippingAddressPane" data-toggle="tab">Shipping Address</a></li>
+                    <li><a role="tab" href="#personBillingAddressPane" data-toggle="tab">Billing Address</a></li>
                     <li><a href="#personContactInfoPane" data-toggle="tab">Contact Info</a></li>
                 </ul>
                 <div class="tab-content col-md-9">
@@ -59,16 +61,16 @@
                                 </dd>
                             </dl>
                         </section>
-                        <form name="personAddressSection" id="personAddressSection" data-original-id="@Model.OriginalId" method="post" action="@UrlBuilder.Registry.PersonChangeAddress()" novalidate="novalidate">
+                        <form name="personAddressSection" id="personAddressSection" data-original-id="@Model.OriginalId" method="post" action="@UrlBuilder.Registry.PersonChangeLegalAddress()" novalidate="novalidate">
                             <div class="row">
-                                <h5 class="col-md-3">@Html.DisplayNameFor(model => model.Address)</h5>
+                                <h5 class="col-md-3">@Html.DisplayNameFor(model => model.LegalAddress)</h5>
                                 <a class="btn pull-left" id="changeAddressBtn" href="#"><i class="fa fa-edit"></i> Change address</a>
                                 <div class="btn-group change-address-actions hidden" role="group" aria-label="changeAddress">
                                     <button type="submit" id="saveAddress" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
                                     <button type="button" id="cancelAddress" class="btn btn-default"><i class="fa fa-undo"></i> Cancel</button>
                                 </div>
                             </div>
-                            @Html.DisplayFor(model => model.Address)
+                            @Html.DisplayFor(model => model.LegalAddress)
                         </form>
 
                     </div>
@@ -122,6 +124,32 @@
                                 @Html.DisplayFor(model => model.InstantMessaging)
                             </dd>
                         </dl>
+                    </div>
+                    <div id="personShippingAddressPane" class="tab-pane">
+                        <form id="shippingAddressForm" data-original-id="@Model.OriginalId" method="post" action="@UrlBuilder.Registry.PersonChangeShippingAddress()">
+                            <div class="row">
+                                <h5 class="col-md-3">@Html.DisplayNameFor(model => model.ShippingAddress)</h5>
+                                <a class="btn pull-left" href="#" id="changeShippingAddressBtn"><i class="fa fa-edit"></i> Change shipping address</a>
+                                <div class="btn-group change-shipping-address-actions hidden" role="group" aria-label="changeShippingAddress">
+                                    <button type="submit" id="saveShippingAddress" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                                    <button type="button" id="cancelShippingAddress" class="btn btn-default"><i class="fa fa-undo"></i> Cancel</button>
+                                </div>
+                            </div>
+                            @Html.DisplayFor(model => model.ShippingAddress)
+                        </form>
+                    </div>
+                    <div id="personBillingAddressPane" class="tab-pane">
+                        <form id="billingAddressForm" data-original-id="@Model.OriginalId" method="post" action="@UrlBuilder.Registry.PersonChangeBillingAddress()">
+                            <div class="row">
+                                <h5 class="col-md-3">@Html.DisplayNameFor(model => model.BillingAddress)</h5>
+                                <a class="btn pull-left" href="#" id="changeBillingAddressBtn"><i class="fa fa-edit"></i> Change billing address</a>
+                                <div class="btn-group change-billing-address-actions hidden" role="group" aria-label="changeBillingAddress">
+                                    <button type="submit" id="saveBillingAddress" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                                    <button type="button" id="cancelBillingAddress" class="btn btn-default"><i class="fa fa-undo"></i> Cancel</button>
+                                </div>
+                            </div>
+                            @Html.DisplayFor(model => model.BillingAddress)
+                        </form>
                     </div>
                 </div>
             </div>

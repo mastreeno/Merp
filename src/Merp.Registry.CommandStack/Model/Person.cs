@@ -46,25 +46,31 @@ namespace Merp.Registry.CommandStack.Model
             NationalIdentificationNumber = evt.NationalIdentificationNumber;
             VatNumber = evt.VatNumber;
             RegistrationDate = evt.TimeStamp;
-            if (!string.IsNullOrWhiteSpace(evt.Address) && !string.IsNullOrWhiteSpace(evt.City) && !string.IsNullOrWhiteSpace(evt.Country))
+            if (!string.IsNullOrWhiteSpace(evt.LegalAddressAddress) && !string.IsNullOrWhiteSpace(evt.LegalAddressCity) && !string.IsNullOrWhiteSpace(evt.LegalAddressCountry))
             {
-                var legalAddress = new PostalAddress(evt.Address, evt.City, evt.Country)
+                var legalAddress = new PostalAddress(evt.LegalAddressAddress, evt.LegalAddressCity, evt.LegalAddressCountry)
                 {
-                    PostalCode = evt.PostalCode,
-                    Province = evt.Province
-                };
-                var shippingAddress = new PostalAddress(evt.Address, evt.City, evt.Country)
-                {
-                    PostalCode = evt.PostalCode,
-                    Province = evt.Province
-                };
-                var billingAddress = new PostalAddress(evt.Address, evt.City, evt.Country)
-                {
-                    PostalCode = evt.PostalCode,
-                    Province = evt.Province
+                    PostalCode = evt.LegalAddressPostalCode,
+                    Province = evt.LegalAddressProvince
                 };
                 this.LegalAddress = legalAddress;
+            }
+            if (!string.IsNullOrWhiteSpace(evt.ShippingAddressAddress) && !string.IsNullOrWhiteSpace(evt.ShippingAddressCity) && !string.IsNullOrWhiteSpace(evt.ShippingAddressCountry))
+            {
+                var shippingAddress = new PostalAddress(evt.ShippingAddressAddress, evt.ShippingAddressCity, evt.ShippingAddressCountry)
+                {
+                    PostalCode = evt.ShippingAddressPostalCode,
+                    Province = evt.ShippingAddressProvince
+                };
                 this.ShippingAddress = shippingAddress;
+            }
+            if (!string.IsNullOrWhiteSpace(evt.BillingAddressAddress) && !string.IsNullOrWhiteSpace(evt.BillingAddressCity) && !string.IsNullOrWhiteSpace(evt.BillingAddressCountry))
+            {
+                var billingAddress = new PostalAddress(evt.BillingAddressAddress, evt.BillingAddressCity, evt.BillingAddressCountry)
+                {
+                    PostalCode = evt.BillingAddressPostalCode,
+                    Province = evt.BillingAddressProvince
+                };
                 this.BillingAddress = billingAddress;
             }
             var contactInfo = new ContactInfo(evt.PhoneNumber, evt.MobileNumber, evt.FaxNumber, evt.WebsiteAddress, evt.EmailAddress, evt.InstantMessaging);
@@ -101,7 +107,11 @@ namespace Merp.Registry.CommandStack.Model
             /// <param name="vatNumber">The person's VAT Number</param>
             /// <returns>The aggregate instance</returns>
             /// <exception cref="ArgumentException">Thrown if the firstName or the last name are null or empty</exception>
-            public static Person CreateNewEntry(string firstName, string lastName, string nationalIdentificationNumber, string vatNumber, string address, string city, string postalCode, string province, string country, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
+            public static Person CreateNewEntry(string firstName, string lastName, string nationalIdentificationNumber, string vatNumber, 
+                string legalAddressAddress, string legalAddressCity, string legalAddressPostalCode, string legalAddressProvince, string legalAddressCountry,
+                string billingAddressAddress, string billingAddressCity, string billingAddressPostalCode, string billingAddressProvince, string billingAddressCountry,
+                string shippingAddressAddress, string shippingAddressCity, string shippingAddressPostalCode, string shippingAddressProvince, string shippingAddressCountry,
+                string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
             {
                 if (string.IsNullOrWhiteSpace(firstName))
                     throw new ArgumentException("The first name must be specified", nameof(firstName));
@@ -120,14 +130,28 @@ namespace Merp.Registry.CommandStack.Model
                         throw new ArgumentException("National identification number is not matching with last name", nameof(nationalIdentificationNumber));
                     }
                 }
-                if (!PostalAddressHelper.IsValidAddress(address, city, postalCode, province, country))
+                if (!PostalAddressHelper.IsValidAddress(legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry))
                 {
-                    throw new ArgumentException("postal address must either be empty or comprehensive of both address and city");
+                    throw new ArgumentException("legal address must either be empty or comprehensive of both address and city");
+                }
+
+                if (!PostalAddressHelper.IsValidAddress(shippingAddressAddress, shippingAddressCity, shippingAddressPostalCode, shippingAddressProvince, shippingAddressCountry))
+                {
+                    throw new ArgumentException("shipping address must either be empty or comprehensive of both address and city");
+                }
+
+                if (!PostalAddressHelper.IsValidAddress(billingAddressAddress, billingAddressCity, billingAddressPostalCode, billingAddressProvince, billingAddressCountry))
+                {
+                    throw new ArgumentException("billing address must either be empty or comprehensive of both address and city");
                 }
 
                 var personId = Guid.NewGuid();
                 var registrationDate = DateTime.Now;
-                var e = new PersonRegisteredEvent(personId, registrationDate, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging);
+                var e = new PersonRegisteredEvent(personId, registrationDate, firstName, lastName, nationalIdentificationNumber, vatNumber, 
+                    legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry,
+                    billingAddressAddress, billingAddressCity, billingAddressPostalCode, billingAddressProvince, billingAddressCountry,
+                    shippingAddressAddress, shippingAddressCity, shippingAddressPostalCode, shippingAddressProvince, shippingAddressCountry,
+                    phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging);
                 var p = new Person();
                 p.RaiseEvent(e);
                 return p;
@@ -168,7 +192,7 @@ namespace Merp.Registry.CommandStack.Model
                     throw new ArgumentException("postal address must either be empty or comprehensive of both address and city");
                 }
 
-                var e = new PersonRegisteredEvent(personId, registrationDate, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging);
+                var e = new PersonRegisteredEvent(personId, registrationDate, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, address, city, postalCode, province, country, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging);
                 var p = new Person();
                 p.RaiseEvent(e);
                 return p;

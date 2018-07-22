@@ -101,9 +101,19 @@ namespace Merp.Web.Site.Areas.Registry
                 return $"/{areaName}/Person/ChangeAddress/{personId}";
             }
 
-            public static string PersonChangeAddress()
+            public static string PersonChangeLegalAddress()
             {
-                return $"/{areaName}/Person/ChangeAddress";
+                return $"/{areaName}/Person/ChangeLegalAddress";
+            }
+
+            public static string PersonChangeShippingAddress()
+            {
+                return $"/{areaName}/Person/ChangeShippingAddress";
+            }
+
+            public static string PersonChangeBillingAddress()
+            {
+                return $"/{areaName}/Person/ChangeBillingAddress";
             }
 
             public static string PersonChangeContactInfo(Guid personId)

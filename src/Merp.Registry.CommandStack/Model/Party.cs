@@ -16,7 +16,8 @@ namespace Merp.Registry.CommandStack.Model
         IApplyEvent<PartyLegalAddressChangedEvent>,
         IApplyEvent<PartyShippingAddressChangedEvent>,
         IApplyEvent<PartyBillingAddressChangedEvent>,
-        IApplyEvent<ContactInfoSetForPartyEvent>
+        IApplyEvent<ContactInfoSetForPartyEvent>,
+        IApplyEvent<PartyUnlistedEvent>
     {
         public DateTime RegistrationDate { get; set; }
 
@@ -49,6 +50,8 @@ namespace Merp.Registry.CommandStack.Model
         /// Gets or sets the contact info
         /// </summary>
         public ContactInfo ContactInfo { get; protected set; }
+
+        public bool Unlisted { get; protected set; }
 
         /// <summary>
         /// Apply an event to the current instance
@@ -100,6 +103,15 @@ namespace Merp.Registry.CommandStack.Model
         {
             var contactInfo = new ContactInfo(evt.PhoneNumber, evt.MobileNumber, evt.FaxNumber, evt.WebsiteAddress, evt.EmailAddress, evt.InstantMessaging);
             this.ContactInfo = contactInfo;
+        }
+
+        /// <summary>
+        /// Apply an event to the current instance
+        /// </summary>
+        /// <param name="evt">The event</param>
+        public void ApplyEvent(PartyUnlistedEvent evt)
+        {
+            Unlisted = true;
         }
 
         /// <summary>
@@ -190,6 +202,16 @@ namespace Merp.Registry.CommandStack.Model
         public void SetContactInfo(string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
         {     
             var e = new ContactInfoSetForPartyEvent(Id, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging);
+            RaiseEvent(e);
+        }
+
+        /// <summary>
+        /// Unlist the current party
+        /// </summary>
+        /// <param name="unlistDate"></param>
+        public void Unlist(DateTime unlistDate)
+        {
+            var e = new PartyUnlistedEvent(Id, unlistDate);
             RaiseEvent(e);
         }
     }

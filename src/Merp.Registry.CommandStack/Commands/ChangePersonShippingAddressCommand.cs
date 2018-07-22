@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MementoFX;
-using MementoFX.Domain;
+﻿using MementoFX;
+using System;
 
 namespace Merp.Registry.CommandStack.Commands
 {
-    public class ChangePersonAddressCommand : Command
+    public class ChangePersonShippingAddressCommand : Command
     {
         public Guid PersonId { get; set; }
         public string Address { get; set; }
@@ -18,7 +13,7 @@ namespace Merp.Registry.CommandStack.Commands
         public string Province { get; set; }
         public DateTime EffectiveDate { get; set; }
 
-        public ChangePersonAddressCommand(Guid personId, string address, string postalCode, string city, string province, string country, DateTime effectiveDate)
+        public ChangePersonShippingAddressCommand(Guid personId, string address, string postalCode, string city, string province, string country, DateTime effectiveDate)
         {
             PersonId = personId;
             Address = address ?? throw new ArgumentNullException(nameof(address));
