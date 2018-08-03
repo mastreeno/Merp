@@ -9,19 +9,19 @@ namespace Merp.Sales.QueryStack
 {
     public class Database : IDatabase, IDisposable
     {
-        private ProjectManagementDbContext Context;
+        private SalesDbContext Context;
 
-        public Database(ProjectManagementDbContext context)
+        public Database(SalesDbContext context)
         {
             Context = context ?? throw new ArgumentNullException(nameof(context));
             Context.ChangeTracker.AutoDetectChangesEnabled = false;
         }
 
-        public IQueryable<Project> Projects
+        public IQueryable<BusinessProposal> Proposals
         {
             get
             {
-                return Context.Projects;
+                return Context.Proposals;
             }
         }
 

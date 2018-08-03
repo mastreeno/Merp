@@ -77,27 +77,6 @@ namespace Merp.Sales.Web.Areas.Sales.Controllers
         }
 
         [HttpGet]
-        public ActionResult ExtendJobOrder(Guid? id)
-        {
-            if (!id.HasValue)
-                return BadRequest();
-
-            var model = WorkerServices.GetExtendJobOrderViewModel(id.Value);
-            return View(model);
-        }
-
-        [HttpPost]
-        public ActionResult ExtendJobOrder(ExtendProjectViewModel model)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return View(model);
-            }
-            WorkerServices.ExtendJobOrder(model);
-            return Redirect("/Accountancy/JobOrder");
-        }
-
-        [HttpGet]
         public ActionResult MarkJobOrderAsCompleted(Guid? id)
         {
             var model = WorkerServices.GetMarkJobOrderAsCompletedViewModel(id.Value);

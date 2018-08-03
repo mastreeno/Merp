@@ -7,13 +7,13 @@ using System.Text;
 
 namespace Merp.Sales.QueryStack
 {
-    public class DbContextFactory : IDesignTimeDbContextFactory<ProjectManagementDbContext>
+    public class DbContextFactory : IDesignTimeDbContextFactory<SalesDbContext>
     {
-        public ProjectManagementDbContext CreateDbContext(string[] args)
+        public SalesDbContext CreateDbContext(string[] args)
         {
-            var builder = new DbContextOptionsBuilder<ProjectManagementDbContext>();
+            var builder = new DbContextOptionsBuilder<SalesDbContext>();
             builder.UseSqlServer("Server=.\\SQLExpress;Database=Merp-ProjectManagement-ReadModel;Trusted_Connection=True;MultipleActiveResultSets=true");
-            return new ProjectManagementDbContext(builder.Options);
+            return new SalesDbContext(builder.Options);
         }
     }
 }

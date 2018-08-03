@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Merp.Sales.QueryStack.Model
 {
-    public class Project : IEntityTypeConfiguration<Project>
+    public class BusinessProposal : IEntityTypeConfiguration<BusinessProposal>
     {
         [Key]
         [Required]
@@ -51,12 +51,12 @@ namespace Merp.Sales.QueryStack.Model
 
         public string Description { get; set; }
 
-        public Project()
+        public BusinessProposal()
         {
             IsTimeAndMaterial = false;
         }
 
-        public void Configure(EntityTypeBuilder<Project> builder)
+        public void Configure(EntityTypeBuilder<BusinessProposal> builder)
         {
             builder.HasIndex(o => o.CustomerId);
             builder.HasIndex(o => o.ManagerId);

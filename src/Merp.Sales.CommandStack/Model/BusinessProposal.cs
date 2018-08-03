@@ -12,8 +12,7 @@ using Merp.Domain.Model;
 
 namespace Merp.Sales.CommandStack.Model
 {
-    public class Project : Aggregate,
-        IApplyEvent<ProjectExtendedEvent>,
+    public class BusinessProposal : Aggregate,
         IApplyEvent<ProjectCompletedEvent>,
         IApplyEvent<ProjectRegisteredEvent>
     {
@@ -41,12 +40,6 @@ namespace Merp.Sales.CommandStack.Model
 
         public decimal Balance { get; private set; }
 
-        public void ApplyEvent(ProjectExtendedEvent evt)
-        {
-            this.DueDate = evt.NewDueDate;
-            this.Price = new Money(evt.Price, this.Price.Currency);
-        }
-
         public void ApplyEvent(ProjectCompletedEvent evt)
         {
             this.DateOfCompletion = evt.DateOfCompletion;
@@ -69,21 +62,6 @@ namespace Merp.Sales.CommandStack.Model
             Price = new Money(evt.Price, evt.Currency);
         }
 
-        public void Extend(DateTime newDueDate, decimal price)
-        {
-            if (this.IsCompleted)
-                throw new InvalidOperationException("Can't extend a completed job order.");
-            if (this.DueDate > newDueDate)
-                throw new ArgumentException("A job order length cannot be reduced.", nameof(newDueDate));
-
-            var @event = new ProjectExtendedEvent(
-                this.Id,
-                newDueDate,
-                price
-            );
-            RaiseEvent(@event);
-        }
-
         public void MarkAsCompleted(DateTime dateOfCompletion)
         {
             if (this.DateOfStart > dateOfCompletion)
@@ -100,7 +78,7 @@ namespace Merp.Sales.CommandStack.Model
 
         public class Factory
         {
-            public static Project RegisterNew(IProjectNumberGenerator projectNumberGenerator, Guid customerId, Guid? contactPersonId, Guid managerId, Money price, DateTime? dateOfStart, DateTime? dueDate, bool isTimeAndMaterial, string customerPurchaseOrderNumber, string name, string description)
+            public static BusinessProposal RegisterNew(IBusinessProposalNumberGenerator projectNumberGenerator, Guid customerId, Guid? contactPersonId, Guid managerId, Money price, DateTime? dateOfStart, DateTime? dueDate, bool isTimeAndMaterial, string customerPurchaseOrderNumber, string name, string description)
             {
                 if (projectNumberGenerator == null)
                     throw new ArgumentNullException(nameof(projectNumberGenerator));
@@ -125,12 +103,12 @@ namespace Merp.Sales.CommandStack.Model
                     customerPurchaseOrderNumber,
                     description
                     );
-                var jobOrder = new Project();
+                var jobOrder = new BusinessProposal();
                 jobOrder.RaiseEvent(@event);
                 return jobOrder;
             }
 
-            public static Project Import(Guid projectId, string projectNumber, Guid customerId, Guid? contactPersonId, Guid managerId, Money price, DateTime dateOfRegistration, DateTime? dateOfStart, DateTime? dueDate, bool isTimeAndMaterial, string name, string purchaseOrderNumber, string description)
+            public static BusinessProposal Import(Guid projectId, string projectNumber, Guid customerId, Guid? contactPersonId, Guid managerId, Money price, DateTime dateOfRegistration, DateTime? dateOfStart, DateTime? dueDate, bool isTimeAndMaterial, string name, string purchaseOrderNumber, string description)
             {
                 if (string.IsNullOrWhiteSpace(projectNumber))
                     throw new ArgumentNullException(nameof(projectNumber), "A job order number must be provided");
@@ -155,7 +133,7 @@ namespace Merp.Sales.CommandStack.Model
                     purchaseOrderNumber,
                     description
                     );
-                var jobOrder = new Project();
+                var jobOrder = new BusinessProposal();
                 jobOrder.RaiseEvent(@event);
                 return jobOrder;
             }

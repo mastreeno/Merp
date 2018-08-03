@@ -8,21 +8,20 @@ using System.Threading.Tasks;
 
 namespace Merp.Sales.QueryStack.Denormalizers
 {
-    public class JobOrderDenormalizer : 
+    public class BusinessProposalDenormalizer : 
         IHandleMessages<ProjectRegisteredEvent>,
-        IHandleMessages<ProjectExtendedEvent>,
         IHandleMessages<ProjectCompletedEvent>
     {
-        private DbContextOptions<ProjectManagementDbContext> Options;
+        private DbContextOptions<SalesDbContext> Options;
 
-        public JobOrderDenormalizer(DbContextOptions<ProjectManagementDbContext> options)
+        public BusinessProposalDenormalizer(DbContextOptions<SalesDbContext> options)
         {
             Options = options ?? throw new ArgumentNullException(nameof(options));
         }
 
         public async Task Handle(ProjectRegisteredEvent message)
         {
-            var jobOrder = new Project();
+            var jobOrder = new BusinessProposal();
             jobOrder.Id = message.ProjectId;
             jobOrder.CustomerId = message.CustomerId;
             jobOrder.ContactPersonId = message.ContactPersonId;
@@ -39,9 +38,9 @@ namespace Merp.Sales.QueryStack.Denormalizers
             jobOrder.IsCompleted = false;
             jobOrder.IsTimeAndMaterial = false;
 
-            using (var db = new ProjectManagementDbContext(Options))
+            using (var db = new SalesDbContext(Options))
             {
-                db.Projects.Add(jobOrder);
+                db.Proposals.Add(jobOrder);
                 try
                 {
                     await db.SaveChangesAsync();
@@ -53,24 +52,12 @@ namespace Merp.Sales.QueryStack.Denormalizers
             }
         }
 
-        public async Task Handle(ProjectExtendedEvent message)
-        {
-            using (var db = new ProjectManagementDbContext(Options))
-            {
-                var jobOrder = db.Projects.OfType<Project>().Where(jo => jo.Id == message.ProjectId).Single();
-                jobOrder.DueDate = message.NewDueDate;
-                jobOrder.Price = message.Price;
-                await db.SaveChangesAsync();
-            }
-            
-        }
-
         public async Task Handle(ProjectCompletedEvent message)
         {
-            using (var db = new ProjectManagementDbContext(Options))
+            using (var db = new SalesDbContext(Options))
             {
-                var jobOrder = db.Projects
-                    .OfType<Project>()
+                var jobOrder = db.Proposals
+                    .OfType<BusinessProposal>()
                     .Where(jo => jo.Id == message.ProjectId)
                     .Single();
                 jobOrder.DateOfCompletion = message.DateOfCompletion;

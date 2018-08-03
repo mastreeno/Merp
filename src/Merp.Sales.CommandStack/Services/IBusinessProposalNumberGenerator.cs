@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Merp.Sales.CommandStack.Services
 {
-    public interface IProjectNumberGenerator
+    public interface IBusinessProposalNumberGenerator
     {
         string Generate();
     }

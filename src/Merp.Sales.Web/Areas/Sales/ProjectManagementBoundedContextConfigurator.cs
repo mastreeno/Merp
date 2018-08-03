@@ -46,14 +46,14 @@ namespace Merp.Sales.Web.Areas.Sales
 
         protected override void RegisterServices()
         {
-            Services.AddScoped<IProjectNumberGenerator, ProjectNumberGenerator>();
+            Services.AddScoped<IBusinessProposalNumberGenerator, BusinessProposalNumberGenerator>();
         }
 
         protected override void RegisterTypes()
         {
             //Types
             var readModelConnectionString = Configuration.GetConnectionString("Merp-Sales-ReadModel");
-            Services.AddDbContext<Merp.Sales.QueryStack.ProjectManagementDbContext>(options => options.UseSqlServer(readModelConnectionString));
+            Services.AddDbContext<Merp.Sales.QueryStack.SalesDbContext>(options => options.UseSqlServer(readModelConnectionString));
             Services.AddScoped<Merp.Sales.QueryStack.IDatabase, Merp.Sales.QueryStack.Database>();
         }
 
@@ -67,7 +67,6 @@ namespace Merp.Sales.Web.Areas.Sales
         {
             //Events
             Bus.Subscribe<ProjectCompletedEvent>();
-            Bus.Subscribe<ProjectExtendedEvent>();
             Bus.Subscribe<ProjectRegisteredEvent>();
         }
     }

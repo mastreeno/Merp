@@ -9,6 +9,6 @@ namespace Merp.Sales.QueryStack
 {
     public interface IDatabase
     {
-        IQueryable<Project> Projects { get; }
+        IQueryable<BusinessProposal> Proposals { get; }
     }
 }

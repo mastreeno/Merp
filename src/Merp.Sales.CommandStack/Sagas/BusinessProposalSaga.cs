@@ -12,18 +12,17 @@ using System.Linq;
 
 namespace Merp.Sales.CommandStack.Sagas
 {
-    public sealed class ProjectSaga : Saga<ProjectSaga.ProjectSagaData>,
-        IAmInitiatedBy<ImportProjectCommand>,
+    public sealed class BusinessProposalSaga : Saga<BusinessProposalSaga.BusinessProposalSagaData>,
+        IAmInitiatedBy<ImportBusinessProposalCommand>,
         IAmInitiatedBy<RegisterProjectCommand>,
-        IHandleMessages<ExtendProjectCommand>,
         IHandleMessages<MarkProjectAsCompletedCommand>
     {
         public readonly IRepository repository;
         public readonly IEventStore eventStore;
         public readonly IBus bus;
-        public readonly IProjectNumberGenerator ProjectNumberGenerator;
+        public readonly IBusinessProposalNumberGenerator ProjectNumberGenerator;
 
-        public ProjectSaga(IBus bus, IEventStore eventStore, IRepository repository, IProjectNumberGenerator jobOrderNumberGenerator)
+        public BusinessProposalSaga(IBus bus, IEventStore eventStore, IRepository repository, IBusinessProposalNumberGenerator jobOrderNumberGenerator)
         {
             this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
             this.bus = bus ?? throw new ArgumentNullException(nameof(bus));
@@ -31,17 +30,13 @@ namespace Merp.Sales.CommandStack.Sagas
             ProjectNumberGenerator = jobOrderNumberGenerator ?? throw new ArgumentNullException(nameof(jobOrderNumberGenerator));
         }
 
-        protected override void CorrelateMessages(ICorrelationConfig<ProjectSagaData> config)
+        protected override void CorrelateMessages(ICorrelationConfig<BusinessProposalSagaData> config)
         {
-            config.Correlate<ImportProjectCommand>(
+            config.Correlate<ImportBusinessProposalCommand>(
                 message => message.ProjectId,
                 sagaData => sagaData.ProjectId);
 
             config.Correlate<RegisterProjectCommand>(
-                message => message.ProjectId,
-                sagaData => sagaData.ProjectId);
-
-            config.Correlate<ExtendProjectCommand>(
                 message => message.ProjectId,
                 sagaData => sagaData.ProjectId);
 
@@ -50,9 +45,9 @@ namespace Merp.Sales.CommandStack.Sagas
                 sagaData => sagaData.ProjectId);
         }
 
-        public async Task Handle(ImportProjectCommand message)
+        public async Task Handle(ImportBusinessProposalCommand message)
         {
-            var jobOrder = Project.Factory.Import(
+            var jobOrder = BusinessProposal.Factory.Import(
                 message.ProjectId,
                 message.ProjectNumber,
                 message.CustomerId,
@@ -73,7 +68,7 @@ namespace Merp.Sales.CommandStack.Sagas
 
         public async Task Handle(RegisterProjectCommand message)
         {
-            var jobOrder = Project.Factory.RegisterNew(
+            var jobOrder = BusinessProposal.Factory.RegisterNew(
             ProjectNumberGenerator,
             message.CustomerId,
             message.ContactPersonId,
@@ -90,22 +85,15 @@ namespace Merp.Sales.CommandStack.Sagas
             this.Data.ProjectId = jobOrder.Id;
         }
 
-        public async Task Handle(ExtendProjectCommand message)
-        {
-            var jobOrder = repository.GetById<Project>(message.ProjectId);
-            jobOrder.Extend(message.NewDueDate, message.Price);
-            await repository.SaveAsync(jobOrder);
-        }
-
         public async Task Handle(MarkProjectAsCompletedCommand message)
         {
-            var jobOrder = repository.GetById<Project>(message.ProjectId);
+            var jobOrder = repository.GetById<BusinessProposal>(message.ProjectId);
             jobOrder.MarkAsCompleted(message.DateOfCompletion);
             await repository.SaveAsync(jobOrder);
             this.MarkAsComplete();
         }
 
-        public class ProjectSagaData : SagaData
+        public class BusinessProposalSagaData : SagaData
         {
             public Guid ProjectId { get; set; }
         }

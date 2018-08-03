@@ -41,7 +41,7 @@ namespace Merp.Sales.Web.Areas.Sales.WorkerServices
 
         public IEnumerable<IndexViewModel.Project> GetList(bool currentOnly, Guid? customerId, string projectName)
         {
-            var query = from jo in Database.Projects
+            var query = from jo in Database.Proposals
                         orderby jo.Name
                         select new IndexViewModel.Project
                         {
@@ -80,11 +80,11 @@ namespace Merp.Sales.Web.Areas.Sales.WorkerServices
                     dates = EachYear(dateFrom, dateTo).ToArray();
                     break;
             }
-            var isTimeAndMaterial = (from jo in Database.Projects
+            var isTimeAndMaterial = (from jo in Database.Proposals
                                      where jo.Id == projectId
                                      select jo.IsTimeAndMaterial).Single();
-            Merp.Sales.CommandStack.Model.Project[] jobOrders = null;
-            jobOrders = Repository.GetSeriesById<Merp.Sales.CommandStack.Model.Project>(projectId, dates);
+            Merp.Sales.CommandStack.Model.BusinessProposal[] jobOrders = null;
+            jobOrders = Repository.GetSeriesById<Merp.Sales.CommandStack.Model.BusinessProposal>(projectId, dates);
             var model = new List<BalanceViewModel>();
             for(int i=0; i < dates.Count(); i++)
             {
@@ -107,22 +107,9 @@ namespace Merp.Sales.Web.Areas.Sales.WorkerServices
             return model;
         }
 
-        public ExtendProjectViewModel GetExtendJobOrderViewModel(Guid projectId)
-        {
-            var project = Repository.GetById<Merp.Sales.CommandStack.Model.Project>(projectId);
-            var model = new ExtendProjectViewModel();
-            if(project.DueDate.HasValue)
-                model.NewDueDate = project.DueDate.Value;
-            model.Price = project.Price.Amount;
-            model.ProjectNumber = project.Number;
-            model.ProjectId = project.Id;
-            model.ProjectName = project.Name;
-            return model;
-        }
-
         public DetailViewModel GetProjectDetailViewModel(Guid projectId)
         {
-            var project = Repository.GetById<Merp.Sales.CommandStack.Model.Project>(projectId);
+            var project = Repository.GetById<Merp.Sales.CommandStack.Model.BusinessProposal>(projectId);
 
             var model = new DetailViewModel();
             model.ManagerId = project.ManagerId;
@@ -143,7 +130,7 @@ namespace Merp.Sales.Web.Areas.Sales.WorkerServices
 
         public MarkProjectAsCompletedViewModel GetMarkJobOrderAsCompletedViewModel(Guid projectId)
         {
-            var project = Repository.GetById<Merp.Sales.CommandStack.Model.Project>(projectId);
+            var project = Repository.GetById<Merp.Sales.CommandStack.Model.BusinessProposal>(projectId);
 
             var model = new MarkProjectAsCompletedViewModel();
             model.DateOfCompletion = DateTime.Now;
@@ -172,12 +159,6 @@ namespace Merp.Sales.Web.Areas.Sales.WorkerServices
             Bus.Send(command);
         }
 
-        public void ExtendJobOrder(ExtendProjectViewModel model)
-        {
-            var command = new ExtendProjectCommand(model.ProjectId, model.NewDueDate, model.Price);
-            Bus.Send(command);
-        }
-
         public void MarkJobOrderAsCompleted(MarkProjectAsCompletedViewModel model)
         {
             var command = new MarkProjectAsCompletedCommand(model.ProjectId, model.DateOfCompletion);
@@ -186,7 +167,7 @@ namespace Merp.Sales.Web.Areas.Sales.WorkerServices
 
         public decimal GetEvaluateProjectBalance(Guid projectId)
         {
-            var jobOrder = Repository.GetById<Merp.Sales.CommandStack.Model.Project>(projectId, DateTime.Now);
+            var jobOrder = Repository.GetById<Merp.Sales.CommandStack.Model.BusinessProposal>(projectId, DateTime.Now);
             var balance = jobOrder.Balance;
             return balance;
         }

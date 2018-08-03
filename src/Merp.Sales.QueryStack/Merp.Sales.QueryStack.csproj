@@ -21,4 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Merp.Sales.CommandStack\Merp.Sales.CommandStack.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
 </Project>

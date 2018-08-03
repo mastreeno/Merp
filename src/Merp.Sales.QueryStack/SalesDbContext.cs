@@ -4,18 +4,18 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Merp.Sales.QueryStack
 {
-    public class ProjectManagementDbContext : DbContext
+    public class SalesDbContext : DbContext
     {
         private readonly static string ContextName = "Sales";
 
-        public ProjectManagementDbContext() { }
-        public ProjectManagementDbContext(DbContextOptions<ProjectManagementDbContext> options) : base(options){ }
+        public SalesDbContext() { }
+        public SalesDbContext(DbContextOptions<SalesDbContext> options) : base(options){ }
 
-        public DbSet<Project> Projects { get; set; }
+        public DbSet<BusinessProposal> Proposals { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new Project());
+            modelBuilder.ApplyConfiguration(new BusinessProposal());
 
             //foreach (IMutableEntityType entity in modelBuilder.Model.GetEntityTypes())
             //{
