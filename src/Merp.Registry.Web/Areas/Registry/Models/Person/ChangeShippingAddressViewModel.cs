@@ -3,23 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace Merp.Web.Site.Areas.Registry.Models.Person
 {
-    public class ChangeAddressViewModel : IValidatableObject
+    public class ChangeShippingAddressViewModel : IValidatableObject
     {
         [Required]
         public Guid PersonId { get; set; }
-
-        [BindNever]
-        public string PersonFirstName { get; set; }
-
-        [BindNever]
-        public string PersonLastName { get; set; }
-        
-        public string PersonDisplayName { get { return $"{PersonFirstName} {PersonLastName}".Trim(); } }
 
         [DisplayName("Address")]
         public PostalAddress Address { get; set; }

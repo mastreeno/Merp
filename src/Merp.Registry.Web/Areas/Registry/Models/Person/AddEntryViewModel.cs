@@ -25,9 +25,23 @@ namespace Merp.Web.Site.Areas.Registry.Models.Person
         [DisplayName("VAT number")]
         public string VatNumber { get; set; }
         
-        [DisplayName("Address")]
-        public PostalAddress Address { get; set; }
-        
+        [DisplayName("Legal Address")]
+        public PostalAddress LegalAddress { get; set; }
+
+        [Required]
+        [DisplayName("Use Legal Address")]
+        public bool AcquireShippingAddressFromLegalAddress { get; set; }
+
+        [DisplayName("Shipping Address")]
+        public PostalAddress ShippingAddress { get; set; }
+
+        [Required]
+        [DisplayName("Use Legal Address")]
+        public bool AcquireBillingAddressFromLegalAddress { get; set; }
+
+        [DisplayName("Billing Address")]
+        public PostalAddress BillingAddress { get; set; }
+
         [Phone]
         [DisplayName("Phone Number")]
         public string PhoneNumber { get; set; }

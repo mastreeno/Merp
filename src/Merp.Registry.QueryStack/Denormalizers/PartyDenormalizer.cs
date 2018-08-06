@@ -16,7 +16,8 @@ namespace Merp.Registry.QueryStack.Denormalizers
         IHandleMessages<ContactInfoSetForPartyEvent>,
         IHandleMessages<PersonRegisteredEvent>,
         IHandleMessages<CompanyRegisteredEvent>,
-        IHandleMessages<CompanyNameChangedEvent>
+        IHandleMessages<CompanyNameChangedEvent>,
+        IHandleMessages<PartyUnlistedEvent>
     {
         private DbContextOptions<RegistryDbContext> Options;
 
@@ -73,6 +74,17 @@ namespace Merp.Registry.QueryStack.Denormalizers
             }
         }
 
+        public async Task Handle(PartyUnlistedEvent message)
+        {
+            using (var context = new RegistryDbContext(Options))
+            {
+                var party = context.Parties.Single(p => p.OriginalId == message.PartyId);
+                party.Unlisted = true;
+
+                await context.SaveChangesAsync();
+            }
+        }
+
         #region Person
         public async Task Handle(PersonRegisteredEvent message)
         {
@@ -85,11 +97,11 @@ namespace Merp.Registry.QueryStack.Denormalizers
                 Type = Party.PartyType.Person,
                 LegalAddress = new PostalAddress
                 {
-                    Address = message.Address,
-                    City = message.City,
-                    Country = message.Country,
-                    PostalCode = message.PostalCode,
-                    Province = message.Province
+                    Address = message.LegalAddressAddress,
+                    City = message.LegalAddressCity,
+                    Country = message.LegalAddressCountry,
+                    PostalCode = message.LegalAddressPostalCode,
+                    Province = message.LegalAddressProvince
                 },
                 //ContactInfo = new ContactInfo
                 //{
