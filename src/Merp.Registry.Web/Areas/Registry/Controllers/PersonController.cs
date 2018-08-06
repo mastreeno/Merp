@@ -75,14 +75,14 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
         }
 
         [HttpPost]
-        public ActionResult ChangeAddress(ChangeAddressViewModel model)
+        public ActionResult ChangeLegalAddress(ChangeLegalAddressViewModel model)
         {
             ValidateAgainstPersistence(model);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            WorkerServices.ChangeAddress(model);
+            WorkerServices.ChangeLegalAddress(model);
             return Ok();
         }
 
@@ -116,15 +116,55 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
             return ViewComponent(typeof(LookupPersonInfoByViesViewComponent), new { id });
         }
 
+        [HttpPost]
+        public IActionResult ChangeShippingAddress(ChangeShippingAddressViewModel model)
+        {
+            ValidateAgainstPersistence(model);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            WorkerServices.ChangeShippingAddress(model);
+            return Ok();
+        }
+
+        [HttpPost]
+        public IActionResult ChangeBillingAddress(ChangeBillingAddressViewModel model)
+        {
+            ValidateAgainstPersistence(model);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            WorkerServices.ChangeBillingAddress(model);
+            return Ok();
+        }
+
         #region Helper Methods        
 
-        private void ValidateAgainstPersistence(ChangeAddressViewModel model)
+        private void ValidateAgainstPersistence(ChangeLegalAddressViewModel model)
         {
-            var personDto = WorkerServices.GetChangeAddressViewModelPersonDto(model.PersonId);
+            var personDto = WorkerServices.GetChangeLegalAddressViewModelPersonDto(model.PersonId);
             var persistenceValidationModelState = model.Validate(personDto);
             ModelState.Merge(persistenceValidationModelState);
         }
-        
+
+        private void ValidateAgainstPersistence(ChangeShippingAddressViewModel model)
+        {
+            var personDto = WorkerServices.GetChangeShippingAddressViewModelPersonDto(model.PersonId);
+            var persistenceValidationModelState = model.Validate(personDto);
+            ModelState.Merge(persistenceValidationModelState);
+        }
+
+        private void ValidateAgainstPersistence(ChangeBillingAddressViewModel model)
+        {
+            var personDto = WorkerServices.GetChangeBillingAddressViewModelPersonDto(model.PersonId);
+            var persistenceValidationModelState = model.Validate(personDto);
+            ModelState.Merge(persistenceValidationModelState);
+        }
+
         #endregion
     }
 }

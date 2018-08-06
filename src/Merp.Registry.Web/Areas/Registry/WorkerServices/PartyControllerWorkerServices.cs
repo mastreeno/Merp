@@ -1,4 +1,5 @@
-﻿using Merp.Registry.QueryStack;
+﻿using Merp.Registry.CommandStack.Commands;
+using Merp.Registry.QueryStack;
 using Merp.Registry.QueryStack.Model;
 using Merp.Web.Site.Areas.Registry.Models;
 using Merp.Web.Site.Areas.Registry.Models.Party;
@@ -37,24 +38,54 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
         }
 
 
-        public IEnumerable<GetPartiesViewModel> GetParties(string query, string partyType, string city, string orderBy, string orderDirection)
+        public GetPartiesViewModel GetParties(string query, string partyType, string city, string postalCode, string orderBy, string orderDirection, int page, int size)
         {
-            var parties = Database.Parties;
+            var parties = Database.Parties.NotUnlisted();
             parties = ApplyPartyTypeFilter(parties, partyType);
             parties = ApplyCityFilter(parties, city);
+            parties = ApplyPostalCodeFilter(parties, postalCode);
             parties = ApplyOrdering(parties, orderBy, orderDirection);
 
+            int skip = (page - 1) * size;
+
             var partyViewModels = parties.Select(
-                p => new GetPartiesViewModel {
+                p => new GetPartiesViewModel.PartyDescriptor {
                     id = p.Id,
                     uid = p.OriginalId,
                     name = p.DisplayName,
-                    PhoneNumber = p.PhoneNumber
+                    PhoneNumber = p.PhoneNumber,
+                    NationalIdentificationNumber = p.NationalIdentificationNumber,
+                    VatIndex = p.VatIndex
                 }
                 );
             partyViewModels = ApplyNameFilter(partyViewModels, query);
-            partyViewModels = partyViewModels.Take(20);
-            return partyViewModels.ToList();
+            int totalNumberOfParties = partyViewModels.Count();
+
+            partyViewModels = partyViewModels.Skip(skip).Take(size);
+            return new GetPartiesViewModel
+            {
+                TotalNumberOfParties = totalNumberOfParties,
+                Parties = partyViewModels.ToList()
+            };
+        }
+
+        public void UnlistParty(Guid partyId)
+        {
+            var party = Database.Parties.Single(p => p.OriginalId == partyId);
+            var unlistDate = DateTime.Today;
+            switch (party.Type)
+            {
+                case Party.PartyType.Company:
+                    var unlistCompanyCmd = new UnlistCompanyCommand(partyId, unlistDate);
+                    Bus.Send(unlistCompanyCmd);
+                    break;
+                case Party.PartyType.Person:
+                    var unlistPersonCmd = new UnlistPersonCommand(partyId, unlistDate);
+                    Bus.Send(unlistPersonCmd);
+                    break;
+                default:
+                    return;
+            }
         }
 
         #region Helper Methods
@@ -98,7 +129,17 @@ namespace Merp.Web.Site.Areas.Registry.WorkerServices
             return parties;
         }
 
-        private static IQueryable<GetPartiesViewModel> ApplyNameFilter(IQueryable<GetPartiesViewModel> partyViewModels, string query)
+        private static IQueryable<Party> ApplyPostalCodeFilter(IQueryable<Party> parties, string postalCode)
+        {
+            if (!string.IsNullOrWhiteSpace(postalCode) && postalCode != "undefined")
+            {
+                parties = parties.Where(p => p.LegalAddress.PostalCode.Contains(postalCode));
+            }
+
+            return parties;
+        }
+
+        private static IQueryable<GetPartiesViewModel.PartyDescriptor> ApplyNameFilter(IQueryable<GetPartiesViewModel.PartyDescriptor> partyViewModels, string query)
         {
             if (!string.IsNullOrEmpty(query) && query != "undefined")
             {

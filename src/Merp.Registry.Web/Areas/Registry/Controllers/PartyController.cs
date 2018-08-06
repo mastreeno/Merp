@@ -41,12 +41,24 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<GetPartiesViewModel> GetParties(string query, string partyType, string city, string orderBy, string orderDirection)
+        public IEnumerable<GetPartiesViewModel.PartyDescriptor> GetParties(string query, string partyType, string city, string postalCode, string orderBy, string orderDirection, int page = 1, int size = 20)
         {
-            var model = WorkerServices.GetParties(query, partyType, city, orderBy, orderDirection);
-            return model;
+            var model = WorkerServices.GetParties(query, partyType, city, postalCode, orderBy, orderDirection, page, size);
+            Response.Headers.Add("size", size.ToString());
+            Response.Headers.Add("total", model.TotalNumberOfParties.ToString());
+            return model.Parties;
         }
 
+        [HttpPost]
+        public IActionResult Unlist(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                return BadRequest("The party is required");
+            }
 
+            WorkerServices.UnlistParty(id);
+            return Ok();
+        }
     }
 }

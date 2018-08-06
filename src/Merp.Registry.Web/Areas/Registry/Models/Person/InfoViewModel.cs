@@ -20,8 +20,12 @@ namespace Merp.Web.Site.Areas.Registry.Models.Person
         public string NationalIdentificationNumber { get; set; }
         [DisplayName("VAT number")]
         public string VatNumber { get; set; }
-        [DisplayName("Address")]
-        public PostalAddress Address { get; set; }
+        [DisplayName("Legal Address")]
+        public PostalAddress LegalAddress { get; set; }
+        [DisplayName("Shipping Address")]
+        public PostalAddress ShippingAddress { get; set; }
+        [DisplayName("Billing Address")]
+        public PostalAddress BillingAddress { get; set; }
         [DisplayName("Phone Number")]
         public string PhoneNumber { get; set; }
         [DisplayName("Mobile Number")]

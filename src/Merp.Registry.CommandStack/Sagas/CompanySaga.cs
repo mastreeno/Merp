@@ -20,7 +20,8 @@ namespace Merp.Registry.CommandStack.Sagas
         IHandleMessages<ChangeCompanyBillingAddressCommand>,
         IHandleMessages<AssociateAdministrativeContactToCompanyCommand>,
         IHandleMessages<AssociateMainContactToCompanyCommand>,
-        IHandleMessages<ChangeCompanyContactInfoCommand>
+        IHandleMessages<ChangeCompanyContactInfoCommand>,
+        IHandleMessages<UnlistCompanyCommand>
     {
         private readonly IRepository _repository;
         private readonly IBus _bus;
@@ -68,6 +69,10 @@ namespace Merp.Registry.CommandStack.Sagas
                 sagaData => sagaData.CompanyId);
 
             config.Correlate<ChangeCompanyContactInfoCommand>(
+                message => message.CompanyId,
+                sagaData => sagaData.CompanyId);
+
+            config.Correlate<UnlistCompanyCommand>(
                 message => message.CompanyId,
                 sagaData => sagaData.CompanyId);
         }
@@ -213,6 +218,14 @@ namespace Merp.Registry.CommandStack.Sagas
                 company.SetContactInfo(message.PhoneNumber, null, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, null);
                 await _repository.SaveAsync(company);
             }
+        }
+
+        public async Task Handle(UnlistCompanyCommand message)
+        {
+            var company = _repository.GetById<Company>(message.CompanyId);
+            company.Unlist(message.UnlistDate);
+
+            await _repository.SaveAsync(company);
         }
 
         public class CompanySagaData : SagaData
