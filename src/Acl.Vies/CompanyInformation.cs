@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Acl.Vies
+namespace Acl.RegistryResolutionServices
 {
     public class CompanyInformation
     {

@@ -275,11 +275,17 @@
     <Compile Include="Managers\IntentManager.cs" />
     <Compile Include="Managers\InvoiceQueryIntentManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\GrossIncomeQueryIntent.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GrossIncomeQueryIntent.resx</DependentUpon>
+    </Compile>
     <Compile Include="Services\Authentication.cs" />
     <Compile Include="Services\MicrosoftCognitiveSpeechService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <None Include="Luis\en\MartinAtMerp-20180605.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -292,6 +298,16 @@
       <Project>{9c6564d4-6628-4a91-b9d2-c1402e6bb49f}</Project>
       <Name>Merp.Accountancy.QueryStack</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\GrossIncomeQueryIntent.it.resx" />
+    <EmbeddedResource Include="Resources\GrossIncomeQueryIntent.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>GrossIncomeQueryIntent.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Luis\it\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

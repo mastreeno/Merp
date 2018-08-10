@@ -1,8 +1,8 @@
-﻿using Acl.Vies.Mappers;
+﻿using Acl.RegistryResolutionServices.Mappers;
 using System;
 using System.Collections.Generic;
 
-namespace Acl.Vies
+namespace Acl.RegistryResolutionServices
 {
     public class PersonInformationMapperFactory
     {

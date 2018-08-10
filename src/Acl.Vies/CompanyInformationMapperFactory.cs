@@ -1,11 +1,11 @@
-﻿using Acl.Vies.Mappers;
+﻿using Acl.RegistryResolutionServices.Mappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Acl.Vies
+namespace Acl.RegistryResolutionServices
 {
     internal class CompanyInformationMapperFactory
     {

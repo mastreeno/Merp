@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Acl.Vies.Vies
+namespace Acl.RegistryResolutionServices.Vies
 {
     
     
@@ -313,12 +313,12 @@ namespace Acl.Vies.Vies
             return base.Channel.checkVatAsync(request);
         }
 
-        public System.Threading.Tasks.Task<Acl.Vies.Vies.checkVatResponse> checkVatAsync(string countryCode, string vatNumber)
+        public System.Threading.Tasks.Task<Acl.RegistryResolutionServices.Vies.checkVatResponse> checkVatAsync(string countryCode, string vatNumber)
         {
-            Acl.Vies.Vies.checkVatRequest inValue = new Acl.Vies.Vies.checkVatRequest();
+            Acl.RegistryResolutionServices.Vies.checkVatRequest inValue = new Acl.RegistryResolutionServices.Vies.checkVatRequest();
             inValue.countryCode = countryCode;
             inValue.vatNumber = vatNumber;
-            return ((Acl.Vies.Vies.checkVatPortType)(this)).checkVatAsync(inValue);
+            return ((Acl.RegistryResolutionServices.Vies.checkVatPortType)(this)).checkVatAsync(inValue);
         }
 
         public System.Threading.Tasks.Task<Vies.checkVatApproxResponse> checkVatApproxAsync(Vies.checkVatApproxRequest request)

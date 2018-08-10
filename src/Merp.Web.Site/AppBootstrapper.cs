@@ -9,7 +9,6 @@ using MementoFX.Messaging;
 using MementoFX.Messaging.Rebus;
 using Merp.Accountancy.CommandStack.Sagas;
 using Merp.Registry.CommandStack.Sagas;
-using Merp.Sales.Web.Areas.Sales;
 using OnTime.TaskManagement.CommandStack.Sagas;
 using Merp.Web.Site.Areas.Accountancy;
 using Merp.Web.Site.Areas.Registry;
@@ -38,7 +37,6 @@ namespace Merp.Web.Site
             var bus = Services.BuildServiceProvider().GetService<IBus>();
             new AccountancyBoundedContextConfigurator(Configuration, Services).Configure();
             new OnTimeBoundedContextConfigurator(Configuration, Services).Configure();
-            new ProjectManagementBoundedContextConfigurator(Configuration, Services).Configure();
             new RegistryBoundedContextConfigurator(Configuration, Services).Configure();
         }
 

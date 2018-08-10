@@ -92,7 +92,7 @@ namespace Merp.Web.Site.Areas.Registry
         protected override void RegisterAclServices()
         {
             //Acl Services
-            Services.AddScoped<Acl.Vies.ServiceProxy>();
+            Services.AddScoped<Acl.RegistryResolutionServices.Resolver>();
         }
     }
 }

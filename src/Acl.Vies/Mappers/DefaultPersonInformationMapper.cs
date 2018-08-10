@@ -1,4 +1,4 @@
-﻿namespace Acl.Vies.Mappers
+﻿namespace Acl.RegistryResolutionServices.Mappers
 {
     internal class DefaultPersonInformationMapper : PersonInformationMapper
     {

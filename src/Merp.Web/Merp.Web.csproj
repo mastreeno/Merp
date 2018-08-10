@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
+    <Authors>Mastreeno ltd, Andrea Saltarello</Authors>
+    <Product>Merp</Product>
   </PropertyGroup>
 
   <ItemGroup>

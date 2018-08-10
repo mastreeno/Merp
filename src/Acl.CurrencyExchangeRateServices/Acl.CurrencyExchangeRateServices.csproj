@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Mastreeno ltd, Andrea Saltarello</Authors>
+    <Company>Mastreeno ltd, Andrea Saltarello</Company>
     <Product>Merp</Product>
   </PropertyGroup>
 

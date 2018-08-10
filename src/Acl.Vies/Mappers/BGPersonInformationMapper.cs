@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Acl.Vies.Mappers
+namespace Acl.RegistryResolutionServices.Mappers
 {
     internal class BGPersonInformationMapper : PersonInformationMapper
     {

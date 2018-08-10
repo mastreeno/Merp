@@ -1,8 +1,8 @@
-﻿using Acl.Vies.Vies;
+﻿using Acl.RegistryResolutionServices.Vies;
 using System;
 using System.Linq;
 
-namespace Acl.Vies.Mappers
+namespace Acl.RegistryResolutionServices.Mappers
 {
     internal abstract class PersonInformationMapper
     {

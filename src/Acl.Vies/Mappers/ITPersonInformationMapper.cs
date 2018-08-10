@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Acl.Vies.Mappers
+namespace Acl.RegistryResolutionServices.Mappers
 {
     internal class ITPersonInformationMapper : PersonInformationMapper
     {

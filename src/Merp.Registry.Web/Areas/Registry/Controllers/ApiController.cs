@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Merp.Web.Site.Areas.Registry.WorkerServices;
 using Merp.Web.Site.Areas.Registry.Models;
 using Microsoft.AspNetCore.Authorization;
-using Acl.Vies;
+using Acl.RegistryResolutionServices;
 
 namespace Merp.Web.Site.Areas.Registry.Controllers
 {
@@ -15,9 +15,9 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
     public class ApiController : Controller
     {
         public ApiControllerWorkerServices WorkerServices { get; private set; }
-        public ServiceProxy ViesServiceProxy { get; private set; }
+        public Resolver ViesServiceProxy { get; private set; }
 
-        public ApiController(ApiControllerWorkerServices workerServices, ServiceProxy viesServiceProxy)
+        public ApiController(ApiControllerWorkerServices workerServices, Resolver viesServiceProxy)
         {
             WorkerServices = workerServices ?? throw new ArgumentNullException(nameof(workerServices));
             ViesServiceProxy = viesServiceProxy ?? throw new ArgumentNullException(nameof(viesServiceProxy));
@@ -68,7 +68,7 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
 
             try
             {
-                var companyInformation = await ViesServiceProxy.LookupCompanyInfoByViesServiceAsync(countryCode, vatNumber);
+                var companyInformation = await ViesServiceProxy.LookupCompanyInfoByVatNumberAsync(countryCode, vatNumber);
                 if (companyInformation == null)
                 {
                     return NotFound();
@@ -93,7 +93,7 @@ namespace Merp.Web.Site.Areas.Registry.Controllers
 
             try
             {
-                var personInformation = await ViesServiceProxy.LookupPersonInfoByViesServiceAsync(countryCode, vatNumber);
+                var personInformation = await ViesServiceProxy.LookupPersonInfoByVatNumberAsync(countryCode, vatNumber);
                 if (personInformation == null)
                 {
                     return NotFound();

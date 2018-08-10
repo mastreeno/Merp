@@ -1,4 +1,4 @@
-﻿namespace Acl.Vies
+﻿namespace Acl.RegistryResolutionServices
 {
     public class PersonInformation
     {

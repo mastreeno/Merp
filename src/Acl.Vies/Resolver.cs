@@ -5,9 +5,9 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Acl.Vies
+namespace Acl.RegistryResolutionServices
 {
-    public class ServiceProxy
+    public class Resolver
     {
         private static IEnumerable<string> ViesCountryCodes = new string[] { "AT", "BE", "BG", "CY", "CZ", "DE", "DK", "EE", "EL", "ES", "FI", "FR", "GB", "HR", "HU", "IE", "IT", "LT", "LU", "LV", "MT", "NL", "PL", "PT", "RO", "SE", "SI", "SK" };
 
@@ -15,13 +15,13 @@ namespace Acl.Vies
 
         private readonly PersonInformationMapperFactory _personInformationMapperFactory;
 
-        public ServiceProxy()
+        public Resolver()
         {
             _companyInformationMapperFactory = new CompanyInformationMapperFactory();
             _personInformationMapperFactory = new PersonInformationMapperFactory();
         }
 
-        public async Task<CompanyInformation> LookupCompanyInfoByViesServiceAsync(string countryCode, string vatNumber)
+        public async Task<CompanyInformation> LookupCompanyInfoByVatNumberAsync(string countryCode, string vatNumber)
         {
             if (string.IsNullOrWhiteSpace(countryCode))
             {
@@ -53,7 +53,7 @@ namespace Acl.Vies
                 
         }
 
-        public async Task<PersonInformation> LookupPersonInfoByViesServiceAsync(string countryCode, string vatNumber)
+        public async Task<PersonInformation> LookupPersonInfoByVatNumberAsync(string countryCode, string vatNumber)
         {
             if (string.IsNullOrWhiteSpace(countryCode))
             {
