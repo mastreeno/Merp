@@ -1,112 +1,95 @@
-﻿
-    <script type="text/javascript">
-        var module = angular.module('OnTime', []);
-        module.controller('taskController', ['$scope', '$http', taskController]);
-        module.$inject = ['$scope', '$http'];
-
-        function taskController($scope, $http) {
-            $scope.todos = [];
-
-            $scope.addTodo = function () {  
-                var url = '/ontime/task/create?name=' + $scope.todoText;
-                $http.get(url)
-                    .then(
-                        function (data) {
-                            $scope.backlog();
-                        },
-                        function () {
-                            window.alert("Unable to create task");
-                        });
-                $scope.todoText = '';
-            };
-
-            $scope.backlog = function () {
-                $http.get('/ontime/task/backlog')
-                    .then(function (data) {
-                        $scope.todos = data;
-                });
-            }
-
-            $scope.today = function () {
-                $http.get('/ontime/task/today')
-                    .then(function (data) {
-                        $scope.todos = data.data;
-                });
-            }
-
-            $scope.markAsComplete = function(todo)
-            {
-                if (!todo.Done)
-                    return;
-
-                var url = '/ontime/task/markascomplete/' + todo.taskId;
-                $http.get(url)
-                    .then(
-                    function (data) {
-                        var index = $scope.todos.indexOf(todo);
-                        $scope.todos.splice(index, 1);
-                    },
-                    function () {
-                        alert("Can't mark task as complete, retry later.");
-                    });
-            }
-
-            $scope.cancelTask = function (todo) {
-                if (!window.confirm('Are you sure?'))
-                    return;
-
-                var url = '/ontime/task/markascancelled/' + todo.taskId;
-                $http.delete(url)
-                    .then(function (data) {
-                        var index = $scope.todos.indexOf(todo);
-                        $scope.todos.splice(index, 1);
-                    },
-                    function () {
-                        alert("Can't cancel the task, retry later.");
-                    });
-            }
-
-            $scope.backlog();
-        }
-    </script>
-<div class="row" data-ng-controller="taskController" data-ng-app="OnTime">
-    <style type="text/css" scoped>
-        .done-false {
-            color: red;
-            text-decoration: none;
-        }
-
-        .done-true {
-            text-decoration: line-through;
-            color: grey;
-        }
-    </style>
+﻿@section head{
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+}
+<div id="OnTime" class="row">
     <div class="col-md-3">
         <p>
             &nbsp;
         </p>
         <ul class="list-unstyled">
-            <li><a href="" data-ng-click="backlog()">Backlog</a></li>
-            <li><a href="" data-ng-click="today()">Today</a></li>
+            <li><a href="#" v-on:click="backlog()">Backlog</a></li>
+            <li><a href="#" v-on:click="today()">Today</a></li>
         </ul>
     </div>
     <div class="col-md-9">
-        <h2>Todo</h2>
-        <div>
-            <form data-ng-submit="addTodo()">
-                <input type="text" data-ng-model="todoText" size="30"
-                       placeholder="add new todo here">
-                <input class="btn btn-primary" type="submit" value="add">
-            </form>
-            <ul class="list-unstyled">
-                <li data-ng-repeat="todo in todos">
-                    <button type="button" class="btn btn-default btn-sm" aria-label="Left Align" data-ng-click="cancelTask(todo)">
-                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                    </button>
-                    <input type="checkbox" data-ng-model="todo.done" data-ng-click="markAsComplete(todo)">
-                    <span class="done-{{todo.done}}">{{todo.name}}</span>
-                </li>
-            </ul>
-        </div>
+        <h2>{{viewType}}</h2>
+        <form v-on:submit="addTodo()" class="form-inline">
+            <input type="text" class="form-control" v-model="todoText" size="30" placeholder="add new todo here">
+            <input class="btn btn-primary" type="submit" value="add">
+        </form>
+        <ul class="list-unstyled">
+            <li v-for="todo in todos">
+                <button type="button" class="btn btn-default btn-sm" aria-label="Left Align" v-on:click="cancelTodo(todo)">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                </button>
+                <input type="checkbox" v-model="todo.done" @@click="markTodoAsComplete(todo)" :value="todo" /> {{todo.text}}
+            </li>
+        </ul>
     </div>
 </div>
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#OnTime',
+        data: {
+            viewType: '',
+            todoText: '',
+            todos: []
+        },
+        mounted: function() {
+            this.today();
+        },
+        methods: {
+            addTodo: function() {
+                if (this.todoText) {
+                    $.post('/ontime/task/add', { text: this.todoText });
+                    this.todoText = '';
+                    switch (this.viewType) {
+                        case 'Today':
+                            this.today();
+                            break;
+                        case 'Backlog':
+                            this.backlog();
+                            break;
+                    }
+                }
+                return false;
+            },
+            cancelTodo: function (todo) {
+                if (!todo.done)
+                    return;
+                var url = '/ontime/task/markascancelled/' + todo.taskId;
+                $.get(url, function (data) {
+                    var index = app.todos.indexOf(todo);
+                    app.todos.splice(index, 1);
+                })
+                .fail(function () {
+                    alert("Can't cancel the task, retry later.");
+                });
+            },
+            markTodoAsComplete: function (todo) {
+                if (!todo.done)
+                    return;
+                var url = '/ontime/task/markascomplete/' + todo.taskId;
+                $.get(url, function (data) {
+                    var index = app.todos.indexOf(todo);
+                    app.todos.splice(index, 1);
+                })
+                .fail(function() {
+                    alert("Can't mark task as complete, retry later.");
+                });
+            },
+            backlog: function () {
+                this.viewType = 'Backlog';
+                $.getJSON('/ontime/task/backlog', function (data) {
+                    app.todos = data;
+                });
+            },
+            today: function () {
+                this.viewType = 'Today';
+                $.getJSON('/ontime/task/today', function (data) {
+                    app.todos = data;
+                });
+            }
+        }
+    });
+</script>

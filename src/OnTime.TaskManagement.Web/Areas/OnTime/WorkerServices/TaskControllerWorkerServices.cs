@@ -34,7 +34,7 @@ namespace Merp.Web.Site.Areas.OnTime.WorkerServices
                          select new IncompleteViewModel
                          {
                              TaskId = t.Id,
-                             Name = t.Name,
+                             Text = t.Name,
                              Done = false
                          }).ToArray();
             return model;
@@ -48,7 +48,7 @@ namespace Merp.Web.Site.Areas.OnTime.WorkerServices
                          select new IncompleteViewModel
                          {
                              TaskId = t.Id,
-                             Name = t.Name,
+                             Text = t.Name,
                              Done = false
                          }).ToArray();
             return model;

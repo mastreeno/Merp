@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Merp.Web\Merp.Web.csproj" />
     <ProjectReference Include="..\OnTime.TaskManagement.CommandStack\OnTime.TaskManagement.CommandStack.csproj" />
     <ProjectReference Include="..\OnTime.TaskManagement.QueryStack\OnTime.TaskManagement.QueryStack.csproj" />
