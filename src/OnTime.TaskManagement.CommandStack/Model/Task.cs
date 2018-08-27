@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace OnTime.TaskManagement.CommandStack.Model
 {
     public class Task : Aggregate,
-                        IApplyEvent<TaskCreatedEvent>,
+                        IApplyEvent<TaskAddedEvent>,
                         IApplyEvent<TaskCompletedEvent>,
                         IApplyEvent<TaskDeletedEvent>,
                         IApplyEvent<TaskRenamedEvent>,
@@ -34,11 +34,11 @@ namespace OnTime.TaskManagement.CommandStack.Model
 
         public Guid CreatorId { get; private set; }
 
-        public void ApplyEvent(TaskCreatedEvent @event)
+        public void ApplyEvent(TaskAddedEvent @event)
         {
             this.Id = @event.TaskId;
             this.DateOfCreation = @event.DateOfCreation;
-            this.Name = @event.TaskName;
+            this.Name = @event.TaskText;
             this.CreatorId = @event.UserId;
         }
 
@@ -177,11 +177,11 @@ namespace OnTime.TaskManagement.CommandStack.Model
                 if (string.IsNullOrWhiteSpace(name))
                     throw new ArgumentException("A task must have a name.", nameof(name));
 
-                var e = new TaskCreatedEvent()
+                var e = new TaskAddedEvent()
                 {
                     TaskId = Guid.NewGuid(),
                     DateOfCreation = DateTime.Now,
-                    TaskName = name,
+                    TaskText = name,
                     UserId = userId
                 };
                 var task = new Task();

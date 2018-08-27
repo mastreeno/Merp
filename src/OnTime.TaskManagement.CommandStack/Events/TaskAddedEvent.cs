@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OnTime.TaskManagement.CommandStack.Events
 {
-    public class TaskCreatedEvent : DomainEvent
+    public class TaskAddedEvent : DomainEvent
     {
         public Guid UserId { get; set; }
         public Guid TaskId { get; set; }
@@ -16,6 +16,6 @@ namespace OnTime.TaskManagement.CommandStack.Events
         [Timestamp]
         public DateTime DateOfCreation { get; set; }
 
-        public string TaskName { get; set; }
+        public string TaskText { get; set; }
     }
 }

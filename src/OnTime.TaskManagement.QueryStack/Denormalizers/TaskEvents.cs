@@ -13,7 +13,7 @@ namespace OnTime.TaskManagement.QueryStack.Denormalizers
     public class TaskEvents : 
         IHandleMessages<TaskDeletedEvent>,
         IHandleMessages<TaskCompletedEvent>,
-        IHandleMessages<TaskCreatedEvent>,
+        IHandleMessages<TaskAddedEvent>,
         IHandleMessages<TaskRenamedEvent>,
         IHandleMessages<DueDateSetForTaskEvent>,
         IHandleMessages<DueDateRemovedFromTaskEvent>
@@ -28,13 +28,13 @@ namespace OnTime.TaskManagement.QueryStack.Denormalizers
             ActiveDbContext = activeDbContext;
         }
 
-        public async System.Threading.Tasks.Task Handle(TaskCreatedEvent message)
+        public async System.Threading.Tasks.Task Handle(TaskAddedEvent message)
         {
             var t = new OTask();
             t.Id = message.TaskId;
             t.DateOfCreation = message.DateOfCreation;
             t.IsCompleted = false;
-            t.Name = message.TaskName;
+            t.Name = message.TaskText;
             t.UserId = message.UserId;
 
             ActiveDbContext.Tasks.Add(t);

@@ -16,7 +16,7 @@ using OTask = OnTime.TaskManagement.CommandStack.Model.Task;
 namespace OnTime.TaskManagement.CommandStack.Sagas
 {
     public class TaskLifecycleSaga : Saga<TaskLifecycleSaga.TaskLifecycleSagaData>,
-        IAmInitiatedBy<CreateTaskCommand>,
+        IAmInitiatedBy<AddTaskCommand>,
         IHandleMessages<MarkTaskAsCompletedCommand>,
         IHandleMessages<DeleteTaskCommand>,
         IHandleMessages<RenameTaskCommand>,
@@ -37,7 +37,7 @@ namespace OnTime.TaskManagement.CommandStack.Sagas
 
         protected override void CorrelateMessages(ICorrelationConfig<TaskLifecycleSagaData> config)
         {
-            config.Correlate<CreateTaskCommand>(
+            config.Correlate<AddTaskCommand>(
                 message => message.TaskId,
                 sagaData => sagaData.TaskId);
 
@@ -74,9 +74,9 @@ namespace OnTime.TaskManagement.CommandStack.Sagas
                 sagaData => sagaData.TaskId);
         }
 
-        public async System.Threading.Tasks.Task Handle(CreateTaskCommand message)
+        public async System.Threading.Tasks.Task Handle(AddTaskCommand message)
         {
-            var task = OTask.Factory.Create(message.UserId, message.Name);
+            var task = OTask.Factory.Create(message.UserId, message.Text);
             await _repository.SaveAsync(task);
             this.Data.TaskId = task.Id;
         }
@@ -84,7 +84,7 @@ namespace OnTime.TaskManagement.CommandStack.Sagas
         public async System.Threading.Tasks.Task Handle(RenameTaskCommand message)
         {
             var task = _repository.GetById<OTask>(message.TaskId);
-            task.Rename(message.ProposedName);
+            task.Rename(message.UpdatedText);
             await _repository.SaveAsync(task);
         }
 

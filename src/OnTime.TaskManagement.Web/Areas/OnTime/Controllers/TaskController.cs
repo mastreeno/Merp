@@ -45,14 +45,14 @@ namespace Merp.Web.Site.Areas.OnTime.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(string text)
+        public IActionResult Add(string text)
         {
             if (string.IsNullOrWhiteSpace(text))
                 return BadRequest();
 
             try
             {
-                WorkerServices.Create(text);
+                WorkerServices.Add(text);
                 return Ok();
             }
             catch

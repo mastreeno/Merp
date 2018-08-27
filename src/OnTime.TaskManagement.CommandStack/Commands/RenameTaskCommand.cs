@@ -12,6 +12,6 @@ namespace OnTime.TaskManagement.CommandStack.Commands
         public Guid TaskId { get; set; }
         public Guid UserId { get; set; }
 
-        public string ProposedName { get; set; }
+        public string UpdatedText { get; set; }
     }
 }

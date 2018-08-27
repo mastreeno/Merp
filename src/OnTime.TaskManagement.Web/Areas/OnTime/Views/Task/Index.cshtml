@@ -14,7 +14,7 @@
     </div>
     <div class="col-md-9">
         <h2>{{viewType}}</h2>
-        <form v-on:submit="createTask()" class="form-inline">
+        <form v-on:submit="addTask()" class="form-inline">
             <input type="text" class="form-control" v-model="taskText" size="30" placeholder="add new task here">
             <input class="btn btn-primary" type="submit" value="add">
         </form>
@@ -52,7 +52,7 @@
             cancelEdit: function (task) {
                 task.edit = false;
             },
-            createTask: function() {
+            addTask: function() {
                 if (this.taskText) {
                     $.post('/ontime/task/add', { text: this.taskText });
                     this.taskText = '';

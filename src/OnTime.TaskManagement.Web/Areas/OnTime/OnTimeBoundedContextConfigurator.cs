@@ -54,7 +54,7 @@ namespace Merp.Web.Site.Areas.OnTime
             Bus.Subscribe<DueDateSetForTaskEvent>();
             Bus.Subscribe<TaskDeletedEvent>();
             Bus.Subscribe<TaskCompletedEvent>();
-            Bus.Subscribe<TaskCreatedEvent>();
+            Bus.Subscribe<TaskAddedEvent>();
             Bus.Subscribe<TaskReactivatedEvent>();
             Bus.Subscribe<TaskRenamedEvent>();
         }
