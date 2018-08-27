@@ -61,6 +61,41 @@ namespace Merp.Web.Site.Areas.OnTime.Controllers
             }
         }
 
+        [HttpPost]
+        public IActionResult Update(Guid id, string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+                return BadRequest();
+
+            try
+            {
+                WorkerServices.Update(id, text);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Delete(Guid? id)
+        {
+            if (!id.HasValue)
+                return BadRequest();
+
+            try
+            {
+                WorkerServices.Delete(id.Value);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
         public IActionResult MarkAsComplete(Guid? id)
         {
             if (!id.HasValue)
@@ -77,21 +112,6 @@ namespace Merp.Web.Site.Areas.OnTime.Controllers
             }
         }
 
-        [HttpDelete]
-        public IActionResult Delete(Guid? id)
-        {
-            if (!id.HasValue)
-                return BadRequest();
 
-            try
-            {
-                WorkerServices.Delete(id.Value);
-                return Ok();
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
     }
 }

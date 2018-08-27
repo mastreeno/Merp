@@ -72,13 +72,13 @@
             },
             updateTask: function (task) {
                 var url = '/ontime/task/update/' + task.taskId;
-                $.get(url, function (data) {
-                    //var index = app.tasks.indexOf(task);
-                    //app.tasks.splice(index, 1);
-                })
-                .fail(function () {
-                    alert("Can't update the task, retry later.");
-                });
+                $.post(url, { text: task.text })
+                    .done(function () {
+                        task.edit = false;
+                    })
+                    .fail(function () {
+                        alert("Can't update the task, retry later.");
+                    });
             },     
             markTaskAsComplete: function (task) {
                 var url = '/ontime/task/markascomplete/' + task.taskId;

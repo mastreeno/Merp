@@ -10,6 +10,8 @@ namespace OnTime.TaskManagement.CommandStack.Commands
     public class RenameTaskCommand : Command
     {
         public Guid TaskId { get; set; }
+        public Guid UserId { get; set; }
+
         public string ProposedName { get; set; }
     }
 }

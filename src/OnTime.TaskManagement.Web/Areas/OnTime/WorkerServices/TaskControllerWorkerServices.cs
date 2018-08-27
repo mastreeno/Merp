@@ -69,6 +69,16 @@ namespace Merp.Web.Site.Areas.OnTime.WorkerServices
             return model;
         }
 
+        public void Create(string taskName)
+        {
+            var cmd = new CreateTaskCommand()
+            {
+                Name = taskName,
+                UserId = GetCurrentUserId()
+            };
+            Bus.Send(cmd);
+        }
+
         public void Delete(Guid taskId)
         {
             var cmd = new DeleteTaskCommand()
@@ -79,12 +89,13 @@ namespace Merp.Web.Site.Areas.OnTime.WorkerServices
             Bus.Send(cmd);
         }
 
-        public void Create(string taskName)
+        public void Update(Guid taskId, string taskName)
         {
-            var cmd = new CreateTaskCommand()
+            var cmd = new RenameTaskCommand()
             {
-                Name = taskName,
-                UserId = GetCurrentUserId()
+                TaskId = taskId,
+                UserId = GetCurrentUserId(),
+                ProposedName = taskName              
             };
             Bus.Send(cmd);
         }

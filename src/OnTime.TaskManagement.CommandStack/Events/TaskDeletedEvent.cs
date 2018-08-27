@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OnTime.TaskManagement.CommandStack.Events
 {
-    public class TaskCancelledEvent : DomainEvent
+    public class TaskDeletedEvent : DomainEvent
     {
         public Guid TaskId { get; set; }
 

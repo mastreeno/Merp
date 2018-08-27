@@ -302,7 +302,7 @@ namespace OnTime.TaskManagement.CommandStack.Tests.Model
             public void TaskCancelledEvent()
             {
                 var taskId = Guid.NewGuid();
-                var e = new TaskCancelledEvent()
+                var e = new TaskDeletedEvent()
                 {
                     DateOfCancellation = DateTime.Now,
                     TaskId = taskId

@@ -11,7 +11,7 @@ using OTask = OnTime.TaskManagement.QueryStack.Model.Task;
 namespace OnTime.TaskManagement.QueryStack.Denormalizers
 {
     public class TaskEvents : 
-        IHandleMessages<TaskCancelledEvent>,
+        IHandleMessages<TaskDeletedEvent>,
         IHandleMessages<TaskCompletedEvent>,
         IHandleMessages<TaskCreatedEvent>,
         IHandleMessages<TaskRenamedEvent>,
@@ -49,7 +49,7 @@ namespace OnTime.TaskManagement.QueryStack.Denormalizers
             await ActiveDbContext.SaveChangesAsync();
         }
 
-        public async System.Threading.Tasks.Task Handle(TaskCancelledEvent message)
+        public async System.Threading.Tasks.Task Handle(TaskDeletedEvent message)
         {
             var t = ActiveDbContext.Tasks.Find(message.TaskId);
             ActiveDbContext.Tasks.Remove(t);

@@ -11,7 +11,7 @@ namespace OnTime.TaskManagement.CommandStack.Model
     public class Task : Aggregate,
                         IApplyEvent<TaskCreatedEvent>,
                         IApplyEvent<TaskCompletedEvent>,
-                        IApplyEvent<TaskCancelledEvent>,
+                        IApplyEvent<TaskDeletedEvent>,
                         IApplyEvent<TaskRenamedEvent>,
                         IApplyEvent<TaskReactivatedEvent>,
                         IApplyEvent<DueDateSetForTaskEvent>,
@@ -47,7 +47,7 @@ namespace OnTime.TaskManagement.CommandStack.Model
             this.DateOfCompletion = @event.DateOfCompletion;
         }
 
-        public void ApplyEvent(TaskCancelledEvent @event)
+        public void ApplyEvent(TaskDeletedEvent @event)
         {
             this.DateOfCancellation = @event.DateOfCancellation;
         }
@@ -82,7 +82,7 @@ namespace OnTime.TaskManagement.CommandStack.Model
             if (this.DateOfCancellation.HasValue)
                 throw new InvalidOperationException("Can't cancel a task twice.");
 
-            var e = new TaskCancelledEvent()
+            var e = new TaskDeletedEvent()
             {
                 TaskId = this.Id,
                 DateOfCancellation = DateTime.Now,
