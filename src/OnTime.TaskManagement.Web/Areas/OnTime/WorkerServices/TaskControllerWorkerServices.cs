@@ -54,9 +54,24 @@ namespace Merp.Web.Site.Areas.OnTime.WorkerServices
             return model;
         }
 
-        public void MarkAsCancelled(Guid taskId)
+        public IEnumerable<IncompleteViewModel> GetNextSevenDaysModel()
         {
-            var cmd = new CancelTaskCommand()
+            var threashold = DateTime.Now.AddDays(8);
+            var currentUserId = GetCurrentUserId();
+            var model = (from t in Database.Tasks
+                                            .Backlog(currentUserId)
+                         select new IncompleteViewModel
+                         {
+                             TaskId = t.Id,
+                             Text = t.Name,
+                             Done = false
+                         }).ToArray();
+            return model;
+        }
+
+        public void Delete(Guid taskId)
+        {
+            var cmd = new DeleteTaskCommand()
             {
                 TaskId = taskId,
                 UserId = GetCurrentUserId()

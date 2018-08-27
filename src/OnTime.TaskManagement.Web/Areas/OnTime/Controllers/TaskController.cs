@@ -33,30 +33,19 @@ namespace Merp.Web.Site.Areas.OnTime.Controllers
         }
 
         [HttpGet]
+        public IEnumerable<IncompleteViewModel> NextSevenDays()
+        {
+            return WorkerServices.GetNextSevenDaysModel();
+        }
+
+        [HttpGet]
         public IEnumerable<IncompleteViewModel> Today()
         {
             return WorkerServices.GetTodayModel();
         }
 
-        [HttpGet]
-        public IActionResult Create(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-                return BadRequest();
-
-            try
-            {
-                WorkerServices.Create(name);
-                return Ok();
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
-
         [HttpPost]
-        public IActionResult Add(string text)
+        public IActionResult Create(string text)
         {
             if (string.IsNullOrWhiteSpace(text))
                 return BadRequest();
@@ -89,14 +78,14 @@ namespace Merp.Web.Site.Areas.OnTime.Controllers
         }
 
         [HttpDelete]
-        public IActionResult MarkAsCancelled(Guid? id)
+        public IActionResult Delete(Guid? id)
         {
             if (!id.HasValue)
                 return BadRequest();
 
             try
             {
-                WorkerServices.MarkAsCancelled(id.Value);
+                WorkerServices.Delete(id.Value);
                 return Ok();
             }
             catch

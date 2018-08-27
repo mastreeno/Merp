@@ -18,7 +18,7 @@ namespace OnTime.TaskManagement.CommandStack.Sagas
     public class TaskLifecycleSaga : Saga<TaskLifecycleSaga.TaskLifecycleSagaData>,
         IAmInitiatedBy<CreateTaskCommand>,
         IHandleMessages<MarkTaskAsCompletedCommand>,
-        IHandleMessages<CancelTaskCommand>,
+        IHandleMessages<DeleteTaskCommand>,
         IHandleMessages<RenameTaskCommand>,
         IHandleMessages<ReactivateTaskCommand>,
         IHandleMessages<SetTaskDueDateCommand>,
@@ -45,7 +45,7 @@ namespace OnTime.TaskManagement.CommandStack.Sagas
                 message => message.TaskId,
                 sagaData => sagaData.TaskId);
 
-            config.Correlate<CancelTaskCommand>(
+            config.Correlate<DeleteTaskCommand>(
                 message => message.TaskId,
                 sagaData => sagaData.TaskId);
 
@@ -95,7 +95,7 @@ namespace OnTime.TaskManagement.CommandStack.Sagas
             await _repository.SaveAsync(task);
         }
 
-        public async System.Threading.Tasks.Task Handle(CancelTaskCommand message)
+        public async System.Threading.Tasks.Task Handle(DeleteTaskCommand message)
         {
             var task = _repository.GetById<OTask>(message.TaskId);
             task.Cancel(message.UserId);

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OnTime.TaskManagement.CommandStack.Commands
 {
-    public class CancelTaskCommand : Command
+    public class DeleteTaskCommand : Command
     {
         public Guid TaskId { get; set; }
 
