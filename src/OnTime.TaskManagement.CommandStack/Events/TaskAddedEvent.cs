@@ -1,5 +1,6 @@
 ﻿using MementoFX;
 using MementoFX.Domain;
+using OnTime.TaskManagement.CommandStack.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace OnTime.TaskManagement.CommandStack.Events
         [Timestamp]
         public DateTime DateOfCreation { get; set; }
 
-        public string TaskText { get; set; }
+        public string TaskName { get; set; }
+
+        public TaskPriority Priority { get; set; }
     }
 }

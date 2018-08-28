@@ -11,13 +11,14 @@ namespace OnTime.TaskManagement.CommandStack.Model
     public class Task : Aggregate,
                         IApplyEvent<TaskAddedEvent>,
                         IApplyEvent<TaskCompletedEvent>,
-                        IApplyEvent<TaskDeletedEvent>,
+                        IApplyEvent<TaskCancelledEvent>,
                         IApplyEvent<TaskUpdatedEvent>
     {
         protected Task()
         {
 
         }
+        public Guid CreatorId { get; private set; }
 
         public DateTime DateOfCreation { get; private set; }
 
@@ -25,18 +26,21 @@ namespace OnTime.TaskManagement.CommandStack.Model
 
         public DateTime? DateOfCancellation { get; private set; }
 
-        public DateTime? DueDate { get; set; }
+        public DateTime? DueDate { get; private set; }
 
         public string Name { get; private set; }
 
-        public Guid CreatorId { get; private set; }
+        public Guid? JobOrderId { get; private set; }
+
+        public TaskPriority Priority { get; private set; }
 
         public void ApplyEvent(TaskAddedEvent @event)
         {
             this.Id = @event.TaskId;
             this.DateOfCreation = @event.DateOfCreation;
-            this.Name = @event.TaskText;
+            this.Name = @event.TaskName;
             this.CreatorId = @event.UserId;
+            this.Priority = @event.Priority;
         }
 
         public void ApplyEvent(TaskCompletedEvent @event)
@@ -44,14 +48,16 @@ namespace OnTime.TaskManagement.CommandStack.Model
             this.DateOfCompletion = @event.DateOfCompletion;
         }
 
-        public void ApplyEvent(TaskDeletedEvent @event)
+        public void ApplyEvent(TaskCancelledEvent @event)
         {
             this.DateOfCancellation = @event.DateOfCancellation;
         }
 
         public void ApplyEvent(TaskUpdatedEvent @event)
         {
-            this.Name = @event.Text;
+            this.Name = @event.Name;
+            this.Priority = @event.Priority;
+            this.JobOrderId = @event.JobOrderId;
         }
 
         public void Cancel(Guid userId)
@@ -63,7 +69,7 @@ namespace OnTime.TaskManagement.CommandStack.Model
             if (this.DateOfCancellation.HasValue)
                 throw new InvalidOperationException("Can't cancel a task twice.");
 
-            var e = new TaskDeletedEvent()
+            var e = new TaskCancelledEvent()
             {
                 TaskId = this.Id,
                 DateOfCancellation = DateTime.Now,
@@ -75,11 +81,11 @@ namespace OnTime.TaskManagement.CommandStack.Model
         public void MarkAsCompleted(Guid userId)
         {
             if (userId != this.CreatorId)
-                throw new ArgumentException("A task can be marked as completed by its creator only", nameof(userId));
+                throw new ArgumentException("A task can only be marked as completed by its creator", nameof(userId));
             if (this.DateOfCancellation.HasValue)
-                throw new InvalidOperationException("Can't mark as completed a cancelled task.");
+                throw new InvalidOperationException("Can't mark a cancelled task as completed.");
             if (this.DateOfCompletion.HasValue)
-                throw new InvalidOperationException("Can't mark as completed a closed task.");
+                throw new InvalidOperationException("Can't mark a closed task as completed.");
 
             var e = new TaskCompletedEvent()
             {
@@ -90,19 +96,21 @@ namespace OnTime.TaskManagement.CommandStack.Model
             RaiseEvent(e);
         }
 
-        public void Update(string proposedName)
+        public void Update(string text, TaskPriority priority, Guid? jobOrderId)
         {
             if (this.DateOfCancellation.HasValue)
-                throw new InvalidOperationException("Can't mark as completed a cancelled task.");
+                throw new InvalidOperationException("Can't update a cancelled task.");
             if (this.DateOfCompletion.HasValue)
-                throw new InvalidOperationException("Can't mark as completed a closed task.");
-            if (string.IsNullOrWhiteSpace(proposedName))
-                throw new ArgumentException("A task must have a non-null name.", nameof(proposedName));
+                throw new InvalidOperationException("Can't update a completed task.");
+            if (string.IsNullOrWhiteSpace(text))
+                throw new ArgumentException("A task must have a non-null name.", nameof(text));
 
             var e = new TaskUpdatedEvent()
             {
                 TaskId = this.Id,
-                Text = proposedName
+                Name = text,
+                Priority = priority,
+                JobOrderId = jobOrderId
             };
             RaiseEvent(e);
         }
@@ -120,8 +128,9 @@ namespace OnTime.TaskManagement.CommandStack.Model
                 {
                     TaskId = Guid.NewGuid(),
                     DateOfCreation = DateTime.Now,
-                    TaskText = name,
-                    UserId = userId
+                    TaskName = name,
+                    UserId = userId,
+                    Priority = TaskPriority.Standard
                 };
                 var task = new Task();
                 task.RaiseEvent(e);

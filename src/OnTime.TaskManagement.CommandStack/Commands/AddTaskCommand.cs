@@ -11,6 +11,6 @@ namespace OnTime.TaskManagement.CommandStack.Commands
     {
         public Guid TaskId { get; set; }
         public Guid UserId { get; set; }
-        public string Text { get; set; }
+        public string Name { get; set; }
     }
 }

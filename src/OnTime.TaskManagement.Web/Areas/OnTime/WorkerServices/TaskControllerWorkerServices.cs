@@ -9,6 +9,7 @@ using OnTime.TaskManagement.QueryStack.Model.Extensions;
 using OnTime.TaskManagement.CommandStack.Commands;
 using Merp.Web.Site.Models;
 using Merp.Web.Site.Areas.OnTime.Model.Task;
+using OnTime.TaskManagement.CommandStack.Model;
 
 namespace Merp.Web.Site.Areas.OnTime.WorkerServices
 {
@@ -44,7 +45,7 @@ namespace Merp.Web.Site.Areas.OnTime.WorkerServices
         {
             var currentUserId = GetCurrentUserId();
             var model = (from t in Database.Tasks
-                                            .Backlog(currentUserId)
+                                            .Today(currentUserId)
                          select new IncompleteViewModel
                          {
                              TaskId = t.Id,
@@ -73,15 +74,15 @@ namespace Merp.Web.Site.Areas.OnTime.WorkerServices
         {
             var cmd = new AddTaskCommand()
             {
-                Text = taskName,
+                Name = taskName,
                 UserId = GetCurrentUserId()
             };
             Bus.Send(cmd);
         }
 
-        public void Delete(Guid taskId)
+        public void Cancel(Guid taskId)
         {
-            var cmd = new DeleteTaskCommand()
+            var cmd = new CancelTaskCommand()
             {
                 TaskId = taskId,
                 UserId = GetCurrentUserId()
@@ -94,7 +95,8 @@ namespace Merp.Web.Site.Areas.OnTime.WorkerServices
             var cmd = new UpdateTaskCommand(
                 taskId: taskId,
                 userId: GetCurrentUserId(),
-                text: taskName              
+                name: taskName,
+                priority: TaskPriority.Standard
             );
             Bus.Send(cmd);
         }
@@ -102,7 +104,7 @@ namespace Merp.Web.Site.Areas.OnTime.WorkerServices
         public void MarkAsComplete(Guid taskId)
         {
             var currentUserId = GetCurrentUserId();
-            var taskBelongsToRequestingUser = Database.Tasks.OfUser(currentUserId).Current().Any(t => t.Id == taskId);
+            var taskBelongsToRequestingUser = Database.Tasks.Backlog(currentUserId).Any(t => t.Id == taskId);
             if (!taskBelongsToRequestingUser)
                 throw new InvalidOperationException("The specified task does not belong to current user.");
 

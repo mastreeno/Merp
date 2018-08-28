@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OTask = OnTime.TaskManagement.CommandStack.Model.Task;
+using OnTime.TaskManagement.CommandStack.Model;
 
 namespace OnTime.TaskManagement.CommandStack.Tests.Model
 {
@@ -179,7 +180,7 @@ namespace OnTime.TaskManagement.CommandStack.Tests.Model
                 var userId = Guid.NewGuid();
                 var task = OTask.Factory.Create(userId, "Fake");
                 task.MarkAsCompleted(userId);
-                Executing.This(() => task.Update("Let's have a Black Celebration tonight"))
+                Executing.This(() => task.Update("Let's have a Black Celebration tonight", TaskPriority.Standard, null))
                     .Should()
                     .Throw<InvalidOperationException>();
             }
@@ -190,7 +191,7 @@ namespace OnTime.TaskManagement.CommandStack.Tests.Model
                 var userId = Guid.NewGuid();
                 var task = OTask.Factory.Create(userId, "Fake");
                 task.Cancel(userId);
-                Executing.This(() => task.Update("Let's have a Black Celebration tonight"))
+                Executing.This(() => task.Update("Let's have a Black Celebration tonight", TaskPriority.Standard, null))
                     .Should()
                     .Throw<InvalidOperationException>();
             }
@@ -199,7 +200,7 @@ namespace OnTime.TaskManagement.CommandStack.Tests.Model
             public void Rename_should_throw_ArgumentException_on_null_proposedName()
             {
                 var task = OTask.Factory.Create(Guid.NewGuid(), "Fake");
-                Executing.This(() => task.Update(null))
+                Executing.This(() => task.Update(null, TaskPriority.Standard, null))
                     .Should()
                     .Throw<ArgumentException>()
                     .And
@@ -214,7 +215,7 @@ namespace OnTime.TaskManagement.CommandStack.Tests.Model
             public void Rename_should_throw_ArgumentException_on_empty_proposedName()
             {
                 var task = OTask.Factory.Create(Guid.NewGuid(), "Fake");
-                Executing.This(() => task.Update(""))
+                Executing.This(() => task.Update("", TaskPriority.Standard, null))
                     .Should()
                     .Throw<ArgumentException>()
                     .And
@@ -229,7 +230,7 @@ namespace OnTime.TaskManagement.CommandStack.Tests.Model
             public void Rename_should_throw_ArgumentException_on_whitespace_proposedName()
             {
                 var task = OTask.Factory.Create(Guid.NewGuid(), "Fake");
-                Executing.This(() => task.Update(" "))
+                Executing.This(() => task.Update(" ", TaskPriority.Standard, null))
                     .Should()
                     .Throw<ArgumentException>()
                     .And
@@ -245,7 +246,7 @@ namespace OnTime.TaskManagement.CommandStack.Tests.Model
             {
                 var task = OTask.Factory.Create(Guid.NewGuid(), "Fake");
                 var proposedName = "Buy records";
-                task.Update(proposedName);
+                task.Update(proposedName, TaskPriority.Standard, null);
                 Assert.Equal(proposedName, task.Name);
             }
         }
@@ -271,7 +272,7 @@ namespace OnTime.TaskManagement.CommandStack.Tests.Model
             public void TaskCancelledEvent()
             {
                 var taskId = Guid.NewGuid();
-                var e = new TaskDeletedEvent()
+                var e = new TaskCancelledEvent()
                 {
                     DateOfCancellation = DateTime.Now,
                     TaskId = taskId
@@ -287,12 +288,12 @@ namespace OnTime.TaskManagement.CommandStack.Tests.Model
                 var taskId = Guid.NewGuid();
                 var e = new TaskUpdatedEvent()
                 {
-                    Text = "Brand new name",
+                    Name = "Brand new name",
                     TaskId = taskId
                 };
                 var task = OTask.Factory.Create(taskId, "Fake");
                 task.ApplyEvent(e);
-                Assert.Equal(e.Text, task.Name);
+                Assert.Equal(e.Name, task.Name);
             }
         }
     }

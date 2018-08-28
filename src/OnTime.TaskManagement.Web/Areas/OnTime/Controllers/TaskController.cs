@@ -44,7 +44,7 @@ namespace Merp.Web.Site.Areas.OnTime.Controllers
             return WorkerServices.GetTodayModel();
         }
 
-        [HttpPost]
+        [HttpPut]
         public IActionResult Add(string text)
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -79,14 +79,14 @@ namespace Merp.Web.Site.Areas.OnTime.Controllers
         }
 
         [HttpGet]
-        public IActionResult Delete(Guid? id)
+        public IActionResult Cancel(Guid? id)
         {
             if (!id.HasValue)
                 return BadRequest();
 
             try
             {
-                WorkerServices.Delete(id.Value);
+                WorkerServices.Cancel(id.Value);
                 return Ok();
             }
             catch

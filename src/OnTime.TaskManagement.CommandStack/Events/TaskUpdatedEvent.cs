@@ -1,4 +1,5 @@
 ﻿using MementoFX;
+using OnTime.TaskManagement.CommandStack.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace OnTime.TaskManagement.CommandStack.Events
     {
         public Guid TaskId { get; set; }
         public Guid? JobOrderId { get; set; }
-        public string Text { get; set; }
+        public string Name { get; set; }
+        public TaskPriority Priority { get; set; }
     }
 }

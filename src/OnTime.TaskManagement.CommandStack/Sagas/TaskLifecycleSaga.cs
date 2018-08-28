@@ -18,10 +18,8 @@ namespace OnTime.TaskManagement.CommandStack.Sagas
     public class TaskLifecycleSaga : Saga<TaskLifecycleSaga.TaskLifecycleSagaData>,
         IAmInitiatedBy<AddTaskCommand>,
         IHandleMessages<MarkTaskAsCompletedCommand>,
-        IHandleMessages<DeleteTaskCommand>,
-        IHandleMessages<UpdateTaskCommand>,
-        IHandleMessages<TaskCompletedEvent>,
-        IHandleMessages<TaskLifecycleSaga.TaskCreatedTimeout>
+        IHandleMessages<CancelTaskCommand>,
+        IHandleMessages<UpdateTaskCommand>
     {
         private readonly IRepository _repository;
         private readonly IBus _bus;
@@ -42,7 +40,7 @@ namespace OnTime.TaskManagement.CommandStack.Sagas
                 message => message.TaskId,
                 sagaData => sagaData.TaskId);
 
-            config.Correlate<DeleteTaskCommand>(
+            config.Correlate<CancelTaskCommand>(
                 message => message.TaskId,
                 sagaData => sagaData.TaskId);
 
@@ -53,15 +51,11 @@ namespace OnTime.TaskManagement.CommandStack.Sagas
             config.Correlate<TaskCompletedEvent>(
                 message => message.TaskId,
                 sagaData => sagaData.TaskId);
-
-            config.Correlate<TaskCreatedTimeout>(
-                message => message.TaskId,
-                sagaData => sagaData.TaskId);
         }
 
         public async System.Threading.Tasks.Task Handle(AddTaskCommand message)
         {
-            var task = OTask.Factory.Create(message.UserId, message.Text);
+            var task = OTask.Factory.Create(message.UserId, message.Name);
             await _repository.SaveAsync(task);
             this.Data.TaskId = task.Id;
         }
@@ -69,7 +63,7 @@ namespace OnTime.TaskManagement.CommandStack.Sagas
         public async System.Threading.Tasks.Task Handle(UpdateTaskCommand message)
         {
             var task = _repository.GetById<OTask>(message.TaskId);
-            task.Update(message.Text);
+            task.Update(message.Name, message.Priority, message.JobOrderId);
             await _repository.SaveAsync(task);
         }
 
@@ -80,7 +74,7 @@ namespace OnTime.TaskManagement.CommandStack.Sagas
             await _repository.SaveAsync(task);
         }
 
-        public async System.Threading.Tasks.Task Handle(DeleteTaskCommand message)
+        public async System.Threading.Tasks.Task Handle(CancelTaskCommand message)
         {
             var task = _repository.GetById<OTask>(message.TaskId);
             task.Cancel(message.UserId);
@@ -88,34 +82,10 @@ namespace OnTime.TaskManagement.CommandStack.Sagas
             this.MarkAsComplete();
         }
 
-        public async System.Threading.Tasks.Task Handle(TaskCompletedEvent message)
-        {
-            var msg = new TaskCreatedTimeout()
-            {
-                TaskId = message.TaskId
-            };
-            await _bus.Defer(TimeSpan.FromDays(5), msg);
-        }
-
-        public System.Threading.Tasks.Task Handle(TaskCreatedTimeout message)
-        {
-            return System.Threading.Tasks.Task.Factory.StartNew(() =>
-            {
-                var task = _repository.GetById<OTask>(message.TaskId);
-                if(task.DateOfCompletion.HasValue && DateTime.Now.Subtract(task.DateOfCompletion.Value).Days >= 5) 
-                    this.MarkAsComplete();
-            });
-        }
-
         public class TaskLifecycleSagaData : SagaData
         {
             public string Name { get; set; }
 
-            public Guid TaskId { get; set; }
-        }
-
-        public class TaskCreatedTimeout
-        {
             public Guid TaskId { get; set; }
         }
     }

@@ -29,7 +29,7 @@
                     </div>
                     <div class="row form-inline">
                         <div class="form-group">
-                            <button type="button" class="btn btn-default btn-sm" aria-label="Left Align" v-on:click="deleteTask(task)">
+                            <button type="button" class="btn btn-default btn-sm" aria-label="Left Align" v-on:click="cancelTask(task)">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                             </button>
                             <button class="btn" v-on:click="updateTask(task)">Save</button> <button class="btn" v-on:click="cancelEdit(task)">Cancel</button>
@@ -62,14 +62,14 @@
             },
             addTask: function() {
                 if (this.taskText) {
-                    $.post('/ontime/task/add', { text: this.taskText });
+                    $.put('/ontime/task/add', { text: this.taskText });
                     this.taskText = '';
                     this.refresh(this.viewType);
                 }
                 return false;
             },
-            deleteTask: function (task) {
-                var url = '/ontime/task/delete/' + task.taskId;
+            cancelTask: function (task) {
+                var url = '/ontime/task/cancel/' + task.taskId;
                 $.get(url, function (data) {
                     var index = app.tasks.indexOf(task);
                     app.tasks.splice(index, 1);
