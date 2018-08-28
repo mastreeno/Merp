@@ -14,9 +14,7 @@ namespace OnTime.TaskManagement.QueryStack.Denormalizers
         IHandleMessages<TaskDeletedEvent>,
         IHandleMessages<TaskCompletedEvent>,
         IHandleMessages<TaskAddedEvent>,
-        IHandleMessages<TaskUpdatedEvent>,
-        IHandleMessages<DueDateSetForTaskEvent>,
-        IHandleMessages<DueDateRemovedFromTaskEvent>
+        IHandleMessages<TaskUpdatedEvent>
     {
         public TaskManagementDbContext ActiveDbContext { get; private set; }
 
@@ -60,20 +58,6 @@ namespace OnTime.TaskManagement.QueryStack.Denormalizers
         {
             var t = ActiveDbContext.Tasks.Find(message.TaskId);
             t.Name = message.Text;
-            await ActiveDbContext.SaveChangesAsync();
-        }
-
-        public async System.Threading.Tasks.Task Handle(DueDateSetForTaskEvent message)
-        {
-            var t = ActiveDbContext.Tasks.Find(message.TaskId);
-            t.DueDate = message.DueDate;
-            await ActiveDbContext.SaveChangesAsync();
-        }
-
-        public async System.Threading.Tasks.Task Handle(DueDateRemovedFromTaskEvent message)
-        {
-            var t = ActiveDbContext.Tasks.Find(message.TaskId);
-            t.DueDate = null;
             await ActiveDbContext.SaveChangesAsync();
         }
     }

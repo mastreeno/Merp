@@ -20,9 +20,6 @@ namespace OnTime.TaskManagement.CommandStack.Sagas
         IHandleMessages<MarkTaskAsCompletedCommand>,
         IHandleMessages<DeleteTaskCommand>,
         IHandleMessages<UpdateTaskCommand>,
-        IHandleMessages<ReactivateTaskCommand>,
-        IHandleMessages<SetTaskDueDateCommand>,
-        IHandleMessages<RemoveTaskDueDateCommand>,
         IHandleMessages<TaskCompletedEvent>,
         IHandleMessages<TaskLifecycleSaga.TaskCreatedTimeout>
     {
@@ -53,18 +50,6 @@ namespace OnTime.TaskManagement.CommandStack.Sagas
                 message => message.TaskId,
                 sagaData => sagaData.TaskId);
 
-            config.Correlate<ReactivateTaskCommand>(
-                message => message.TaskId,
-                sagaData => sagaData.TaskId);
-
-            config.Correlate<SetTaskDueDateCommand>(
-                message => message.TaskId,
-                sagaData => sagaData.TaskId);
-
-            config.Correlate<RemoveTaskDueDateCommand>(
-                message => message.TaskId,
-                sagaData => sagaData.TaskId);
-
             config.Correlate<TaskCompletedEvent>(
                 message => message.TaskId,
                 sagaData => sagaData.TaskId);
@@ -84,7 +69,7 @@ namespace OnTime.TaskManagement.CommandStack.Sagas
         public async System.Threading.Tasks.Task Handle(UpdateTaskCommand message)
         {
             var task = _repository.GetById<OTask>(message.TaskId);
-            task.Rename(message.Text);
+            task.Update(message.Text);
             await _repository.SaveAsync(task);
         }
 
@@ -101,27 +86,6 @@ namespace OnTime.TaskManagement.CommandStack.Sagas
             task.Cancel(message.UserId);
             await _repository.SaveAsync(task);
             this.MarkAsComplete();
-        }
-
-        public async System.Threading.Tasks.Task Handle(ReactivateTaskCommand message)
-        {
-            var task = _repository.GetById<OTask>(message.TaskId);
-            task.Reactivate();
-            await _repository.SaveAsync(task);
-        }
-
-        public async System.Threading.Tasks.Task Handle(SetTaskDueDateCommand message)
-        {
-            var task = _repository.GetById<OTask>(message.TaskId);
-            task.SetDueDate(message.DueDate);
-            await _repository.SaveAsync(task);
-        }
-
-        public async System.Threading.Tasks.Task Handle(RemoveTaskDueDateCommand message)
-        {
-            var task = _repository.GetById<OTask>(message.TaskId);
-            task.RemoveDueDate();
-            await  _repository.SaveAsync(task);
         }
 
         public async System.Threading.Tasks.Task Handle(TaskCompletedEvent message)

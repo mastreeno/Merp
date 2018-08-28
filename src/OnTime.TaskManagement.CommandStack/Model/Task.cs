@@ -12,10 +12,7 @@ namespace OnTime.TaskManagement.CommandStack.Model
                         IApplyEvent<TaskAddedEvent>,
                         IApplyEvent<TaskCompletedEvent>,
                         IApplyEvent<TaskDeletedEvent>,
-                        IApplyEvent<TaskUpdatedEvent>,
-                        IApplyEvent<TaskReactivatedEvent>,
-                        IApplyEvent<DueDateSetForTaskEvent>,
-                        IApplyEvent<DueDateRemovedFromTaskEvent>
+                        IApplyEvent<TaskUpdatedEvent>
     {
         protected Task()
         {
@@ -57,22 +54,6 @@ namespace OnTime.TaskManagement.CommandStack.Model
             this.Name = @event.Text;
         }
 
-        public void ApplyEvent(TaskReactivatedEvent @event)
-        {
-            this.DateOfCancellation = null;
-            this.DateOfCompletion = null;
-        }
-
-        public void ApplyEvent(DueDateSetForTaskEvent @event)
-        {
-            this.DueDate = @event.DueDate;
-        }
-
-        public void ApplyEvent(DueDateRemovedFromTaskEvent @event)
-        {
-            this.DueDate = null;
-        }
-
         public void Cancel(Guid userId)
         {
             if (userId != this.CreatorId)
@@ -109,7 +90,7 @@ namespace OnTime.TaskManagement.CommandStack.Model
             RaiseEvent(e);
         }
 
-        public void Rename(string proposedName)
+        public void Update(string proposedName)
         {
             if (this.DateOfCancellation.HasValue)
                 throw new InvalidOperationException("Can't mark as completed a cancelled task.");
@@ -122,48 +103,6 @@ namespace OnTime.TaskManagement.CommandStack.Model
             {
                 TaskId = this.Id,
                 Text = proposedName
-            };
-            RaiseEvent(e);
-        }
-
-        public void Reactivate()
-        {
-            if (!this.DateOfCancellation.HasValue && !this.DateOfCompletion.HasValue)
-                throw new InvalidOperationException("Can't reactivate an already active task.");
-            var e = new TaskReactivatedEvent()
-            {
-                TaskId = this.Id
-            };
-            RaiseEvent(e);
-        }
-
-        public void SetDueDate(DateTime dueDate)
-        {
-            if (this.DateOfCompletion.HasValue)
-                throw new InvalidOperationException("Can't set a due date for a completed task");
-            if (this.DateOfCancellation.HasValue)
-                throw new InvalidOperationException("Can't set a due date for a cancelled task");
-            if (dueDate < this.DateOfCreation)
-                throw new ArgumentException("The due date should be set later than the creation date.", nameof(dueDate));
-            var e = new DueDateSetForTaskEvent()
-            {
-                DueDate = dueDate,
-                TaskId = this.Id
-            };
-            RaiseEvent(e);
-        }
-
-        public void RemoveDueDate()
-        {
-            if (this.DateOfCompletion.HasValue)
-                throw new InvalidOperationException("Can't remove due date for a completed task");
-            if (this.DateOfCancellation.HasValue)
-                throw new InvalidOperationException("Can't remove due date for a cancelled task");
-            if (!this.DueDate.HasValue)
-                throw new InvalidOperationException("Can't remove due date for a task that already doesn't have any due date");
-            var e = new DueDateRemovedFromTaskEvent
-            {
-                TaskId = this.Id
             };
             RaiseEvent(e);
         }

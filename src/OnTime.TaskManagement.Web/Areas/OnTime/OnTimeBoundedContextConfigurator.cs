@@ -50,12 +50,9 @@ namespace Merp.Web.Site.Areas.OnTime
 
         protected override void SubscribeEvents()
         {
-            Bus.Subscribe<DueDateRemovedFromTaskEvent>();
-            Bus.Subscribe<DueDateSetForTaskEvent>();
             Bus.Subscribe<TaskDeletedEvent>();
             Bus.Subscribe<TaskCompletedEvent>();
             Bus.Subscribe<TaskAddedEvent>();
-            Bus.Subscribe<TaskReactivatedEvent>();
             Bus.Subscribe<TaskUpdatedEvent>();
         }
 

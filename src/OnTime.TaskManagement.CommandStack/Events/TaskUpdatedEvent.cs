@@ -10,6 +10,7 @@ namespace OnTime.TaskManagement.CommandStack.Events
     public class TaskUpdatedEvent : DomainEvent
     {
         public Guid TaskId { get; set; }
+        public Guid? JobOrderId { get; set; }
         public string Text { get; set; }
     }
 }

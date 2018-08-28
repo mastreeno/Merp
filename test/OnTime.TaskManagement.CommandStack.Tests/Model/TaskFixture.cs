@@ -174,43 +174,12 @@ namespace OnTime.TaskManagement.CommandStack.Tests.Model
             }
 
             [Fact]
-            public void Reactivate_should_throw_InvalidOperationException_for_active_tasks()
-            {
-                var task = OTask.Factory.Create(Guid.NewGuid(), "Fake");
-                Executing.This(() => task.Reactivate())
-                    .Should()
-                    .Throw<InvalidOperationException>();
-            }
-
-            [Fact]
-            public void Reactivate_should_set_DateOfCompletion_to_null_for_completed_tasks()
-            {
-                var userId = Guid.NewGuid();
-                var task = OTask.Factory.Create(userId, "Fake");
-                task.MarkAsCompleted(userId);
-                Assert.True(task.DateOfCompletion.HasValue);
-                task.Reactivate();
-                Assert.False(task.DateOfCompletion.HasValue);
-            }
-
-            [Fact]
-            public void Reactivate_should_set_DateOfCompletion_to_null_for_cancelled_tasks()
-            {
-                var userId = Guid.NewGuid();
-                var task = OTask.Factory.Create(userId, "Fake");
-                task.Cancel(userId);
-                Assert.True(task.DateOfCancellation.HasValue);
-                task.Reactivate();
-                Assert.False(task.DateOfCancellation.HasValue);
-            }
-
-            [Fact]
             public void Rename_should_throw_InvalidOperationException_for_completed_tasks()
             {
                 var userId = Guid.NewGuid();
                 var task = OTask.Factory.Create(userId, "Fake");
                 task.MarkAsCompleted(userId);
-                Executing.This(() => task.Rename("Let's have a Black Celebration tonight"))
+                Executing.This(() => task.Update("Let's have a Black Celebration tonight"))
                     .Should()
                     .Throw<InvalidOperationException>();
             }
@@ -221,7 +190,7 @@ namespace OnTime.TaskManagement.CommandStack.Tests.Model
                 var userId = Guid.NewGuid();
                 var task = OTask.Factory.Create(userId, "Fake");
                 task.Cancel(userId);
-                Executing.This(() => task.Rename("Let's have a Black Celebration tonight"))
+                Executing.This(() => task.Update("Let's have a Black Celebration tonight"))
                     .Should()
                     .Throw<InvalidOperationException>();
             }
@@ -230,7 +199,7 @@ namespace OnTime.TaskManagement.CommandStack.Tests.Model
             public void Rename_should_throw_ArgumentException_on_null_proposedName()
             {
                 var task = OTask.Factory.Create(Guid.NewGuid(), "Fake");
-                Executing.This(() => task.Rename(null))
+                Executing.This(() => task.Update(null))
                     .Should()
                     .Throw<ArgumentException>()
                     .And
@@ -245,7 +214,7 @@ namespace OnTime.TaskManagement.CommandStack.Tests.Model
             public void Rename_should_throw_ArgumentException_on_empty_proposedName()
             {
                 var task = OTask.Factory.Create(Guid.NewGuid(), "Fake");
-                Executing.This(() => task.Rename(""))
+                Executing.This(() => task.Update(""))
                     .Should()
                     .Throw<ArgumentException>()
                     .And
@@ -260,7 +229,7 @@ namespace OnTime.TaskManagement.CommandStack.Tests.Model
             public void Rename_should_throw_ArgumentException_on_whitespace_proposedName()
             {
                 var task = OTask.Factory.Create(Guid.NewGuid(), "Fake");
-                Executing.This(() => task.Rename(" "))
+                Executing.This(() => task.Update(" "))
                     .Should()
                     .Throw<ArgumentException>()
                     .And
@@ -276,7 +245,7 @@ namespace OnTime.TaskManagement.CommandStack.Tests.Model
             {
                 var task = OTask.Factory.Create(Guid.NewGuid(), "Fake");
                 var proposedName = "Buy records";
-                task.Rename(proposedName);
+                task.Update(proposedName);
                 Assert.Equal(proposedName, task.Name);
             }
         }
@@ -324,21 +293,6 @@ namespace OnTime.TaskManagement.CommandStack.Tests.Model
                 var task = OTask.Factory.Create(taskId, "Fake");
                 task.ApplyEvent(e);
                 Assert.Equal(e.Text, task.Name);
-            }
-
-
-            [Fact]
-            public void TaskReactivatedEvent()
-            {
-                var taskId = Guid.NewGuid();
-                var e = new TaskReactivatedEvent()
-                {
-                    TaskId = taskId
-                };
-                var task = OTask.Factory.Create(taskId, "Fake");
-                task.ApplyEvent(e);
-                Assert.Null(task.DateOfCancellation);
-                Assert.Null(task.DateOfCompletion);
             }
         }
     }
