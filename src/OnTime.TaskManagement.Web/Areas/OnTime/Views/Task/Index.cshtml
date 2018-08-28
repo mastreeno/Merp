@@ -61,9 +61,9 @@
             this.refresh('today');
         },
         methods: {
-            editTask: function (task) {
-                this.originalTask = Object.assign({}, task);
+            editTask: function (task) {              
                 this.tasks.forEach((item) => { if (item.edit) this.cancelEdit(item); });
+                this.originalTask = Object.assign({}, task);
                 task.edit = true;
             },
             cancelEdit: function (task) {
