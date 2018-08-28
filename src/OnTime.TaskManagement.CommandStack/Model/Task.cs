@@ -117,7 +117,7 @@ namespace OnTime.TaskManagement.CommandStack.Model
 
         public static class Factory
         {
-            public static Task Create(Guid userId, string name)
+            public static Task Create(Guid taskId, Guid userId, string name)
             {
                 if (userId == Guid.Empty)
                     throw new ArgumentException("Invalid user Id", nameof(userId));
@@ -126,7 +126,7 @@ namespace OnTime.TaskManagement.CommandStack.Model
 
                 var e = new TaskAddedEvent()
                 {
-                    TaskId = Guid.NewGuid(),
+                    TaskId = taskId,
                     DateOfCreation = DateTime.Now,
                     TaskName = name,
                     UserId = userId,

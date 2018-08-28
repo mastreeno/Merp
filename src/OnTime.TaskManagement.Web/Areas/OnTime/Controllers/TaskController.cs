@@ -53,8 +53,8 @@ namespace Merp.Web.Site.Areas.OnTime.Controllers
 
             try
             {
-                WorkerServices.Add(model.Name);
-                return Ok();
+                var taskId = WorkerServices.Add(model.Name);
+                return Ok(taskId);
             }
             catch
             {

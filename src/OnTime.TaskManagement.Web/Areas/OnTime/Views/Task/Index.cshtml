@@ -62,9 +62,15 @@
             },
             addTask: function() {
                 if (this.taskName) {
-                    $.post('/ontime/task/add', { name: this.taskName });
-                    this.taskName = '';
-                    this.refresh(this.viewType);
+                    $.post('/ontime/task/add', { name: this.taskName })
+                        .success(function(data) {
+                            var task = {taskId: data, name: app.taskName, done: false, edit: false};
+                            app.tasks.push(task);
+                            this.taskName = '';
+                        })
+                        .fail(function () {
+                            alert("Couldn't add the task, retry later.");
+                        });
                 }
                 return false;
             },

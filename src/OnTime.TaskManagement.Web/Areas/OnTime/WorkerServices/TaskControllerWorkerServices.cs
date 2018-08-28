@@ -71,14 +71,18 @@ namespace Merp.Web.Site.Areas.OnTime.WorkerServices
             return model;
         }
 
-        public void Add(string taskName)
+        public Guid Add(string taskName)
         {
+            var taskId = Guid.NewGuid();
             var cmd = new AddTaskCommand()
             {
-                Name = taskName,
-                UserId = GetCurrentUserId()
+                TaskId = taskId,
+                UserId = GetCurrentUserId(),
+                Name = taskName
             };
             Bus.Send(cmd);
+
+            return taskId;
         }
 
         public void Cancel(Guid taskId)

@@ -55,7 +55,7 @@ namespace OnTime.TaskManagement.CommandStack.Sagas
 
         public async System.Threading.Tasks.Task Handle(AddTaskCommand message)
         {
-            var task = OTask.Factory.Create(message.UserId, message.Name);
+            var task = OTask.Factory.Create(message.TaskId, message.UserId, message.Name);
             await _repository.SaveAsync(task);
             this.Data.TaskId = task.Id;
         }
