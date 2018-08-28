@@ -37,7 +37,9 @@ namespace Merp.Web.Site.Areas.OnTime.WorkerServices
                          {
                              TaskId = t.Id,
                              Name = t.Name,
-                             Done = false
+                             Done = false,
+                             Priority = t.Priority,
+                             JobOrderId = t.JobOrderId
                          }).ToArray();
             return model;
         }
@@ -51,7 +53,9 @@ namespace Merp.Web.Site.Areas.OnTime.WorkerServices
                          {
                              TaskId = t.Id,
                              Name = t.Name,
-                             Done = false
+                             Done = false,
+                             Priority = t.Priority,
+                             JobOrderId = t.JobOrderId
                          }).ToArray();
             return model;
         }
