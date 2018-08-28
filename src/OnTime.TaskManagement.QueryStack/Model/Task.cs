@@ -32,6 +32,10 @@ namespace OnTime.TaskManagement.QueryStack.Model
 
         public DateTime? DueDate { get; set; }
 
+        public TaskPriority Priority { get; set; }
+
+        public Guid? JobOrderId { get; set; }
+
         void IEntityTypeConfiguration<Task>.Configure(EntityTypeBuilder<Task> builder)
         {
             builder.HasIndex(o => o.UserId);

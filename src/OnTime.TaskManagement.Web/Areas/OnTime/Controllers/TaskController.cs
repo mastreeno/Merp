@@ -16,10 +16,7 @@ namespace Merp.Web.Site.Areas.OnTime.Controllers
 
         public TaskController(TaskControllerWorkerServices workerServices)
         {
-            if (workerServices == null)
-                throw new ArgumentNullException(nameof(workerServices));
-
-            WorkerServices = workerServices;
+            WorkerServices = workerServices ?? throw new ArgumentNullException(nameof(workerServices));
         }
 
         public IActionResult Index()
@@ -43,6 +40,12 @@ namespace Merp.Web.Site.Areas.OnTime.Controllers
         public IEnumerable<CurrentTaskModel> Today()
         {
             return WorkerServices.GetTodayModel();
+        }
+
+        [HttpGet]
+        public object PriorityOptions()
+        {
+            return Enum.GetValues(typeof(global::OnTime.TaskManagement.QueryStack.Model.TaskPriority));
         }
 
         [HttpPost]

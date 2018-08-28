@@ -36,6 +36,8 @@
   <ItemGroup>
     <Compile Include="Migrations\20171019175544_InitialMigration.cs" />
     <Compile Include="Migrations\20171019175544_InitialMigration.Designer.cs" />
+    <Compile Include="Migrations\20180828144641_JobOrderAndPriority.cs" />
+    <Compile Include="Migrations\20180828144641_JobOrderAndPriority.Designer.cs" />
     <Compile Include="Migrations\TaskManagementDbContextModelSnapshot.cs" />
   </ItemGroup>
   <ItemGroup>

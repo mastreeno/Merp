@@ -25,7 +25,7 @@
                 </div>
                 <div v-else>
                     <div class="row">
-                        <input type="text" v-model="task.name" class="form-control"  />
+                        <textarea v-model="task.name" class="form-control"></textarea>
                     </div>
                     <div class="row form-inline">
                         <div class="form-group">
@@ -34,6 +34,9 @@
                             </button>
                             <button class="btn" v-on:click="updateTask(task)">Save</button> <button class="btn" v-on:click="cancelEdit(task)">Cancel</button>
                             <input type="text" class="form-control" v-model="task.jobOrderId" />
+                            <select v-model="task.priority">
+                                <!option v-for="option in priorityOptions" v-bind:value="option">{{ option }}</!option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -47,26 +50,33 @@
         data: {
             viewType: '',
             taskName: '',
-            tasks: []
+            priorityOptions: [],
+            tasks: [],
+            originalTask: {}
         },
         mounted: function() {
+            $.get('/ontime/task/priorityoptions', function (data) {
+                    app.priorityOptions = data;
+                });
             this.refresh('today');
         },
         methods: {
             editTask: function (task) {
+                this.originalTask = Object.assign({}, task);
                 this.tasks.forEach((item) => item.edit = false);
                 task.edit = true;
             },
             cancelEdit: function (task) {
+                task = Object.assign({}, this.originalTask);
                 task.edit = false;
             },
             addTask: function() {
                 if (this.taskName) {
                     $.post('/ontime/task/add', { name: this.taskName })
                         .success(function(data) {
-                            var task = {taskId: data, name: app.taskName, done: false, edit: false};
-                            app.tasks.push(task);
-                            this.taskName = '';
+                            var task = { taskId: data, name: app.taskName, done: false, edit: false, priority: 0 };
+                            app.tasks.push(task);   
+                            app.taskName = '';
                         })
                         .fail(function () {
                             alert("Couldn't add the task, retry later.");
@@ -86,7 +96,8 @@
             },
             updateTask: function (task) {
                 var url = '/ontime/task/update/' + task.taskId;
-                $.post(url, { taskId: task.taskId, name: task.name })
+                var model = { taskId: task.taskId, name: task.name, priority: task.priority, jobOrderId: task.jobOrderId };
+                $.post(url, model)
                     .done(function () {
                         task.edit = false;
                     })
@@ -126,7 +137,8 @@
                             taskId: item.taskId,
                             name: item.name,
                             done: item.done,
-                            edit: false
+                            edit: false,
+                            priority: item.priority
                         };
                     });
                 });

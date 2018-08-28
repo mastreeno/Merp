@@ -66,7 +66,9 @@ namespace Merp.Web.Site.Areas.OnTime.WorkerServices
                          {
                              TaskId = t.Id,
                              Name = t.Name,
-                             Done = false
+                             Done = false,
+                             Priority = t.Priority,
+                             JobOrderId = t.JobOrderId
                          }).ToArray();
             return model;
         }
@@ -95,13 +97,13 @@ namespace Merp.Web.Site.Areas.OnTime.WorkerServices
             Bus.Send(cmd);
         }
 
-        public void Update(Guid taskId, string taskName, UpdateModel.TaskPriority priority, Guid? jobOrderId)
+        public void Update(Guid taskId, string taskName, global::OnTime.TaskManagement.QueryStack.Model.TaskPriority priority, Guid? jobOrderId)
         {
             var cmd = new UpdateTaskCommand(
                 taskId: taskId,
                 userId: GetCurrentUserId(),
                 name: taskName,
-                priority: TaskPriority.Standard,
+                priority: priority.Convert(),
                 jobOrderId: jobOrderId
             );
             Bus.Send(cmd);

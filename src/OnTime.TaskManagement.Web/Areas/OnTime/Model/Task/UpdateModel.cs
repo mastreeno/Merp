@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OnTime.TaskManagement.QueryStack.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,13 +19,5 @@ namespace OnTime.TaskManagement.Web.Areas.OnTime.Model.Task
         public TaskPriority Priority { get; set; }
 
         public Guid? JobOrderId { get; set; }
-
-        public enum TaskPriority
-        {
-            Low = 0,
-            Standard = 1,
-            High = 2,
-            Critical = 3
-        }
     }
 }

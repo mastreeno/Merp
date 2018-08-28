@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using OnTime.TaskManagement.CommandStack.Events;
 using OnTime.TaskManagement.QueryStack.Model;
 using OTask = OnTime.TaskManagement.QueryStack.Model.Task;
+using OnTime.TaskManagement.QueryStack.Model.Extensions;
 
 namespace OnTime.TaskManagement.QueryStack.Denormalizers
 {
@@ -58,6 +59,8 @@ namespace OnTime.TaskManagement.QueryStack.Denormalizers
         {
             var t = ActiveDbContext.Tasks.Find(message.TaskId);
             t.Name = message.Name;
+            t.Priority = message.Priority.Convert();
+            t.JobOrderId = message.JobOrderId;
             await ActiveDbContext.SaveChangesAsync();
         }
     }
