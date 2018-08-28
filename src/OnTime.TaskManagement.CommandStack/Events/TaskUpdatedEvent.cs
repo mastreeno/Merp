@@ -5,13 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OnTime.TaskManagement.CommandStack.Commands
+namespace OnTime.TaskManagement.CommandStack.Events
 {
-    public class RenameTaskCommand : Command
+    public class TaskUpdatedEvent : DomainEvent
     {
         public Guid TaskId { get; set; }
-        public Guid UserId { get; set; }
-
-        public string UpdatedText { get; set; }
+        public string Text { get; set; }
     }
 }

@@ -13,22 +13,29 @@
         </ul>
     </div>
     <div class="col-md-9">
-        <h2>{{viewType}}</h2>
         <form v-on:submit="addTask()" class="form-inline">
             <input type="text" class="form-control" v-model="taskText" size="30" placeholder="add new task here">
             <input class="btn btn-primary" type="submit" value="add">
         </form>
+        <h2>{{viewType}}</h2>
         <ul class="list-unstyled">
             <li v-for="task in tasks">
                 <div v-if="task.edit === false">
                     <input type="checkbox" v-model="task.done" v-on:change="markTaskAsComplete(task)" :value="task" /> <span v-on:click="editTask(task)">{{task.text}}</span>
                 </div>
                 <div v-else>
-                    <input type="text" v-model="task.text" /><br />
-                    <button type="button" class="btn btn-default btn-sm" aria-label="Left Align" v-on:click="deleteTask(task)">
-                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                    </button>
-                    <button class="btn" v-on:click="updateTask(task)">Save</button> <button class="btn" v-on:click="cancelEdit(task)">Cancel</button>
+                    <div class="row">
+                        <input type="text" v-model="task.text" class="form-control"  />
+                    </div>
+                    <div class="row form-inline">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-default btn-sm" aria-label="Left Align" v-on:click="deleteTask(task)">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </button>
+                            <button class="btn" v-on:click="updateTask(task)">Save</button> <button class="btn" v-on:click="cancelEdit(task)">Cancel</button>
+                            <input type="text" class="form-control" v-model="task.jobOrderId" />
+                        </div>
+                    </div>
                 </div>
             </li>
         </ul>
@@ -47,6 +54,7 @@
         },
         methods: {
             editTask: function (task) {
+                this.tasks.forEach((item) => item.edit = false);
                 task.edit = true;
             },
             cancelEdit: function (task) {

@@ -91,12 +91,11 @@ namespace Merp.Web.Site.Areas.OnTime.WorkerServices
 
         public void Update(Guid taskId, string taskName)
         {
-            var cmd = new RenameTaskCommand()
-            {
-                TaskId = taskId,
-                UserId = GetCurrentUserId(),
-                UpdatedText = taskName              
-            };
+            var cmd = new UpdateTaskCommand(
+                taskId: taskId,
+                userId: GetCurrentUserId(),
+                text: taskName              
+            );
             Bus.Send(cmd);
         }
 

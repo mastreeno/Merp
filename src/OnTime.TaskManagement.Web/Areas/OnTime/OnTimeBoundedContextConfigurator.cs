@@ -56,7 +56,7 @@ namespace Merp.Web.Site.Areas.OnTime
             Bus.Subscribe<TaskCompletedEvent>();
             Bus.Subscribe<TaskAddedEvent>();
             Bus.Subscribe<TaskReactivatedEvent>();
-            Bus.Subscribe<TaskRenamedEvent>();
+            Bus.Subscribe<TaskUpdatedEvent>();
         }
 
         protected override void RegisterTypes()

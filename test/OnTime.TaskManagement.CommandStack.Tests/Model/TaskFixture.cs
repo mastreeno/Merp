@@ -316,14 +316,14 @@ namespace OnTime.TaskManagement.CommandStack.Tests.Model
             public void TaskRenamedEvent()
             {
                 var taskId = Guid.NewGuid();
-                var e = new TaskRenamedEvent()
+                var e = new TaskUpdatedEvent()
                 {
-                    TaskName = "Brand new name",
+                    Text = "Brand new name",
                     TaskId = taskId
                 };
                 var task = OTask.Factory.Create(taskId, "Fake");
                 task.ApplyEvent(e);
-                Assert.Equal(e.TaskName, task.Name);
+                Assert.Equal(e.Text, task.Name);
             }
 
 

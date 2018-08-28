@@ -19,7 +19,7 @@ namespace OnTime.TaskManagement.CommandStack.Sagas
         IAmInitiatedBy<AddTaskCommand>,
         IHandleMessages<MarkTaskAsCompletedCommand>,
         IHandleMessages<DeleteTaskCommand>,
-        IHandleMessages<RenameTaskCommand>,
+        IHandleMessages<UpdateTaskCommand>,
         IHandleMessages<ReactivateTaskCommand>,
         IHandleMessages<SetTaskDueDateCommand>,
         IHandleMessages<RemoveTaskDueDateCommand>,
@@ -49,7 +49,7 @@ namespace OnTime.TaskManagement.CommandStack.Sagas
                 message => message.TaskId,
                 sagaData => sagaData.TaskId);
 
-            config.Correlate<RenameTaskCommand>(
+            config.Correlate<UpdateTaskCommand>(
                 message => message.TaskId,
                 sagaData => sagaData.TaskId);
 
@@ -81,10 +81,10 @@ namespace OnTime.TaskManagement.CommandStack.Sagas
             this.Data.TaskId = task.Id;
         }
 
-        public async System.Threading.Tasks.Task Handle(RenameTaskCommand message)
+        public async System.Threading.Tasks.Task Handle(UpdateTaskCommand message)
         {
             var task = _repository.GetById<OTask>(message.TaskId);
-            task.Rename(message.UpdatedText);
+            task.Rename(message.Text);
             await _repository.SaveAsync(task);
         }
 

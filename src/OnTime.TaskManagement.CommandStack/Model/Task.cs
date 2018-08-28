@@ -12,7 +12,7 @@ namespace OnTime.TaskManagement.CommandStack.Model
                         IApplyEvent<TaskAddedEvent>,
                         IApplyEvent<TaskCompletedEvent>,
                         IApplyEvent<TaskDeletedEvent>,
-                        IApplyEvent<TaskRenamedEvent>,
+                        IApplyEvent<TaskUpdatedEvent>,
                         IApplyEvent<TaskReactivatedEvent>,
                         IApplyEvent<DueDateSetForTaskEvent>,
                         IApplyEvent<DueDateRemovedFromTaskEvent>
@@ -52,9 +52,9 @@ namespace OnTime.TaskManagement.CommandStack.Model
             this.DateOfCancellation = @event.DateOfCancellation;
         }
 
-        public void ApplyEvent(TaskRenamedEvent @event)
+        public void ApplyEvent(TaskUpdatedEvent @event)
         {
-            this.Name = @event.TaskName;
+            this.Name = @event.Text;
         }
 
         public void ApplyEvent(TaskReactivatedEvent @event)
@@ -118,10 +118,10 @@ namespace OnTime.TaskManagement.CommandStack.Model
             if (string.IsNullOrWhiteSpace(proposedName))
                 throw new ArgumentException("A task must have a non-null name.", nameof(proposedName));
 
-            var e = new TaskRenamedEvent()
+            var e = new TaskUpdatedEvent()
             {
                 TaskId = this.Id,
-                TaskName = proposedName
+                Text = proposedName
             };
             RaiseEvent(e);
         }
