@@ -14,18 +14,18 @@
     </div>
     <div class="col-md-9">
         <form v-on:submit="addTask()" class="form-inline">
-            <input type="text" class="form-control" v-model="taskText" size="30" placeholder="add new task here">
+            <input type="text" class="form-control" v-model="taskName" size="30" placeholder="add new task here">
             <input class="btn btn-primary" type="submit" value="add">
         </form>
         <h2>{{viewType}}</h2>
         <ul class="list-unstyled">
             <li v-for="task in tasks">
                 <div v-if="task.edit === false">
-                    <input type="checkbox" v-model="task.done" v-on:change="markTaskAsComplete(task)" :value="task" /> <span v-on:click="editTask(task)">{{task.text}}</span>
+                    <input type="checkbox" v-model="task.done" v-on:change="markTaskAsComplete(task)" :value="task" /> <span v-on:click="editTask(task)">{{task.name}}</span>
                 </div>
                 <div v-else>
                     <div class="row">
-                        <input type="text" v-model="task.text" class="form-control"  />
+                        <input type="text" v-model="task.name" class="form-control"  />
                     </div>
                     <div class="row form-inline">
                         <div class="form-group">
@@ -46,7 +46,7 @@
         el: '#OnTime',
         data: {
             viewType: '',
-            taskText: '',
+            taskName: '',
             tasks: []
         },
         mounted: function() {
@@ -61,9 +61,9 @@
                 task.edit = false;
             },
             addTask: function() {
-                if (this.taskText) {
-                    $.put('/ontime/task/add', { text: this.taskText });
-                    this.taskText = '';
+                if (this.taskName) {
+                    $.post('/ontime/task/add', { name: this.taskName });
+                    this.taskName = '';
                     this.refresh(this.viewType);
                 }
                 return false;
@@ -75,12 +75,12 @@
                     app.tasks.splice(index, 1);
                 })
                 .fail(function () {
-                    alert("Can't delete the task, retry later.");
+                    alert("Can't cancel the task, retry later.");
                 });
             },
             updateTask: function (task) {
                 var url = '/ontime/task/update/' + task.taskId;
-                $.post(url, { text: task.text })
+                $.post(url, { taskId: task.taskId, name: task.name })
                     .done(function () {
                         task.edit = false;
                     })
@@ -118,7 +118,7 @@
                     app.tasks = data.map((item, index) => {
                         return {
                             taskId: item.taskId,
-                            text: item.text,
+                            name: item.name,
                             done: item.done,
                             edit: false
                         };

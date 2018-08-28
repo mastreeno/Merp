@@ -33,7 +33,7 @@ namespace OnTime.TaskManagement.QueryStack.Model.Extensions
         private static IQueryable<OTask> Current(this IQueryable<OTask> set, Guid userId)
         {
             return set.OfUser(userId)
-                        .Where(t => !t.IsCompleted);
+                        .Where(t => !t.IsCompleted && !t.DateOfCancellation.HasValue);
         }
     }
 }

@@ -50,7 +50,7 @@ namespace OnTime.TaskManagement.QueryStack.Denormalizers
         public async System.Threading.Tasks.Task Handle(TaskCancelledEvent message)
         {
             var t = ActiveDbContext.Tasks.Find(message.TaskId);
-            ActiveDbContext.Tasks.Remove(t);
+            t.DateOfCancellation = message.DateOfCancellation;
             await ActiveDbContext.SaveChangesAsync();
         }
 

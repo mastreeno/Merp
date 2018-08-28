@@ -16,7 +16,7 @@ namespace OnTime.TaskManagement.CommandStack.Commands
         public Guid? JobOrderId { get; set; }
         public TaskPriority Priority { get; set; }
 
-        public UpdateTaskCommand(Guid taskId, Guid userId, string name, TaskPriority priority)
+        public UpdateTaskCommand(Guid taskId, Guid userId, string name, TaskPriority priority, Guid? jobOrderId)
         {
             if (taskId == Guid.Empty)
                 throw new ArgumentException("taskId can't be empty", nameof(taskId));
@@ -29,6 +29,7 @@ namespace OnTime.TaskManagement.CommandStack.Commands
             UserId = userId;
             Name = name;
             Priority = priority;
+            JobOrderId = jobOrderId;
         }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Merp.Web.Site.Areas.OnTime.WorkerServices;
 using Merp.Web.Site.Areas.OnTime.Model.Task;
+using OnTime.TaskManagement.Web.Areas.OnTime.Model.Task;
 
 namespace Merp.Web.Site.Areas.OnTime.Controllers
 {
@@ -27,32 +28,32 @@ namespace Merp.Web.Site.Areas.OnTime.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<IncompleteViewModel> Backlog()
+        public IEnumerable<CurrentTaskModel> Backlog()
         {
             return WorkerServices.GetBacklogModel();
         }
 
         [HttpGet]
-        public IEnumerable<IncompleteViewModel> NextSevenDays()
+        public IEnumerable<CurrentTaskModel> NextSevenDays()
         {
             return WorkerServices.GetNextSevenDaysModel();
         }
 
         [HttpGet]
-        public IEnumerable<IncompleteViewModel> Today()
+        public IEnumerable<CurrentTaskModel> Today()
         {
             return WorkerServices.GetTodayModel();
         }
 
-        [HttpPut]
-        public IActionResult Add(string text)
+        [HttpPost]
+        public IActionResult Add([FromForm] AddModel model)
         {
-            if (string.IsNullOrWhiteSpace(text))
+            if(!ModelState.IsValid)
                 return BadRequest();
 
             try
             {
-                WorkerServices.Add(text);
+                WorkerServices.Add(model.Name);
                 return Ok();
             }
             catch
@@ -62,14 +63,14 @@ namespace Merp.Web.Site.Areas.OnTime.Controllers
         }
 
         [HttpPost]
-        public IActionResult Update(Guid id, string text)
+        public IActionResult Update(Guid id, UpdateModel model)
         {
-            if (string.IsNullOrWhiteSpace(text))
+            if (!ModelState.IsValid)
                 return BadRequest();
 
             try
             {
-                WorkerServices.Update(id, text);
+                WorkerServices.Update(id, model.Name, model.Priority, model.JobOrderId);
                 return Ok();
             }
             catch

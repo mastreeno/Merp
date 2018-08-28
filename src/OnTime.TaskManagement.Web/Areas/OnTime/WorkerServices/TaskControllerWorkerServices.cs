@@ -10,6 +10,7 @@ using OnTime.TaskManagement.CommandStack.Commands;
 using Merp.Web.Site.Models;
 using Merp.Web.Site.Areas.OnTime.Model.Task;
 using OnTime.TaskManagement.CommandStack.Model;
+using OnTime.TaskManagement.Web.Areas.OnTime.Model.Task;
 
 namespace Merp.Web.Site.Areas.OnTime.WorkerServices
 {
@@ -28,43 +29,43 @@ namespace Merp.Web.Site.Areas.OnTime.WorkerServices
             ContextAccessor = contextAccessor ?? throw new ArgumentNullException(nameof(contextAccessor));
         }
 
-        public IEnumerable<IncompleteViewModel> GetBacklogModel()
+        public IEnumerable<CurrentTaskModel> GetBacklogModel()
         {
             var currentUserId = GetCurrentUserId();
             var model = (from t in Database.Tasks.Backlog(currentUserId)
-                         select new IncompleteViewModel
+                         select new CurrentTaskModel
                          {
                              TaskId = t.Id,
-                             Text = t.Name,
+                             Name = t.Name,
                              Done = false
                          }).ToArray();
             return model;
         }
 
-        public IEnumerable<IncompleteViewModel> GetTodayModel()
+        public IEnumerable<CurrentTaskModel> GetTodayModel()
         {
             var currentUserId = GetCurrentUserId();
             var model = (from t in Database.Tasks
                                             .Today(currentUserId)
-                         select new IncompleteViewModel
+                         select new CurrentTaskModel
                          {
                              TaskId = t.Id,
-                             Text = t.Name,
+                             Name = t.Name,
                              Done = false
                          }).ToArray();
             return model;
         }
 
-        public IEnumerable<IncompleteViewModel> GetNextSevenDaysModel()
+        public IEnumerable<CurrentTaskModel> GetNextSevenDaysModel()
         {
             var threashold = DateTime.Now.AddDays(8);
             var currentUserId = GetCurrentUserId();
             var model = (from t in Database.Tasks
                                             .Backlog(currentUserId)
-                         select new IncompleteViewModel
+                         select new CurrentTaskModel
                          {
                              TaskId = t.Id,
-                             Text = t.Name,
+                             Name = t.Name,
                              Done = false
                          }).ToArray();
             return model;
@@ -90,13 +91,14 @@ namespace Merp.Web.Site.Areas.OnTime.WorkerServices
             Bus.Send(cmd);
         }
 
-        public void Update(Guid taskId, string taskName)
+        public void Update(Guid taskId, string taskName, UpdateModel.TaskPriority priority, Guid? jobOrderId)
         {
             var cmd = new UpdateTaskCommand(
                 taskId: taskId,
                 userId: GetCurrentUserId(),
                 name: taskName,
-                priority: TaskPriority.Standard
+                priority: TaskPriority.Standard,
+                jobOrderId: jobOrderId
             );
             Bus.Send(cmd);
         }
