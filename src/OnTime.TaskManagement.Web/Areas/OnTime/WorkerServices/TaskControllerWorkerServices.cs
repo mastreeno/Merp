@@ -115,6 +115,9 @@ namespace Merp.Web.Site.Areas.OnTime.WorkerServices
 
         public void MarkAsComplete(Guid taskId)
         {
+            if (taskId == Guid.Empty)
+                throw new ArgumentException("A valid taskId must be specified", nameof(taskId));
+
             var currentUserId = GetCurrentUserId();
             var taskBelongsToRequestingUser = Database.Tasks.Backlog(currentUserId).Any(t => t.Id == taskId);
             if (!taskBelongsToRequestingUser)

@@ -52,7 +52,7 @@ namespace Merp.Web.Site.Areas.OnTime.Controllers
         public IActionResult Add([FromForm] AddModel model)
         {
             if(!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(ModelState);
 
             try
             {
@@ -69,7 +69,7 @@ namespace Merp.Web.Site.Areas.OnTime.Controllers
         public IActionResult Update(Guid id, UpdateModel model)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(ModelState);
 
             try
             {
@@ -100,14 +100,11 @@ namespace Merp.Web.Site.Areas.OnTime.Controllers
         }
 
         [HttpGet]
-        public IActionResult MarkAsComplete(Guid? id)
+        public IActionResult MarkAsComplete(Guid id)
         {
-            if (!id.HasValue)
-                return BadRequest();
-
             try
             {
-                WorkerServices.MarkAsComplete(id.Value);
+                WorkerServices.MarkAsComplete(id);
                 return Ok();
             }
             catch
@@ -115,7 +112,5 @@ namespace Merp.Web.Site.Areas.OnTime.Controllers
                 return BadRequest();
             }
         }
-
-
     }
 }
