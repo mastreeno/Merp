@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.1.2" />
     <PackageReference Include="MementoFX" Version="2.0.0-pre5" />
     <PackageReference Include="MementoFX.Messaging.Rebus" Version="2.0.0-pre1" />
     <PackageReference Include="MementoFX.Persistence.MongoDB" Version="2.0.0-pre2" />
