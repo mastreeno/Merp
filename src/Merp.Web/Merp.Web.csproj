@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <Authors>Mastreeno ltd, Andrea Saltarello</Authors>
     <Product>Merp</Product>
   </PropertyGroup>

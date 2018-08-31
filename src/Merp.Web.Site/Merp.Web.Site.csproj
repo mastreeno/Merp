@@ -4,7 +4,7 @@
     <Description>An event-based Micro ERP</Description>
     <Copyright>Mastreeno ltd, Andrea Saltarello</Copyright>
     <AssemblyTitle>MERP</AssemblyTitle>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <AssemblyName>Merp.Web.Site</AssemblyName>
     <OutputType>Exe</OutputType>
