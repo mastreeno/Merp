@@ -38,13 +38,12 @@
     <ProjectReference Include="..\Merp.Accountancy.Web\Merp.Accountancy.Web.csproj" />
     <ProjectReference Include="..\Merp.Registry.Web\Merp.Registry.Web.csproj" />
     <ProjectReference Include="..\Merp.Web\Merp.Web.csproj" />
-    <ProjectReference Include="..\OnTime.TaskManagement.Web\OnTime.TaskManagement.Web.csproj" />
+    <ProjectReference Include="..\Merp.TimeTracking.TaskManagement.Web\Merp.TimeTracking.Web.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="BundlerMinifier.Core" Version="2.8.391" />
     <PackageReference Include="Microsoft.AspNetCore.CookiePolicy" Version="2.1.2" />
-    <PackageReference Include="Microsoft.Bot.Builder.Calling" Version="3.15.3" />
     <PackageReference Include="Rebus" Version="4.2.1" />
     <PackageReference Include="Rebus.AzureServiceBus" Version="4.0.1" />
     <PackageReference Include="Rebus.Msmq" Version="4.0.0" />
