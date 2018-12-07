@@ -44,6 +44,15 @@ namespace Merp.Web.Site.Areas.OnTime.WorkerServices
             return model;
         }
 
+        public IEnumerable<Guid> GetJobOrders()
+        {
+            return Database.Tasks
+                        .Where(t => t.JobOrderId.HasValue)
+                        .Select(t => t.JobOrderId.Value)
+                        .Distinct()
+                        .ToArray();
+        }
+
         public IEnumerable<CurrentTaskModel> GetTodayModel()
         {
             var currentUserId = GetCurrentUserId();
@@ -101,14 +110,14 @@ namespace Merp.Web.Site.Areas.OnTime.WorkerServices
             Bus.Send(cmd);
         }
 
-        public void Update(Guid taskId, string taskName, global::Merp.TimeTracking.TaskManagement.QueryStack.Model.TaskPriority priority, Guid? jobOrderId)
+        public void Update(Guid taskId, UpdateModel model)
         {
             var cmd = new UpdateTaskCommand(
                 taskId: taskId,
                 userId: GetCurrentUserId(),
-                name: taskName,
-                priority: priority.Convert(),
-                jobOrderId: jobOrderId
+                name: model.Name,
+                priority: model.Priority.Convert(),
+                jobOrderId: model.JobOrderId
             );
             Bus.Send(cmd);
         }

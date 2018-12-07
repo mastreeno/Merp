@@ -1,9 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Mastreeno ltd, Andrea Saltarello</Authors>
     <Product>Merp</Product>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MementoFX" Version="2.0.0-pre5" />
+  </ItemGroup>
 
 </Project>

@@ -11,6 +11,12 @@
             <li><a href="#" v-on:click="refresh('today')">Today</a></li>
             <li><a href="#" v-on:click="refresh('next')">Next 7 days</a></li>
         </ul>
+        <div class="row" v-if="jobOrders.length">
+            <h3>Job Orders</h3>
+            <ul class="list-unstyled">
+
+            </ul>
+        </div>
     </div>
     <div class="col-md-9">
         <form v-on:submit="addTask()" class="form-inline">
@@ -52,12 +58,16 @@
             taskName: '',
             priorityOptions: [],
             tasks: [],
-            originalTask: {}
+            originalTask: {},
+            jobOrders: []
         },
         mounted: function() {
             $.get('/ontime/task/priorityoptions', function (data) {
                     app.priorityOptions = data;
-                });
+            });
+            $.get('/ontime/task/joborders', function (data) {
+                app.jobOrders = data;
+            });
             this.refresh('today');
         },
         methods: {
@@ -103,7 +113,7 @@
                         task.edit = false;
                     })
                     .fail(function () {
-                        alert("Can't update the task, retry later.");
+                        window.alert("Can't update the task, retry later.");
                     });
             },     
             markTaskAsComplete: function (task) {
@@ -139,7 +149,8 @@
                             name: item.name,
                             done: item.done,
                             edit: false,
-                            priority: item.priority
+                            priority: item.priority,
+                            jobOrderId: item.jobOrderId
                         };
                     });
                 });

@@ -20,25 +20,26 @@ namespace Merp.Web.Site.Areas.Accountancy.Controllers
             WorkerServices = workerServices ?? throw new ArgumentNullException(nameof(workerServices));
         }
 
-        [HttpGet]
-        public IEnumerable<JobOrderListViewModel.JobOrder> GetList(bool? currentOnly, Guid? customerId, string jobOrderName)
-        {
-            var list = WorkerServices.GetList(currentOnly.HasValue ? currentOnly.Value : false,
-                                            customerId,
-                                            jobOrderName);
+        //[HttpGet]
+        //public IEnumerable<JobOrderListViewModel.JobOrder> GetList(bool? currentOnly, Guid? customerId, string jobOrderName)
+        //{
+        //    var list = WorkerServices.GetList(currentOnly.HasValue ? currentOnly.Value : false,
+        //                                    customerId,
+        //                                    jobOrderName);
 
-            var model = list.Select(jo => new JobOrderListViewModel.JobOrder()
-            {
-                CustomerId = jo.CustomerId,
-                CustomerName = jo.CustomerName,
-                Id = jo.Id,
-                IsCompleted = jo.IsCompleted,
-                Name = jo.Name,
-                Number = jo.Number,
-                OriginalId = jo.OriginalId,
-                Tenant = "Tenant1"
-            });
-            return model;
-        }
+        //    var model = list.Select(jo => new JobOrderListViewModel.JobOrder()
+        //    {
+        //        CustomerId = jo.CustomerId,
+        //        CustomerName = jo.CustomerName,
+        //        Id = jo.Id,
+        //        IsCompleted = jo.IsCompleted,
+        //        Name = jo.Name,
+        //        Number = jo.Number,
+        //        OriginalId = jo.OriginalId,
+        //        Tenant = "Tenant1"
+        //    });
+        //    return model;
+        //}
+
     }
 }

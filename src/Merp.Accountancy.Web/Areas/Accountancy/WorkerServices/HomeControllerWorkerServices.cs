@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Merp.Web.Site.Areas.Accountancy.WorkerServices
 {
-    public class HomeControllerWorkerServices
+    public class HomeControllerWorkerServices 
     {
         public IDatabase Database { get; set; }
 

@@ -67,6 +67,7 @@ namespace Merp.Web.Site
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddSingleton(services);
             var bootstrapper = new AppBootstrapper(Configuration, services);

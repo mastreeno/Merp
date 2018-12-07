@@ -48,6 +48,12 @@ namespace Merp.Web.Site.Areas.OnTime.Controllers
             return Enum.GetValues(typeof(global::Merp.TimeTracking.TaskManagement.QueryStack.Model.TaskPriority));
         }
 
+        [HttpGet]
+        public IEnumerable<Guid> JobOrders()
+        {
+            return WorkerServices.GetJobOrders();
+        }
+
         [HttpPost]
         public IActionResult Add([FromForm] AddModel model)
         {
@@ -73,7 +79,7 @@ namespace Merp.Web.Site.Areas.OnTime.Controllers
 
             try
             {
-                WorkerServices.Update(id, model.Name, model.Priority, model.JobOrderId);
+                WorkerServices.Update(id, model);
                 return Ok();
             }
             catch
