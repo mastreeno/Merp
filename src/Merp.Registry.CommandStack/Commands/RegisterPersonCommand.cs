@@ -1,14 +1,10 @@
-﻿using MementoFX;
+﻿using Merp.Domain;
 using Merp.Registry.CommandStack.Helpers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Merp.Registry.CommandStack.Commands
 {
-    public class RegisterPersonCommand : Command
+    public class RegisterPersonCommand : MerpCommand
     {
         public Guid PersonId { get; set; }
         public string FirstName { get; set; }
@@ -37,7 +33,8 @@ namespace Merp.Registry.CommandStack.Commands
         public string EmailAddress { get; set; }
         public string InstantMessaging { get; set; }
 
-        public RegisterPersonCommand(string firstName, string lastName, string nationalIdentificationNumber, string vatNumber, string legalAddressAddress, string legalAddressCity, string legalAddressPostalCode, string legalAddressProvince, string legalAddressCountry, string shippingAddressAddress, string shippingAddressPostalCode, string shippingAddressCity, string shippingAddressProvince, string shippingAddressCountry, string billingAddressAddress, string billingAddressPostalCode, string billingAddressCity, string billingAddressProvince, string billingAddressCountry, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
+        public RegisterPersonCommand(Guid userId, string firstName, string lastName, string nationalIdentificationNumber, string vatNumber, string legalAddressAddress, string legalAddressCity, string legalAddressPostalCode, string legalAddressProvince, string legalAddressCountry, string shippingAddressAddress, string shippingAddressPostalCode, string shippingAddressCity, string shippingAddressProvince, string shippingAddressCountry, string billingAddressAddress, string billingAddressPostalCode, string billingAddressCity, string billingAddressProvince, string billingAddressCountry, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
+            : base(userId)
         {
             if (string.IsNullOrWhiteSpace(firstName))
             {

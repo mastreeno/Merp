@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MementoFX;
 using MementoFX.Domain;
+using Merp.Domain;
 
 namespace Merp.Accountancy.CommandStack.Commands
 {
-    public class LinkIncomingInvoiceToJobOrderCommand : Command
+    public class LinkIncomingInvoiceToJobOrderCommand : MerpCommand
     {
         public Guid JobOrderId { get; set; }
 
@@ -19,7 +15,8 @@ namespace Merp.Accountancy.CommandStack.Commands
 
         public decimal Amount { get; set; }
 
-        public LinkIncomingInvoiceToJobOrderCommand(Guid invoiceId, Guid jobOrderId, DateTime dateOfLink, decimal amount)
+        public LinkIncomingInvoiceToJobOrderCommand(Guid userId, Guid invoiceId, Guid jobOrderId, DateTime dateOfLink, decimal amount)
+            : base(userId)
         {
             InvoiceId = invoiceId;
             JobOrderId = jobOrderId;

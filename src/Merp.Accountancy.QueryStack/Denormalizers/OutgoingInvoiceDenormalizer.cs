@@ -58,6 +58,42 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
                 StreetName = message.Supplier.StreetName,
                 VatIndex = message.Supplier.VatIndex
             };
+
+            if (message.LineItems != null && message.LineItems.Count() > 0)
+            {
+                invoice.InvoiceLineItems = message.LineItems.Select(i => new InvoiceLineItem
+                {
+                    Code = i.Code,
+                    Description = i.Description,
+                    Quantity = i.Quantity,
+                    TotalPrice = i.TotalPrice,
+                    UnitPrice = i.UnitPrice,
+                    Vat = i.Vat
+                }).ToList();
+            }
+
+            if (message.PricesByVat != null && message.PricesByVat.Count() > 0)
+            {
+                invoice.PricesByVat = message.PricesByVat.Select(p => new PriceByVat
+                {
+                    TaxableAmount = p.TaxableAmount,
+                    TotalPrice = p.TotalPrice,
+                    VatAmount = p.VatAmount,
+                    VatRate = p.VatRate
+                }).ToList();
+            }
+
+            if (message.NonTaxableItems != null && message.NonTaxableItems.Count() > 0)
+            {
+                invoice.NonTaxableItems = message.NonTaxableItems.Select(t => new NonTaxableItem
+                {
+                    Description = t.Description,
+                    Amount = t.Amount
+                }).ToList();
+            }
+
+            invoice.PricesAreVatIncluded = message.PricesAreVatIncluded;
+
             using (var ctx = new AccountancyDbContext(Options))
             {
                 ctx.OutgoingInvoices.Add(invoice);

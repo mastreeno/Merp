@@ -15,6 +15,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
         [Fact]
         public void Ctor_should_properly_initialise_instance()
         {
+            var userId = Guid.NewGuid();
             var companyId = Guid.Empty;
             var companyName = "Mastreeno ltd";
             var nationalIdentificationNumber = "FAKE";
@@ -31,7 +32,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var websiteAddress = "www.info.com";
             var emailAddress = "user@info.com";
 
-            var command = new RegisterCompanyCommand(companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress);
+            var command = new RegisterCompanyCommand(userId, companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress);
             Assert.Equal(companyId, command.CompanyId);
             Assert.Equal(companyName, command.CompanyName);
             Assert.Equal(nationalIdentificationNumber, command.NationalIdentificationNumber);
@@ -52,6 +53,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
         [Fact]
         public void Ctor_should_throw_on_null_companyName()
         {
+            var userId = Guid.NewGuid();
             var companyId = Guid.Empty;
             string companyName = null;
             var nationalIdentificationNumber = "FAKE";
@@ -69,7 +71,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var emailAddress = "user@info.com";
 
             Executing.This(
-                () => new RegisterCompanyCommand(companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress)
+                () => new RegisterCompanyCommand(userId, companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress)
             )
             .Should()
             .Throw<ArgumentException>()
@@ -84,6 +86,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
         [Fact]
         public void Ctor_should_throw_on_empty_companyName()
         {
+            var userId = Guid.NewGuid();
             var companyId = Guid.Empty;
             var companyName = string.Empty;
             var nationalIdentificationNumber = "FAKE";
@@ -101,7 +104,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var emailAddress = "user@info.com";
 
             Executing.This(
-                () => new RegisterCompanyCommand(companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress)
+                () => new RegisterCompanyCommand(userId, companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress)
             )
             .Should()
             .Throw<ArgumentException>()
@@ -116,6 +119,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
         [Fact]
         public void Ctor_should_throw_on_null_vatNumber()
         {
+            var userId = Guid.NewGuid();
             var companyId = Guid.Empty;
             var companyName = "Mastreeno ltd";
             var nationalIdentificationNumber = "FAKE";
@@ -133,7 +137,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var emailAddress = "user@info.com";
 
             Executing.This(
-                () => new RegisterCompanyCommand(companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress)
+                () => new RegisterCompanyCommand(userId, companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress)
             )
             .Should()
             .Throw<ArgumentException>()
@@ -148,6 +152,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
         [Fact]
         public void Ctor_should_throw_on_empty_vatNumber()
         {
+            var userId = Guid.NewGuid();
             var companyId = Guid.Empty;
             var companyName = "Mastreeno ltd";
             var nationalIdentificationNumber = "FAKE";
@@ -165,7 +170,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var emailAddress = "user@info.com";
 
             Executing.This(
-                () => new RegisterCompanyCommand(companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress)
+                () => new RegisterCompanyCommand(userId, companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress)
             )
             .Should()
             .Throw<ArgumentException>()

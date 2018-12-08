@@ -1,21 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MementoFX;
 using MementoFX.Domain;
+using Merp.Domain;
 
 namespace Merp.Registry.CommandStack.Events
 {
-    public class CompanyNameChangedEvent : DomainEvent
+    public class CompanyNameChangedEvent : MerpDomainEvent
     {
         public Guid CompanyId { get; set; }
         [Timestamp]
         public DateTime EffectiveDate { get; set; }
         public string CompanyName { get; set; }
 
-        public CompanyNameChangedEvent(Guid companyId, string companyName, DateTime effectiveDate)
+        public CompanyNameChangedEvent(Guid companyId, string companyName, DateTime effectiveDate, Guid userId)
+            : base(userId)
         {
             CompanyId = companyId;
             CompanyName = companyName;

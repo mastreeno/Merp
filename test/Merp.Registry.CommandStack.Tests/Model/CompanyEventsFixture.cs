@@ -18,6 +18,7 @@ namespace Merp.Registry.CommandStack.Tests.Model
         [Fact]
         public void ChangeShippingAddress_should_raise_a_ShippingAddressSetForPartyEvent()
         {
+            var userId = Guid.NewGuid();
             var companyName = "Mastreeno";
             var nationalIdentificationNumber = "FAKE";
             var vatNumber = "123";
@@ -29,9 +30,9 @@ namespace Merp.Registry.CommandStack.Tests.Model
             var company = Company.Factory.CreateNewEntry(companyName, vatNumber, nationalIdentificationNumber, 
                 null, null, null, null, null,
                 null, null, null, null, null,
-                null, null, null, null, null);
+                null, null, null, null, null, userId);
             var effectiveDate = DateTime.MaxValue;
-            company.ChangeShippingAddress(address, city, postalCode, province, country, effectiveDate);
+            company.ChangeShippingAddress(address, city, postalCode, province, country, effectiveDate, userId);
             var uncommittedEvent = ((IAggregate)company).GetUncommittedEvents();
             Assert.Equal(2, uncommittedEvent.Count());
 
@@ -48,6 +49,7 @@ namespace Merp.Registry.CommandStack.Tests.Model
         [Fact]
         public void ChangeBillingAddress_should_raise_a_BillingAddressSetForPartyEvent()
         {
+            var userId = Guid.NewGuid();
             var companyName = "Mastreeno";
             var nationalIdentificationNumber = "FAKE";
             var vatNumber = "123";
@@ -59,9 +61,9 @@ namespace Merp.Registry.CommandStack.Tests.Model
             var company = Company.Factory.CreateNewEntry(companyName, vatNumber, nationalIdentificationNumber, 
                 null, null, null, null, null,
                 null, null, null, null, null,
-                null, null, null, null, null);
+                null, null, null, null, null, userId);
             var effectiveDate = DateTime.MaxValue;
-            company.ChangeBillingAddress(address, city, postalCode, province, country, effectiveDate);
+            company.ChangeBillingAddress(address, city, postalCode, province, country, effectiveDate, userId);
             var uncommittedEvent = ((IAggregate)company).GetUncommittedEvents();
             Assert.Equal(2, uncommittedEvent.Count());
 
@@ -78,6 +80,7 @@ namespace Merp.Registry.CommandStack.Tests.Model
         [Fact]
         public void ChangeLegalAddress_should_raise_a_LegalAddressSetForPartyEvent()
         {
+            var userId = Guid.NewGuid();
             var companyName = "Mastreeno";
             var nationalIdentificationNumber = "FAKE";
             var vatNumber = "123";
@@ -89,9 +92,9 @@ namespace Merp.Registry.CommandStack.Tests.Model
             var company = Company.Factory.CreateNewEntry(companyName, vatNumber, nationalIdentificationNumber, 
                 null, null, null, null, null,
                 null, null, null, null, null,
-                null, null, null, null, null);
+                null, null, null, null, null, userId);
             var effectiveDate = DateTime.Now;
-            company.ChangeLegalAddress(address, city, postalCode, province, country, effectiveDate);
+            company.ChangeLegalAddress(address, city, postalCode, province, country, effectiveDate, userId);
             var uncommittedEvent = ((IAggregate)company).GetUncommittedEvents();
             Assert.Equal(2, uncommittedEvent.Count());
 

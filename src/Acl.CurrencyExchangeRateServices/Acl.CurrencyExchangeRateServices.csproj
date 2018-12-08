@@ -5,6 +5,9 @@
     <Authors>Mastreeno ltd, Andrea Saltarello</Authors>
     <Company>Mastreeno ltd, Andrea Saltarello</Company>
     <Product>Merp</Product>
+    <PackageLicenseUrl>https://github.com/mastreeno/Merp/blob/master/LICENSE.txt</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/mastreeno/Merp</PackageProjectUrl>
+    <Configurations>Debug;Release;AzureMongoDB</Configurations>
   </PropertyGroup>
 
 </Project>

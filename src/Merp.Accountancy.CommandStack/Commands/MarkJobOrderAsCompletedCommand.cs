@@ -1,18 +1,15 @@
-﻿using MementoFX;
+﻿using Merp.Domain;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Merp.Accountancy.CommandStack.Commands
 {
-    public class MarkJobOrderAsCompletedCommand : Command
+    public class MarkJobOrderAsCompletedCommand : MerpCommand
     {
         public Guid JobOrderId { get; set; }
         public DateTime DateOfCompletion { get; set; }
 
-        public MarkJobOrderAsCompletedCommand(Guid jobOrderId, DateTime dateOfCompletion)
+        public MarkJobOrderAsCompletedCommand(Guid userId, Guid jobOrderId, DateTime dateOfCompletion)
+            : base(userId)
         {
             this.JobOrderId = jobOrderId;
             this.DateOfCompletion = dateOfCompletion;

@@ -16,7 +16,9 @@ namespace Merp.Accountancy.CommandStack.Sagas
         IAmInitiatedBy<ImportJobOrderCommand>,
         IAmInitiatedBy<RegisterJobOrderCommand>,
         IHandleMessages<ExtendJobOrderCommand>,
+        IHandleMessages<LinkIncomingCreditNoteToJobOrderCommand>,
         IHandleMessages<LinkIncomingInvoiceToJobOrderCommand>,
+        IHandleMessages<LinkOutgoingCreditNoteToJobOrderCommand>,
         IHandleMessages<LinkOutgoingInvoiceToJobOrderCommand>,
         IHandleMessages<MarkJobOrderAsCompletedCommand>
     {
@@ -47,7 +49,15 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 message => message.JobOrderId,
                 sagaData => sagaData.JobOrderId);
 
+            config.Correlate<LinkIncomingCreditNoteToJobOrderCommand>(
+                message => message.JobOrderId,
+                sagaData => sagaData.JobOrderId);
+
             config.Correlate<LinkIncomingInvoiceToJobOrderCommand>(
+                message => message.JobOrderId,
+                sagaData => sagaData.JobOrderId);
+
+            config.Correlate<LinkOutgoingCreditNoteToJobOrderCommand>(
                 message => message.JobOrderId,
                 sagaData => sagaData.JobOrderId);
 
@@ -98,7 +108,8 @@ namespace Merp.Accountancy.CommandStack.Sagas
             message.IsTimeAndMaterial,
             message.JobOrderName,
             message.PurchaseOrderNumber,
-            message.Description
+            message.Description,
+            message.UserId
             );
             await this.repository.SaveAsync(jobOrder);
             this.Data.JobOrderId = jobOrder.Id;
@@ -107,16 +118,26 @@ namespace Merp.Accountancy.CommandStack.Sagas
         public async Task Handle(ExtendJobOrderCommand message)
         {
             var jobOrder = repository.GetById<JobOrder>(message.JobOrderId);
-            jobOrder.Extend(message.NewDueDate, message.Price);
+            jobOrder.Extend(message.NewDueDate, message.Price, message.UserId);
             await repository.SaveAsync(jobOrder);
         }
 
         public async Task Handle(MarkJobOrderAsCompletedCommand message)
         {
             var jobOrder = repository.GetById<JobOrder>(message.JobOrderId);
-            jobOrder.MarkAsCompleted(message.DateOfCompletion);
+            jobOrder.MarkAsCompleted(message.DateOfCompletion, message.UserId);
             await repository.SaveAsync(jobOrder);
             this.MarkAsComplete();
+        }
+
+        public async Task Handle(LinkIncomingCreditNoteToJobOrderCommand message)
+        {
+            var count = eventStore.Find<IncomingCreditNoteLinkedToJobOrderEvent>(e => e.CreditNoteId == message.CreditNoteId && e.JobOrderId == message.JobOrderId).Count();
+            if (count > 0)
+                throw new InvalidOperationException("The specified invoice is already associated to a Job Order.");
+            var jobOrder = repository.GetById<JobOrder>(message.JobOrderId);
+            jobOrder.LinkIncomingCreditNote(eventStore, message.CreditNoteId, message.DateOfLink, message.Amount, message.UserId);
+            await repository.SaveAsync(jobOrder);
         }
 
         public async Task Handle(LinkIncomingInvoiceToJobOrderCommand message)
@@ -125,7 +146,17 @@ namespace Merp.Accountancy.CommandStack.Sagas
             if (count > 0)
                 throw new InvalidOperationException("The specified invoice is already associated to a Job Order.");
             var jobOrder = repository.GetById<JobOrder>(message.JobOrderId);
-            jobOrder.LinkIncomingInvoice(eventStore, message.InvoiceId, message.DateOfLink, message.Amount);
+            jobOrder.LinkIncomingInvoice(eventStore, message.InvoiceId, message.DateOfLink, message.Amount, message.UserId);
+            await repository.SaveAsync(jobOrder);
+        }
+
+        public async Task Handle(LinkOutgoingCreditNoteToJobOrderCommand message)
+        {
+            var count = eventStore.Find<OutgoingCreditNoteLinkedToJobOrderEvent>(e => e.CreditNoteId == message.CreditNoteId && e.JobOrderId == message.JobOrderId).Count();
+            if (count > 0)
+                throw new InvalidOperationException("The specified credit note is already associated to a Job Order.");
+            var jobOrder = repository.GetById<JobOrder>(message.JobOrderId);
+            jobOrder.LinkOutgoingCreditNote(eventStore, message.CreditNoteId, message.DateOfLink, message.Amount, message.UserId);
             await repository.SaveAsync(jobOrder);
         }
 
@@ -135,7 +166,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
             if (count > 0)
                 throw new InvalidOperationException("The specified invoice is already associated to a Job Order.");
             var jobOrder = repository.GetById<JobOrder>(message.JobOrderId);
-            jobOrder.LinkOutgoingInvoice(eventStore, message.InvoiceId, message.DateOfLink, message.Amount);
+            jobOrder.LinkOutgoingInvoice(eventStore, message.InvoiceId, message.DateOfLink, message.Amount, message.UserId);
             await repository.SaveAsync(jobOrder);
         }
 

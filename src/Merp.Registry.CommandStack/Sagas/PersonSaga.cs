@@ -71,7 +71,7 @@ namespace Merp.Registry.CommandStack.Sagas
                 message.LegalAddressAddress, message.LegalAddressCity, message.LegalAddressPostalCode, message.LegalAddressProvince, legalAddressCountry, 
                 message.BillingAddressAddress, message.BillingAddressCity, message.BillingAddressPostalCode, message.BillingAddressPostalCode, billingAddressCountry,
                 message.ShippingAddressAddress, message.ShippingAddressCity, message.ShippingAddressPostalCode, message.ShippingAddressProvince, shippingAddressCountry,
-                message.PhoneNumber, message.MobileNumber, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, message.InstantMessaging);
+                message.PhoneNumber, message.MobileNumber, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, message.InstantMessaging, message.UserId);
             await _repository.SaveAsync(person);
             this.Data.PersonId = person.Id;
         }
@@ -91,7 +91,7 @@ namespace Merp.Registry.CommandStack.Sagas
             {
                 var effectiveDateTime = message.EffectiveDate;
                 var effectiveDate = new DateTime(effectiveDateTime.Year, effectiveDateTime.Month, effectiveDateTime.Day);
-                person.ChangeLegalAddress(message.Address, message.City, message.PostalCode, message.Province, !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry(), effectiveDate);
+                person.ChangeLegalAddress(message.Address, message.City, message.PostalCode, message.Province, !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry(), effectiveDate, message.UserId);
                 await _repository.SaveAsync(person);
             }
         }
@@ -101,7 +101,7 @@ namespace Merp.Registry.CommandStack.Sagas
             var person = _repository.GetById<Person>(message.PersonId);
             if (person.ContactInfo.PhoneNumber != message.PhoneNumber || person.ContactInfo.MobileNumber != message.MobileNumber || person.ContactInfo.FaxNumber != message.FaxNumber || person.ContactInfo.WebsiteAddress != message.WebsiteAddress || person.ContactInfo.EmailAddress != message.EmailAddress || person.ContactInfo.InstantMessaging != message.InstantMessaging)
             {
-                person.SetContactInfo(message.PhoneNumber, message.MobileNumber, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, message.InstantMessaging);
+                person.SetContactInfo(message.PhoneNumber, message.MobileNumber, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, message.InstantMessaging, message.UserId);
                 await _repository.SaveAsync(person);
             }
         }
@@ -113,7 +113,7 @@ namespace Merp.Registry.CommandStack.Sagas
             {
                 var effectiveDateTime = message.EffectiveDate;
                 var effectiveDate = new DateTime(effectiveDateTime.Year, effectiveDateTime.Month, effectiveDateTime.Day);
-                person.ChangeShippingAddress(message.Address, message.City, message.PostalCode, message.Province, !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry(), effectiveDate);
+                person.ChangeShippingAddress(message.Address, message.City, message.PostalCode, message.Province, !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry(), effectiveDate, message.UserId);
                 await _repository.SaveAsync(person);
             }
         }
@@ -125,7 +125,7 @@ namespace Merp.Registry.CommandStack.Sagas
             {
                 var effectiveDateTime = message.EffectiveDate;
                 var effectiveDate = new DateTime(effectiveDateTime.Year, effectiveDateTime.Month, effectiveDateTime.Day);
-                person.ChangeBillingAddress(message.Address, message.City, message.PostalCode, message.Province, !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry(), effectiveDate);
+                person.ChangeBillingAddress(message.Address, message.City, message.PostalCode, message.Province, !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry(), effectiveDate.Date, message.UserId);
                 await _repository.SaveAsync(person);
             }
         }
@@ -133,7 +133,7 @@ namespace Merp.Registry.CommandStack.Sagas
         public async Task Handle(UnlistPersonCommand message)
         {
             var person = _repository.GetById<Person>(message.PersonId);
-            person.Unlist(message.UnlistDate);
+            person.Unlist(message.UnlistDate, message.UserId);
 
             await _repository.SaveAsync(person);
         }

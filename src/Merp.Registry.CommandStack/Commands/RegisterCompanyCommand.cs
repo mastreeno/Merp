@@ -1,10 +1,10 @@
-﻿using MementoFX;
+﻿using Merp.Domain;
 using Merp.Registry.CommandStack.Helpers;
 using System;
 
 namespace Merp.Registry.CommandStack.Commands
 {
-    public class RegisterCompanyCommand : Command
+    public class RegisterCompanyCommand : MerpCommand
     {
         public Guid CompanyId { get; set; }
         public string CompanyName { get; set; }
@@ -37,7 +37,8 @@ namespace Merp.Registry.CommandStack.Commands
         public string WebsiteAddress { get; set; }
         public string EmailAddress { get; set; }
 
-        public RegisterCompanyCommand(string companyName, string nationalIdentificationNumber, string vatNumber, string legalAddressAddress, string legalAddressPostalCode, string legalAddressCity, string legalAddressProvince, string legalAddressCountry,  string shippingAddressAddress, string shippingAddressPostalCode, string shippingAddressCity, string shippingAddressProvince, string shippingAddressCountry, string billingAddressAddress, string billingAddressPostalCode, string billingAddressCity, string billingAddressProvince, string billingAddressCountry, Guid? mainContactId, Guid? administrativeContactId, string phoneNumber, string faxNumber, string websiteAddress, string emailAddress)
+        public RegisterCompanyCommand(Guid userId, string companyName, string nationalIdentificationNumber, string vatNumber, string legalAddressAddress, string legalAddressPostalCode, string legalAddressCity, string legalAddressProvince, string legalAddressCountry,  string shippingAddressAddress, string shippingAddressPostalCode, string shippingAddressCity, string shippingAddressProvince, string shippingAddressCountry, string billingAddressAddress, string billingAddressPostalCode, string billingAddressCity, string billingAddressProvince, string billingAddressCountry, Guid? mainContactId, Guid? administrativeContactId, string phoneNumber, string faxNumber, string websiteAddress, string emailAddress)
+            : base(userId)
         {
             if (string.IsNullOrWhiteSpace(companyName))
                 throw new ArgumentException("Company name must be provided", nameof(companyName));

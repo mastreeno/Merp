@@ -1,22 +1,133 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Configurations>Debug;Release;AzureMongoDB</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.2" />
-    <PackageReference Include="MementoFX" Version="2.0.0-pre5" />
-    <PackageReference Include="MementoFX.Messaging.Rebus" Version="2.0.0-pre1" />
-    <PackageReference Include="MementoFX.Persistence.MongoDB" Version="2.0.0-pre2" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.1.2" />
-    <PackageReference Include="Rebus" Version="4.2.1" />
+    <Content Remove="appsettings.AzureMongoDB.json" />
+    <Content Remove="appsettings.Debug.json" />
+    <Content Remove="appsettings.Release.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Acl.Vies\Acl.RegistryResolutionServices.csproj" />
+    <None Include="appsettings.Debug.json">
+      <IsTransformFile>true</IsTransformFile>
+      <DependentUpon>appsettings.json</DependentUpon>
+    </None>
+    <None Include="appsettings.Release.json">
+      <IsTransformFile>true</IsTransformFile>
+      <DependentUpon>appsettings.json</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.6.0" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.3" />
+    <PackageReference Include="MementoFX" Version="2.0.0-pre6" />
+    <PackageReference Include="MementoFX.Messaging.Rebus" Version="2.0.0-pre3" />
+    <PackageReference Include="MementoFX.Persistence.MongoDB" Version="2.0.0-pre4" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.6" />
+    <PackageReference Include="Rebus" Version="5.0.1" />
+    <PackageReference Include="Rebus.AzureServiceBus" Version="6.0.4" />
+    <PackageReference Include="Rebus.ServiceProvider" Version="4.0.1" />
+    <PackageReference Include="Rebus.SqlServer" Version="5.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Acl.RegistryResolutionServices\Acl.RegistryResolutionServices.csproj" />
     <ProjectReference Include="..\Merp.Registry.CommandStack\Merp.Registry.CommandStack.csproj" />
     <ProjectReference Include="..\Merp.Registry.QueryStack\Merp.Registry.QueryStack.csproj" />
     <ProjectReference Include="..\Merp.Web\Merp.Web.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\Company\Add.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Add.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Company\Info.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Info.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Party\Search.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Search.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Person\Add.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Add.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Person\Info.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Info.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Shared.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Shared.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <TransformOnBuild>true</TransformOnBuild>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Company\Add.it.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Company\Add.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Add.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Company\Info.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Info.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Party\Search.it.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Party\Search.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Search.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Person\Add.it.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Person\Add.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Add.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Person\Info.it.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Person\Info.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Info.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Shared.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Shared.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

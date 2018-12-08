@@ -36,6 +36,27 @@ namespace Merp.Accountancy.CommandStack.Model
             PaymentTerms = evt.PaymentTerms;
             PurchaseOrderNumber = evt.PurchaseOrderNumber;
             Customer = new PartyInfo(evt.Customer.Id, evt.Customer.Name, evt.Customer.StreetName, evt.Customer.City, evt.Customer.PostalCode, evt.Customer.Country, evt.Customer.VatIndex, evt.Customer.NationalIdentificationNumber);
+
+            if (evt.LineItems != null)
+            {
+                InvoiceLineItems = evt.LineItems
+                    .Select(i => new InvoiceLineItem(i.Code, i.Description, i.Quantity, i.UnitPrice, i.TotalPrice, i.Vat))
+                    .ToArray();
+            }
+
+            if (evt.PricesByVat != null)
+            {
+                InvoicePricesByVat = evt.PricesByVat
+                    .Select(p => new InvoicePriceByVat(p.TaxableAmount, p.VatRate, p.VatAmount, p.TotalPrice));
+            }
+
+            if (evt.NonTaxableItems != null)
+            {
+                NonTaxableItems = evt.NonTaxableItems
+                    .Select(t => new NonTaxableItem(t.Description, t.Amount));
+            }
+
+            PricesAreVatIncluded = evt.PricesAreVatIncluded;
         }
 
         public void ApplyEvent([AggregateId(nameof(OutgoingInvoicePaidEvent.InvoiceId))] OutgoingInvoicePaidEvent evt)
@@ -48,18 +69,18 @@ namespace Merp.Accountancy.CommandStack.Model
             IsOverdue = true;
         }
 
-        public void MarkAsPaid(DateTime paymentDate)
+        public void MarkAsPaid(DateTime paymentDate, Guid userId)
         {
-            var evt = new OutgoingInvoicePaidEvent(this.Id, paymentDate);
+            var evt = new OutgoingInvoicePaidEvent(this.Id, paymentDate, userId);
             RaiseEvent(evt);
         }
 
-        public void MarkAsOverdue()
+        public void MarkAsOverdue(Guid userId)
         {
             if (!DueDate.HasValue)
                 throw new InvalidOperationException("An invoice must have a due date for it to be marked as expired.");
 
-            var evt = new OutgoingInvoiceGotOverdueEvent(this.Id, DueDate.Value);
+            var evt = new OutgoingInvoiceGotOverdueEvent(this.Id, DueDate.Value, userId);
             RaiseEvent(evt);
         }
 
@@ -67,8 +88,51 @@ namespace Merp.Accountancy.CommandStack.Model
         {
             public static OutgoingInvoice Issue(IOutgoingInvoiceNumberGenerator generator, DateTime invoiceDate, string currency, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, Guid customerId, 
                 string customerName, string customerAddress, string customerCity, string customerPostalCode, string customerCountry, string customerVatIndex, string customerNationalIdentificationNumber,
-                string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber)
+                string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber, IEnumerable<InvoiceLineItem> lineItems, bool pricesAreVatIncluded, IEnumerable<InvoicePriceByVat> pricesByVat, IEnumerable<NonTaxableItem> nonTaxableItems, Guid userId)
             {
+                if (generator == null)
+                {
+                    throw new ArgumentNullException(nameof(generator));
+                }
+
+                if (lineItems == null)
+                {
+                    throw new ArgumentNullException(nameof(lineItems));
+                }
+
+                if (pricesByVat == null)
+                {
+                    throw new ArgumentNullException(nameof(pricesByVat));
+                }
+
+                var _invoiceLineItems = new OutgoingInvoiceIssuedEvent.InvoiceLineItem[0];
+                if (lineItems.Count() > 0)
+                {
+                    _invoiceLineItems = lineItems.Select(i => new OutgoingInvoiceIssuedEvent.InvoiceLineItem(
+                        i.Code,
+                        i.Description,
+                        i.Quantity,
+                        i.UnitPrice,
+                        i.TotalPrice,
+                        i.Vat)).ToArray();
+                }
+
+                var _invoicePricesByVat = new OutgoingInvoiceIssuedEvent.InvoicePriceByVat[0];
+                if (pricesByVat.Count() > 0)
+                {
+                    _invoicePricesByVat = pricesByVat.Select(p => new OutgoingInvoiceIssuedEvent.InvoicePriceByVat(
+                        p.TaxableAmount,
+                        p.VatRate,
+                        p.VatAmount,
+                        p.TotalPrice)).ToArray();
+                }
+
+                var _nonTaxableItems = new OutgoingInvoiceIssuedEvent.NonTaxableItem[0];
+                if (nonTaxableItems != null && nonTaxableItems.Count() > 0)
+                {
+                    _nonTaxableItems = nonTaxableItems.Select(t => new OutgoingInvoiceIssuedEvent.NonTaxableItem(t.Description, t.Amount)).ToArray();
+                }
+
                 var @event = new OutgoingInvoiceIssuedEvent(
                     Guid.NewGuid(),
                     generator.Generate(),
@@ -95,8 +159,12 @@ namespace Merp.Accountancy.CommandStack.Model
                     supplierPostalCode,
                     supplierCountry,
                     supplierVatIndex,
-                    supplierNationalIdentificationNumber
-                    );
+                    supplierNationalIdentificationNumber,
+                    _invoiceLineItems,
+                    pricesAreVatIncluded,
+                    _invoicePricesByVat,
+                    _nonTaxableItems,
+                    userId);
                 var invoice = new OutgoingInvoice();
                 invoice.RaiseEvent(@event);
                 return invoice;
@@ -132,10 +200,96 @@ namespace Merp.Accountancy.CommandStack.Model
                     supplierPostalCode,
                     supplierCountry,
                     supplierVatIndex,
-                    supplierNationalIdentificationNumber
-                    );
+                    supplierNationalIdentificationNumber,
+                    null, false, null, null, Guid.Empty);
                 var invoice = new OutgoingInvoice();
                 invoice.RaiseEvent(@event);
+                return invoice;
+            }
+
+            public static OutgoingInvoice Register(string invoiceNumber, DateTime invoiceDate, DateTime? dueDate, string currency, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, Guid customerId,
+                string customerName, string customerAddress, string customerCity, string customerPostalCode, string customerCountry, string customerVatIndex, string customerNationalIdentificationNumber,
+                string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber, IEnumerable<InvoiceLineItem> lineItems, bool pricesAreVatIncluded, IEnumerable<InvoicePriceByVat> pricesByVat, IEnumerable<NonTaxableItem> nonTaxableItems, Guid userId)
+            {
+                if (string.IsNullOrWhiteSpace(invoiceNumber))
+                {
+                    throw new ArgumentException("value cannot be empty", nameof(invoiceNumber));
+                }
+
+                if (lineItems == null)
+                {
+                    throw new ArgumentNullException(nameof(lineItems));
+                }
+
+                if (pricesByVat == null)
+                {
+                    throw new ArgumentNullException(nameof(pricesByVat));
+                }
+
+                var _invoiceLineItems = new OutgoingInvoiceIssuedEvent.InvoiceLineItem[0];
+                if (lineItems.Count() > 0)
+                {
+                    _invoiceLineItems = lineItems.Select(i => new OutgoingInvoiceIssuedEvent.InvoiceLineItem(
+                        i.Code,
+                        i.Description,
+                        i.Quantity,
+                        i.UnitPrice,
+                        i.TotalPrice,
+                        i.Vat)).ToArray();
+                }
+
+                var _invoicePricesByVat = new OutgoingInvoiceIssuedEvent.InvoicePriceByVat[0];
+                if (pricesByVat.Count() > 0)
+                {
+                    _invoicePricesByVat = pricesByVat.Select(p => new OutgoingInvoiceIssuedEvent.InvoicePriceByVat(
+                        p.TaxableAmount,
+                        p.VatRate,
+                        p.VatAmount,
+                        p.TotalPrice)).ToArray();
+                }
+
+                var _nonTaxableItems = new OutgoingInvoiceIssuedEvent.NonTaxableItem[0];
+                if (nonTaxableItems != null && nonTaxableItems.Count() > 0)
+                {
+                    _nonTaxableItems = nonTaxableItems.Select(t => new OutgoingInvoiceIssuedEvent.NonTaxableItem(t.Description, t.Amount)).ToArray();
+                }
+
+                var @event = new OutgoingInvoiceIssuedEvent(
+                    Guid.NewGuid(),
+                    invoiceNumber,
+                    invoiceDate,
+                    dueDate,
+                    currency,
+                    amount,
+                    taxes,
+                    totalPrice,
+                    description,
+                    paymentTerms,
+                    purchaseOrderNumber,
+                    customerId,
+                    customerName,
+                    customerAddress,
+                    customerCity,
+                    customerPostalCode,
+                    customerCountry,
+                    customerVatIndex,
+                    customerNationalIdentificationNumber,
+                    supplierName,
+                    supplierAddress,
+                    supplierCity,
+                    supplierPostalCode,
+                    supplierCountry,
+                    supplierVatIndex,
+                    supplierNationalIdentificationNumber,
+                    _invoiceLineItems,
+                    pricesAreVatIncluded,
+                    _invoicePricesByVat,
+                    _nonTaxableItems,
+                    userId);
+
+                var invoice = new OutgoingInvoice();
+                invoice.RaiseEvent(@event);
+
                 return invoice;
             }
         }

@@ -1,0 +1,635 @@
+{
+  "luis_schema_version": "3.1.0",
+  "versionId": "0.1",
+  "name": "MartinAtMastreeno-en",
+  "desc": "Default Intents for Azure Bot Service V2",
+  "culture": "en-us",
+  "intents": [
+    {
+      "name": "Cancel"
+    },
+    {
+      "name": "Greeting"
+    },
+    {
+      "name": "Gross Income"
+    },
+    {
+      "name": "Help"
+    },
+    {
+      "name": "Net Income"
+    },
+    {
+      "name": "None"
+    },
+    {
+      "name": "Outgoing Invoice Payment Check"
+    }
+  ],
+  "entities": [
+    {
+      "name": "invoiceNumber",
+      "roles": []
+    },
+    {
+      "name": "Party",
+      "children": [
+        "Customer",
+        "Supplier"
+      ],
+      "roles": []
+    }
+  ],
+  "composites": [
+    {
+      "name": "Invoice",
+      "children": [
+        "Party::Customer",
+        "datetimeV2",
+        "invoiceNumber",
+        "Party::Supplier"
+      ],
+      "roles": []
+    }
+  ],
+  "closedLists": [],
+  "patternAnyEntities": [],
+  "regex_entities": [],
+  "prebuiltEntities": [
+    {
+      "name": "datetimeV2",
+      "roles": []
+    }
+  ],
+  "model_features": [],
+  "regex_features": [],
+  "patterns": [],
+  "utterances": [
+    {
+      "text": "abort",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "did highops pay our first invoice?",
+      "intent": "Outgoing Invoice Payment Check",
+      "entities": [
+        {
+          "entity": "Party::Customer",
+          "startPos": 4,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "did we pay managed designs' last invoice?",
+      "intent": "Outgoing Invoice Payment Check",
+      "entities": [
+        {
+          "entity": "Party::Supplier",
+          "startPos": 11,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "did we pay microsoft's last invoice?",
+      "intent": "Outgoing Invoice Payment Check",
+      "entities": [
+        {
+          "entity": "Party::Supplier",
+          "startPos": 11,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "disregard",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "do not do it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "do not do that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "don't",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "don't do it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "don't do that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "good afternoon",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "good evening",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "good morning",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "good night",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "has highops paid every invoice issued in 2010?",
+      "intent": "Outgoing Invoice Payment Check",
+      "entities": [
+        {
+          "entity": "Invoice",
+          "startPos": 4,
+          "endPos": 10
+        },
+        {
+          "entity": "Party::Customer",
+          "startPos": 4,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "has highops paid invoice 1?",
+      "intent": "Outgoing Invoice Payment Check",
+      "entities": [
+        {
+          "entity": "Invoice",
+          "startPos": 4,
+          "endPos": 10
+        },
+        {
+          "entity": "Party::Customer",
+          "startPos": 4,
+          "endPos": 10
+        },
+        {
+          "entity": "Invoice",
+          "startPos": 25,
+          "endPos": 25
+        },
+        {
+          "entity": "invoiceNumber",
+          "startPos": 25,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "has highops paid the invoice issued on 1/1/2018?",
+      "intent": "Outgoing Invoice Payment Check",
+      "entities": [
+        {
+          "entity": "Invoice",
+          "startPos": 4,
+          "endPos": 10
+        },
+        {
+          "entity": "Party::Customer",
+          "startPos": 4,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "has invoice 1 been paid?",
+      "intent": "Outgoing Invoice Payment Check",
+      "entities": [
+        {
+          "entity": "Invoice",
+          "startPos": 12,
+          "endPos": 12
+        },
+        {
+          "entity": "invoiceNumber",
+          "startPos": 12,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "has invoice 1/2017 been paid?",
+      "intent": "Outgoing Invoice Payment Check",
+      "entities": [
+        {
+          "entity": "Invoice",
+          "startPos": 12,
+          "endPos": 17
+        },
+        {
+          "entity": "invoiceNumber",
+          "startPos": 12,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "has invoice 51/2017 been paid?",
+      "intent": "Outgoing Invoice Payment Check",
+      "entities": [
+        {
+          "entity": "Invoice",
+          "startPos": 12,
+          "endPos": 18
+        },
+        {
+          "entity": "invoiceNumber",
+          "startPos": 12,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "has invoice 66/2017 been paid?",
+      "intent": "Outgoing Invoice Payment Check",
+      "entities": [
+        {
+          "entity": "Invoice",
+          "startPos": 12,
+          "endPos": 18
+        },
+        {
+          "entity": "invoiceNumber",
+          "startPos": 12,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "has invoice 6el2017 been paid?",
+      "intent": "Outgoing Invoice Payment Check",
+      "entities": [
+        {
+          "entity": "Invoice",
+          "startPos": 12,
+          "endPos": 18
+        },
+        {
+          "entity": "invoiceNumber",
+          "startPos": 12,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "has managed designs paid january's invoice?",
+      "intent": "Outgoing Invoice Payment Check",
+      "entities": [
+        {
+          "entity": "Invoice",
+          "startPos": 4,
+          "endPos": 18
+        },
+        {
+          "entity": "Party::Customer",
+          "startPos": 4,
+          "endPos": 18
+        },
+        {
+          "entity": "Invoice",
+          "startPos": 25,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "have we paid highops' last invoice?",
+      "intent": "Outgoing Invoice Payment Check",
+      "entities": [
+        {
+          "entity": "Party::Supplier",
+          "startPos": 13,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "have we paid managed designs' last invoice?",
+      "intent": "Outgoing Invoice Payment Check",
+      "entities": [
+        {
+          "entity": "Party::Supplier",
+          "startPos": 13,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "have we paid microsoft's last invoice?",
+      "intent": "Outgoing Invoice Payment Check",
+      "entities": [
+        {
+          "entity": "Party::Supplier",
+          "startPos": 13,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "hello",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hello bot",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "help me",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "help me please",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "help please",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "hi",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hi bot",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hiw much are we grossing?",
+      "intent": "Gross Income",
+      "entities": []
+    },
+    {
+      "text": "hiya",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "how are you",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "how are you doing today?",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "how are you doing?",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "how are you today?",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "how much are we grossing?",
+      "intent": "Gross Income",
+      "entities": []
+    },
+    {
+      "text": "how much are we netting?",
+      "intent": "Net Income",
+      "entities": []
+    },
+    {
+      "text": "how much did we gross in 2010?",
+      "intent": "Gross Income",
+      "entities": []
+    },
+    {
+      "text": "how much did we gross in 2014?",
+      "intent": "Gross Income",
+      "entities": []
+    },
+    {
+      "text": "how much did we gross in 2015?",
+      "intent": "Gross Income",
+      "entities": []
+    },
+    {
+      "text": "how much did we net in 2010?",
+      "intent": "Net Income",
+      "entities": []
+    },
+    {
+      "text": "how much have we grossed in 2012?",
+      "intent": "Gross Income",
+      "entities": []
+    },
+    {
+      "text": "how much have we grossed in 2015?",
+      "intent": "Gross Income",
+      "entities": []
+    },
+    {
+      "text": "how much have we netted in 2015?",
+      "intent": "Net Income",
+      "entities": []
+    },
+    {
+      "text": "i am stuck",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "i would like to cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "i'm stuck",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "my water bottle is green.",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "never mind",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "please cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "please disregard",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "please help me",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "please stop",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "stop",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "there is a large deep dish pizza in your future.",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "was invoice 1 paid?",
+      "intent": "Outgoing Invoice Payment Check",
+      "entities": [
+        {
+          "entity": "Invoice",
+          "startPos": 12,
+          "endPos": 12
+        },
+        {
+          "entity": "invoiceNumber",
+          "startPos": 12,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "was invoice 1183665414 paid?",
+      "intent": "Outgoing Invoice Payment Check",
+      "entities": [
+        {
+          "entity": "Invoice",
+          "startPos": 12,
+          "endPos": 21
+        },
+        {
+          "entity": "invoiceNumber",
+          "startPos": 12,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "was invoice 2 paid?",
+      "intent": "Outgoing Invoice Payment Check",
+      "entities": [
+        {
+          "entity": "Invoice",
+          "startPos": 12,
+          "endPos": 12
+        },
+        {
+          "entity": "invoiceNumber",
+          "startPos": 12,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "was invoice 6el2017 paid?",
+      "intent": "Outgoing Invoice Payment Check",
+      "entities": [
+        {
+          "entity": "Invoice",
+          "startPos": 12,
+          "endPos": 18
+        },
+        {
+          "entity": "invoiceNumber",
+          "startPos": 12,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "what can i say",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what can you do",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what can you help me with",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what do i do now?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what do i do?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what's our running net income?",
+      "intent": "Net Income",
+      "entities": []
+    },
+    {
+      "text": "what's the running gross income?",
+      "intent": "Gross Income",
+      "entities": []
+    },
+    {
+      "text": "what's the running net income?",
+      "intent": "Net Income",
+      "entities": []
+    },
+    {
+      "text": "why doesn't this work ?",
+      "intent": "Help",
+      "entities": []
+    }
+  ],
+  "settings": []
+}

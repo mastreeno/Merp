@@ -35,6 +35,29 @@ namespace Merp.Accountancy.CommandStack.Model
             PaymentTerms = evt.PaymentTerms;
             PurchaseOrderNumber = evt.PurchaseOrderNumber;
             Supplier = new PartyInfo(evt.Supplier.Id, evt.Supplier.Name, evt.Supplier.StreetName, evt.Supplier.City, evt.Supplier.PostalCode, evt.Supplier.Country, evt.Supplier.VatIndex, evt.Supplier.NationalIdentificationNumber);
+
+            if (evt.LineItems != null)
+            {
+                InvoiceLineItems = evt.LineItems
+                    .Select(i => new InvoiceLineItem(i.Code, i.Description, i.Quantity, i.UnitPrice, i.TotalPrice, i.Vat))
+                    .ToArray();
+            }
+
+            if (evt.PricesByVat != null)
+            {
+                InvoicePricesByVat = evt.PricesByVat
+                    .Select(p => new InvoicePriceByVat(p.TaxableAmount, p.VatRate, p.VatAmount, p.TotalPrice))
+                    .ToArray();
+            }
+
+            if (evt.NonTaxableItems != null)
+            {
+                NonTaxableItems = evt.NonTaxableItems
+                    .Select(t => new NonTaxableItem(t.Description, t.Amount))
+                    .ToArray();
+            }
+
+            PricesAreVatIncluded = evt.PricesAreVatIncluded;
         }
 
         public void ApplyEvent([AggregateId(nameof(IncomingInvoicePaidEvent.InvoiceId))] IncomingInvoicePaidEvent evt)
@@ -47,18 +70,18 @@ namespace Merp.Accountancy.CommandStack.Model
             IsOverdue = true;
         }
 
-        public void MarkAsOverdue()
+        public void MarkAsOverdue(Guid userId)
         {
             if (!DueDate.HasValue)
                 throw new InvalidOperationException("An invoice must have a due date for it to be marked as expired.");
 
-            var evt = new IncomingInvoiceGotOverdueEvent(this.Id, DueDate.Value);
+            var evt = new IncomingInvoiceGotOverdueEvent(this.Id, DueDate.Value, userId);
             RaiseEvent(evt);
         }
 
-        public void MarkAsPaid(DateTime paymentDate)
+        public void MarkAsPaid(DateTime paymentDate, Guid userId)
         {
-            var evt = new IncomingInvoicePaidEvent(this.Id, paymentDate);
+            var evt = new IncomingInvoicePaidEvent(this.Id, paymentDate, userId);
             RaiseEvent(evt);
         }
 
@@ -66,8 +89,51 @@ namespace Merp.Accountancy.CommandStack.Model
         {
             public static IncomingInvoice Register(string invoiceNumber, DateTime invoiceDate, DateTime? dueDate, string currency, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber,
             Guid customerId, string customerName, string customerAddress, string customerCity, string customerPostalCode, string customerCountry, string customerVatIndex, string customerNationalIdentificationNumber,
-            Guid supplierId, string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber)
+            Guid supplierId, string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber, IEnumerable<InvoiceLineItem> lineItems, bool pricesAreVatIncluded, IEnumerable<InvoicePriceByVat> pricesByVat, IEnumerable<NonTaxableItem> nonTaxableItems, Guid userId)
             {
+                if (string.IsNullOrWhiteSpace(invoiceNumber))
+                {
+                    throw new ArgumentException("value cannot be empty", nameof(invoiceNumber));
+                }
+
+                if (lineItems == null)
+                {
+                    throw new ArgumentNullException(nameof(lineItems));
+                }
+
+                if (pricesByVat == null)
+                {
+                    throw new ArgumentNullException(nameof(pricesByVat));
+                }
+
+                var _invoiceLineItems = new IncomingInvoiceRegisteredEvent.InvoiceLineItem[0];
+                if (lineItems != null && lineItems.Count() > 0)
+                {
+                    _invoiceLineItems = lineItems.Select(i => new IncomingInvoiceRegisteredEvent.InvoiceLineItem(
+                        i.Code,
+                        i.Description,
+                        i.Quantity,
+                        i.UnitPrice,
+                        i.TotalPrice,
+                        i.Vat)).ToArray();
+                }
+
+                var _invoicePricesByVat = new IncomingInvoiceRegisteredEvent.InvoicePriceByVat[0];
+                if (pricesByVat != null && pricesByVat.Count() > 0)
+                {
+                    _invoicePricesByVat = pricesByVat.Select(p => new IncomingInvoiceRegisteredEvent.InvoicePriceByVat(
+                        p.TaxableAmount,
+                        p.VatRate,
+                        p.VatAmount,
+                        p.TotalPrice)).ToArray();
+                }
+
+                var _nonTaxableItems = new IncomingInvoiceRegisteredEvent.NonTaxableItem[0];
+                if (nonTaxableItems != null && nonTaxableItems.Count() > 0)
+                {
+                    _nonTaxableItems = nonTaxableItems.Select(t => new IncomingInvoiceRegisteredEvent.NonTaxableItem(t.Description, t.Amount)).ToArray();
+                }
+
                 var @event = new IncomingInvoiceRegisteredEvent(
                         Guid.NewGuid(),
                         invoiceNumber,
@@ -95,7 +161,12 @@ namespace Merp.Accountancy.CommandStack.Model
                         supplierPostalCode,
                         supplierCountry,
                         supplierVatIndex,
-                        supplierNationalIdentificationNumber
+                        supplierNationalIdentificationNumber,
+                        _invoiceLineItems,
+                        pricesAreVatIncluded,
+                        _invoicePricesByVat,
+                        _nonTaxableItems,
+                        userId
                     );
                 var invoice = new IncomingInvoice();
                 invoice.RaiseEvent(@event);
@@ -133,7 +204,12 @@ namespace Merp.Accountancy.CommandStack.Model
                         supplierPostalCode,
                         supplierCountry,
                         supplierVatIndex,
-                        supplierNationalIdentificationNumber
+                        supplierNationalIdentificationNumber,
+                        null, 
+                        false,
+                        null,
+                        null,
+                        Guid.Empty
                     );
                 var invoice = new IncomingInvoice();
                 invoice.RaiseEvent(@event);

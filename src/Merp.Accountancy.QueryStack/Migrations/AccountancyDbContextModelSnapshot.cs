@@ -15,7 +15,7 @@ namespace Merp.Accountancy.QueryStack.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.0-rtm-30799")
+                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -48,6 +48,8 @@ namespace Merp.Accountancy.QueryStack.Migrations
 
                     b.Property<DateTime?>("PaymentDate");
 
+                    b.Property<bool>("PricesAreVatIncluded");
+
                     b.Property<string>("PurchaseOrderNumber");
 
                     b.Property<decimal>("TaxableAmount");
@@ -73,6 +75,33 @@ namespace Merp.Accountancy.QueryStack.Migrations
                     b.ToTable("Invoice");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Invoice");
+                });
+
+            modelBuilder.Entity("Merp.Accountancy.QueryStack.Model.InvoiceLineItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Code");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int?>("InvoiceId");
+
+                    b.Property<int>("Quantity");
+
+                    b.Property<decimal>("TotalPrice");
+
+                    b.Property<decimal>("UnitPrice");
+
+                    b.Property<decimal>("Vat");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.ToTable("InvoiceLineItems");
                 });
 
             modelBuilder.Entity("Merp.Accountancy.QueryStack.Model.JobOrder", b =>
@@ -130,6 +159,48 @@ namespace Merp.Accountancy.QueryStack.Migrations
                     b.HasIndex("Name");
 
                     b.ToTable("JobOrders");
+                });
+
+            modelBuilder.Entity("Merp.Accountancy.QueryStack.Model.NonTaxableItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Amount");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int?>("InvoiceId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.ToTable("NonTaxableItems");
+                });
+
+            modelBuilder.Entity("Merp.Accountancy.QueryStack.Model.PriceByVat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("InvoiceId");
+
+                    b.Property<decimal>("TaxableAmount");
+
+                    b.Property<decimal>("TotalPrice");
+
+                    b.Property<decimal>("VatAmount");
+
+                    b.Property<decimal>("VatRate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.ToTable("PricesByVat");
                 });
 
             modelBuilder.Entity("Merp.Accountancy.QueryStack.Model.IncomingInvoice", b =>
@@ -219,6 +290,27 @@ namespace Merp.Accountancy.QueryStack.Migrations
                                 .HasForeignKey("Merp.Accountancy.QueryStack.Model.Invoice+PartyInfo", "InvoiceId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
+                });
+
+            modelBuilder.Entity("Merp.Accountancy.QueryStack.Model.InvoiceLineItem", b =>
+                {
+                    b.HasOne("Merp.Accountancy.QueryStack.Model.Invoice")
+                        .WithMany("InvoiceLineItems")
+                        .HasForeignKey("InvoiceId");
+                });
+
+            modelBuilder.Entity("Merp.Accountancy.QueryStack.Model.NonTaxableItem", b =>
+                {
+                    b.HasOne("Merp.Accountancy.QueryStack.Model.Invoice")
+                        .WithMany("NonTaxableItems")
+                        .HasForeignKey("InvoiceId");
+                });
+
+            modelBuilder.Entity("Merp.Accountancy.QueryStack.Model.PriceByVat", b =>
+                {
+                    b.HasOne("Merp.Accountancy.QueryStack.Model.Invoice")
+                        .WithMany("PricesByVat")
+                        .HasForeignKey("InvoiceId");
                 });
 #pragma warning restore 612, 618
         }

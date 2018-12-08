@@ -22,6 +22,10 @@ namespace Merp.Accountancy.CommandStack.Model
         public DateTime? PaymentDate { get; protected set; }
         public string Currency { get; protected set; }
         public bool IsOverdue { get; protected set; }
+        public IEnumerable<InvoiceLineItem> InvoiceLineItems { get; protected set; }
+        public bool PricesAreVatIncluded { get; protected set; }
+        public IEnumerable<InvoicePriceByVat> InvoicePricesByVat { get; protected set; }
+        public IEnumerable<NonTaxableItem> NonTaxableItems { get; protected set; }
 
         public class PartyInfo
         {
@@ -44,6 +48,63 @@ namespace Merp.Accountancy.CommandStack.Model
                 PostalCode = postalCode;
                 StreetName=streetName;
                 VatIndex = vatIndex;
+            }
+        }
+
+        public class InvoiceLineItem
+        {
+            public string Code { get; set; }
+
+            public string Description { get; set; }
+
+            public int Quantity { get; set; }
+
+            public decimal UnitPrice { get; set; }
+
+            public decimal TotalPrice { get; set; }
+
+            public decimal Vat { get; set; }
+
+            public InvoiceLineItem(string code, string description, int quantity, decimal unitPrice, decimal totalPrice, decimal vat)
+            {
+                Code = code;
+                Description = description;
+                Quantity = quantity;
+                UnitPrice = unitPrice;
+                TotalPrice = totalPrice;
+                Vat = vat;
+            }
+        }
+
+        public class InvoicePriceByVat
+        {
+            public decimal TaxableAmount { get; set; }
+
+            public decimal VatRate { get; set; }
+
+            public decimal VatAmount { get; set; }
+
+            public decimal TotalPrice { get; set; }
+
+            public InvoicePriceByVat(decimal taxableAmount, decimal vatRate, decimal vatAmount, decimal totalPrice)
+            {
+                TaxableAmount = taxableAmount;
+                VatRate = vatRate;
+                VatAmount = vatAmount;
+                TotalPrice = totalPrice;
+            }
+        }
+
+        public class NonTaxableItem
+        {
+            public string Description { get; set; }
+
+            public decimal Amount { get; set; }
+
+            public NonTaxableItem(string description, decimal amount)
+            {
+                Description = description;
+                Amount = amount;
             }
         }
     }

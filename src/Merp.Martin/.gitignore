@@ -1,6 +1,0 @@
-obj/
-bin/
-packages/
-*.pubxml.user
-*.csproj.user
-.vs/

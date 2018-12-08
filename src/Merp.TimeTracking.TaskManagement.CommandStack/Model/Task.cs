@@ -124,12 +124,11 @@ namespace Merp.TimeTracking.TaskManagement.CommandStack.Model
                 if (string.IsNullOrWhiteSpace(name))
                     throw new ArgumentException("A task must have a name.", nameof(name));
 
-                var e = new TaskAddedEvent()
+                var e = new TaskAddedEvent(userId)
                 {
                     TaskId = taskId,
                     DateOfCreation = DateTime.Now,
                     TaskName = name,
-                    UserId = userId,
                     Priority = TaskPriority.Standard
                 };
                 var task = new Task();

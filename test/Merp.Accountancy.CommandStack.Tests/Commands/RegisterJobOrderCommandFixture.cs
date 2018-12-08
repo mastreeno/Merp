@@ -10,6 +10,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Commands
         [Fact]
         public void Ctor_should_set_properties_according_to_parameters()
         {
+            var userId = Guid.NewGuid();
             DateTime dateOfStart = new DateTime(1990, 11, 11);
             DateTime dueDate = new DateTime(1990, 11, 12);
             decimal price = 143;
@@ -23,6 +24,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Commands
             string description = "xyz";
             bool isTimeAndMaterial = true;
             var sut = new RegisterJobOrderCommand(
+                userId,
                 customerId,
                 customerName,
                 contactPersonId,

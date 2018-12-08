@@ -1,9 +1,9 @@
-﻿using MementoFX;
+﻿using Merp.Domain;
 using System;
 
 namespace Merp.Registry.CommandStack.Commands
 {
-    public class ChangePersonBillingAddressCommand : Command
+    public class ChangePersonBillingAddressCommand : MerpCommand
     {
         public Guid PersonId { get; set; }
         public string Address { get; set; }
@@ -13,7 +13,8 @@ namespace Merp.Registry.CommandStack.Commands
         public string Province { get; set; }
         public DateTime EffectiveDate { get; set; }
 
-        public ChangePersonBillingAddressCommand(Guid personId, string address, string postalCode, string city, string province, string country, DateTime effectiveDate)
+        public ChangePersonBillingAddressCommand(Guid userId, Guid personId, string address, string postalCode, string city, string province, string country, DateTime effectiveDate)
+            : base(userId)
         {
             PersonId = personId;
             Address = address ?? throw new ArgumentNullException(nameof(address));

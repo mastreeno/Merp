@@ -1,17 +1,14 @@
-﻿using MementoFX;
+﻿using Merp.Domain;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Merp.Accountancy.CommandStack.Commands
 {
-    public class MarkIncomingInvoiceAsOverdueCommand : Command
+    public class MarkIncomingInvoiceAsOverdueCommand : MerpCommand
     {
         public Guid InvoiceId { get; set; }
 
-        public MarkIncomingInvoiceAsOverdueCommand(Guid invoiceId)
+        public MarkIncomingInvoiceAsOverdueCommand(Guid userId, Guid invoiceId)
+            : base(userId)
         {
             InvoiceId = invoiceId;
         }

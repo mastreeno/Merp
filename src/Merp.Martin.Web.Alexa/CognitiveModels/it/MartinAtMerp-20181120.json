@@ -1,0 +1,149 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "martin",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                },
+                {
+                    "name": "Gross_Income",
+                    "slots": [
+                        {
+                            "name": "year",
+                            "type": "AMAZON.FOUR_DIGIT_NUMBER"
+                        },
+                        {
+                            "name": "date",
+                            "type": "AMAZON.DATE"
+                        }
+                    ],
+                    "samples": [
+                        "quanto abbiamo fatturato {date}",
+                        "quanto fatturammo nel {year}",
+                        "quanto abbiamo fatturato nel {year}",
+                        "quanto stiamo fatturando"
+                    ]
+                },
+                {
+                    "name": "Net_Income",
+                    "slots": [
+                        {
+                            "name": "year",
+                            "type": "AMAZON.FOUR_DIGIT_NUMBER"
+                        },
+                        {
+                            "name": "date",
+                            "type": "AMAZON.DATE"
+                        }
+                    ],
+                    "samples": [
+                        "quale fu l'utile del {year}",
+                        "quale fu l'utile nel {year}",
+                        "quanto marginammo nel {year}",
+                        "quanto abbiamo marginato nel {year}",
+                        "quale è il margine {date}",
+                        "quanto stiamo marginando"
+                    ]
+                },
+                {
+                    "name": "Outgoing_Invoice_Payment_Check",
+                  "slots": [
+                    {
+                      "name": "customer",
+                      "type": "customer"
+                    },
+                    {
+                      "name": "supplier",
+                      "type": "supplier"
+                    },
+                    {
+                      "name": "invoiceNumber",
+                      "type": "AMAZON.NUMBER"
+                    },
+                    {
+                      "name": "year",
+                      "type": "AMAZON.FOUR_DIGIT_NUMBER"
+                    },
+                    {
+                      "name": "invoiceDate",
+                      "type": "AMAZON.DATE"
+                    },
+                    {
+                      "name": "month",
+                      "type": "AMAZON.Month"
+                    }
+                  ],
+                    "samples": [
+                        "{customer} ha pagato tutte le fatture del {year}",
+                        "{customer} ha pagato la fattura {invoiceNumber}",
+                        "la fattura {invoiceNumber} {year} è stata pagata",
+                        "{customer} ha pagato la fattura emessa il {invoiceDate}",
+                        "{customer} ha pagato la fattura emessa {invoiceDate}",
+                        "la fattura {invoiceNumber} del {year} è stata pagata",
+                        "{customer} ha pagato la fattura di {month}",
+                        "la fattura {invoiceNumber} EL {year} è stata pagata",
+                        "la fattura {invoiceNumber} è stata pagata",
+                        "ho pagato l'ultima fattura di {supplier}",
+                        "abbiamo pagato l'ultima fattura di {supplier}"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "customer",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "microsoft"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "highops"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "managed designs"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "supplier",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "microsoft"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "highops"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "managed designs"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

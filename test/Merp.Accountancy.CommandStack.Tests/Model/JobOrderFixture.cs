@@ -20,7 +20,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
             [Fact]
             public void CreateNewInstance_should_throw_ArgumentNullException_on_null_jobOrderNumberGenerator()
             {
-                Executing.This(() => JobOrder.Factory.RegisterNew(null, Guid.NewGuid(), string.Empty, Guid.Empty, Guid.NewGuid(), 101, "GBP", DateTime.Now, DateTime.Now.AddMonths(1), true, "A job order", null, "Description"))
+                Executing.This(() => JobOrder.Factory.RegisterNew(null, Guid.NewGuid(), string.Empty, Guid.Empty, Guid.NewGuid(), 101, "GBP", DateTime.Now, DateTime.Now.AddMonths(1), true, "A job order", null, "Description", Guid.NewGuid()))
                     .Should()
                     .Throw<ArgumentNullException>()
                     .And
@@ -36,7 +36,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
             {
                 var jobOrderNumberGenerator = new Mock<IJobOrderNumberGenerator>().Object;
 
-                Executing.This(() => JobOrder.Factory.RegisterNew(jobOrderNumberGenerator, Guid.NewGuid(), string.Empty, Guid.NewGuid(), Guid.NewGuid(), -1, "GBP", DateTime.Now, DateTime.Now.AddMonths(1), true, "A job order", null, "Description"))
+                Executing.This(() => JobOrder.Factory.RegisterNew(jobOrderNumberGenerator, Guid.NewGuid(), string.Empty, Guid.NewGuid(), Guid.NewGuid(), -1, "GBP", DateTime.Now, DateTime.Now.AddMonths(1), true, "A job order", null, "Description", Guid.NewGuid()))
                     .Should()
                     .Throw<ArgumentException>()
                     .And
@@ -52,7 +52,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
             {
                 var jobOrderNumberGenerator = new Mock<IJobOrderNumberGenerator>().Object;
 
-                Executing.This(() => JobOrder.Factory.RegisterNew(jobOrderNumberGenerator, Guid.NewGuid(), string.Empty, Guid.NewGuid(), Guid.NewGuid(), 101, null, DateTime.Now, DateTime.Now.AddMonths(1), true, "A job order", null, "Description"))
+                Executing.This(() => JobOrder.Factory.RegisterNew(jobOrderNumberGenerator, Guid.NewGuid(), string.Empty, Guid.NewGuid(), Guid.NewGuid(), 101, null, DateTime.Now, DateTime.Now.AddMonths(1), true, "A job order", null, "Description", Guid.NewGuid()))
                     .Should()
                     .Throw<ArgumentException>()
                     .And
@@ -68,7 +68,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
             {
                 var jobOrderNumberGenerator = new Mock<IJobOrderNumberGenerator>().Object;
 
-                Executing.This(() => JobOrder.Factory.RegisterNew(jobOrderNumberGenerator, Guid.NewGuid(), string.Empty, Guid.NewGuid(), Guid.NewGuid(), 101, string.Empty, DateTime.Now, DateTime.Now.AddMonths(1), true, "A job order", null, "Description"))
+                Executing.This(() => JobOrder.Factory.RegisterNew(jobOrderNumberGenerator, Guid.NewGuid(), string.Empty, Guid.NewGuid(), Guid.NewGuid(), 101, string.Empty, DateTime.Now, DateTime.Now.AddMonths(1), true, "A job order", null, "Description", Guid.NewGuid()))
                     .Should()
                     .Throw<ArgumentException>()
                     .And
@@ -84,7 +84,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
             {
                 var jobOrderNumberGenerator = new Mock<IJobOrderNumberGenerator>().Object;
 
-                Executing.This(() => JobOrder.Factory.RegisterNew(jobOrderNumberGenerator, Guid.NewGuid(), string.Empty, Guid.NewGuid(), Guid.NewGuid(), 101, "GBP", DateTime.Now.AddMonths(1), DateTime.Now, true, "A job order", null, "Description"))
+                Executing.This(() => JobOrder.Factory.RegisterNew(jobOrderNumberGenerator, Guid.NewGuid(), string.Empty, Guid.NewGuid(), Guid.NewGuid(), 101, "GBP", DateTime.Now.AddMonths(1), DateTime.Now, true, "A job order", null, "Description", Guid.NewGuid()))
                     .Should()
                     .Throw<ArgumentException>()
                     .And
@@ -100,7 +100,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
             {
                 var jobOrderNumberGenerator = new Mock<IJobOrderNumberGenerator>().Object;
 
-                Executing.This(() => JobOrder.Factory.RegisterNew(jobOrderNumberGenerator, Guid.NewGuid(), string.Empty, Guid.NewGuid(), Guid.NewGuid(), 101, "GBP", DateTime.Now, DateTime.Now.AddMonths(1), true, null, null, "Description"))
+                Executing.This(() => JobOrder.Factory.RegisterNew(jobOrderNumberGenerator, Guid.NewGuid(), string.Empty, Guid.NewGuid(), Guid.NewGuid(), 101, "GBP", DateTime.Now, DateTime.Now.AddMonths(1), true, null, null, "Description", Guid.NewGuid()))
                     .Should()
                     .Throw<ArgumentException>()
                     .And
@@ -116,7 +116,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
             {
                 var jobOrderNumberGenerator = new Mock<IJobOrderNumberGenerator>().Object;
 
-                Executing.This(() => JobOrder.Factory.RegisterNew(jobOrderNumberGenerator, Guid.NewGuid(), string.Empty, Guid.NewGuid(), Guid.NewGuid(), 101, "GBP", DateTime.Now, DateTime.Now.AddMonths(1), true, string.Empty, null, "Description"))
+                Executing.This(() => JobOrder.Factory.RegisterNew(jobOrderNumberGenerator, Guid.NewGuid(), string.Empty, Guid.NewGuid(), Guid.NewGuid(), 101, "GBP", DateTime.Now, DateTime.Now.AddMonths(1), true, string.Empty, null, "Description", Guid.NewGuid()))
                     .Should()
                     .Throw<ArgumentException>()
                     .And

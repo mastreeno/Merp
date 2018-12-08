@@ -15,6 +15,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
         [Fact]
         public void Ctor_should_properly_initialise_instance()
         {
+            var userId = Guid.NewGuid();
             var personId = Guid.Empty;
             var firstName = "Martin";
             var lastName = "Gore";
@@ -42,7 +43,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var emailAddress = "martin@gore.com";
             var instantMessaging = "@im";
 
-            var sut = new RegisterPersonCommand(firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, 
+            var sut = new RegisterPersonCommand(userId, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, 
                 shippingAddressAddress, shippingAddressPostalCode, shippingAddressCity, shippingAddressProvince, shippingAddressCountry,
                 billingAddressAddress, billingAddressPostalCode, billingAddressCity, billingAddressProvince, billingAddressCountry, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging);
 
@@ -67,6 +68,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
         [Fact]
         public void Ctor_should_throw_on_null_firstName()
         {
+            var userId = Guid.NewGuid();
             var personId = Guid.NewGuid();
             string firstName = null;
             var lastName = "Gore";
@@ -95,7 +97,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var instantMessaging = "@im";
 
             Executing.This(
-                () => new RegisterPersonCommand(firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country,
+                () => new RegisterPersonCommand(userId, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country,
                 shippingAddressAddress, shippingAddressPostalCode, shippingAddressCity, shippingAddressProvince, shippingAddressCountry,
                 billingAddressAddress, billingAddressPostalCode, billingAddressCity, billingAddressProvince, billingAddressCountry, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging)
             )
@@ -112,6 +114,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
         [Fact]
         public void Ctor_should_throw_on_null_lastName()
         {
+            var userId = Guid.NewGuid();
             var personId = Guid.NewGuid();
             var firstName = "Martin";
             string lastName = null;
@@ -140,7 +143,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var instantMessaging = "@im";
 
             Executing.This(
-                () => new RegisterPersonCommand(firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country,
+                () => new RegisterPersonCommand(userId, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country,
                 shippingAddressAddress, shippingAddressPostalCode, shippingAddressCity, shippingAddressProvince, shippingAddressCountry,
                 billingAddressAddress, billingAddressPostalCode, billingAddressCity, billingAddressProvince, billingAddressCountry, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging)
             )

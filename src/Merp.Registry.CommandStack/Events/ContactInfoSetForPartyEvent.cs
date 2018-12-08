@@ -1,13 +1,9 @@
-﻿using MementoFX;
+﻿using Merp.Domain;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Merp.Registry.CommandStack.Events
 {
-    public class ContactInfoSetForPartyEvent : DomainEvent
+    public class ContactInfoSetForPartyEvent : MerpDomainEvent
     {
         public Guid PartyId { get; set; }
         public string PhoneNumber { get; set; }
@@ -17,7 +13,8 @@ namespace Merp.Registry.CommandStack.Events
         public string EmailAddress { get; set; }
         public string InstantMessaging { get; set; }
 
-        public ContactInfoSetForPartyEvent(Guid partyId, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
+        public ContactInfoSetForPartyEvent(Guid partyId, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging, Guid userId)
+            : base(userId)
         {
             PartyId = partyId;
             PhoneNumber = phoneNumber;

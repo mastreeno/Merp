@@ -1,29 +1,271 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Configurations>Debug;Release;AzureMongoDB</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.1.3" />
-    <PackageReference Include="MementoFX" Version="2.0.0-pre5" />
-    <PackageReference Include="MementoFX.Messaging.Rebus" Version="2.0.0-pre1" />
-    <PackageReference Include="MementoFX.Persistence.MongoDB" Version="2.0.0-pre2" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.1.1" />
-    <PackageReference Include="Rebus" Version="4.2.1" />
+    <Content Remove="appsettings.AzureMongoDB.json" />
+    <Content Remove="appsettings.Debug.json" />
+    <Content Remove="appsettings.Release.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\" />
+    <None Include="appsettings.Debug.json">
+      <IsTransformFile>true</IsTransformFile>
+      <DependentUpon>appsettings.json</DependentUpon>
+    </None>
+    <None Include="appsettings.Release.json">
+      <IsTransformFile>true</IsTransformFile>
+      <DependentUpon>appsettings.json</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.6.0" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.1.6" />
+    <PackageReference Include="MementoFX" Version="2.0.0-pre6" />
+    <PackageReference Include="MementoFX.Messaging.Rebus" Version="2.0.0-pre3" />
+    <PackageReference Include="MementoFX.Persistence.MongoDB" Version="2.0.0-pre4" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.1.1" />
+    <PackageReference Include="Rebus" Version="5.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.6" />
+    <PackageReference Include="Rebus.AzureServiceBus" Version="6.0.4" />
+    <PackageReference Include="Rebus.ServiceProvider" Version="4.0.1" />
+    <PackageReference Include="Rebus.SqlServer" Version="5.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Merp.Accountancy.CommandStack\Merp.Accountancy.CommandStack.csproj" />
+    <ProjectReference Include="..\Merp.Accountancy.Drafts\Merp.Accountancy.Drafts.csproj" />
     <ProjectReference Include="..\Merp.Accountancy.QueryStack\Merp.Accountancy.QueryStack.csproj" />
-    <ProjectReference Include="..\Merp.Registry.Web\Merp.Registry.Web.csproj" />
     <ProjectReference Include="..\Merp.Web\Merp.Web.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\Draft\EditOutgoingCreditNoteDraft.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EditOutgoingCreditNoteDraft.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Draft\EditOutgoingInvoiceDraft.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EditOutgoingInvoiceDraft.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Draft\Search.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Search.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Home\Index.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Index.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Invoice\IncomingCreditNoteDetails.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IncomingCreditNoteDetails.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Invoice\IncomingInvoiceDetails.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IncomingInvoiceDetails.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Invoice\IncomingInvoicesNotLinkedToAJobOrder.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IncomingInvoicesNotLinkedToAJobOrder.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Invoice\IssueOutgoingInvoice.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IssueOutgoingInvoice.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Invoice\OutgoingCreditNoteDetails.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>OutgoingCreditNoteDetails.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Invoice\OutgoingInvoiceDetails.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>OutgoingInvoiceDetails.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Invoice\OutgoingInvoicesNotLinkedToAJobOrder.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>OutgoingInvoicesNotLinkedToAJobOrder.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Invoice\RegisterIncomingInvoice.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RegisterIncomingInvoice.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Invoice\RegisterOutgoingInvoice.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RegisterOutgoingInvoice.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Invoice\Search.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Search.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\JobOrder\Create.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Create.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\JobOrder\Detail.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Detail.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\JobOrder\Search.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Search.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Shared.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Shared.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <TransformOnBuild>true</TransformOnBuild>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Draft\EditOutgoingCreditNoteDraft.it.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Draft\EditOutgoingCreditNoteDraft.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EditOutgoingCreditNoteDraft.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Draft\EditOutgoingInvoiceDraft.it.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Draft\EditOutgoingInvoiceDraft.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EditOutgoingInvoiceDraft.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Draft\Search.it.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Draft\Search.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Search.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Home\Index.it.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Home\Index.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Index.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Invoice\IncomingCreditNoteDetails.it.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Invoice\IncomingCreditNoteDetails.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>IncomingCreditNoteDetails.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Invoice\IncomingInvoiceDetails.it.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Invoice\IncomingInvoiceDetails.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>IncomingInvoiceDetails.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Invoice\IncomingInvoicesNotLinkedToAJobOrder.it.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Invoice\IncomingInvoicesNotLinkedToAJobOrder.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>IncomingInvoicesNotLinkedToAJobOrder.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Invoice\IssueOutgoingInvoice.it.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Invoice\IssueOutgoingInvoice.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>IssueOutgoingInvoice.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Invoice\OutgoingCreditNoteDetails.it.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Invoice\OutgoingCreditNoteDetails.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>OutgoingCreditNoteDetails.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Invoice\OutgoingInvoiceDetails.it.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Invoice\OutgoingInvoiceDetails.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>OutgoingInvoiceDetails.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Invoice\OutgoingInvoicesNotLinkedToAJobOrder.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>OutgoingInvoicesNotLinkedToAJobOrder.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Invoice\RegisterIncomingInvoice.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>RegisterIncomingInvoice.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Invoice\RegisterOutgoingInvoice.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>RegisterOutgoingInvoice.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Invoice\Search.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Search.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\JobOrder\Create.it.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\JobOrder\Create.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Create.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\JobOrder\Detail.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Detail.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\JobOrder\Search.it.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\JobOrder\Search.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Search.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Shared.it.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Shared.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Shared.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

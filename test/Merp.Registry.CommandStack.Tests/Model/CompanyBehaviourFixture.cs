@@ -15,6 +15,7 @@ namespace Merp.Registry.CommandStack.Tests.Model
         [Fact]
         public void ChangeLegalAddress_should_set_LegalAddress_accordingly_to_inputs()
         {
+            var userId = Guid.NewGuid();
             var companyName = "Mastreeno";
             var nationalIdentificationNumber = "FAKE";
             var vatNumber = "123";
@@ -26,9 +27,9 @@ namespace Merp.Registry.CommandStack.Tests.Model
             var company = Company.Factory.CreateNewEntry(companyName, vatNumber, nationalIdentificationNumber, 
                 null, null, null, null, null,
                 null, null, null, null, null,
-                null, null, null, null, null);
+                null, null, null, null, null, userId);
             var effectiveDate = DateTime.Now;
-            company.ChangeLegalAddress(address, city, postalCode, province, country, effectiveDate);
+            company.ChangeLegalAddress(address, city, postalCode, province, country, effectiveDate, userId);
 
             Assert.NotNull(company.LegalAddress);
             Assert.Equal(address, company.LegalAddress.Address);
@@ -41,6 +42,7 @@ namespace Merp.Registry.CommandStack.Tests.Model
         [Fact]
         public void ChangeBillingAddress_should_set_LegalAddress_accordingly_to_inputs()
         {
+            var userId = Guid.NewGuid();
             var companyName = "Mastreeno";
             var nationalIdentificationNumber = "FAKE";
             var vatNumber = "123";
@@ -52,9 +54,9 @@ namespace Merp.Registry.CommandStack.Tests.Model
             var company = Company.Factory.CreateNewEntry(companyName, vatNumber, nationalIdentificationNumber, 
                 null, null, null, null, null,
                 null, null, null, null, null,
-                null, null, null, null, null);
+                null, null, null, null, null, userId);
             var effectiveDate = DateTime.MaxValue;
-            company.ChangeBillingAddress(address, city, postalCode, province, country, effectiveDate);
+            company.ChangeBillingAddress(address, city, postalCode, province, country, effectiveDate, userId);
 
             Assert.NotNull(company.BillingAddress);
             Assert.Equal(address, company.BillingAddress.Address);
@@ -67,6 +69,7 @@ namespace Merp.Registry.CommandStack.Tests.Model
         [Fact]
         public void ChangeShippingAddress_should_set_LegalAddress_accordingly_to_inputs()
         {
+            var userId = Guid.NewGuid();
             var companyName = "Mastreeno";
             var nationalIdentificationNumber = "FAKE";
             var vatNumber = "123";
@@ -78,9 +81,9 @@ namespace Merp.Registry.CommandStack.Tests.Model
             var company = Company.Factory.CreateNewEntry(companyName, vatNumber, nationalIdentificationNumber, 
                 null, null, null, null, null,
                 null, null, null, null, null,
-                null, null, null, null, null);
+                null, null, null, null, null, userId);
             var effectiveDate = DateTime.MaxValue;
-            company.ChangeShippingAddress(address, city, postalCode, province, country, effectiveDate);
+            company.ChangeShippingAddress(address, city, postalCode, province, country, effectiveDate, userId);
 
             Assert.NotNull(company.ShippingAddress);
             Assert.Equal(address, company.ShippingAddress.Address);

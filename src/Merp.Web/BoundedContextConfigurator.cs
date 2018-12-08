@@ -13,7 +13,7 @@ namespace Merp.Web
         public IBus Bus { get; private set; }
         public IHostingEnvironment Environment { get; private set; }
         public IServiceCollection Services { get; private set; }
-        public IConfigurationRoot Configuration { get; private set; }
+        public IConfiguration Configuration { get; private set; }
 
         protected abstract void RegisterDenormalizers();
         protected abstract void RegisterHandlers();
@@ -25,7 +25,7 @@ namespace Merp.Web
         protected abstract void RegisterAclServices();
         protected abstract void ConfigureEventStore();
 
-        public BoundedContextConfigurator(IConfigurationRoot configuration, IServiceCollection services)
+        public BoundedContextConfigurator(IConfiguration configuration, IServiceCollection services)
         {
             Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             Services = services ?? throw new ArgumentNullException(nameof(services));

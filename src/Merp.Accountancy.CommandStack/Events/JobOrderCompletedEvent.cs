@@ -1,20 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MementoFX;
 using MementoFX.Domain;
+using Merp.Domain;
 
 namespace Merp.Accountancy.CommandStack.Events
 {
-    public class JobOrderCompletedEvent : DomainEvent
+    public class JobOrderCompletedEvent : MerpDomainEvent
     {
         public Guid JobOrderId { get; set; }
         [Timestamp]
         public DateTime DateOfCompletion { get; set; }
 
-        public JobOrderCompletedEvent(Guid jobOrderId, DateTime dateOfCompletion)
+        public JobOrderCompletedEvent(Guid jobOrderId, DateTime dateOfCompletion, Guid userId)
+            : base(userId)
         {
             this.JobOrderId = jobOrderId;
             this.DateOfCompletion = dateOfCompletion;

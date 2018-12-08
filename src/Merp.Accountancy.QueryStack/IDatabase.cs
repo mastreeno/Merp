@@ -10,7 +10,9 @@ namespace Merp.Accountancy.QueryStack
     public interface IDatabase
     {
         IQueryable<JobOrder> JobOrders { get; }
+        IQueryable<IncomingCreditNote> IncomingCreditNotes { get; }
         IQueryable<IncomingInvoice> IncomingInvoices { get; }
+        IQueryable<OutgoingCreditNote> OutgoingCreditNotes { get; }
         IQueryable<OutgoingInvoice> OutgoingInvoices { get; }
     }
 }

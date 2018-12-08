@@ -1,0 +1,62 @@
+{
+  "name": "MartinAtMastreeno",
+  "padlock": "",
+  "version": "2.0",
+  "services": [
+    {
+      "tenantId": "",
+      "subscriptionId": "",
+      "resourceGroup": "Mastreeno",
+      "serviceName": "MartinAtMastreeno",
+      "type": "abs",
+      "name": "MartinAtMastreeno",
+      "id": "1"
+    },
+    {
+      "connectionString": "",
+      "tenantId": "",
+      "subscriptionId": "",
+      "resourceGroup": "Mastreeno",
+      "serviceName": "martinatmastreeno",
+      "type": "blob",
+      "id": "2"
+    },
+    {
+      "appId": "",
+      "appPassword": "",
+      "endpoint": "http://localhost:3978/api/messages",
+      "type": "endpoint",
+      "name": "development",
+      "id": "3"
+    },
+    {
+      "appId": "",
+      "appPassword": "",
+      "endpoint": "",
+      "type": "endpoint",
+      "name": "production",
+      "id": "4"
+    },
+    {
+      "instrumentationKey": "",
+      "applicationId": "",
+      "apiKeys": {},
+      "tenantId": "",
+      "subscriptionId": "",
+      "resourceGroup": "Mastreeno",
+      "serviceName": "MartinAtMastreenoqla6ki",
+      "type": "appInsights",
+      "id": "5"
+    },
+    {
+      "appId": "",
+      "authoringKey": "",
+      "subscriptionKey": "",
+      "version": "0.1",
+      "region": "westeurope",
+      "type": "luis",
+      "name": "MartinAtMastreeno-en",
+      "id": "6"
+    }
+  ]
+}

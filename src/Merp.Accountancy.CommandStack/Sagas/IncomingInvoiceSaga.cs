@@ -6,6 +6,8 @@ using Rebus.Bus;
 using System;
 using System.Threading.Tasks;
 using Rebus.Handlers;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Merp.Accountancy.CommandStack.Sagas
 {
@@ -46,6 +48,30 @@ namespace Merp.Accountancy.CommandStack.Sagas
 
         public async Task Handle(RegisterIncomingInvoiceCommand message)
         {
+            var invoiceLineItems = new Invoice.InvoiceLineItem[0];
+            if (message.LineItems != null)
+            {
+                invoiceLineItems = message.LineItems
+                    .Select(i => new Invoice.InvoiceLineItem(i.Code, i.Description, i.Quantity, i.UnitPrice, i.TotalPrice, i.Vat))
+                    .ToArray();
+            }
+
+            var invoicePricesByVat = new Invoice.InvoicePriceByVat[0];
+            if (message.PricesByVat != null)
+            {
+                invoicePricesByVat = message.PricesByVat
+                    .Select(p => new Invoice.InvoicePriceByVat(p.TaxableAmount, p.VatRate, p.VatAmount, p.TotalPrice))
+                    .ToArray();
+            }
+
+            var nonTaxableItems = new Invoice.NonTaxableItem[0];
+            if (message.NonTaxableItems != null)
+            {
+                nonTaxableItems = message.NonTaxableItems
+                    .Select(t => new Invoice.NonTaxableItem(t.Description, t.Amount))
+                    .ToArray();
+            }
+
             var invoice = IncomingInvoice.Factory.Register(
             message.InvoiceNumber,
             message.InvoiceDate,
@@ -72,14 +98,19 @@ namespace Merp.Accountancy.CommandStack.Sagas
             message.Supplier.PostalCode,
             message.Supplier.Country,
             message.Supplier.VatIndex,
-            message.Supplier.NationalIdentificationNumber
+            message.Supplier.NationalIdentificationNumber,
+            invoiceLineItems,
+            message.PricesAreVatIncluded,
+            invoicePricesByVat,
+            nonTaxableItems,
+            message.UserId
             );
             this.Repository.Save(invoice);
             this.Data.InvoiceId = invoice.Id;
 
             if (invoice.DueDate.HasValue)
             {
-                var timeout = new IncomingInvoiceExpiredTimeout(invoice.Id);
+                var timeout = new IncomingInvoiceExpiredTimeout(invoice.Id, message.UserId);
                 await Bus.Defer(invoice.DueDate.Value.Subtract(DateTime.Today), timeout);
             }
         }
@@ -121,7 +152,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
         public async Task Handle(MarkIncomingInvoiceAsPaidCommand message)
         {
             var invoice = Repository.GetById<IncomingInvoice>(message.InvoiceId);
-            invoice.MarkAsPaid(message.PaymentDate);
+            invoice.MarkAsPaid(message.PaymentDate, message.UserId);
             await Repository.SaveAsync(invoice);
             this.MarkAsComplete();
         }
@@ -132,7 +163,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
             {
                 var invoice = Repository.GetById<IncomingInvoice>(message.InvoiceId);
                 if (!invoice.PaymentDate.HasValue)
-                    invoice.MarkAsOverdue();
+                    invoice.MarkAsOverdue(message.UserId);
             });
         }
 
@@ -141,7 +172,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
             var invoice = Repository.GetById<IncomingInvoice>(message.InvoiceId);
             if (!invoice.PaymentDate.HasValue)
             {
-                var cmd = new MarkIncomingInvoiceAsOverdueCommand(message.InvoiceId);
+                var cmd = new MarkIncomingInvoiceAsOverdueCommand(message.UserId, message.InvoiceId);
                 await Bus.Send(cmd);
             }
         }
@@ -155,9 +186,12 @@ namespace Merp.Accountancy.CommandStack.Sagas
         {
             public Guid InvoiceId { get; private set; }
 
-            public IncomingInvoiceExpiredTimeout(Guid invoiceId)
+            public Guid UserId { get; private set; }
+
+            public IncomingInvoiceExpiredTimeout(Guid invoiceId, Guid userId)
             {
                 InvoiceId = invoiceId;
+                UserId = userId;
             }
         }
     }

@@ -1,13 +1,9 @@
-﻿using MementoFX;
+﻿using Merp.Domain;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Merp.Registry.CommandStack.Commands
 {
-    public class ChangePersonContactInfoCommand : Command
+    public class ChangePersonContactInfoCommand : MerpCommand
     {
         public Guid PersonId { get; set; }
         public string PhoneNumber { get; set; }
@@ -17,7 +13,8 @@ namespace Merp.Registry.CommandStack.Commands
         public string EmailAddress { get; set; }
         public string InstantMessaging { get; set; }
 
-        public ChangePersonContactInfoCommand(Guid personId, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
+        public ChangePersonContactInfoCommand(Guid userId, Guid personId, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
+            : base(userId)
         {
             PersonId = personId;
             PhoneNumber = phoneNumber;

@@ -2,6 +2,31 @@
 An open source, event-based Micro ERP developed by Andrea Saltarello using ASP.NET Core 2.1
 
 **Release notes**
+
+08/12/2018
+- Solution was ported to .NET Core SDK 2.1.4 since the latter is an LTS release
+- Web apps are now running on .NET Core 2.1
+- UI was rewritten from scratch becoming a VUE.js-based SPA
+- Bounded context logic is now provided by services implemented in ad hoc web apps:
+    - "Web" projects contain logic private to a specific bounded context
+    - "Web.Internal" projects contain logic private to be used by other Merp's bounded contexts
+    - "Web.Public" projects contain logic to be used by external apps for integration purposes
+- Basic Task Management feature added to Merp
+- Supported environment names are now: Staging, Production, OnPremises, AzureCosmosDB, AzureMongoDB
+- Added invoice multi lines management and invoice details pages
+- we got rid of MSMQ as Rebus' transport in fovour of SQL Server, so the following databases must be created:
+    - Merp-Accountancy-Rebus
+    - Merp-Registry-Rebus
+    - Merp-TimeTracking-Rebus
+- (If needed) Run MongoDb patches in patches/MongoDb folder
+- Run Update-Database on Merp.Accountancy.QueryStack
+- Run the following Entity Framework Core migrations defined within the project named Merp.Web.Auth (these migrations create the tables needed by both ASP.NET Core's Identity and IdentityServer to persist clients, API resources and configuration data.):
+    - *EntityFrameworkCore\Update-Database -Context PersistedGrantDbContext*
+    - *EntityFrameworkCore\Update-Database -Context ConfigurationDbContext*
+    - *EntityFrameworkCore\Update-Database -Context ApplicationDbContext*
+- Run *npm run build-vendor-dev* and *npm run build-app-dev* from a prompt pointing at the src/Merp.Web.App folder
+    
+
 05/06/2018
 - web project migrated to ASP .NET Core 2.1
 - web project's area moved to Razor UI class libraries

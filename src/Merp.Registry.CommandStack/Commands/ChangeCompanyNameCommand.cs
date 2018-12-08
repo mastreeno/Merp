@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MementoFX;
-using MementoFX.Domain;
+using Merp.Domain;
 
 namespace Merp.Registry.CommandStack.Commands
 {
-    public class ChangeCompanyNameCommand : Command
+    public class ChangeCompanyNameCommand : MerpCommand
     {
         public Guid CompanyId { get; set; }
         public DateTime EffectiveDate { get; set; }
         public string CompanyName { get; set; }
 
-        public ChangeCompanyNameCommand(Guid companyId, string companyName, DateTime effectiveDate)
+        public ChangeCompanyNameCommand(Guid userId, Guid companyId, string companyName, DateTime effectiveDate)
+            : base(userId)
         {
             CompanyId = companyId;
             CompanyName = companyName;

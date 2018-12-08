@@ -88,9 +88,9 @@ namespace Merp.Registry.CommandStack.Model
         /// <param name="effectiveDate">The effective date</param>
         public void ChangeAddress(string address, string city, string postalCode, string province, string country, DateTime effectiveDate)
         {
-            ChangeLegalAddress(address, city, postalCode, province, country, effectiveDate);
-            ChangeShippingAddress(address, city, postalCode, province, country, effectiveDate);
-            ChangeBillingAddress(address, city, postalCode, province, country, effectiveDate);
+            ChangeLegalAddress(address, city, postalCode, province, country, effectiveDate, Guid.Empty);
+            ChangeShippingAddress(address, city, postalCode, province, country, effectiveDate, Guid.Empty);
+            ChangeBillingAddress(address, city, postalCode, province, country, effectiveDate, Guid.Empty);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Merp.Registry.CommandStack.Model
                 string legalAddressAddress, string legalAddressCity, string legalAddressPostalCode, string legalAddressProvince, string legalAddressCountry,
                 string billingAddressAddress, string billingAddressCity, string billingAddressPostalCode, string billingAddressProvince, string billingAddressCountry,
                 string shippingAddressAddress, string shippingAddressCity, string shippingAddressPostalCode, string shippingAddressProvince, string shippingAddressCountry,
-                string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
+                string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging, Guid userId)
             {
                 if (string.IsNullOrWhiteSpace(firstName))
                     throw new ArgumentException("The first name must be specified", nameof(firstName));
@@ -151,7 +151,7 @@ namespace Merp.Registry.CommandStack.Model
                     legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry,
                     billingAddressAddress, billingAddressCity, billingAddressPostalCode, billingAddressProvince, billingAddressCountry,
                     shippingAddressAddress, shippingAddressCity, shippingAddressPostalCode, shippingAddressProvince, shippingAddressCountry,
-                    phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging);
+                    phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging, userId);
                 var p = new Person();
                 p.RaiseEvent(e);
                 return p;
@@ -192,7 +192,7 @@ namespace Merp.Registry.CommandStack.Model
                     throw new ArgumentException("postal address must either be empty or comprehensive of both address and city");
                 }
 
-                var e = new PersonRegisteredEvent(personId, registrationDate, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, address, city, postalCode, province, country, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging);
+                var e = new PersonRegisteredEvent(personId, registrationDate, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, address, city, postalCode, province, country, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging, Guid.Empty);
                 var p = new Person();
                 p.RaiseEvent(e);
                 return p;

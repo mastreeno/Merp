@@ -1,14 +1,10 @@
-﻿using Merp.Accountancy.CommandStack.Services;
-using MementoFX;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Merp.Domain;
 
 namespace Merp.Accountancy.CommandStack.Commands
 {
-    public class IssueInvoiceCommand : Command
+    public class IssueInvoiceCommand : MerpCommand
     {
         public class PartyInfo
         {
@@ -34,6 +30,63 @@ namespace Merp.Accountancy.CommandStack.Commands
             }
         }
 
+        public class InvoiceLineItem
+        {
+            public string Code { get; set; }
+
+            public string Description { get; set; }
+
+            public int Quantity { get; set; }
+
+            public decimal UnitPrice { get; set; }
+
+            public decimal TotalPrice { get; set; }
+
+            public decimal Vat { get; set; }
+
+            public InvoiceLineItem(string code, string description, int quantity, decimal unitPrice, decimal totalPrice, decimal vat)
+            {
+                Code = code;
+                Description = description;
+                Quantity = quantity;
+                UnitPrice = unitPrice;
+                TotalPrice = totalPrice;
+                Vat = vat;
+            }
+        }
+
+        public class InvoicePriceByVat
+        {
+            public decimal TaxableAmount { get; set; }
+
+            public decimal VatRate { get; set; }
+
+            public decimal VatAmount { get; set; }
+
+            public decimal TotalPrice { get; set; }
+
+            public InvoicePriceByVat(decimal taxableAmount, decimal vatRate, decimal vatAmount, decimal totalPrice)
+            {
+                TaxableAmount = taxableAmount;
+                VatRate = vatRate;
+                VatAmount = vatAmount;
+                TotalPrice = totalPrice;
+            }
+        }
+
+        public class NonTaxableItem
+        {
+            public string Description { get; set; }
+
+            public decimal Amount { get; set; }
+
+            public NonTaxableItem(string description, decimal amount)
+            {
+                Description = description;
+                Amount = amount;
+            }
+        }
+
         public Guid InvoiceId { get; set; }
         public PartyInfo Customer { get; set; }
         public PartyInfo Supplier { get; set; }
@@ -45,10 +98,15 @@ namespace Merp.Accountancy.CommandStack.Commands
         public string Description { get; set; }
         public string PaymentTerms { get; set; }
         public string PurchaseOrderNumber { get; set; }
+        public bool PricesAreVatIncluded { get; set; }
+        public IEnumerable<InvoiceLineItem> LineItems { get; set; }
+        public IEnumerable<InvoicePriceByVat> PricesByVat { get; set; }
+        public IEnumerable<NonTaxableItem> NonTaxableItems { get; set; }
 
-        public IssueInvoiceCommand(DateTime invoiceDate, string currency, decimal taxableAmount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, 
+        public IssueInvoiceCommand(Guid userId, DateTime invoiceDate, string currency, decimal taxableAmount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, 
             Guid customerId, string customerName, string customerAddress, string customerCity, string customerPostalCode, string customerCountry, string customerVatIndex, string customerNationalIdentificationNumber,
-            string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber)
+            string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber, IEnumerable<InvoiceLineItem> lineItems, bool pricesAreVatIncluded, IEnumerable<InvoicePriceByVat> pricesByVat, IEnumerable<NonTaxableItem> nonTaxableItems)
+            : base(userId)
         {
             var customer = new PartyInfo(
                 city: customerCity,
@@ -80,6 +138,10 @@ namespace Merp.Accountancy.CommandStack.Commands
             Description = description;
             PaymentTerms = paymentTerms;
             PurchaseOrderNumber = purchaseOrderNumber;
+            LineItems = lineItems;
+            PricesAreVatIncluded = pricesAreVatIncluded;
+            PricesByVat = pricesByVat;
+            NonTaxableItems = nonTaxableItems;
         }
     }
 }

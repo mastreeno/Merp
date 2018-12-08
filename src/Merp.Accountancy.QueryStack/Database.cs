@@ -24,11 +24,25 @@ namespace Merp.Accountancy.QueryStack
                 return Context.JobOrders;
             }
         }
+        public IQueryable<IncomingCreditNote> IncomingCreditNotes
+        {
+            get
+            {
+                return Context.IncomingCreditNotes;
+            }
+        }
         public IQueryable<IncomingInvoice> IncomingInvoices
         {
             get
             {
                 return Context.IncomingInvoices;
+            }
+        }
+        public IQueryable<OutgoingCreditNote> OutgoingCreditNotes
+        {
+            get
+            {
+                return Context.OutgoingCreditNotes;
             }
         }
         public IQueryable<OutgoingInvoice> OutgoingInvoices
@@ -38,6 +52,7 @@ namespace Merp.Accountancy.QueryStack
                 return Context.OutgoingInvoices;
             }
         }
+
         public void Dispose()
         {
             if (Context != null)

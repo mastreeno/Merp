@@ -89,22 +89,22 @@ namespace Merp.Registry.CommandStack.Sagas
             var company = Company.Factory.CreateNewEntry(message.CompanyName, message.VatNumber, message.NationalIdentificationNumber, 
                 legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry,
                 message.BillingAddressAddress, message.BillingAddressCity, message.BillingAddressPostalCode, message.BillingAddressProvince, message.BillingAddressCountry,
-                message.ShippingAddressAddress, message.ShippingAddressCity, message.ShippingAddressPostalCode, message.ShippingAddressProvince, message.ShippingAddressCountry);
+                message.ShippingAddressAddress, message.ShippingAddressCity, message.ShippingAddressPostalCode, message.ShippingAddressProvince, message.ShippingAddressCountry, message.UserId);
                                 
             if (message.MainContactId.HasValue)
             {
                 Thread.Sleep(10);
-                company.AssociateMainContact(message.MainContactId.Value);
+                company.AssociateMainContact(message.MainContactId.Value, message.UserId);
             }
             if (message.AdministrativeContactId.HasValue)
             {
                 Thread.Sleep(10);
-                company.AssociateAdministrativeContact(message.AdministrativeContactId.Value);
+                company.AssociateAdministrativeContact(message.AdministrativeContactId.Value, message.UserId);
             }
             if(!string.IsNullOrWhiteSpace(message.PhoneNumber) || !string.IsNullOrWhiteSpace(message.FaxNumber) || !string.IsNullOrWhiteSpace(message.WebsiteAddress) || !string.IsNullOrWhiteSpace(message.EmailAddress))
             {
                 Thread.Sleep(10);
-                company.SetContactInfo(message.PhoneNumber, null, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, null);
+                company.SetContactInfo(message.PhoneNumber, null, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, null, message.UserId);
             }
             await _repository.SaveAsync(company);
             this.Data.CompanyId = company.Id;
@@ -127,17 +127,17 @@ namespace Merp.Registry.CommandStack.Sagas
             if (message.MainContactId.HasValue)
             {
                 Thread.Sleep(10);
-                company.AssociateMainContact(message.MainContactId.Value);
+                company.AssociateMainContact(message.MainContactId.Value, Guid.Empty);
             }
             if (message.AdministrativeContactId.HasValue)
             {
                 Thread.Sleep(10);
-                company.AssociateAdministrativeContact(message.AdministrativeContactId.Value);
+                company.AssociateAdministrativeContact(message.AdministrativeContactId.Value, Guid.Empty);
             }
             if (!string.IsNullOrWhiteSpace(message.PhoneNumber) || !string.IsNullOrWhiteSpace(message.FaxNumber) || !string.IsNullOrWhiteSpace(message.WebsiteAddress) || !string.IsNullOrWhiteSpace(message.EmailAddress))
             {
                 Thread.Sleep(10);
-                company.SetContactInfo(message.PhoneNumber, null, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, null);
+                company.SetContactInfo(message.PhoneNumber, null, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, null, Guid.Empty);
             }
             await _repository.SaveAsync(company);
             this.Data.CompanyId = company.Id;
@@ -146,7 +146,7 @@ namespace Merp.Registry.CommandStack.Sagas
         public async Task Handle(ChangeCompanyNameCommand message)
         {
             var company = _repository.GetById<Company>(message.CompanyId);
-            company.ChangeName(message.CompanyName, message.EffectiveDate);
+            company.ChangeName(message.CompanyName, message.EffectiveDate, message.UserId);
             await _repository.SaveAsync(company);
         }
 
@@ -157,7 +157,7 @@ namespace Merp.Registry.CommandStack.Sagas
             {
                 var effectiveDateTime = message.EffectiveDate;
                 var effectiveDate = new DateTime(effectiveDateTime.Year, effectiveDateTime.Month, effectiveDateTime.Day);
-                company.ChangeLegalAddress(message.Address, message.City, message.PostalCode, message.Province, !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry(), effectiveDate);
+                company.ChangeLegalAddress(message.Address, message.City, message.PostalCode, message.Province, !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry(), effectiveDate, message.UserId);
                 await _repository.SaveAsync(company);                
             }
         }
@@ -171,7 +171,7 @@ namespace Merp.Registry.CommandStack.Sagas
 
             if (effectiveDate > DateTime.Now || company.ShippingAddress == null || company.ShippingAddress.IsDifferentAddress(message.Address, message.City, message.PostalCode, message.Province, message.Country))
             {
-                company.ChangeShippingAddress(message.Address, message.City, message.PostalCode, message.Province, !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry(), effectiveDate);
+                company.ChangeShippingAddress(message.Address, message.City, message.PostalCode, message.Province, !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry(), effectiveDate, message.UserId);
                 await _repository.SaveAsync(company);
             }
         }
@@ -185,7 +185,7 @@ namespace Merp.Registry.CommandStack.Sagas
 
             if (effectiveDate > DateTime.Now || company.BillingAddress == null || company.BillingAddress.IsDifferentAddress(message.Address, message.City, message.PostalCode, message.Province, message.Country))
             {
-                company.ChangeBillingAddress(message.Address, message.City, message.PostalCode, message.Province, !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry(), effectiveDate);
+                company.ChangeBillingAddress(message.Address, message.City, message.PostalCode, message.Province, !string.IsNullOrWhiteSpace(message.Country) ? message.Country : _defaultCountryResolver.GetDefaultCountry(), effectiveDate, message.UserId);
                 await _repository.SaveAsync(company);
             }
         }
@@ -195,7 +195,7 @@ namespace Merp.Registry.CommandStack.Sagas
             var company = _repository.GetById<Company>(message.CompanyId);
             if (message.AdministrativeContactId != company.AdministrativeContactId)
             {
-                company.AssociateAdministrativeContact(message.AdministrativeContactId);
+                company.AssociateAdministrativeContact(message.AdministrativeContactId, message.UserId);
                 await _repository.SaveAsync(company);
             }
         }
@@ -205,7 +205,7 @@ namespace Merp.Registry.CommandStack.Sagas
             var company = _repository.GetById<Company>(message.CompanyId);
             if (message.MainContactId != company.MainContactId)
             {
-                company.AssociateMainContact(message.MainContactId);
+                company.AssociateMainContact(message.MainContactId, message.UserId);
                 await _repository.SaveAsync(company);
             }
         }
@@ -215,7 +215,7 @@ namespace Merp.Registry.CommandStack.Sagas
             var company = _repository.GetById<Company>(message.CompanyId);
             if (company.ContactInfo == null || message.PhoneNumber != company.ContactInfo.PhoneNumber || message.FaxNumber != company.ContactInfo.FaxNumber || message.WebsiteAddress != company.ContactInfo.WebsiteAddress || message.EmailAddress != company.ContactInfo.EmailAddress)
             {
-                company.SetContactInfo(message.PhoneNumber, null, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, null);
+                company.SetContactInfo(message.PhoneNumber, null, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, null, message.UserId);
                 await _repository.SaveAsync(company);
             }
         }
@@ -223,7 +223,7 @@ namespace Merp.Registry.CommandStack.Sagas
         public async Task Handle(UnlistCompanyCommand message)
         {
             var company = _repository.GetById<Company>(message.CompanyId);
-            company.Unlist(message.UnlistDate);
+            company.Unlist(message.UnlistDate, message.UserId);
 
             await _repository.SaveAsync(company);
         }

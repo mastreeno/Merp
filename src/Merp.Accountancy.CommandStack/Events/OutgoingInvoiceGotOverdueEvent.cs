@@ -1,21 +1,18 @@
-﻿using MementoFX;
-using MementoFX.Domain;
+﻿using MementoFX.Domain;
+using Merp.Domain;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Merp.Accountancy.CommandStack.Events
 {
-    public class OutgoingInvoiceGotOverdueEvent : DomainEvent
+    public class OutgoingInvoiceGotOverdueEvent : MerpDomainEvent
     {
         public Guid InvoiceId { get; set; }
 
         [Timestamp]
         public DateTime DueDate { get; set; }
 
-        public OutgoingInvoiceGotOverdueEvent(Guid invoiceId, DateTime dueDate)
+        public OutgoingInvoiceGotOverdueEvent(Guid invoiceId, DateTime dueDate, Guid userId)
+            : base(userId)
         {
             InvoiceId = invoiceId;
             DueDate = dueDate;

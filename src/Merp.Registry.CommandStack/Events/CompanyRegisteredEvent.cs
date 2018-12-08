@@ -1,14 +1,10 @@
-﻿using MementoFX;
-using MementoFX.Domain;
+﻿using MementoFX.Domain;
+using Merp.Domain;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Merp.Registry.CommandStack.Events
 {
-    public class CompanyRegisteredEvent : DomainEvent
+    public class CompanyRegisteredEvent : MerpDomainEvent
     {
         public Guid CompanyId { get; set; }
         [Timestamp]
@@ -38,7 +34,8 @@ namespace Merp.Registry.CommandStack.Events
         public CompanyRegisteredEvent(Guid companyId, DateTime registrationDate, string companyName, string vatIndex, string nationalIdentificationNumber,
             string legalAddressAddress, string legalAddressCity, string legalAddressPostalCode, string legalAddressProvince, string legalAddressCountry,
             string billingAddressAddress, string billingAddressCity, string billingAddressPostalCode, string billingAddressProvince, string billingAddressCountry,
-            string shippingAddressAddress, string shippingAddressCity, string shippingAddressPostalCode, string shippingAddressProvince, string shippingAddressCountry)
+            string shippingAddressAddress, string shippingAddressCity, string shippingAddressPostalCode, string shippingAddressProvince, string shippingAddressCountry, Guid userId)
+            : base(userId)
         {
             CompanyId = companyId;
             RegistrationDate = registrationDate;

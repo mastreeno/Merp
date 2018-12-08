@@ -37,6 +37,21 @@ namespace Merp.Accountancy.QueryStack.Model
         public PartyInfo Supplier { get; set; }
         public PartyInfo Customer { get; set; }
 
+        public virtual List<InvoiceLineItem> InvoiceLineItems { get; set; }
+
+        public virtual List<PriceByVat> PricesByVat { get; set; }
+
+        public virtual List<NonTaxableItem> NonTaxableItems { get; set; }
+
+        public bool PricesAreVatIncluded { get; set; }
+
+        public Invoice()
+        {
+            InvoiceLineItems = new List<InvoiceLineItem>();
+            PricesByVat = new List<PriceByVat>();
+            NonTaxableItems = new List<NonTaxableItem>();
+        }
+
         [ComplexType]
         public class PartyInfo
         {
@@ -63,6 +78,10 @@ namespace Merp.Accountancy.QueryStack.Model
 
             builder.OwnsOne(c => c.Customer).HasIndex(o=>o.Name);
             builder.OwnsOne(c => c.Supplier).HasIndex(o => o.Name);
+
+            builder.HasMany(o => o.InvoiceLineItems);
+            builder.HasMany(o => o.PricesByVat);
+            builder.HasMany(o => o.NonTaxableItems);
         }
     }
 }

@@ -7,12 +7,14 @@ using Rebus.Sagas;
 using Rebus.Bus;
 using System.Threading.Tasks;
 using Rebus.Handlers;
+using System.Linq;
 
 namespace Merp.Accountancy.CommandStack.Sagas
 {
     public class OutgoingInvoiceSaga : Saga<OutgoingInvoiceSaga.OutgoingInvoiceSagaData>,
         IAmInitiatedBy<IssueInvoiceCommand>,
         IAmInitiatedBy<ImportOutgoingInvoiceCommand>,
+        IAmInitiatedBy<RegisterOutgoingInvoiceCommand>,
         IHandleMessages<MarkOutgoingInvoiceAsPaidCommand>,
         IHandleMessages<MarkOutgoingInvoiceAsOverdueCommand>,
         IHandleMessages<OutgoingInvoiceSaga.OutgoingInvoiceExpiredTimeout>
@@ -36,6 +38,9 @@ namespace Merp.Accountancy.CommandStack.Sagas
             config.Correlate<ImportOutgoingInvoiceCommand>(
                 message => message.InvoiceId,
                 sagaData => sagaData.InvoiceId);
+            config.Correlate<RegisterOutgoingInvoiceCommand>(
+                message => message.InvoiceId,
+                sagaData => sagaData.InvoiceId);
             config.Correlate<MarkOutgoingInvoiceAsPaidCommand>(
                 message => message.InvoiceId,
                 sagaData => sagaData.InvoiceId);
@@ -49,6 +54,30 @@ namespace Merp.Accountancy.CommandStack.Sagas
 
         public async Task Handle(IssueInvoiceCommand message)
         {
+            var invoiceLineItems = new Invoice.InvoiceLineItem[0];
+            if (message.LineItems != null)
+            {
+                invoiceLineItems = message.LineItems
+                    .Select(i => new Invoice.InvoiceLineItem(i.Code, i.Description, i.Quantity, i.UnitPrice, i.TotalPrice, i.Vat))
+                    .ToArray();
+            }
+
+            var invoicePricesByVat = new Invoice.InvoicePriceByVat[0];
+            if (message.PricesByVat != null)
+            {
+                invoicePricesByVat = message.PricesByVat
+                    .Select(p => new Invoice.InvoicePriceByVat(p.TaxableAmount, p.VatRate, p.VatAmount, p.TotalPrice))
+                    .ToArray();
+            }
+
+            var nonTaxableItems = new Invoice.NonTaxableItem[0];
+            if (message.NonTaxableItems != null)
+            {
+                nonTaxableItems = message.NonTaxableItems
+                    .Select(t => new Invoice.NonTaxableItem(t.Description, t.Amount))
+                    .ToArray();
+            }
+
             var invoice = OutgoingInvoice.Factory.Issue(
                 this.InvoiceNumberGenerator,
                 message.InvoiceDate,
@@ -73,14 +102,19 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 message.Supplier.PostalCode,
                 message.Supplier.Country,
                 message.Supplier.VatIndex,
-                message.Supplier.NationalIdentificationNumber
+                message.Supplier.NationalIdentificationNumber,
+                invoiceLineItems,
+                message.PricesAreVatIncluded,
+                invoicePricesByVat,
+                nonTaxableItems,
+                message.UserId
             );
             this.Repository.Save(invoice);
             this.Data.InvoiceId = invoice.Id;
                 
             if(invoice.DueDate.HasValue)
             {
-                var timeout = new OutgoingInvoiceExpiredTimeout(invoice.Id);
+                var timeout = new OutgoingInvoiceExpiredTimeout(invoice.Id, message.UserId);
                 await Bus.Defer(invoice.DueDate.Value.Subtract(DateTime.Today), timeout);
             }    
         }
@@ -88,7 +122,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
         public async Task Handle(MarkOutgoingInvoiceAsPaidCommand message)
         {
             var invoice = Repository.GetById<OutgoingInvoice>(message.InvoiceId);
-            invoice.MarkAsPaid(message.PaymentDate);
+            invoice.MarkAsPaid(message.PaymentDate, message.UserId);
             await Repository.SaveAsync(invoice);
             this.MarkAsComplete();
         }
@@ -127,11 +161,79 @@ namespace Merp.Accountancy.CommandStack.Sagas
             this.Data.InvoiceId = invoice.Id;
         }
 
+        public async Task Handle(RegisterOutgoingInvoiceCommand message)
+        {
+            var invoiceLineItems = new Invoice.InvoiceLineItem[0];
+            if (message.LineItems != null)
+            {
+                invoiceLineItems = message.LineItems
+                    .Select(i => new Invoice.InvoiceLineItem(i.Code, i.Description, i.Quantity, i.UnitPrice, i.TotalPrice, i.Vat))
+                    .ToArray();
+            }
+
+            var invoicePricesByVat = new Invoice.InvoicePriceByVat[0];
+            if (message.PricesByVat != null)
+            {
+                invoicePricesByVat = message.PricesByVat
+                    .Select(p => new Invoice.InvoicePriceByVat(p.TaxableAmount, p.VatRate, p.VatAmount, p.TotalPrice))
+                    .ToArray();
+            }
+
+            var nonTaxableItems = new Invoice.NonTaxableItem[0];
+            if (message.NonTaxableItems != null)
+            {
+                nonTaxableItems = message.NonTaxableItems
+                    .Select(t => new Invoice.NonTaxableItem(t.Description, t.Amount))
+                    .ToArray();
+            }
+
+            var invoice = OutgoingInvoice.Factory.Register(
+                message.InvoiceNumber,
+                message.InvoiceDate,
+                message.DueDate,
+                message.Currency,
+                message.TaxableAmount,
+                message.Taxes,
+                message.TotalPrice,
+                message.Description,
+                message.PaymentTerms,
+                message.PurchaseOrderNumber,
+                message.Customer.Id,
+                message.Customer.Name,
+                message.Customer.StreetName,
+                message.Customer.City,
+                message.Customer.PostalCode,
+                message.Customer.Country,
+                message.Customer.VatIndex,
+                message.Customer.NationalIdentificationNumber,
+                message.Supplier.Name,
+                message.Supplier.StreetName,
+                message.Supplier.City,
+                message.Supplier.PostalCode,
+                message.Supplier.Country,
+                message.Supplier.VatIndex,
+                message.Supplier.NationalIdentificationNumber,
+                invoiceLineItems,
+                message.PricesAreVatIncluded,
+                invoicePricesByVat,
+                nonTaxableItems,
+                message.UserId
+            );
+            this.Repository.Save(invoice);
+            this.Data.InvoiceId = invoice.Id;
+
+            if (invoice.DueDate.HasValue)
+            {
+                var timeout = new OutgoingInvoiceExpiredTimeout(invoice.Id, message.UserId);
+                await Bus.Defer(invoice.DueDate.Value.Subtract(DateTime.Today), timeout);
+            }
+        }
+
         public async Task Handle(MarkOutgoingInvoiceAsOverdueCommand message)
         {
             var invoice = Repository.GetById<OutgoingInvoice>(message.InvoiceId);
             if (!invoice.PaymentDate.HasValue)
-                invoice.MarkAsOverdue();
+                invoice.MarkAsOverdue(message.UserId);
             await Repository.SaveAsync(invoice);
         }
 
@@ -140,7 +242,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
             var invoice = Repository.GetById<OutgoingInvoice>(message.InvoiceId);
             if (!invoice.PaymentDate.HasValue)
             {
-                var cmd = new MarkOutgoingInvoiceAsOverdueCommand(message.InvoiceId);
+                var cmd = new MarkOutgoingInvoiceAsOverdueCommand(message.UserId, message.InvoiceId);
                 await Bus.Send(cmd);
             }
         }
@@ -154,7 +256,9 @@ namespace Merp.Accountancy.CommandStack.Sagas
         {
             public Guid InvoiceId { get; private set; }
 
-            public OutgoingInvoiceExpiredTimeout(Guid invoiceId)
+            public Guid UserId { get; private set; }
+
+            public OutgoingInvoiceExpiredTimeout(Guid invoiceId, Guid userId)
             {
                 InvoiceId = invoiceId;
             }

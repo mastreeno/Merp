@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MementoFX;
+using Merp.Domain;
 
 namespace Merp.Accountancy.CommandStack.Commands
 {
-    public sealed class RegisterJobOrderCommand : Command
+    public sealed class RegisterJobOrderCommand : MerpCommand
     {
         public Guid JobOrderId { get; set; }
         public Guid CustomerId { get; set; }
@@ -23,7 +24,8 @@ namespace Merp.Accountancy.CommandStack.Commands
         public string PurchaseOrderNumber { get; set; }
         public string Description { get; set; }
 
-        public RegisterJobOrderCommand(Guid customerId, string customerName, Guid? contactPersonId, Guid managerId, decimal price, string currency, DateTime dateOfStart, DateTime dueDate, bool isTimeAndMaterial, string jobOrderName, string purchaseOrderNumber, string description)
+        public RegisterJobOrderCommand(Guid userId, Guid customerId, string customerName, Guid? contactPersonId, Guid managerId, decimal price, string currency, DateTime dateOfStart, DateTime dueDate, bool isTimeAndMaterial, string jobOrderName, string purchaseOrderNumber, string description)
+            : base(userId)
         {
             CustomerId = customerId;
             CustomerName = customerName;
