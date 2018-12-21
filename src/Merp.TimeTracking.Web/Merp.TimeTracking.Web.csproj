@@ -28,9 +28,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.6.0" />
-    <PackageReference Include="MementoFX" Version="2.0.0-pre6" />
-    <PackageReference Include="MementoFX.Messaging.Rebus" Version="2.0.0-pre3" />
-    <PackageReference Include="MementoFX.Persistence.MongoDB" Version="2.0.0-pre4" />
+    <PackageReference Include="MementoFX" Version="2.0.0" />
+    <PackageReference Include="MementoFX.Messaging.Rebus" Version="2.0.0" />
+    <PackageReference Include="MementoFX.Persistence.MongoDB" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.0">
       <PrivateAssets>all</PrivateAssets>
@@ -38,8 +38,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
-    <PackageReference Include="Rebus" Version="5.2.0" />
-    <PackageReference Include="Rebus.AzureServiceBus" Version="6.0.4" />
+    <PackageReference Include="Rebus" Version="5.2.1" />
+    <PackageReference Include="Rebus.AzureServiceBus" Version="6.0.5" />
     <PackageReference Include="Rebus.ServiceProvider" Version="4.0.2" />
     <PackageReference Include="Rebus.SqlServer" Version="5.0.3" />
   </ItemGroup>
