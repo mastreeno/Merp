@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Merp.Domain;
 
 namespace Merp.Accountancy.CommandStack.Commands
 {
-    public class ImportOutgoingInvoiceCommand : Command
+    public class ImportOutgoingInvoiceCommand : MerpCommand
     {
         public class PartyInfo
         {
@@ -34,6 +35,69 @@ namespace Merp.Accountancy.CommandStack.Commands
             }
         }
 
+        public class InvoiceLineItem
+        {
+            public string Code { get; set; }
+
+            public string Description { get; set; }
+
+            public int Quantity { get; set; }
+
+            public decimal UnitPrice { get; set; }
+
+            public decimal TotalPrice { get; set; }
+
+            public decimal Vat { get; set; }
+
+            public string VatDescription { get; set; }
+
+            public InvoiceLineItem(string code, string description, int quantity, decimal unitPrice, decimal totalPrice, decimal vat, string vatDescription)
+            {
+                Code = code;
+                Description = description;
+                Quantity = quantity;
+                UnitPrice = unitPrice;
+                TotalPrice = totalPrice;
+                Vat = vat;
+                VatDescription = vatDescription;
+            }
+        }
+
+        public class InvoicePriceByVat
+        {
+            public decimal TaxableAmount { get; set; }
+
+            public decimal VatRate { get; set; }
+
+            public decimal VatAmount { get; set; }
+
+            public decimal TotalPrice { get; set; }
+
+            public decimal? ProvidenceFundAmount { get; set; }
+
+            public InvoicePriceByVat(decimal taxableAmount, decimal vatRate, decimal vatAmount, decimal totalPrice, decimal? providenceFundAmount)
+            {
+                TaxableAmount = taxableAmount;
+                VatRate = vatRate;
+                VatAmount = vatAmount;
+                TotalPrice = totalPrice;
+                ProvidenceFundAmount = providenceFundAmount;
+            }
+        }
+
+        public class NonTaxableItem
+        {
+            public string Description { get; set; }
+
+            public decimal Amount { get; set; }
+
+            public NonTaxableItem(string description, decimal amount)
+            {
+                Description = description;
+                Amount = amount;
+            }
+        }
+
         public string InvoiceNumber { get; set; }
         public Guid InvoiceId { get; set; }
         public PartyInfo Customer { get; set; }
@@ -44,47 +108,125 @@ namespace Merp.Accountancy.CommandStack.Commands
         public decimal TaxableAmount { get; set; }
         public decimal Taxes { get; set; }
         public decimal TotalPrice { get; set; }
+        public decimal TotalToPay { get; set; }
         public string Description { get; set; }
         public string PaymentTerms { get; set; }
         public string PurchaseOrderNumber { get; set; }
+        public bool PricesAreVatIncluded { get; set; }
+        public ICollection<InvoiceLineItem> LineItems { get; set; }
+        public ICollection<InvoicePriceByVat> PricesByVat { get; set; }
+        public ICollection<NonTaxableItem> NonTaxableItems { get; set; }
+        public string ProvidenceFundDescription { get; set; }
+        public decimal? ProvidenceFundRate { get; set; }
+        public decimal? ProvidenceFundAmount { get; set; }
+        public string WithholdingTaxDescription { get; set; }
+        public decimal? WithholdingTaxRate { get; set; }
+        public decimal? WithholdingTaxTaxableAmountRate { get; set; }
+        public decimal? WithholdingTaxAmount { get; set; }
 
-        public ImportOutgoingInvoiceCommand(Guid invoiceId, string invoiceNumber, DateTime invoiceDate, DateTime dueDate, string currency, decimal taxable, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, 
-            Guid customerId, string customerName, string customerAddress, string customerCity, string customerPostalCode, string customerCountry, string customerVatIndex, string customerNationalIdentificationNumber,
-            string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber)
+        //public ImportOutgoingInvoiceCommand(Guid userId, Guid invoiceId, string invoiceNumber, DateTime invoiceDate, DateTime dueDate, string currency, decimal taxableAmount, decimal taxes, decimal totalPrice, decimal totalToPay, string description, string paymentTerms, string purchaseOrderNumber,
+        //    Guid customerId, string customerName, string customerAddress, string customerCity, string customerPostalCode, string customerCountry, string customerVatIndex, string customerNationalIdentificationNumber,
+        //    string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber, IEnumerable<InvoiceLineItem> lineItems, bool pricesAreVatIncluded, IEnumerable<InvoicePriceByVat> pricesByVat, IEnumerable<NonTaxableItem> nonTaxableItems,
+        //    string providenceFundDescription, decimal? providenceFundRate, decimal? providenceFundAmount, string withholdingTaxDescription, decimal? withholdingTaxRate, decimal? withholdingTaxTaxableAmountRate, decimal? withholdingTaxAmount)
+        //    : base(userId)
+        //{
+        //    var customer = new PartyInfo(
+        //        city: customerCity,
+        //        partyName: customerName,
+        //        country: customerCountry,
+        //        partyId: customerId,
+        //        nationalIdentificationNumber: customerNationalIdentificationNumber,
+        //        postalCode: customerPostalCode,
+        //        address: customerAddress,
+        //        vatIndex: customerVatIndex
+        //    );
+        //    var supplier = new PartyInfo(
+        //        partyId: Guid.Empty,
+        //        city: supplierCity,
+        //        partyName: supplierName,
+        //        country: supplierCountry,
+        //        nationalIdentificationNumber: supplierNationalIdentificationNumber,
+        //        postalCode: supplierPostalCode,
+        //        address: supplierAddress,
+        //        vatIndex: supplierVatIndex
+        //    );
+        //    Customer = customer;
+        //    Supplier = supplier;
+        //    InvoiceDate = invoiceDate;
+        //    Currency = currency;
+        //    TaxableAmount = taxableAmount;
+        //    Taxes = taxes;
+        //    TotalPrice = totalPrice;
+        //    TotalToPay = totalToPay;
+        //    Description = description;
+        //    PaymentTerms = paymentTerms;
+        //    PurchaseOrderNumber = purchaseOrderNumber;
+        //    LineItems = lineItems;
+        //    PricesAreVatIncluded = pricesAreVatIncluded;
+        //    PricesByVat = pricesByVat;
+        //    NonTaxableItems = nonTaxableItems;
+        //    ProvidenceFundDescription = providenceFundDescription;
+        //    ProvidenceFundRate = providenceFundRate;
+        //    ProvidenceFundAmount = providenceFundAmount;
+        //    WithholdingTaxDescription = withholdingTaxDescription;
+        //    WithholdingTaxRate = withholdingTaxRate;
+        //    WithholdingTaxTaxableAmountRate = withholdingTaxTaxableAmountRate;
+        //    WithholdingTaxAmount = withholdingTaxAmount;
+        //    InvoiceId = invoiceId;
+        //    InvoiceNumber = invoiceNumber;
+        //    DueDate = dueDate;
+        //}
+        public ImportOutgoingInvoiceCommand(Guid userId, Guid invoiceId, string invoiceNumber, DateTime invoiceDate, DateTime dueDate, string currency, decimal taxableAmount, decimal taxes, decimal totalPrice, decimal totalToPay, string description, string paymentTerms, string purchaseOrderNumber,
+            PartyInfo customer,
+            PartyInfo supplier, ICollection<InvoiceLineItem> lineItems, bool pricesAreVatIncluded, ICollection<InvoicePriceByVat> pricesByVat, ICollection<NonTaxableItem> nonTaxableItems,
+            string providenceFundDescription, decimal? providenceFundRate, decimal? providenceFundAmount, string withholdingTaxDescription, decimal? withholdingTaxRate, decimal? withholdingTaxTaxableAmountRate, decimal? withholdingTaxAmount)
+            : base(userId)
         {
-            var customer = new PartyInfo(
-                city: customerCity,
-                partyName: customerName,
-                country: customerCountry,
-                partyId: customerId,
-                nationalIdentificationNumber: customerNationalIdentificationNumber,
-                postalCode: customerPostalCode,
-                address: customerAddress,
-                vatIndex: customerVatIndex
-            );
-            var supplier = new PartyInfo(
-                partyId: Guid.Empty,
-                city: supplierCity,
-                partyName: supplierName,
-                country: supplierCountry,
-                nationalIdentificationNumber: supplierNationalIdentificationNumber,
-                postalCode: supplierPostalCode,
-                address: supplierAddress,
-                vatIndex: supplierVatIndex
-            );
-            InvoiceId = invoiceId;
-            InvoiceNumber = invoiceNumber;
+            //var customer = new PartyInfo(
+            //    city: customerCity,
+            //    partyName: customerName,
+            //    country: customerCountry,
+            //    partyId: customerId,
+            //    nationalIdentificationNumber: customerNationalIdentificationNumber,
+            //    postalCode: customerPostalCode,
+            //    address: customerAddress,
+            //    vatIndex: customerVatIndex
+            //);
+            //var supplier = new PartyInfo(
+            //    partyId: Guid.Empty,
+            //    city: supplierCity,
+            //    partyName: supplierName,
+            //    country: supplierCountry,
+            //    nationalIdentificationNumber: supplierNationalIdentificationNumber,
+            //    postalCode: supplierPostalCode,
+            //    address: supplierAddress,
+            //    vatIndex: supplierVatIndex
+            //);
             Customer = customer;
             Supplier = supplier;
             InvoiceDate = invoiceDate;
-            DueDate = dueDate;
             Currency = currency;
-            TaxableAmount = taxable;
+            TaxableAmount = taxableAmount;
             Taxes = taxes;
             TotalPrice = totalPrice;
+            TotalToPay = totalToPay;
             Description = description;
             PaymentTerms = paymentTerms;
             PurchaseOrderNumber = purchaseOrderNumber;
+            LineItems = lineItems;
+            PricesAreVatIncluded = pricesAreVatIncluded;
+            PricesByVat = pricesByVat;
+            NonTaxableItems = nonTaxableItems;
+            ProvidenceFundDescription = providenceFundDescription;
+            ProvidenceFundRate = providenceFundRate;
+            ProvidenceFundAmount = providenceFundAmount;
+            WithholdingTaxDescription = withholdingTaxDescription;
+            WithholdingTaxRate = withholdingTaxRate;
+            WithholdingTaxTaxableAmountRate = withholdingTaxTaxableAmountRate;
+            WithholdingTaxAmount = withholdingTaxAmount;
+            InvoiceId = invoiceId;
+            InvoiceNumber = invoiceNumber;
+            DueDate = dueDate;
         }
     }
 }

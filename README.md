@@ -2,24 +2,20 @@
 An open source, event-based Micro ERP developed by Andrea Saltarello using ASP.NET Core 2.2
 
 **Release notes**
+12/03/2019
+- Started working on public API to support integration scenarios
 
-08/12/2018
-- Solution was ported to .NET Core SDK 2.2
-- Web apps are now running on .NET Core 2.2
+30/01/2019
+- Martin has been reimplemented from scratch using Bot Framework v4
+- Martin is now available as an Alexa skill as well
+
+27/09/2018
+- Solution was ported to .NET Core SDK 2.1.4 since the latter is an LTS release
 - UI was rewritten from scratch becoming a VUE.js-based SPA
-- Bounded context logic is now provided by services implemented in ad hoc web apps:
-    - "Web" projects contain logic private to a specific bounded context
-    - "Web.Internal" projects contain logic private to be used by other Merp's bounded contexts
-    - "Web.Public" projects contain logic to be used by external apps for integration purposes
+- Bounded context logic is now provided by services implemented in ad hoc web apps
 - Basic Task Management feature added to Merp
-- Supported environment names are now: Staging, Production, OnPremises, AzureCosmosDB, AzureMongoDB
 - Added invoice multi lines management and invoice details pages
-- we got rid of MSMQ as Rebus' transport in favour of SQL Server, so the following databases must be created:
-    - Merp-Accountancy-Rebus
-    - Merp-Registry-Rebus
-    - Merp-TimeTracking-Rebus
-- Martin has been rewritten from scratch using Bot Framework SDK v4 and now sports an Alexa skill    
-- (If needed) Run MongoDb patches in patches/MongoDb folder
+- Run MongoDb patches in patches/MongoDb folder
 - Run Update-Database on Merp.Accountancy.QueryStack
 - Run the following Entity Framework Core migrations defined within the project named Merp.Web.Auth (these migrations create the tables needed by both ASP.NET Core's Identity and IdentityServer to persist clients, API resources and configuration data.):
     - *EntityFrameworkCore\Update-Database -Context PersistedGrantDbContext*

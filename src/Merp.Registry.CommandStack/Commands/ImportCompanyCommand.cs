@@ -1,4 +1,5 @@
 ﻿using MementoFX;
+using Merp.Domain;
 using Merp.Registry.CommandStack.Helpers;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Merp.Registry.CommandStack.Commands
     /// <summary>
     /// The command which allows to import a person from an external source
     /// </summary>
-    public class ImportCompanyCommand : Command
+    public class ImportCompanyCommand : MerpCommand
     {
         public Guid CompanyId { get; set; }
         public DateTime RegistrationDate { get; set; }
@@ -45,7 +46,8 @@ namespace Merp.Registry.CommandStack.Commands
         public string WebsiteAddress { get; set; }
         public string EmailAddress { get; set; }
 
-        public ImportCompanyCommand(Guid companyId, DateTime registrationDate, string companyName, string nationalIdentificationNumber, string vatNumber, string legalAddressAddress, string legalAddressPostalCode, string legalAddressCity, string legalAddressProvince, string legalAddressCountry, string shippingAddressAddress, string shippingAddressPostalCode, string shippingAddressCity, string shippingAddressProvince, string shippingAddressCountry, string billingAddressAddress, string billingAddressPostalCode, string billingAddressCity, string billingAddressProvince, string billingAddressCountry, Guid? mainContactId, Guid? administrativeContactId, string phoneNumber, string faxNumber, string websiteAddress, string emailAddress)
+        public ImportCompanyCommand(Guid userId, Guid companyId, DateTime registrationDate, string companyName, string nationalIdentificationNumber, string vatNumber, string legalAddressAddress, string legalAddressPostalCode, string legalAddressCity, string legalAddressProvince, string legalAddressCountry, string shippingAddressAddress, string shippingAddressPostalCode, string shippingAddressCity, string shippingAddressProvince, string shippingAddressCountry, string billingAddressAddress, string billingAddressPostalCode, string billingAddressCity, string billingAddressProvince, string billingAddressCountry, Guid? mainContactId, Guid? administrativeContactId, string phoneNumber, string faxNumber, string websiteAddress, string emailAddress)
+            : base(userId)
         {
             if (companyId == Guid.Empty)
                 throw new ArgumentException("A non-empty companyId must be provided.", nameof(companyId));

@@ -43,7 +43,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
             if (message.LineItems != null)
             {
                 lineItems = message.LineItems
-                    .Select(i => new Invoice.InvoiceLineItem(i.Code, i.Description, i.Quantity, i.UnitPrice, i.TotalPrice, i.Vat))
+                    .Select(i => new Invoice.InvoiceLineItem(i.Code, i.Description, i.Quantity, i.UnitPrice, i.TotalPrice, i.Vat, i.VatDescription))
                     .ToArray();
             }
 
@@ -70,6 +70,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 message.TaxableAmount,
                 message.Taxes,
                 message.TotalPrice,
+                message.TotalToPay,
                 message.Description,
                 message.PaymentTerms,
                 message.PurchaseOrderNumber,
@@ -92,6 +93,13 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 message.PricesAreVatIncluded,
                 pricesByVat,
                 nonTaxableItems,
+                message.ProvidenceFundDescription,
+                message.ProvidenceFundRate,
+                message.ProvidenceFundAmount,
+                message.WithholdingTaxDescription,
+                message.WithholdingTaxRate,
+                message.WithholdingTaxTaxableAmountRate,
+                message.WithholdingTaxAmount,
                 message.UserId);
 
             await Repository.SaveAsync(creditNote);
@@ -104,7 +112,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
             if (message.LineItems != null)
             {
                 lineItems = message.LineItems
-                    .Select(i => new Invoice.InvoiceLineItem(i.Code, i.Description, i.Quantity, i.UnitPrice, i.TotalPrice, i.Vat))
+                    .Select(i => new Invoice.InvoiceLineItem(i.Code, i.Description, i.Quantity, i.UnitPrice, i.TotalPrice, i.Vat, i.VatDescription))
                     .ToArray();
             }
 
@@ -131,6 +139,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 message.TaxableAmount,
                 message.Taxes,
                 message.TotalPrice,
+                message.TotalToPay,
                 message.Description,
                 message.PaymentTerms,
                 message.PurchaseOrderNumber,
@@ -153,6 +162,13 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 message.PricesAreVatIncluded,
                 pricesByVat,
                 nonTaxableItems,
+                message.ProvidenceFundDescription,
+                message.ProvidenceFundRate,
+                message.ProvidenceFundAmount,
+                message.WithholdingTaxDescription,
+                message.WithholdingTaxRate,
+                message.WithholdingTaxTaxableAmountRate,
+                message.WithholdingTaxAmount,
                 message.UserId);
 
             await Repository.SaveAsync(creditNote);

@@ -3,6 +3,8 @@ using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
@@ -10,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Merp.Martin.Web.BotFramework
 {
@@ -72,6 +75,10 @@ namespace Merp.Martin.Web.BotFramework
             services.AddScoped<Merp.Martin.Intents.Accountancy.NetIncomeIntentWorker>();
             services.AddScoped<Merp.Martin.Intents.Accountancy.OutgoingInvoicePaymentCheckWorker>();
 
+            services.AddScoped<Merp.Martin.Intents.General.LogoutWorker>();
+            services.AddScoped<Merp.Martin.Intents.General.HelpWorker>();
+            services.AddScoped<Merp.Martin.Intents.General.GreetingWorker>();
+
             services.AddBot<LuisBot>(options =>
             {
                 // Retrieve current endpoint.
@@ -121,6 +128,35 @@ namespace Merp.Martin.Web.BotFramework
                 var conversationState = new ConversationState(dataStore);
 
                 options.State.Add(conversationState);
+            });
+
+            // Create and register state accessors.
+            // Accessors created here are passed into the IBot-derived class on every turn.
+            services.AddSingleton<LuisBotAccessors>(sp =>
+            {
+                var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
+
+                if (options == null)
+                {
+                    throw new InvalidOperationException("BotFrameworkOptions must be configured prior to setting up the State Accessors.");
+                }
+
+                var conversationState = options.State.OfType<ConversationState>().FirstOrDefault();
+
+                if (conversationState == null)
+                {
+                    throw new InvalidOperationException("ConversationState must be defined and added before adding conversation-scoped state accessors.");
+                }
+
+                // Create Custom State Property accessors
+                // State Property Accessors enable components to read and write individual properties, without having to
+                // pass the entire state object.
+                var accessors = new LuisBotAccessors
+                {
+                    ConversationDialogState = conversationState.CreateProperty<DialogState>(LuisBotAccessors.DialogStateName),
+                };
+
+                return accessors;
             });
         }
 

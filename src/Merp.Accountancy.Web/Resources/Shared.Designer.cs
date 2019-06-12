@@ -457,6 +457,15 @@ namespace Merp.Accountancy.Web.Resources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Rate.
+        /// </summary>
+        internal static string Rate {
+            get {
+                return ResourceManager.GetString("Rate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Register incoming credit note.
         /// </summary>
         internal static string RegisterIncomingCreditNote {
@@ -547,6 +556,15 @@ namespace Merp.Accountancy.Web.Resources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Taxable Amount %.
+        /// </summary>
+        internal static string TaxableAmountRate {
+            get {
+                return ResourceManager.GetString("TaxableAmountRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Taxes.
         /// </summary>
         internal static string Taxes {
@@ -574,6 +592,15 @@ namespace Merp.Accountancy.Web.Resources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Total to pay.
+        /// </summary>
+        internal static string TotalToPay {
+            get {
+                return ResourceManager.GetString("TotalToPay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a VAT.
         /// </summary>
         internal static string Vat {
@@ -588,6 +615,15 @@ namespace Merp.Accountancy.Web.Resources {
         internal static string VatNumber {
             get {
                 return ResourceManager.GetString("VatNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Withholding Tax.
+        /// </summary>
+        internal static string WithholdingTax {
+            get {
+                return ResourceManager.GetString("WithholdingTax", resourceCulture);
             }
         }
     }

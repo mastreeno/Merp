@@ -2,17 +2,46 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Configurations>Debug;Release;AzureMongoDB</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Merp.Accountancy.QueryStack\Merp.Accountancy.QueryStack.csproj" />
     <ProjectReference Include="..\Merp.Registry.QueryStack\Merp.Registry.QueryStack.csproj" />
     <ProjectReference Include="..\Merp.TimeTracking.TaskManagement.QueryStack\Merp.TimeTracking.TaskManagement.QueryStack.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Registry\Resources\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Accountancy\Resources\GrossIncome.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GrossIncome.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Accountancy\Resources\NetIncome.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NetIncome.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Accountancy\Resources\GrossIncome.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>GrossIncome.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Accountancy\Resources\NetIncome.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>NetIncome.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

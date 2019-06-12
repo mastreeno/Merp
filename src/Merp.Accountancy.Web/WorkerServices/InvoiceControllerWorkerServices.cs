@@ -233,18 +233,6 @@ namespace Merp.Accountancy.Web.WorkerServices
             return model;
         }
 
-        public IEnumerable<VatModel> GetVatList()
-        {
-            var vatList = new VatModel[]
-            {
-                new VatModel{ Rate = 10, Description = "10%" },
-                new VatModel{ Rate = 15, Description = "15%" },
-                new VatModel{ Rate = 20, Description = "20%" }
-            };
-
-            return vatList;
-        }
-
         #region Outgoing Invoices
         public async Task IssueOutgoingInvoiceAsync(IssueOutgoingInvoiceModel model)
         {
@@ -276,13 +264,15 @@ namespace Merp.Accountancy.Web.WorkerServices
                     i.Quantity,
                     -1 * CalculatePriceByVat(i.UnitPrice, i.Vat, model.VatIncluded),
                     -1 * CalculatePriceByVat(i.TotalPrice, i.Vat, model.VatIncluded),
-                    i.Vat)).ToArray();
+                    i.Vat,
+                    i.VatDescription)).ToArray();
 
             var invoicePricesByVat = model.PricesByVat.Select(p => new IssueCreditNoteCommand.PriceByVat(
                 -p.TaxableAmount,
                 p.VatRate,
                 -p.VatAmount,
-                -p.TotalPrice)).ToArray();
+                -p.TotalPrice,
+                p.ProvidenceFundAmount.HasValue ? -p.ProvidenceFundAmount : null)).ToArray();
 
             var nonTaxableItems = model.NonTaxableItems.Select(t => new IssueCreditNoteCommand.NonTaxableItem(t.Description, t.Amount)).ToArray();
 
@@ -293,6 +283,7 @@ namespace Merp.Accountancy.Web.WorkerServices
                 -model.Amount,
                 -model.Taxes,
                 -model.TotalPrice,
+                -model.TotalToPay,
                 model.Description,
                 model.PaymentTerms,
                 model.PurchaseOrderNumber,
@@ -314,7 +305,14 @@ namespace Merp.Accountancy.Web.WorkerServices
                 invoiceLineItems,
                 model.VatIncluded,
                 invoicePricesByVat,
-                nonTaxableItems);
+                nonTaxableItems,
+                model.ProvidenceFund?.Description,
+                model.ProvidenceFund?.Rate,
+                model.ProvidenceFund == null ? null : -model.ProvidenceFund?.Amount,
+                model.WithholdingTax?.Description,
+                model.WithholdingTax?.Rate,
+                model.WithholdingTax?.TaxableAmountRate,
+                model.WithholdingTax == null ? null : -model.WithholdingTax?.Amount);
 
             await Bus.Send(command);
         }
@@ -331,13 +329,15 @@ namespace Merp.Accountancy.Web.WorkerServices
                     i.Quantity,
                     CalculatePriceByVat(i.UnitPrice, i.Vat, model.VatIncluded),
                     CalculatePriceByVat(i.TotalPrice, i.Vat, model.VatIncluded),
-                    i.Vat)).ToArray();
+                    i.Vat,
+                    i.VatDescription)).ToArray();
 
             var invoicePricesByVat = model.PricesByVat.Select(p => new IssueInvoiceCommand.InvoicePriceByVat(
                 p.TaxableAmount,
                 p.VatRate,
                 p.VatAmount,
-                p.TotalPrice)).ToArray();
+                p.TotalPrice,
+                p.ProvidenceFundAmount)).ToArray();
 
             var nonTaxableItems = model.NonTaxableItems.Select(t => new IssueInvoiceCommand.NonTaxableItem(t.Description, t.Amount)).ToArray();
 
@@ -348,6 +348,7 @@ namespace Merp.Accountancy.Web.WorkerServices
                 model.Amount,
                 model.Taxes,
                 model.TotalPrice,
+                model.TotalToPay,
                 model.Description,
                 model.PaymentTerms,
                 model.PurchaseOrderNumber,
@@ -369,7 +370,14 @@ namespace Merp.Accountancy.Web.WorkerServices
                 invoiceLineItems,
                 model.VatIncluded,
                 invoicePricesByVat,
-                nonTaxableItems);
+                nonTaxableItems,
+                model.ProvidenceFund?.Description,
+                model.ProvidenceFund?.Rate,
+                model.ProvidenceFund?.Amount,
+                model.WithholdingTax?.Description,
+                model.WithholdingTax?.Rate,
+                model.WithholdingTax?.TaxableAmountRate,
+                model.WithholdingTax?.Amount);
 
             await Bus.Send(command);
         }
@@ -488,7 +496,6 @@ namespace Merp.Accountancy.Web.WorkerServices
                 Currency = invoice.Currency,
                 Date = invoice.Date,
                 Description = invoice.Description,
-                DueDate = invoice.DueDate,
                 CreditNoteNumber = invoice.Number,
                 IsOverdue = invoice.IsOverdue,
                 PaymentDate = invoice.PaymentDate,
@@ -496,6 +503,7 @@ namespace Merp.Accountancy.Web.WorkerServices
                 PurchaseOrderNumber = invoice.PurchaseOrderNumber,
                 Taxes = invoice.Taxes,
                 TotalPrice = invoice.TotalPrice,
+                TotalToPay = invoice.TotalToPay,
                 LineItems = invoice.InvoiceLineItems.Select(i => new InvoiceLineItemModel
                 {
                     Code = i.Code,
@@ -503,13 +511,27 @@ namespace Merp.Accountancy.Web.WorkerServices
                     Quantity = i.Quantity,
                     TotalPrice = i.TotalPrice,
                     UnitPrice = i.UnitPrice,
-                    Vat = i.Vat
+                    Vat = i.Vat,
+                    VatDescription = i.VatDescription
                 }),
                 NonTaxableItems = invoice.NonTaxableItems.Select(t => new NonTaxableItemModel
                 {
                     Description = t.Description,
                     Amount = t.Amount
-                })
+                }),
+                ProvidenceFund = invoice.ProvidenceFund == null ? null : new ProvidenceFundModel
+                {
+                    Amount = invoice.ProvidenceFund.Amount,
+                    Description = invoice.ProvidenceFund.Description,
+                    Rate = invoice.ProvidenceFund.Rate
+                },
+                WithholdingTax = invoice.WithholdingTax == null ? null : new WithholdingTaxModel
+                {
+                    Amount = invoice.WithholdingTax.Amount,
+                    Description = invoice.WithholdingTax.Description,
+                    Rate = invoice.WithholdingTax.Rate,
+                    TaxableAmountRate = invoice.WithholdingTax.TaxableAmountRate
+                }
             };
         }
 
@@ -553,6 +575,7 @@ namespace Merp.Accountancy.Web.WorkerServices
                 PurchaseOrderNumber = invoice.PurchaseOrderNumber,
                 Taxes = invoice.Taxes,
                 TotalPrice = invoice.TotalPrice,
+                TotalToPay = invoice.TotalToPay,
                 LineItems = invoice.InvoiceLineItems.Select(i => new InvoiceLineItemModel
                 {
                     Code = i.Code,
@@ -560,13 +583,27 @@ namespace Merp.Accountancy.Web.WorkerServices
                     Quantity = i.Quantity,
                     TotalPrice = i.TotalPrice,
                     UnitPrice = i.UnitPrice,
-                    Vat = i.Vat
+                    Vat = i.Vat,
+                    VatDescription = i.VatDescription
                 }),
                 NonTaxableItems = invoice.NonTaxableItems.Select(t => new NonTaxableItemModel
                 {
                     Description = t.Description,
                     Amount = t.Amount
-                })
+                }),
+                ProvidenceFund = invoice.ProvidenceFund == null ? null : new ProvidenceFundModel
+                {
+                    Amount = invoice.ProvidenceFund.Amount,
+                    Description = invoice.ProvidenceFund.Description,
+                    Rate = invoice.ProvidenceFund.Rate
+                },
+                WithholdingTax = invoice.WithholdingTax == null ? null : new WithholdingTaxModel
+                {
+                    Amount = invoice.WithholdingTax.Amount,
+                    Description = invoice.WithholdingTax.Description,
+                    Rate = invoice.WithholdingTax.Rate,
+                    TaxableAmountRate = invoice.WithholdingTax.TaxableAmountRate
+                }
             };
         }
 
@@ -729,6 +766,7 @@ namespace Merp.Accountancy.Web.WorkerServices
                 PurchaseOrderNumber = creditNote.PurchaseOrderNumber,
                 Taxes = creditNote.Taxes,
                 TotalPrice = creditNote.TotalPrice,
+                TotalToPay = creditNote.TotalToPay,
                 LineItems = creditNote.InvoiceLineItems.Select(i => new InvoiceLineItemModel
                 {
                     Code = i.Code,
@@ -736,13 +774,27 @@ namespace Merp.Accountancy.Web.WorkerServices
                     Quantity = i.Quantity,
                     TotalPrice = i.TotalPrice,
                     UnitPrice = i.UnitPrice,
-                    Vat = i.Vat
+                    Vat = i.Vat,
+                    VatDescription = i.VatDescription
                 }),
                 NonTaxableItems = creditNote.NonTaxableItems.Select(t => new NonTaxableItemModel
                 {
                     Description = t.Description,
                     Amount = t.Amount
-                })
+                }),
+                ProvidenceFund = creditNote.ProvidenceFund == null ? null : new ProvidenceFundModel
+                {
+                    Amount = creditNote.ProvidenceFund.Amount,
+                    Description = creditNote.ProvidenceFund.Description,
+                    Rate = creditNote.ProvidenceFund.Rate
+                },
+                WithholdingTax = creditNote.WithholdingTax == null ? null : new WithholdingTaxModel
+                {
+                    Amount = creditNote.WithholdingTax.Amount,
+                    Description = creditNote.WithholdingTax.Description,
+                    Rate = creditNote.WithholdingTax.Rate,
+                    TaxableAmountRate = creditNote.WithholdingTax.TaxableAmountRate
+                }
             };
         }
 
@@ -786,6 +838,7 @@ namespace Merp.Accountancy.Web.WorkerServices
                 PurchaseOrderNumber = invoice.PurchaseOrderNumber,
                 Taxes = invoice.Taxes,
                 TotalPrice = invoice.TotalPrice,
+                TotalToPay = invoice.TotalToPay,
                 LineItems = invoice.InvoiceLineItems.Select(i => new InvoiceLineItemModel
                 {
                     Code = i.Code,
@@ -793,13 +846,27 @@ namespace Merp.Accountancy.Web.WorkerServices
                     Quantity = i.Quantity,
                     TotalPrice = i.TotalPrice,
                     UnitPrice = i.UnitPrice,
-                    Vat = i.Vat
+                    Vat = i.Vat,
+                    VatDescription = i.VatDescription
                 }),
                 NonTaxableItems = invoice.NonTaxableItems.Select(t => new NonTaxableItemModel
                 {
                     Description = t.Description,
                     Amount = t.Amount
-                })
+                }),
+                ProvidenceFund = invoice.ProvidenceFund == null ? null : new ProvidenceFundModel
+                {
+                    Amount = invoice.ProvidenceFund.Amount,
+                    Description = invoice.ProvidenceFund.Description,
+                    Rate = invoice.ProvidenceFund.Rate
+                },
+                WithholdingTax = invoice.WithholdingTax == null ? null : new WithholdingTaxModel
+                {
+                    Amount = invoice.WithholdingTax.Amount,
+                    Description = invoice.WithholdingTax.Description,
+                    Rate = invoice.WithholdingTax.Rate,
+                    TaxableAmountRate = invoice.WithholdingTax.TaxableAmountRate
+                }
             };
         }
         #endregion
@@ -855,13 +922,15 @@ namespace Merp.Accountancy.Web.WorkerServices
                     i.Quantity,
                     CalculatePriceByVat(i.UnitPrice, i.Vat, model.VatIncluded),
                     CalculatePriceByVat(i.TotalPrice, i.Vat, model.VatIncluded),
-                    i.Vat)).ToArray();
+                    i.Vat,
+                    i.VatDescription)).ToArray();
 
             var invoicePricesByVat = model.PricesByVat.Select(p => new IssueInvoiceCommand.InvoicePriceByVat(
                 p.TaxableAmount,
                 p.VatRate,
                 p.VatAmount,
-                p.TotalPrice)).ToArray();
+                p.TotalPrice,
+                p.ProvidenceFundAmount)).ToArray();
 
             var nonTaxableItems = model.NonTaxableItems.Select(t => new IssueInvoiceCommand.NonTaxableItem(t.Description, t.Amount)).ToArray();
 
@@ -872,6 +941,7 @@ namespace Merp.Accountancy.Web.WorkerServices
                 model.Amount,
                 model.Taxes,
                 model.TotalPrice,
+                model.TotalToPay,
                 model.Description,
                 model.PaymentTerms,
                 model.PurchaseOrderNumber,
@@ -893,7 +963,14 @@ namespace Merp.Accountancy.Web.WorkerServices
                 invoiceLineItems,
                 model.VatIncluded,
                 invoicePricesByVat,
-                nonTaxableItems);
+                nonTaxableItems,
+                model.ProvidenceFund?.Description,
+                model.ProvidenceFund?.Rate,
+                model.ProvidenceFund?.Amount,
+                model.WithholdingTax?.Description,
+                model.WithholdingTax?.Rate,
+                model.WithholdingTax?.TaxableAmountRate,
+                model.WithholdingTax?.Amount);
 
             return command;
         }
@@ -906,13 +983,15 @@ namespace Merp.Accountancy.Web.WorkerServices
                     i.Quantity,
                     -1 * CalculatePriceByVat(i.UnitPrice, i.Vat, model.VatIncluded),
                     -1 * CalculatePriceByVat(i.TotalPrice, i.Vat, model.VatIncluded),
-                    i.Vat)).ToArray();
+                    i.Vat,
+                    i.VatDescription)).ToArray();
 
             var invoicePricesByVat = model.PricesByVat.Select(p => new IssueCreditNoteCommand.PriceByVat(
                 -p.TaxableAmount,
                 p.VatRate,
                 -p.VatAmount,
-                -p.TotalPrice)).ToArray();
+                -p.TotalPrice,
+                p.ProvidenceFundAmount.HasValue ? -p.ProvidenceFundAmount : null)).ToArray();
 
             var nonTaxableItems = model.NonTaxableItems.Select(t => new IssueCreditNoteCommand.NonTaxableItem(t.Description, -t.Amount)).ToArray();
 
@@ -923,6 +1002,7 @@ namespace Merp.Accountancy.Web.WorkerServices
                 -model.Amount,
                 -model.Taxes,
                 -model.TotalPrice,
+                -model.TotalToPay,
                 model.Description,
                 model.PaymentTerms,
                 model.PurchaseOrderNumber,
@@ -944,7 +1024,14 @@ namespace Merp.Accountancy.Web.WorkerServices
                 invoiceLineItems,
                 model.VatIncluded,
                 invoicePricesByVat,
-                nonTaxableItems);
+                nonTaxableItems,
+                model.ProvidenceFund?.Description,
+                model.ProvidenceFund?.Rate,
+                model.ProvidenceFund == null ? null : -model.ProvidenceFund?.Amount,
+                model.WithholdingTax?.Description,
+                model.WithholdingTax?.Rate,
+                model.WithholdingTax?.TaxableAmountRate,
+                model.WithholdingTax == null ? null : -model.WithholdingTax?.Amount);
 
             return command;
         }
@@ -957,13 +1044,15 @@ namespace Merp.Accountancy.Web.WorkerServices
                     i.Quantity,
                     CalculatePriceByVat(i.UnitPrice, i.Vat, model.VatIncluded),
                     CalculatePriceByVat(i.TotalPrice, i.Vat, model.VatIncluded),
-                    i.Vat)).ToArray();
+                    i.Vat,
+                    i.VatDescription)).ToArray();
 
             var invoicePricesByVat = model.PricesByVat.Select(p => new RegisterIncomingInvoiceCommand.InvoicePriceByVat(
                 p.TaxableAmount,
                 p.VatRate,
                 p.VatAmount,
-                p.TotalPrice)).ToArray();
+                p.TotalPrice,
+                p.ProvidenceFundAmount)).ToArray();
 
             var nonTaxableItems = model.NonTaxableItems.Select(t => new RegisterIncomingInvoiceCommand.NonTaxableItem(t.Description, t.Amount)).ToArray();
 
@@ -976,6 +1065,7 @@ namespace Merp.Accountancy.Web.WorkerServices
                 model.Amount,
                 model.Taxes,
                 model.TotalPrice,
+                model.TotalToPay,
                 model.Description,
                 model.PaymentTerms,
                 model.PurchaseOrderNumber,
@@ -998,7 +1088,14 @@ namespace Merp.Accountancy.Web.WorkerServices
                 invoiceLineItems,
                 model.VatIncluded,
                 invoicePricesByVat,
-                nonTaxableItems);
+                nonTaxableItems,
+                model.ProvidenceFund?.Description,
+                model.ProvidenceFund?.Rate,
+                model.ProvidenceFund?.Amount,
+                model.WithholdingTax?.Description,
+                model.WithholdingTax?.Rate,
+                model.WithholdingTax?.TaxableAmountRate,
+                model.WithholdingTax?.Amount);
 
             return command;
         }
@@ -1011,13 +1108,15 @@ namespace Merp.Accountancy.Web.WorkerServices
                     i.Quantity,
                     -1 * CalculatePriceByVat(i.UnitPrice, i.Vat, model.VatIncluded),
                     -1 * CalculatePriceByVat(i.TotalPrice, i.Vat, model.VatIncluded),
-                    i.Vat)).ToArray();
+                    i.Vat,
+                    i.VatDescription)).ToArray();
 
             var invoicePricesByVat = model.PricesByVat.Select(p => new RegisterIncomingCreditNoteCommand.PriceByVat(
                 -p.TaxableAmount,
                 p.VatRate,
                 -p.VatAmount,
-                -p.TotalPrice)).ToArray();
+                -p.TotalPrice,
+                p.ProvidenceFundAmount == null ? null : -p.ProvidenceFundAmount)).ToArray();
 
             var nonTaxableItems = model.NonTaxableItems.Select(t => new RegisterIncomingCreditNoteCommand.NonTaxableItem(t.Description, t.Amount)).ToArray();
 
@@ -1029,6 +1128,7 @@ namespace Merp.Accountancy.Web.WorkerServices
                 -model.Amount,
                 -model.Taxes,
                 -model.TotalPrice,
+                -model.TotalToPay,
                 model.Description,
                 model.PaymentTerms,
                 model.PurchaseOrderNumber,
@@ -1051,7 +1151,14 @@ namespace Merp.Accountancy.Web.WorkerServices
                 invoiceLineItems,
                 model.VatIncluded,
                 invoicePricesByVat,
-                nonTaxableItems);
+                nonTaxableItems,
+                model.ProvidenceFund?.Description,
+                model.ProvidenceFund?.Rate,
+                model.ProvidenceFund == null ? null : -model.ProvidenceFund?.Amount,
+                model.WithholdingTax?.Description,
+                model.WithholdingTax?.Rate,
+                model.WithholdingTax?.TaxableAmountRate,
+                model.WithholdingTax == null ? null : -model.WithholdingTax?.Amount);
 
             return command;
         }
@@ -1064,13 +1171,15 @@ namespace Merp.Accountancy.Web.WorkerServices
                     i.Quantity,
                     CalculatePriceByVat(i.UnitPrice, i.Vat, model.VatIncluded),
                     CalculatePriceByVat(i.TotalPrice, i.Vat, model.VatIncluded),
-                    i.Vat)).ToArray();
+                    i.Vat,
+                    i.VatDescription)).ToArray();
 
             var invoicePricesByVat = model.PricesByVat.Select(p => new RegisterOutgoingInvoiceCommand.InvoicePriceByVat(
                 p.TaxableAmount,
                 p.VatRate,
                 p.VatAmount,
-                p.TotalPrice)).ToArray();
+                p.TotalPrice,
+                p.ProvidenceFundAmount)).ToArray();
 
             var nonTaxableItems = model.NonTaxableItems.Select(t => new RegisterOutgoingInvoiceCommand.NonTaxableItem(t.Description, t.Amount)).ToArray();
 
@@ -1083,6 +1192,7 @@ namespace Merp.Accountancy.Web.WorkerServices
                 model.Amount,
                 model.Taxes,
                 model.TotalPrice,
+                model.TotalToPay,
                 model.Description,
                 model.PaymentTerms,
                 model.PurchaseOrderNumber,
@@ -1104,7 +1214,14 @@ namespace Merp.Accountancy.Web.WorkerServices
                 invoiceLineItems,
                 model.VatIncluded,
                 invoicePricesByVat,
-                nonTaxableItems);
+                nonTaxableItems,
+                model.ProvidenceFund?.Description,
+                model.ProvidenceFund?.Rate,
+                model.ProvidenceFund?.Amount,
+                model.WithholdingTax?.Description,
+                model.WithholdingTax?.Rate,
+                model.WithholdingTax?.TaxableAmountRate,
+                model.WithholdingTax?.Amount);
 
             return command;
         }
@@ -1117,13 +1234,15 @@ namespace Merp.Accountancy.Web.WorkerServices
                     i.Quantity,
                     -1 * CalculatePriceByVat(i.UnitPrice, i.Vat, model.VatIncluded),
                     -1 * CalculatePriceByVat(i.TotalPrice, i.Vat, model.VatIncluded),
-                    i.Vat)).ToArray();
+                    i.Vat,
+                    i.VatDescription)).ToArray();
 
             var invoicePricesByVat = model.PricesByVat.Select(p => new RegisterOutgoingCreditNoteCommand.PriceByVat(
                 -p.TaxableAmount,
                 p.VatRate,
                 -p.VatAmount,
-                -p.TotalPrice)).ToArray();
+                -p.TotalPrice,
+                p.ProvidenceFundAmount == null ? null : -p.ProvidenceFundAmount)).ToArray();
 
             var nonTaxableItems = model.NonTaxableItems.Select(t => new RegisterOutgoingCreditNoteCommand.NonTaxableItem(t.Description, -t.Amount)).ToArray();
 
@@ -1135,6 +1254,7 @@ namespace Merp.Accountancy.Web.WorkerServices
                 -model.Amount,
                 -model.Taxes,
                 -model.TotalPrice,
+                -model.TotalToPay,
                 model.Description,
                 model.PaymentTerms,
                 model.PurchaseOrderNumber,
@@ -1156,7 +1276,14 @@ namespace Merp.Accountancy.Web.WorkerServices
                 invoiceLineItems,
                 model.VatIncluded,
                 invoicePricesByVat,
-                nonTaxableItems);
+                nonTaxableItems,
+                model.ProvidenceFund?.Description,
+                model.ProvidenceFund?.Rate,
+                model.ProvidenceFund == null ? null : -model.ProvidenceFund?.Amount,
+                model.WithholdingTax?.Description,
+                model.WithholdingTax?.Rate,
+                model.WithholdingTax?.TaxableAmountRate,
+                model.WithholdingTax == null ? null : -model.WithholdingTax?.Amount);
 
             return command;
         }

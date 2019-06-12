@@ -31,6 +31,7 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
             creditNote.PurchaseOrderNumber = message.PurchaseOrderNumber;
             creditNote.Taxes = message.Taxes;
             creditNote.TotalPrice = message.TotalPrice;
+            creditNote.TotalToPay = message.TotalToPay;
             creditNote.IsOverdue = false;
             creditNote.IsPaid = false;
             creditNote.Customer = new Invoice.PartyInfo()
@@ -64,7 +65,8 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
                     Quantity = i.Quantity,
                     TotalPrice = i.TotalPrice,
                     UnitPrice = i.UnitPrice,
-                    Vat = i.Vat
+                    Vat = i.Vat,
+                    VatDescription = i.VatDescription
                 }).ToList();
             }
             if (message.PricesByVat != null && message.PricesByVat.Count() > 0)
@@ -87,6 +89,27 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
             }
 
             creditNote.PricesAreVatIncluded = message.PricesAreVatIncluded;
+
+            if (!string.IsNullOrWhiteSpace(message.ProvidenceFundDescription) && message.ProvidenceFundRate.HasValue && message.ProvidenceFundAmount.HasValue)
+            {
+                creditNote.ProvidenceFund = new ProvidenceFund
+                {
+                    Amount = message.ProvidenceFundAmount.Value,
+                    Description = message.ProvidenceFundDescription,
+                    Rate = message.ProvidenceFundRate.Value
+                };
+            }
+
+            if (!string.IsNullOrWhiteSpace(message.WithholdingTaxDescription) && message.WithholdingTaxRate.HasValue && message.WithholdingTaxTaxableAmountRate.HasValue && message.WithholdingTaxAmount.HasValue)
+            {
+                creditNote.WithholdingTax = new WithholdingTax
+                {
+                    Amount = message.WithholdingTaxAmount.Value,
+                    Description = message.WithholdingTaxDescription,
+                    Rate = message.WithholdingTaxRate.Value,
+                    TaxableAmountRate = message.WithholdingTaxTaxableAmountRate.Value
+                };
+            }
 
             using (var ctx = new AccountancyDbContext(Options))
             {

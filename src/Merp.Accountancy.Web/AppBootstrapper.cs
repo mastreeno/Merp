@@ -40,6 +40,7 @@ namespace Merp.Accountancy.Web
                     .MapAssemblyOf<IncomingInvoiceSaga>(Configuration["Rebus:QueueName"])
                 )
                 .Sagas(s => s.StoreInSqlServer(Configuration["Rebus:Sagas:ConnectionString"], Configuration["Rebus:Sagas:MessagesTableName"], Configuration["Rebus:Sagas:IndexesTableName"]));
+
             if (Environment.IsDevelopment() || Environment.IsOnPremises())
             {
                 config.Subscriptions(s => s.StoreInSqlServer(Configuration["Rebus:Subscriptions:ConnectionString"], Configuration["Rebus:Subscriptions:TableName"], isCentralized: true));

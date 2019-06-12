@@ -137,7 +137,8 @@ namespace Merp.Accountancy.Web.WorkerServices
                 Quantity = l.Quantity,
                 TotalPrice = l.TotalPrice,
                 UnitPrice = l.UnitPrice,
-                Vat = l.Vat
+                Vat = l.Vat,
+                VatDescription = l.VatDescription
             });
 
             var pricesByVat = model.PricesByVat.Select(p => new PriceByVat
@@ -145,7 +146,8 @@ namespace Merp.Accountancy.Web.WorkerServices
                 TaxableAmount = p.TaxableAmount,
                 TotalPrice = p.TotalPrice,
                 VatAmount = p.VatAmount,
-                VatRate = p.VatRate
+                VatRate = p.VatRate,
+                ProvidenceFundAmount = p.ProvidenceFundAmount
             });
 
             var nonTaxableItems = model.NonTaxableItems.Select(t => new NonTaxableItem
@@ -170,7 +172,15 @@ namespace Merp.Accountancy.Web.WorkerServices
                         model.VatIncluded,
                         lineItems,
                         pricesByVat,
-                        nonTaxableItems);
+                        nonTaxableItems,
+                        model.ProvidenceFund?.Description,
+                        model.ProvidenceFund?.Rate,
+                        model.ProvidenceFund?.Amount,
+                        model.WithholdingTax?.Description,
+                        model.WithholdingTax?.Rate,
+                        model.WithholdingTax?.TaxableAmountRate,
+                        model.WithholdingTax?.Amount,
+                        model.TotalToPay);
 
                     break;
                 case Models.OutgoingDocumentTypes.OutgoingCreditNote:
@@ -187,7 +197,15 @@ namespace Merp.Accountancy.Web.WorkerServices
                         model.VatIncluded,
                         lineItems,
                         pricesByVat,
-                        nonTaxableItems);
+                        nonTaxableItems,
+                        model.ProvidenceFund?.Description,
+                        model.ProvidenceFund?.Rate,
+                        model.ProvidenceFund?.Amount,
+                        model.WithholdingTax?.Description,
+                        model.WithholdingTax?.Rate,
+                        model.WithholdingTax?.TaxableAmountRate,
+                        model.WithholdingTax?.Amount,
+                        model.TotalToPay);
 
                     break;
             }
@@ -202,7 +220,7 @@ namespace Merp.Accountancy.Web.WorkerServices
                 .Include(d => d.NonTaxableItems)
                 .Single(d => d.Id == draftId);
 
-            return new OutgoingInvoiceDraftModel
+            var model = new OutgoingInvoiceDraftModel
             {
                 Amount = draft.TaxableAmount,
                 Currency = draft.Currency,
@@ -221,7 +239,8 @@ namespace Merp.Accountancy.Web.WorkerServices
                     Quantity = li.Quantity,
                     TotalPrice = li.TotalPrice,
                     UnitPrice = li.UnitPrice,
-                    Vat = li.Vat
+                    Vat = li.Vat,
+                    VatDescription = li.VatDescription
                 }),
                 NonTaxableItems = draft.NonTaxableItems.Select(nt => new NonTaxableItemModel
                 {
@@ -236,13 +255,38 @@ namespace Merp.Accountancy.Web.WorkerServices
                     TaxableAmount = p.TaxableAmount,
                     TotalPrice = p.TotalPrice,
                     VatAmount = p.VatAmount,
-                    VatRate = p.VatRate
+                    VatRate = p.VatRate,
+                    ProvidenceFundAmount = p.ProvidenceFundAmount
                 }),
                 PurchaseOrderNumber = draft.PurchaseOrderNumber,
                 Taxes = draft.Taxes,
                 TotalPrice = draft.TotalPrice,
+                TotalToPay = draft.TotalToPay,
                 VatIncluded = draft.PricesAreVatIncluded
             };
+
+            if (!string.IsNullOrWhiteSpace(draft.ProvidenceFund.Description) && draft.ProvidenceFund.Rate.HasValue && draft.ProvidenceFund.Amount.HasValue)
+            {
+                model.ProvidenceFund = new Models.ProvidenceFundModel
+                {
+                    Amount = draft.ProvidenceFund.Amount.Value,
+                    Description = draft.ProvidenceFund.Description,
+                    Rate = draft.ProvidenceFund.Rate.Value
+                };
+            }
+
+            if (!string.IsNullOrWhiteSpace(draft.WithholdingTax.Description))
+            {
+                model.WithholdingTax = new Models.WithholdingTaxModel
+                {
+                    Amount = draft.WithholdingTax.Amount,
+                    Description = draft.WithholdingTax.Description,
+                    Rate = draft.WithholdingTax.Rate,
+                    TaxableAmountRate = draft.WithholdingTax.TaxableAmountRate
+                };
+            }
+
+            return model;
         }
 
         public async Task EditOutgoingInvoiceDraftAsync(Guid draftId, OutgoingInvoiceDraftModel model)
@@ -267,7 +311,8 @@ namespace Merp.Accountancy.Web.WorkerServices
                 Quantity = l.Quantity,
                 TotalPrice = l.TotalPrice,
                 UnitPrice = l.UnitPrice,
-                Vat = l.Vat
+                Vat = l.Vat,
+                VatDescription = l.VatDescription
             });
 
             var pricesByVat = model.PricesByVat.Select(p => new PriceByVat
@@ -275,7 +320,8 @@ namespace Merp.Accountancy.Web.WorkerServices
                 TaxableAmount = p.TaxableAmount,
                 TotalPrice = p.TotalPrice,
                 VatAmount = p.VatAmount,
-                VatRate = p.VatRate
+                VatRate = p.VatRate,
+                ProvidenceFundAmount = p.ProvidenceFundAmount
             });
 
             var nonTaxableItems = model.NonTaxableItems.Select(t => new NonTaxableItem
@@ -299,7 +345,15 @@ namespace Merp.Accountancy.Web.WorkerServices
                 model.VatIncluded,
                 lineItems,
                 pricesByVat,
-                nonTaxableItems);
+                nonTaxableItems,
+                model.ProvidenceFund?.Description,
+                model.ProvidenceFund?.Rate,
+                model.ProvidenceFund?.Amount,
+                model.WithholdingTax?.Description,
+                model.WithholdingTax?.Rate,
+                model.WithholdingTax?.TaxableAmountRate,
+                model.WithholdingTax?.Amount,
+                model.TotalToPay);
         }
 
         public async Task DeleteOutgoingInvoiceDraftAsync(Guid draftId)
@@ -317,7 +371,7 @@ namespace Merp.Accountancy.Web.WorkerServices
                 .Include(d => d.NonTaxableItems)
                 .Single(d => d.Id == draftId);
 
-            return new OutgoingCreditNoteDraftModel
+            var model = new OutgoingCreditNoteDraftModel
             {
                 Amount = draft.TaxableAmount,
                 Currency = draft.Currency,
@@ -336,7 +390,8 @@ namespace Merp.Accountancy.Web.WorkerServices
                     Quantity = li.Quantity,
                     TotalPrice = li.TotalPrice,
                     UnitPrice = li.UnitPrice,
-                    Vat = li.Vat
+                    Vat = li.Vat,
+                    VatDescription = li.VatDescription
                 }),
                 NonTaxableItems = draft.NonTaxableItems.Select(nt => new NonTaxableItemModel
                 {
@@ -356,8 +411,32 @@ namespace Merp.Accountancy.Web.WorkerServices
                 PurchaseOrderNumber = draft.PurchaseOrderNumber,
                 Taxes = draft.Taxes,
                 TotalPrice = draft.TotalPrice,
+                TotalToPay = draft.TotalToPay,
                 VatIncluded = draft.PricesAreVatIncluded
             };
+
+            if (!string.IsNullOrWhiteSpace(draft.ProvidenceFund.Description) && draft.ProvidenceFund.Rate.HasValue && draft.ProvidenceFund.Amount.HasValue)
+            {
+                model.ProvidenceFund = new Models.ProvidenceFundModel
+                {
+                    Amount = draft.ProvidenceFund.Amount.Value,
+                    Description = draft.ProvidenceFund.Description,
+                    Rate = draft.ProvidenceFund.Rate.Value
+                };
+            }
+
+            if (!string.IsNullOrWhiteSpace(draft.WithholdingTax.Description))
+            {
+                model.WithholdingTax = new Models.WithholdingTaxModel
+                {
+                    Amount = draft.WithholdingTax.Amount,
+                    Description = draft.WithholdingTax.Description,
+                    Rate = draft.WithholdingTax.Rate,
+                    TaxableAmountRate = draft.WithholdingTax.TaxableAmountRate
+                };
+            }
+
+            return model;
         }
 
         public async Task EditOutgoingCreditNoteDraftAsync(Guid draftId, OutgoingCreditNoteDraftModel model)
@@ -382,7 +461,8 @@ namespace Merp.Accountancy.Web.WorkerServices
                 Quantity = l.Quantity,
                 TotalPrice = l.TotalPrice,
                 UnitPrice = l.UnitPrice,
-                Vat = l.Vat
+                Vat = l.Vat,
+                VatDescription = l.VatDescription
             });
 
             var pricesByVat = model.PricesByVat.Select(p => new PriceByVat
@@ -390,7 +470,8 @@ namespace Merp.Accountancy.Web.WorkerServices
                 TaxableAmount = p.TaxableAmount,
                 TotalPrice = p.TotalPrice,
                 VatAmount = p.VatAmount,
-                VatRate = p.VatRate
+                VatRate = p.VatRate,
+                ProvidenceFundAmount = p.ProvidenceFundAmount
             });
 
             var nonTaxableItems = model.NonTaxableItems.Select(t => new NonTaxableItem
@@ -414,7 +495,15 @@ namespace Merp.Accountancy.Web.WorkerServices
                 model.VatIncluded,
                 lineItems,
                 pricesByVat,
-                nonTaxableItems);
+                nonTaxableItems,
+                model.ProvidenceFund?.Description,
+                model.ProvidenceFund?.Rate,
+                model.ProvidenceFund?.Amount,
+                model.WithholdingTax?.Description,
+                model.WithholdingTax?.Rate,
+                model.WithholdingTax?.TaxableAmountRate,
+                model.WithholdingTax?.Amount,
+                model.TotalToPay);
         }
 
         public async Task DeleteOutgoingCreditNoteDraftAsync(Guid draftId)

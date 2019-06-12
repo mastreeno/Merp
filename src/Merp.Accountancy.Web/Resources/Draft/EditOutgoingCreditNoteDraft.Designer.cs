@@ -61,15 +61,6 @@ namespace Merp.Accountancy.Web.Resources.Draft {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Taxable amount.
-        /// </summary>
-        internal static string Amount {
-            get {
-                return ResourceManager.GetString("Amount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Cerca una stringa localizzata simile a Credit note lines.
         /// </summary>
         internal static string CreditNoteLines {
@@ -169,6 +160,15 @@ namespace Merp.Accountancy.Web.Resources.Draft {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Providence fund.
+        /// </summary>
+        internal static string ProvidenceFund {
+            get {
+                return ResourceManager.GetString("ProvidenceFund", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a PO #.
         /// </summary>
         internal static string PurchaseOrderNumber {
@@ -192,6 +192,15 @@ namespace Merp.Accountancy.Web.Resources.Draft {
         internal static string SaveAsDraft {
             get {
                 return ResourceManager.GetString("SaveAsDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Taxable amount.
+        /// </summary>
+        internal static string TaxableAmount {
+            get {
+                return ResourceManager.GetString("TaxableAmount", resourceCulture);
             }
         }
         

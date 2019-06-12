@@ -1,4 +1,5 @@
 ﻿using MementoFX;
+using Merp.Domain;
 using Merp.Registry.CommandStack.Helpers;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Merp.Registry.CommandStack.Commands
     /// <summary>
     /// The command which allows to import a person from an external source
     /// </summary>
-    public class ImportPersonCommand : Command
+    public class ImportPersonCommand : MerpCommand
     {
         public Guid PersonId { get; set; }
         public DateTime RegistrationDate { get; set; }
@@ -31,7 +32,8 @@ namespace Merp.Registry.CommandStack.Commands
         public string EmailAddress { get; set; }
         public string InstantMessaging { get; set; }
 
-        public ImportPersonCommand(Guid personId, DateTime registrationDate, string firstName, string lastName, string nationalIdentificationNumber, string vatNumber, string address, string city, string postalCode, string province, string country, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
+        public ImportPersonCommand(Guid userId, Guid personId, DateTime registrationDate, string firstName, string lastName, string nationalIdentificationNumber, string vatNumber, string address, string city, string postalCode, string province, string country, string phoneNumber, string mobileNumber, string faxNumber, string websiteAddress, string emailAddress, string instantMessaging)
+            : base(userId)
         {
             if (personId == Guid.Empty)
                 throw new ArgumentException("A non-empty personId should be provided", nameof(personId));

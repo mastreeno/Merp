@@ -10,7 +10,7 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
 {
     public class IncomingInvoiceDenormalizer :
         IHandleMessages<IncomingInvoiceRegisteredEvent>,
-        IHandleMessages<IncomingInvoiceGotOverdueEvent>,
+        IHandleMessages<IncomingInvoiceOverdueEvent>,
         IHandleMessages<IncomingInvoicePaidEvent>,
         IHandleMessages<IncomingInvoiceLinkedToJobOrderEvent>
     {
@@ -33,6 +33,7 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
             invoice.PurchaseOrderNumber = message.PurchaseOrderNumber;
             invoice.Taxes = message.Taxes;
             invoice.TotalPrice = message.TotalPrice;
+            invoice.TotalToPay = message.TotalToPay;
             invoice.IsOverdue = false;
             invoice.IsPaid = false;
             invoice.Customer = new Invoice.PartyInfo()
@@ -66,7 +67,8 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
                     Quantity = i.Quantity,
                     TotalPrice = i.TotalPrice,
                     UnitPrice = i.UnitPrice,
-                    Vat = i.Vat
+                    Vat = i.Vat,
+                    VatDescription = i.VatDescription
                 }).ToList();
             }
             if (message.PricesByVat != null && message.PricesByVat.Count() > 0)
@@ -90,6 +92,27 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
 
             invoice.PricesAreVatIncluded = message.PricesAreVatIncluded;
 
+            if (!string.IsNullOrWhiteSpace(message.ProvidenceFundDescription) && message.ProvidenceFundRate.HasValue && message.ProvidenceFundAmount.HasValue)
+            {
+                invoice.ProvidenceFund = new ProvidenceFund
+                {
+                    Amount = message.ProvidenceFundAmount.Value,
+                    Description = message.ProvidenceFundDescription,
+                    Rate = message.ProvidenceFundRate.Value
+                };
+            }
+
+            if (!string.IsNullOrWhiteSpace(message.WithholdingTaxDescription) && message.WithholdingTaxRate.HasValue && message.WithholdingTaxTaxableAmountRate.HasValue && message.WithholdingTaxAmount.HasValue)
+            {
+                invoice.WithholdingTax = new WithholdingTax
+                {
+                    Amount = message.WithholdingTaxAmount.Value,
+                    Description = message.WithholdingTaxDescription,
+                    Rate = message.WithholdingTaxRate.Value,
+                    TaxableAmountRate = message.WithholdingTaxTaxableAmountRate.Value
+                };
+            }
+
             using (var ctx = new AccountancyDbContext(Options))
             {
                 ctx.IncomingInvoices.Add(invoice);
@@ -111,7 +134,7 @@ namespace Merp.Accountancy.QueryStack.Denormalizers
             }
         }
 
-        public async Task Handle(IncomingInvoiceGotOverdueEvent message)
+        public async Task Handle(IncomingInvoiceOverdueEvent message)
         {
             using (var ctx = new AccountancyDbContext(Options))
             {

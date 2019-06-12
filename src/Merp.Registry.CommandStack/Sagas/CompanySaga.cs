@@ -122,22 +122,22 @@ namespace Merp.Registry.CommandStack.Sagas
             var company = Company.Factory.CreateNewEntryByImport(message.CompanyId, message.RegistrationDate, message.CompanyName, message.VatNumber, message.NationalIdentificationNumber, 
                 legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry,
                 message.BillingAddressAddress, message.BillingAddressCity, message.BillingAddressPostalCode, message.BillingAddressProvince, message.BillingAddressCountry,
-                message.ShippingAddressAddress, message.ShippingAddressCity, message.ShippingAddressPostalCode, message.ShippingAddressProvince, message.ShippingAddressCountry);
+                message.ShippingAddressAddress, message.ShippingAddressCity, message.ShippingAddressPostalCode, message.ShippingAddressProvince, message.ShippingAddressCountry, message.UserId);
 
             if (message.MainContactId.HasValue)
             {
                 Thread.Sleep(10);
-                company.AssociateMainContact(message.MainContactId.Value, Guid.Empty);
+                company.AssociateMainContact(message.MainContactId.Value, message.UserId);
             }
             if (message.AdministrativeContactId.HasValue)
             {
                 Thread.Sleep(10);
-                company.AssociateAdministrativeContact(message.AdministrativeContactId.Value, Guid.Empty);
+                company.AssociateAdministrativeContact(message.AdministrativeContactId.Value, message.UserId);
             }
             if (!string.IsNullOrWhiteSpace(message.PhoneNumber) || !string.IsNullOrWhiteSpace(message.FaxNumber) || !string.IsNullOrWhiteSpace(message.WebsiteAddress) || !string.IsNullOrWhiteSpace(message.EmailAddress))
             {
                 Thread.Sleep(10);
-                company.SetContactInfo(message.PhoneNumber, null, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, null, Guid.Empty);
+                company.SetContactInfo(message.PhoneNumber, null, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, null, message.UserId);
             }
             await _repository.SaveAsync(company);
             this.Data.CompanyId = company.Id;

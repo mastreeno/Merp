@@ -1,0 +1,1 @@
+db.getCollection('IncomingInvoiceRegisteredEvent').updateMany({}, { $set: { ProvidenceFundDescription: null, ProvidenceFundRate: null, ProvidenceFundAmount: null } });

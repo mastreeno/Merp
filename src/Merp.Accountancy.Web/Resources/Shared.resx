@@ -249,6 +249,9 @@
   <data name="Purchases" xml:space="preserve">
     <value>Purchases</value>
   </data>
+  <data name="Rate" xml:space="preserve">
+    <value>Rate</value>
+  </data>
   <data name="RegisterIncomingCreditNote" xml:space="preserve">
     <value>Register incoming credit note</value>
   </data>
@@ -279,6 +282,9 @@
   <data name="Supplier" xml:space="preserve">
     <value>Supplier</value>
   </data>
+  <data name="TaxableAmountRate" xml:space="preserve">
+    <value>Taxable Amount %</value>
+  </data>
   <data name="Taxes" xml:space="preserve">
     <value>Taxes</value>
   </data>
@@ -288,10 +294,16 @@
   <data name="TotalPrice" xml:space="preserve">
     <value>Total price</value>
   </data>
+  <data name="TotalToPay" xml:space="preserve">
+    <value>Total to pay</value>
+  </data>
   <data name="Vat" xml:space="preserve">
     <value>VAT</value>
   </data>
   <data name="VatNumber" xml:space="preserve">
     <value>VAT number</value>
+  </data>
+  <data name="WithholdingTax" xml:space="preserve">
+    <value>Withholding Tax</value>
   </data>
 </root>

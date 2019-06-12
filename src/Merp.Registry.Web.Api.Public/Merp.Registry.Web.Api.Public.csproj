@@ -2,15 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <Company>Mastreeno ltd, Andrea Saltarello</Company>
     <Authors>Mastreeno ltd, Andrea Saltarello</Authors>
     <Product>Merp</Product>
-    <Copyright>Mastreeno ltd, Andrea Saltarello</Copyright>
-    <Description>An event-based Micro ERP</Description>
     <Configurations>Debug;Release;AzureMongoDB</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="appsettings.AzureMongoDB.json" />
+    <Content Remove="appsettings.Debug.json" />
+    <Content Remove="appsettings.Release.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,22 +18,41 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="appsettings.Debug.json">
+      <IsTransformFile>true</IsTransformFile>
+      <DependentUpon>appsettings.json</DependentUpon>
+    </None>
+    <None Include="appsettings.Release.json">
+      <IsTransformFile>true</IsTransformFile>
+      <DependentUpon>appsettings.json</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MementoFX" Version="2.0.0" />
+    <PackageReference Include="MementoFX.Messaging.Rebus" Version="2.0.0" />
+    <PackageReference Include="MementoFX.Persistence.MongoDB" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.0">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="Rebus" Version="5.3.1" />
+    <PackageReference Include="Rebus.AzureServiceBus" Version="6.0.7" />
+    <PackageReference Include="Rebus.ServiceProvider" Version="4.0.2" />
+    <PackageReference Include="Rebus.SqlServer" Version="5.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Merp.Registry.CommandStack\Merp.Registry.CommandStack.csproj" />
     <ProjectReference Include="..\Merp.Registry.QueryStack\Merp.Registry.QueryStack.csproj" />
+    <ProjectReference Include="..\Merp.Web\Merp.Web.csproj" />
   </ItemGroup>
 
   <ItemGroup>

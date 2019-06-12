@@ -17,7 +17,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
         IAmInitiatedBy<RegisterOutgoingInvoiceCommand>,
         IHandleMessages<MarkOutgoingInvoiceAsPaidCommand>,
         IHandleMessages<MarkOutgoingInvoiceAsOverdueCommand>,
-        IHandleMessages<OutgoingInvoiceSaga.OutgoingInvoiceExpiredTimeout>
+        IHandleMessages<OutgoingInvoiceSaga.OutgoingInvoiceOverdueTimeout>
     {
         public readonly IBus Bus;
         public readonly IRepository Repository;
@@ -47,7 +47,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
             config.Correlate<MarkOutgoingInvoiceAsOverdueCommand>(
                 message => message.InvoiceId,
                 sagaData => sagaData.InvoiceId);
-            config.Correlate<OutgoingInvoiceSaga.OutgoingInvoiceExpiredTimeout>(
+            config.Correlate<OutgoingInvoiceSaga.OutgoingInvoiceOverdueTimeout>(
                 message => message.InvoiceId,
                 sagaData => sagaData.InvoiceId);
         }
@@ -58,7 +58,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
             if (message.LineItems != null)
             {
                 invoiceLineItems = message.LineItems
-                    .Select(i => new Invoice.InvoiceLineItem(i.Code, i.Description, i.Quantity, i.UnitPrice, i.TotalPrice, i.Vat))
+                    .Select(i => new Invoice.InvoiceLineItem(i.Code, i.Description, i.Quantity, i.UnitPrice, i.TotalPrice, i.Vat, i.VatDescription))
                     .ToArray();
             }
 
@@ -85,6 +85,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 message.TaxableAmount,
                 message.Taxes,
                 message.TotalPrice,
+                message.TotalToPay,
                 message.Description,
                 message.PaymentTerms,
                 message.PurchaseOrderNumber,
@@ -107,6 +108,13 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 message.PricesAreVatIncluded,
                 invoicePricesByVat,
                 nonTaxableItems,
+                message.ProvidenceFundDescription,
+                message.ProvidenceFundRate,
+                message.ProvidenceFundAmount,
+                message.WithholdingTaxDescription,
+                message.WithholdingTaxRate,
+                message.WithholdingTaxTaxableAmountRate,
+                message.WithholdingTaxAmount,
                 message.UserId
             );
             this.Repository.Save(invoice);
@@ -114,7 +122,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 
             if(invoice.DueDate.HasValue)
             {
-                var timeout = new OutgoingInvoiceExpiredTimeout(invoice.Id, message.UserId);
+                var timeout = new OutgoingInvoiceOverdueTimeout(invoice.Id, message.UserId);
                 await Bus.Defer(invoice.DueDate.Value.Subtract(DateTime.Today), timeout);
             }    
         }
@@ -138,6 +146,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 message.TaxableAmount,
                 message.Taxes,
                 message.TotalPrice,
+                message.TotalToPay,
                 message.Description,
                 message.PaymentTerms,
                 message.PurchaseOrderNumber,
@@ -155,7 +164,25 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 message.Supplier.PostalCode,
                 message.Supplier.Country,
                 message.Supplier.VatIndex,
-                message.Supplier.NationalIdentificationNumber
+                message.Supplier.NationalIdentificationNumber,
+                message.LineItems
+                    .Select(i => new OutgoingInvoice.InvoiceLineItem(i.Code, i.Description, i.Quantity, i.UnitPrice, i.TotalPrice, i.Vat, i.VatDescription))
+                    .ToArray(),
+                false,
+                message.PricesByVat
+                    .Select(i => new OutgoingInvoice.InvoicePriceByVat(i.TaxableAmount, i.VatRate, i.VatAmount, i.TotalPrice))
+                    .ToArray(),
+                message.NonTaxableItems
+                    .Select(i => new OutgoingInvoice.NonTaxableItem(i.Description, i.Amount))
+                    .ToArray(),
+                message.ProvidenceFundDescription,
+                message.ProvidenceFundRate,
+                message.ProvidenceFundAmount,
+                message.WithholdingTaxDescription,
+                message.WithholdingTaxRate,
+                message.WithholdingTaxTaxableAmountRate,
+                message.WithholdingTaxAmount,
+                message.UserId
             );
             await this.Repository.SaveAsync(invoice);
             this.Data.InvoiceId = invoice.Id;
@@ -167,7 +194,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
             if (message.LineItems != null)
             {
                 invoiceLineItems = message.LineItems
-                    .Select(i => new Invoice.InvoiceLineItem(i.Code, i.Description, i.Quantity, i.UnitPrice, i.TotalPrice, i.Vat))
+                    .Select(i => new Invoice.InvoiceLineItem(i.Code, i.Description, i.Quantity, i.UnitPrice, i.TotalPrice, i.Vat, i.VatDescription))
                     .ToArray();
             }
 
@@ -195,6 +222,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 message.TaxableAmount,
                 message.Taxes,
                 message.TotalPrice,
+                message.TotalToPay,
                 message.Description,
                 message.PaymentTerms,
                 message.PurchaseOrderNumber,
@@ -217,6 +245,13 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 message.PricesAreVatIncluded,
                 invoicePricesByVat,
                 nonTaxableItems,
+                message.ProvidenceFundDescription,
+                message.ProvidenceFundRate,
+                message.ProvidenceFundAmount,
+                message.WithholdingTaxDescription,
+                message.WithholdingTaxRate,
+                message.WithholdingTaxTaxableAmountRate,
+                message.WithholdingTaxAmount,
                 message.UserId
             );
             this.Repository.Save(invoice);
@@ -224,7 +259,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
 
             if (invoice.DueDate.HasValue)
             {
-                var timeout = new OutgoingInvoiceExpiredTimeout(invoice.Id, message.UserId);
+                var timeout = new OutgoingInvoiceOverdueTimeout(invoice.Id, message.UserId);
                 await Bus.Defer(invoice.DueDate.Value.Subtract(DateTime.Today), timeout);
             }
         }
@@ -237,7 +272,7 @@ namespace Merp.Accountancy.CommandStack.Sagas
             await Repository.SaveAsync(invoice);
         }
 
-        public async Task Handle(OutgoingInvoiceExpiredTimeout message)
+        public async Task Handle(OutgoingInvoiceOverdueTimeout message)
         {
             var invoice = Repository.GetById<OutgoingInvoice>(message.InvoiceId);
             if (!invoice.PaymentDate.HasValue)
@@ -252,13 +287,13 @@ namespace Merp.Accountancy.CommandStack.Sagas
             public Guid InvoiceId { get; set; }
         }
 
-        public class OutgoingInvoiceExpiredTimeout
+        public class OutgoingInvoiceOverdueTimeout
         {
             public Guid InvoiceId { get; private set; }
 
             public Guid UserId { get; private set; }
 
-            public OutgoingInvoiceExpiredTimeout(Guid invoiceId, Guid userId)
+            public OutgoingInvoiceOverdueTimeout(Guid invoiceId, Guid userId)
             {
                 InvoiceId = invoiceId;
             }

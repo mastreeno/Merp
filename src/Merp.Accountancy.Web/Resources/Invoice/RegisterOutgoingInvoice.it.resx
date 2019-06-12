@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Amount" xml:space="preserve">
-    <value>Imponibile</value>
-  </data>
   <data name="ChooseDocumentType" xml:space="preserve">
     <value>Scegli il tipo di documento</value>
   </data>
@@ -162,6 +159,9 @@
   <data name="PricesByVat" xml:space="preserve">
     <value>Totale Imponibili IVA</value>
   </data>
+  <data name="ProvidenceFund" xml:space="preserve">
+    <value>Cassa previdenziale</value>
+  </data>
   <data name="PurchaseOrderNumber" xml:space="preserve">
     <value>PO #</value>
   </data>
@@ -170,6 +170,9 @@
   </data>
   <data name="RegisterInvoicePageTitle" xml:space="preserve">
     <value>Registra una fattura attiva</value>
+  </data>
+  <data name="TaxableAmount" xml:space="preserve">
+    <value>Imponibile</value>
   </data>
   <data name="VatIncluded" xml:space="preserve">
     <value>Tutti i prezzi sono IVA inclusa</value>

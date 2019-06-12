@@ -47,7 +47,7 @@ namespace Merp.Web.Auth
 
             RegisterClientsCors(services);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddHttpContextAccessor();
 
@@ -87,7 +87,7 @@ namespace Merp.Web.Auth
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-            
+
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseIdentityServer();

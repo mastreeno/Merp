@@ -32,7 +32,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var emailAddress = "martin@gore.com";
             var instantMessaging = "@im";
 
-            var sut = new ImportPersonCommand(personId, DateTime.Now, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging);
+            var sut = new ImportPersonCommand(Guid.NewGuid(), personId, DateTime.Now, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging);
             Assert.Equal(personId, sut.PersonId);
             Assert.Equal(firstName, sut.FirstName);
             Assert.Equal(lastName, sut.LastName);
@@ -72,7 +72,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var instantMessaging = "@im";
 
             Executing.This(
-                () => new ImportPersonCommand(personId, DateTime.Now, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging)
+                () => new ImportPersonCommand(Guid.NewGuid(), personId, DateTime.Now, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging)
             )
             .Should()
             .Throw<ArgumentException>()
@@ -105,7 +105,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var instantMessaging = "@im";
 
             Executing.This(
-                () => new ImportPersonCommand(personId, DateTime.Now, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging)
+                () => new ImportPersonCommand(Guid.NewGuid(), personId, DateTime.Now, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging)
             )
             .Should()
             .Throw<ArgumentException>()
@@ -138,7 +138,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var instantMessaging = "@im";
 
             Executing.This(
-                () => new ImportPersonCommand(personId, DateTime.Now, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging)
+                () => new ImportPersonCommand(Guid.NewGuid(), personId, DateTime.Now, firstName, lastName, nationalIdentificationNumber, vatNumber, address, city, postalCode, province, country, phoneNumber, mobileNumber, faxNumber, websiteAddress, emailAddress, instantMessaging)
             )
             .Should()
             .Throw<ArgumentException>()

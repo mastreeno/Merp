@@ -39,6 +39,8 @@ namespace Merp.Accountancy.Drafts.Migrations
 
                     b.Property<decimal>("Vat");
 
+                    b.Property<string>("VatDescription");
+
                     b.HasKey("Id");
 
                     b.HasIndex("InvoiceDraftId");
@@ -71,6 +73,8 @@ namespace Merp.Accountancy.Drafts.Migrations
                     b.Property<decimal>("Taxes");
 
                     b.Property<decimal>("TotalPrice");
+
+                    b.Property<decimal>("TotalToPay");
 
                     b.HasKey("Id");
 
@@ -109,6 +113,8 @@ namespace Merp.Accountancy.Drafts.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<Guid?>("InvoiceDraftId");
+
+                    b.Property<decimal?>("ProvidenceFundAmount");
 
                     b.Property<decimal>("TaxableAmount");
 
@@ -183,6 +189,44 @@ namespace Merp.Accountancy.Drafts.Migrations
                             b1.HasOne("Merp.Accountancy.Drafts.Model.InvoiceDraft")
                                 .WithOne("Customer")
                                 .HasForeignKey("Merp.Accountancy.Drafts.Model.PartyInfo", "InvoiceDraftId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+
+                    b.OwnsOne("Merp.Accountancy.Drafts.Model.ProvidenceFund", "ProvidenceFund", b1 =>
+                        {
+                            b1.Property<Guid?>("InvoiceDraftId");
+
+                            b1.Property<decimal?>("Amount");
+
+                            b1.Property<string>("Description");
+
+                            b1.Property<decimal?>("Rate");
+
+                            b1.ToTable("InvoiceDraft");
+
+                            b1.HasOne("Merp.Accountancy.Drafts.Model.InvoiceDraft")
+                                .WithOne("ProvidenceFund")
+                                .HasForeignKey("Merp.Accountancy.Drafts.Model.ProvidenceFund", "InvoiceDraftId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+
+                    b.OwnsOne("Merp.Accountancy.Drafts.Model.WithholdingTax", "WithholdingTax", b1 =>
+                        {
+                            b1.Property<Guid?>("InvoiceDraftId");
+
+                            b1.Property<decimal>("Amount");
+
+                            b1.Property<string>("Description");
+
+                            b1.Property<decimal>("Rate");
+
+                            b1.Property<decimal>("TaxableAmountRate");
+
+                            b1.ToTable("InvoiceDraft");
+
+                            b1.HasOne("Merp.Accountancy.Drafts.Model.InvoiceDraft")
+                                .WithOne("WithholdingTax")
+                                .HasForeignKey("Merp.Accountancy.Drafts.Model.WithholdingTax", "InvoiceDraftId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
                 });

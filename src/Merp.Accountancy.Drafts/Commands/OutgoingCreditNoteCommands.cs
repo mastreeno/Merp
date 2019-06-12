@@ -24,7 +24,7 @@ namespace Merp.Accountancy.Drafts.Commands
             }
         }
 
-        public async Task CreateDraft(PartyInfo customer, DateTime? date, string currency, decimal taxableAmount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, bool pricesAreVatIncluded, IEnumerable<DraftLineItem> lineItems, IEnumerable<PriceByVat> pricesByVat, IEnumerable<NonTaxableItem> nonTaxableItems)
+        public async Task CreateDraft(PartyInfo customer, DateTime? date, string currency, decimal taxableAmount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, bool pricesAreVatIncluded, IEnumerable<DraftLineItem> lineItems, IEnumerable<PriceByVat> pricesByVat, IEnumerable<NonTaxableItem> nonTaxableItems, string providenceFundDescription, decimal? providenceFundRate, decimal? providenceFundAmount, string withholdingTaxDescription, decimal? withholdingTaxRate, decimal? withholdingTaxTaxableAmountRate, decimal? withholdingTaxAmount, decimal totalToPay)
         {
             var draft = new OutgoingCreditNoteDraft
             {
@@ -41,14 +41,36 @@ namespace Merp.Accountancy.Drafts.Commands
                 PaymentTerms = paymentTerms,
                 TaxableAmount = taxableAmount,
                 Taxes = taxes,
-                TotalPrice = totalPrice
+                TotalPrice = totalPrice,
+                TotalToPay = totalToPay
             };
+
+            if (!string.IsNullOrWhiteSpace(providenceFundDescription) && providenceFundRate.HasValue && providenceFundAmount.HasValue)
+            {
+                draft.ProvidenceFund = new ProvidenceFund
+                {
+                    Amount = providenceFundAmount,
+                    Description = providenceFundDescription,
+                    Rate = providenceFundRate
+                };
+            }
+
+            if (!string.IsNullOrWhiteSpace(withholdingTaxDescription) && withholdingTaxRate.HasValue && withholdingTaxTaxableAmountRate.HasValue && withholdingTaxAmount.HasValue)
+            {
+                draft.WithholdingTax = new WithholdingTax
+                {
+                    Amount = withholdingTaxAmount.Value,
+                    Description = withholdingTaxDescription,
+                    Rate = withholdingTaxRate.Value,
+                    TaxableAmountRate = withholdingTaxTaxableAmountRate.Value
+                };
+            }
 
             _context.Add(draft);
             await _context.SaveChangesAsync();
         }
 
-        public async Task EditDraft(Guid draftId, PartyInfo customer, DateTime? date, string currency, decimal taxableAmount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, bool pricesAreVatIncluded, IEnumerable<DraftLineItem> lineItems, IEnumerable<PriceByVat> pricesByVat, IEnumerable<NonTaxableItem> nonTaxableItems)
+        public async Task EditDraft(Guid draftId, PartyInfo customer, DateTime? date, string currency, decimal taxableAmount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, bool pricesAreVatIncluded, IEnumerable<DraftLineItem> lineItems, IEnumerable<PriceByVat> pricesByVat, IEnumerable<NonTaxableItem> nonTaxableItems, string providenceFundDescription, decimal? providenceFundRate, decimal? providenceFundAmount, string withholdingTaxDescription, decimal? withholdingTaxRate, decimal? withholdingTaxTaxableAmountRate, decimal? withholdingTaxAmount, decimal totalToPay)
         {
             var draft = _context
                 .OutgoingCreditNoteDrafts
@@ -79,6 +101,10 @@ namespace Merp.Accountancy.Drafts.Commands
             {
                 draft.TotalPrice = totalPrice;
             }
+            if (draft.TotalToPay != totalToPay)
+            {
+                draft.TotalToPay = totalToPay;
+            }
             if (draft.Description != description)
             {
                 draft.Description = description;
@@ -94,6 +120,25 @@ namespace Merp.Accountancy.Drafts.Commands
             if (draft.PricesAreVatIncluded != pricesAreVatIncluded)
             {
                 draft.PricesAreVatIncluded = pricesAreVatIncluded;
+            }
+            if (draft.ProvidenceFund.Description != providenceFundDescription || draft.ProvidenceFund.Rate != providenceFundRate || draft.ProvidenceFund.Amount != providenceFundAmount)
+            {
+                draft.ProvidenceFund = new ProvidenceFund
+                {
+                    Description = providenceFundDescription,
+                    Amount = providenceFundAmount,
+                    Rate = providenceFundRate
+                };
+            }
+            if (draft.WithholdingTax.Description != withholdingTaxDescription || draft.WithholdingTax.Rate != withholdingTaxRate || draft.WithholdingTax.TaxableAmountRate != withholdingTaxTaxableAmountRate || draft.WithholdingTax.Amount != withholdingTaxAmount)
+            {
+                draft.WithholdingTax = new WithholdingTax
+                {
+                    Amount = withholdingTaxAmount.Value,
+                    Description = withholdingTaxDescription,
+                    Rate = withholdingTaxRate.Value,
+                    TaxableAmountRate = withholdingTaxTaxableAmountRate.Value
+                };
             }
 
             UpdateDraftLineItems(draft, lineItems);

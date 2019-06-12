@@ -41,6 +41,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Commands
                 amount,
                 taxes,
                 totalPrice,
+                totalPrice,
                 description,
                 paymentTerms,
                 purchaseOrderNumber,
@@ -61,6 +62,13 @@ namespace Merp.Accountancy.CommandStack.Tests.Commands
                 supplierNationalIdentificationNumber,
                 null,
                 false,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
                 null,
                 null);
             Assert.Equal(invoiceDate, sut.InvoiceDate);

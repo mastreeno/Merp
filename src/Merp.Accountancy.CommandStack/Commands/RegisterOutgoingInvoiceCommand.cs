@@ -44,7 +44,9 @@ namespace Merp.Accountancy.CommandStack.Commands
 
             public decimal Vat { get; set; }
 
-            public InvoiceLineItem(string code, string description, int quantity, decimal unitPrice, decimal totalPrice, decimal vat)
+            public string VatDescription { get; set; }
+
+            public InvoiceLineItem(string code, string description, int quantity, decimal unitPrice, decimal totalPrice, decimal vat, string vatDescription)
             {
                 Code = code;
                 Description = description;
@@ -52,6 +54,7 @@ namespace Merp.Accountancy.CommandStack.Commands
                 UnitPrice = unitPrice;
                 TotalPrice = totalPrice;
                 Vat = vat;
+                VatDescription = vatDescription;
             }
         }
 
@@ -65,12 +68,15 @@ namespace Merp.Accountancy.CommandStack.Commands
 
             public decimal TotalPrice { get; set; }
 
-            public InvoicePriceByVat(decimal taxableAmount, decimal vatRate, decimal vatAmount, decimal totalPrice)
+            public decimal? ProvidenceFundAmount { get; set; }
+
+            public InvoicePriceByVat(decimal taxableAmount, decimal vatRate, decimal vatAmount, decimal totalPrice, decimal? providenceFundAmount)
             {
                 TaxableAmount = taxableAmount;
                 VatRate = vatRate;
                 VatAmount = vatAmount;
                 TotalPrice = totalPrice;
+                ProvidenceFundAmount = providenceFundAmount;
             }
         }
 
@@ -97,6 +103,7 @@ namespace Merp.Accountancy.CommandStack.Commands
         public decimal TaxableAmount { get; set; }
         public decimal Taxes { get; set; }
         public decimal TotalPrice { get; set; }
+        public decimal TotalToPay { get; set; }
         public string Description { get; set; }
         public string PaymentTerms { get; set; }
         public string PurchaseOrderNumber { get; set; }
@@ -104,10 +111,18 @@ namespace Merp.Accountancy.CommandStack.Commands
         public IEnumerable<InvoiceLineItem> LineItems { get; set; }
         public IEnumerable<InvoicePriceByVat> PricesByVat { get; set; }
         public IEnumerable<NonTaxableItem> NonTaxableItems { get; set; }
+        public string ProvidenceFundDescription { get; set; }
+        public decimal? ProvidenceFundRate { get; set; }
+        public decimal? ProvidenceFundAmount { get; set; }
+        public string WithholdingTaxDescription { get; set; }
+        public decimal? WithholdingTaxRate { get; set; }
+        public decimal? WithholdingTaxTaxableAmountRate { get; set; }
+        public decimal? WithholdingTaxAmount { get; set; }
 
-        public RegisterOutgoingInvoiceCommand(Guid userId, string invoiceNumber, DateTime invoiceDate, DateTime? dueDate, string currency, decimal taxableAmount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber,
+        public RegisterOutgoingInvoiceCommand(Guid userId, string invoiceNumber, DateTime invoiceDate, DateTime? dueDate, string currency, decimal taxableAmount, decimal taxes, decimal totalPrice, decimal totalToPay, string description, string paymentTerms, string purchaseOrderNumber,
             Guid customerId, string customerName, string customerAddress, string customerCity, string customerPostalCode, string customerCountry, string customerVatIndex, string customerNationalIdentificationNumber,
-            string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber, IEnumerable<InvoiceLineItem> lineItems, bool pricesAreVatIncluded, IEnumerable<InvoicePriceByVat> pricesByVat, IEnumerable<NonTaxableItem> nonTaxableItems)
+            string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber, IEnumerable<InvoiceLineItem> lineItems, bool pricesAreVatIncluded, IEnumerable<InvoicePriceByVat> pricesByVat, IEnumerable<NonTaxableItem> nonTaxableItems,
+            string providenceFundDescription, decimal? providenceFundRate, decimal? providenceFundAmount, string withholdingTaxDescription, decimal? withholdingTaxRate, decimal? withholdingTaxTaxableAmountRate, decimal? withholdingTaxAmount)
             : base(userId)
         {
             var customer = new PartyInfo(
@@ -139,6 +154,7 @@ namespace Merp.Accountancy.CommandStack.Commands
             TaxableAmount = taxableAmount;
             Taxes = taxes;
             TotalPrice = totalPrice;
+            TotalToPay = totalToPay;
             Description = description;
             PaymentTerms = paymentTerms;
             PurchaseOrderNumber = purchaseOrderNumber;
@@ -146,6 +162,13 @@ namespace Merp.Accountancy.CommandStack.Commands
             PricesAreVatIncluded = pricesAreVatIncluded;
             PricesByVat = pricesByVat;
             NonTaxableItems = nonTaxableItems;
+            ProvidenceFundDescription = providenceFundDescription;
+            ProvidenceFundRate = providenceFundRate;
+            ProvidenceFundAmount = providenceFundAmount;
+            WithholdingTaxDescription = withholdingTaxDescription;
+            WithholdingTaxRate = withholdingTaxRate;
+            WithholdingTaxTaxableAmountRate = withholdingTaxTaxableAmountRate;
+            WithholdingTaxAmount = withholdingTaxAmount;
         }
     }
 }

@@ -60,13 +60,6 @@ namespace Merp.Accountancy.Web.Controllers
             return Ok(model);
         }
 
-        [HttpGet]
-        public IActionResult GetVatList()
-        {
-            var model = WorkerServices.GetVatList();
-            return Ok(model);
-        }
-
         #region Outgoing Invoices
         [HttpGet]
         public IActionResult GetOutgoingDocumentTypes()

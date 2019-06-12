@@ -44,7 +44,7 @@
       "tenantId": "",
       "subscriptionId": "",
       "resourceGroup": "Mastreeno",
-      "serviceName": "MartinAtMastreenoqla6ki",
+      "serviceName": "",
       "type": "appInsights",
       "id": "5"
     },
@@ -53,10 +53,20 @@
       "authoringKey": "",
       "subscriptionKey": "",
       "version": "0.1",
-      "region": "westeurope",
+      "region": "",
       "type": "luis",
       "name": "MartinAtMastreeno-en",
       "id": "6"
+    },
+    {
+      "appId": "",
+      "authoringKey": "",
+      "subscriptionKey": "",
+      "version": "0.1",
+      "region": "westeurope",
+      "type": "luis",
+      "name": "MartinAtMastreeno-it",
+      "id": "7"
     }
   ]
 }

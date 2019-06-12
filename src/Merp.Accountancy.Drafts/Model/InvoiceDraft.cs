@@ -19,6 +19,8 @@ namespace Merp.Accountancy.Drafts.Model
 
         public decimal TotalPrice { get; set; }
 
+        public decimal TotalToPay { get; set; }
+
         public string PurchaseOrderNumber { get; set; }
 
         public string PaymentTerms { get; set; }
@@ -35,12 +37,18 @@ namespace Merp.Accountancy.Drafts.Model
 
         public virtual List<NonTaxableItem> NonTaxableItems { get; set; }
 
+        public ProvidenceFund ProvidenceFund { get; set; }
+
+        public WithholdingTax WithholdingTax { get; set; }
+
         public InvoiceDraft()
         {
             LineItems = new List<DraftLineItem>();
             PricesByVat = new List<PriceByVat>();
             NonTaxableItems = new List<NonTaxableItem>();
             Customer = new PartyInfo();
+            ProvidenceFund = new ProvidenceFund();
+            WithholdingTax = new WithholdingTax();
         }
 
         public void Configure(EntityTypeBuilder<InvoiceDraft> builder)
@@ -49,6 +57,9 @@ namespace Merp.Accountancy.Drafts.Model
             builder.HasIndex(o => o.PurchaseOrderNumber);
 
             builder.OwnsOne(c => c.Customer).HasIndex(o => o.Name);
+
+            builder.OwnsOne(o => o.ProvidenceFund);
+            builder.OwnsOne(o => o.WithholdingTax);
 
             builder.HasMany(o => o.LineItems).WithOne().OnDelete(DeleteBehavior.Cascade);
             builder.HasMany(o => o.PricesByVat).WithOne().OnDelete(DeleteBehavior.Cascade);

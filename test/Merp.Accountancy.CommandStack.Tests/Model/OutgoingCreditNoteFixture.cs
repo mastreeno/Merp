@@ -50,6 +50,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                     amount,
                     taxes,
                     totalPrice,
+                    totalPrice,
                     description,
                     paymentTerms,
                     purchaseOrderNumber,
@@ -68,7 +69,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                     supplierCountry,
                     supplierVatIndex,
                     supplierNationalIdentificationNumber,
-                    lineItems, false, pricesByVat, nonTaxableItems, userId))
+                    lineItems, false, pricesByVat, nonTaxableItems, null, null, null, null, null, null, null, userId))
                     .Should()
                     .Throw<ArgumentNullException>()
                     .And
@@ -118,6 +119,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                     amount,
                     taxes,
                     totalPrice,
+                    totalPrice,
                     description,
                     paymentTerms,
                     purchaseOrderNumber,
@@ -136,7 +138,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                     supplierCountry,
                     supplierVatIndex,
                     supplierNationalIdentificationNumber,
-                    lineItems, false, pricesByVat, nonTaxableItems, userId))
+                    lineItems, false, pricesByVat, nonTaxableItems, null, null, null, null, null, null, null, userId))
                     .Should()
                     .Throw<ArgumentNullException>()
                     .And
@@ -186,6 +188,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                     amount,
                     taxes,
                     totalPrice,
+                    totalPrice,
                     description,
                     paymentTerms,
                     purchaseOrderNumber,
@@ -204,7 +207,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                     supplierCountry,
                     supplierVatIndex,
                     supplierNationalIdentificationNumber,
-                    lineItems, false, pricesByVat, nonTaxableItems, userId))
+                    lineItems, false, pricesByVat, nonTaxableItems, null, null, null, null, null, null, null, userId))
                     .Should()
                     .Throw<ArgumentNullException>()
                     .And
@@ -225,6 +228,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                 decimal amount = 101;
                 decimal taxes = 42;
                 decimal totalPrice = 143;
+                decimal totalToPay = 143;
                 string description = "fake";
                 string paymentTerms = "none";
                 string purchaseOrderNumber = "42";
@@ -254,6 +258,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                     amount,
                     taxes,
                     totalPrice,
+                    totalToPay,
                     description,
                     paymentTerms,
                     purchaseOrderNumber,
@@ -272,7 +277,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                     supplierCountry,
                     supplierVatIndex,
                     supplierNationalIdentificationNumber,
-                    lineItems, false, pricesByVat, nonTaxableItems, userId))
+                    lineItems, false, pricesByVat, nonTaxableItems, null, null, null, null, null, null, null, userId))
                     .Should()
                     .Throw<ArgumentException>()
                     .And
@@ -293,6 +298,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                 decimal amount = 101;
                 decimal taxes = 42;
                 decimal totalPrice = 143;
+                decimal totalToPay = 143;
                 string description = "fake";
                 string paymentTerms = "none";
                 string purchaseOrderNumber = "42";
@@ -322,6 +328,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                     amount,
                     taxes,
                     totalPrice,
+                    totalToPay,
                     description,
                     paymentTerms,
                     purchaseOrderNumber,
@@ -340,7 +347,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                     supplierCountry,
                     supplierVatIndex,
                     supplierNationalIdentificationNumber,
-                    lineItems, false, pricesByVat, nonTaxableItems, userId))
+                    lineItems, false, pricesByVat, nonTaxableItems, null, null, null, null, null, null, null, userId))
                     .Should()
                     .Throw<ArgumentNullException>()
                     .And
@@ -361,6 +368,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                 decimal amount = 101;
                 decimal taxes = 42;
                 decimal totalPrice = 143;
+                decimal totalToPay = 143;
                 string description = "fake";
                 string paymentTerms = "none";
                 string purchaseOrderNumber = "42";
@@ -390,6 +398,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                     amount,
                     taxes,
                     totalPrice,
+                    totalToPay,
                     description,
                     paymentTerms,
                     purchaseOrderNumber,
@@ -408,7 +417,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                     supplierCountry,
                     supplierVatIndex,
                     supplierNationalIdentificationNumber,
-                    lineItems, false, pricesByVat, nonTaxableItems, userId))
+                    lineItems, false, pricesByVat, nonTaxableItems, null, null, null, null, null, null, null, userId))
                     .Should()
                     .Throw<ArgumentNullException>()
                     .And

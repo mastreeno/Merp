@@ -11,5 +11,7 @@
         public decimal VatAmount { get; set; }
 
         public decimal TotalPrice { get; set; }
+
+        public decimal? ProvidenceFundAmount { get; set; }
     }
 }

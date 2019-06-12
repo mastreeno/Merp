@@ -3,24 +3,17 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Home from './app/components/home/home.vue'
-import About from './app/components/about/about.vue'
-import Bot from './app/components/bot/bot.vue'
-import Contact from './app/components/contact/contact.vue'
-
-import authRoutes from './app/auth/routes'
-import accountancyRoutes from './app/accountancy/routes'
-import registryRoutes from './app/registry/routes'
-import timeTrackingRoutes from './app/timetracking/routes'
+import websiteRoutes from './app/contexts/website/routes'
+import authRoutes from './app/contexts/auth/routes'
+import accountancyRoutes from './app/contexts/accountancy/routes'
+import registryRoutes from './app/contexts/registry/routes'
+import timeTrackingRoutes from './app/contexts/timetracking/routes'
+import martinRoutes from './app/contexts/martin/routes'
 
 Vue.use(VueRouter)
 
-const routes = [
-    { path: '/', component: Home },
-    { path: '/about', component: About },
-    { path: '/bot', component: Bot },
-    { path: '/contact', component: Contact }
-]
+const routes = websiteRoutes
+    .concat(martinRoutes)
     .concat(authRoutes)
     .concat(accountancyRoutes)
     .concat(registryRoutes)

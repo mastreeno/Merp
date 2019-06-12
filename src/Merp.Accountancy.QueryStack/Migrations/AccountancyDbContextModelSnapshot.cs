@@ -15,7 +15,7 @@ namespace Merp.Accountancy.QueryStack.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -58,6 +58,8 @@ namespace Merp.Accountancy.QueryStack.Migrations
 
                     b.Property<decimal>("TotalPrice");
 
+                    b.Property<decimal>("TotalToPay");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Date");
@@ -96,6 +98,8 @@ namespace Merp.Accountancy.QueryStack.Migrations
                     b.Property<decimal>("UnitPrice");
 
                     b.Property<decimal>("Vat");
+
+                    b.Property<string>("VatDescription");
 
                     b.HasKey("Id");
 
@@ -203,6 +207,16 @@ namespace Merp.Accountancy.QueryStack.Migrations
                     b.ToTable("PricesByVat");
                 });
 
+            modelBuilder.Entity("Merp.Accountancy.QueryStack.Model.IncomingCreditNote", b =>
+                {
+                    b.HasBaseType("Merp.Accountancy.QueryStack.Model.Invoice");
+
+
+                    b.ToTable("IncomingCreditNote");
+
+                    b.HasDiscriminator().HasValue("IncomingCreditNote");
+                });
+
             modelBuilder.Entity("Merp.Accountancy.QueryStack.Model.IncomingInvoice", b =>
                 {
                     b.HasBaseType("Merp.Accountancy.QueryStack.Model.Invoice");
@@ -211,6 +225,16 @@ namespace Merp.Accountancy.QueryStack.Migrations
                     b.ToTable("IncomingInvoice");
 
                     b.HasDiscriminator().HasValue("IncomingInvoice");
+                });
+
+            modelBuilder.Entity("Merp.Accountancy.QueryStack.Model.OutgoingCreditNote", b =>
+                {
+                    b.HasBaseType("Merp.Accountancy.QueryStack.Model.Invoice");
+
+
+                    b.ToTable("OutgoingCreditNote");
+
+                    b.HasDiscriminator().HasValue("OutgoingCreditNote");
                 });
 
             modelBuilder.Entity("Merp.Accountancy.QueryStack.Model.OutgoingInvoice", b =>
@@ -225,6 +249,48 @@ namespace Merp.Accountancy.QueryStack.Migrations
 
             modelBuilder.Entity("Merp.Accountancy.QueryStack.Model.Invoice", b =>
                 {
+                    b.OwnsOne("Merp.Accountancy.QueryStack.Model.ProvidenceFund", "ProvidenceFund", b1 =>
+                        {
+                            b1.Property<int?>("InvoiceId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<decimal>("Amount");
+
+                            b1.Property<string>("Description");
+
+                            b1.Property<decimal>("Rate");
+
+                            b1.ToTable("Invoice");
+
+                            b1.HasOne("Merp.Accountancy.QueryStack.Model.Invoice")
+                                .WithOne("ProvidenceFund")
+                                .HasForeignKey("Merp.Accountancy.QueryStack.Model.ProvidenceFund", "InvoiceId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+
+                    b.OwnsOne("Merp.Accountancy.QueryStack.Model.WithholdingTax", "WithholdingTax", b1 =>
+                        {
+                            b1.Property<int?>("InvoiceId")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<decimal>("Amount");
+
+                            b1.Property<string>("Description");
+
+                            b1.Property<decimal>("Rate");
+
+                            b1.Property<decimal>("TaxableAmountRate");
+
+                            b1.ToTable("Invoice");
+
+                            b1.HasOne("Merp.Accountancy.QueryStack.Model.Invoice")
+                                .WithOne("WithholdingTax")
+                                .HasForeignKey("Merp.Accountancy.QueryStack.Model.WithholdingTax", "InvoiceId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+
                     b.OwnsOne("Merp.Accountancy.QueryStack.Model.Invoice+PartyInfo", "Customer", b1 =>
                         {
                             b1.Property<int>("InvoiceId")

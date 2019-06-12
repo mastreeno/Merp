@@ -87,7 +87,8 @@ namespace Merp.Accountancy.CommandStack.Sagas
                 message.IsTimeAndMaterial,
                 message.JobOrderName,
                 message.PurchaseOrderNumber,
-                message.Description
+                message.Description,
+                message.UserId
             );
             await this.repository.SaveAsync(jobOrder);
             this.Data.JobOrderId = jobOrder.Id;

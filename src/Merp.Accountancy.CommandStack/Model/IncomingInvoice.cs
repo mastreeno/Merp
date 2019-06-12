@@ -11,7 +11,7 @@ namespace Merp.Accountancy.CommandStack.Model
 {
     public class IncomingInvoice : Invoice,
         IApplyEvent<IncomingInvoiceRegisteredEvent>,
-        IApplyEvent<IncomingInvoiceGotOverdueEvent>
+        IApplyEvent<IncomingInvoiceOverdueEvent>
     {
         public PartyInfo Supplier { get; protected set; }
 
@@ -31,6 +31,7 @@ namespace Merp.Accountancy.CommandStack.Model
             Amount = evt.TaxableAmount;
             Taxes = evt.Taxes;
             TotalPrice = evt.TotalPrice;
+            TotalToPay = evt.TotalToPay;
             Description = evt.Description;
             PaymentTerms = evt.PaymentTerms;
             PurchaseOrderNumber = evt.PurchaseOrderNumber;
@@ -39,7 +40,7 @@ namespace Merp.Accountancy.CommandStack.Model
             if (evt.LineItems != null)
             {
                 InvoiceLineItems = evt.LineItems
-                    .Select(i => new InvoiceLineItem(i.Code, i.Description, i.Quantity, i.UnitPrice, i.TotalPrice, i.Vat))
+                    .Select(i => new InvoiceLineItem(i.Code, i.Description, i.Quantity, i.UnitPrice, i.TotalPrice, i.Vat, i.VatDescription))
                     .ToArray();
             }
 
@@ -57,6 +58,20 @@ namespace Merp.Accountancy.CommandStack.Model
                     .ToArray();
             }
 
+            if (!string.IsNullOrWhiteSpace(evt.ProvidenceFundDescription) && evt.ProvidenceFundRate.HasValue && evt.ProvidenceFundAmount.HasValue)
+            {
+                ProvidenceFund = new InvoiceProvidenceFund(evt.ProvidenceFundDescription, evt.ProvidenceFundRate.Value, evt.ProvidenceFundAmount.Value);
+            }
+
+            if (!string.IsNullOrWhiteSpace(evt.WithholdingTaxDescription) && evt.WithholdingTaxRate.HasValue && evt.WithholdingTaxTaxableAmountRate.HasValue && evt.WithholdingTaxAmount.HasValue)
+            {
+                WithholdingTax = new InvoiceWithholdingTax(
+                    evt.WithholdingTaxDescription,
+                    evt.WithholdingTaxRate.Value,
+                    evt.WithholdingTaxTaxableAmountRate.Value,
+                    evt.WithholdingTaxAmount.Value);
+            }
+
             PricesAreVatIncluded = evt.PricesAreVatIncluded;
         }
 
@@ -65,7 +80,7 @@ namespace Merp.Accountancy.CommandStack.Model
             PaymentDate = evt.PaymentDate;
         }
 
-        public void ApplyEvent([AggregateId(nameof(IncomingInvoiceGotOverdueEvent.InvoiceId))] IncomingInvoiceGotOverdueEvent evt)
+        public void ApplyEvent([AggregateId(nameof(IncomingInvoiceOverdueEvent.InvoiceId))] IncomingInvoiceOverdueEvent evt)
         {
             IsOverdue = true;
         }
@@ -75,7 +90,7 @@ namespace Merp.Accountancy.CommandStack.Model
             if (!DueDate.HasValue)
                 throw new InvalidOperationException("An invoice must have a due date for it to be marked as expired.");
 
-            var evt = new IncomingInvoiceGotOverdueEvent(this.Id, DueDate.Value, userId);
+            var evt = new IncomingInvoiceOverdueEvent(this.Id, DueDate.Value, userId);
             RaiseEvent(evt);
         }
 
@@ -87,9 +102,10 @@ namespace Merp.Accountancy.CommandStack.Model
 
         public static class Factory
         {
-            public static IncomingInvoice Register(string invoiceNumber, DateTime invoiceDate, DateTime? dueDate, string currency, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber,
+            public static IncomingInvoice Register(string invoiceNumber, DateTime invoiceDate, DateTime? dueDate, string currency, decimal amount, decimal taxes, decimal totalPrice, decimal totalToPay, string description, string paymentTerms, string purchaseOrderNumber,
             Guid customerId, string customerName, string customerAddress, string customerCity, string customerPostalCode, string customerCountry, string customerVatIndex, string customerNationalIdentificationNumber,
-            Guid supplierId, string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber, IEnumerable<InvoiceLineItem> lineItems, bool pricesAreVatIncluded, IEnumerable<InvoicePriceByVat> pricesByVat, IEnumerable<NonTaxableItem> nonTaxableItems, Guid userId)
+            Guid supplierId, string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber, IEnumerable<InvoiceLineItem> lineItems, bool pricesAreVatIncluded, IEnumerable<InvoicePriceByVat> pricesByVat, IEnumerable<NonTaxableItem> nonTaxableItems, 
+            string providenceFundDescription, decimal? providenceFundRate, decimal? providenceFundAmount, string withholdingTaxDescription, decimal? withholdingTaxRate, decimal? withholdingTaxTaxableAmountRate, decimal? withholdingTaxAmount, Guid userId)
             {
                 if (string.IsNullOrWhiteSpace(invoiceNumber))
                 {
@@ -115,7 +131,8 @@ namespace Merp.Accountancy.CommandStack.Model
                         i.Quantity,
                         i.UnitPrice,
                         i.TotalPrice,
-                        i.Vat)).ToArray();
+                        i.Vat,
+                        i.VatDescription)).ToArray();
                 }
 
                 var _invoicePricesByVat = new IncomingInvoiceRegisteredEvent.InvoicePriceByVat[0];
@@ -143,6 +160,7 @@ namespace Merp.Accountancy.CommandStack.Model
                         amount,
                         taxes,
                         totalPrice,
+                        totalToPay,
                         description,
                         paymentTerms,
                         purchaseOrderNumber,
@@ -166,6 +184,13 @@ namespace Merp.Accountancy.CommandStack.Model
                         pricesAreVatIncluded,
                         _invoicePricesByVat,
                         _nonTaxableItems,
+                        providenceFundDescription,
+                        providenceFundRate,
+                        providenceFundAmount,
+                        withholdingTaxDescription,
+                        withholdingTaxRate,
+                        withholdingTaxTaxableAmountRate,
+                        withholdingTaxAmount,
                         userId
                     );
                 var invoice = new IncomingInvoice();
@@ -173,9 +198,10 @@ namespace Merp.Accountancy.CommandStack.Model
                 return invoice;
             }
 
-            public static IncomingInvoice Import(Guid invoiceId, string invoiceNumber, DateTime invoiceDate, DateTime? dueDate, string currency, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber,
-             Guid customerId, string customerName, string customerAddress, string customerCity, string customerPostalCode, string customerCountry, string customerVatIndex, string customerNationalIdentificationNumber,
-             Guid supplierId, string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber)
+            //public static IncomingInvoice Import(Guid invoiceId, string invoiceNumber, DateTime invoiceDate, DateTime? dueDate, string currency, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber,
+            // Guid customerId, string customerName, string customerAddress, string customerCity, string customerPostalCode, string customerCountry, string customerVatIndex, string customerNationalIdentificationNumber,
+            // Guid supplierId, string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber)
+            public static IncomingInvoice Import(Guid invoiceId, string invoiceNumber, DateTime invoiceDate, DateTime? dueDate, string currency, decimal amount, decimal taxes, decimal totalPrice, decimal totalToPay, string description, string paymentTerms, string purchaseOrderNumber, Guid customerId, string customerName, string customerAddress, string customerCity, string customerPostalCode, string customerCountry, string customerVatIndex, string customerNationalIdentificationNumber, Guid supplierId, string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber, IEnumerable<InvoiceLineItem> lineItems, bool pricesAreVatIncluded, IEnumerable<InvoicePriceByVat> pricesByVat, IEnumerable<NonTaxableItem> nonTaxableItems, string providenceFundDescription, decimal? providenceFundRate, decimal? providenceFundAmount, string withholdingTaxDescription, decimal? withholdingTaxRate, decimal? withholdingTaxTaxableAmountRate, decimal? withholdingTaxAmount, Guid userId)
             {
                 var @event = new IncomingInvoiceRegisteredEvent(
                         invoiceId,
@@ -185,6 +211,7 @@ namespace Merp.Accountancy.CommandStack.Model
                         currency,
                         amount,
                         taxes,
+                        totalPrice,
                         totalPrice,
                         description,
                         paymentTerms,
@@ -205,11 +232,24 @@ namespace Merp.Accountancy.CommandStack.Model
                         supplierCountry,
                         supplierVatIndex,
                         supplierNationalIdentificationNumber,
-                        null, 
-                        false,
-                        null,
-                        null,
-                        Guid.Empty
+                        lineItems
+                            .Select(i => new IncomingInvoiceRegisteredEvent.InvoiceLineItem(i.Code, i.Description, i.Quantity, i.UnitPrice, i.TotalPrice, i.Vat, i.VatDescription))
+                            .ToArray(),
+                        pricesAreVatIncluded,
+                        pricesByVat
+                            .Select(i => new IncomingInvoiceRegisteredEvent.InvoicePriceByVat(i.TaxableAmount, i.VatRate, i.VatAmount, i.TotalPrice))
+                            .ToArray(),
+                        nonTaxableItems
+                            .Select(i => new IncomingInvoiceRegisteredEvent.NonTaxableItem(i.Description, i.Amount))
+                            .ToArray(),
+                        providenceFundDescription,
+                        providenceFundRate,
+                        providenceFundAmount,
+                        withholdingTaxDescription,
+                        withholdingTaxRate,
+                        withholdingTaxTaxableAmountRate,
+                        withholdingTaxAmount,
+                        userId
                     );
                 var invoice = new IncomingInvoice();
                 invoice.RaiseEvent(@event);

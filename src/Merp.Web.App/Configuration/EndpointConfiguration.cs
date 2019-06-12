@@ -8,6 +8,8 @@
 
         public string Accountancy { get; set; }
 
+        public string AccountancyInternal { get; set; }
+
         public string Registry { get; set; }
 
         public string RegistryInternal { get; set; }

@@ -7,13 +7,13 @@ import BootstrapVue from 'bootstrap-vue'
 import VeeValidate from 'vee-validate'
 
 import { router } from './router'
-import Identity from './app/plugins/identity'
-import Localization from './app/plugins/localization'
-import { httpClient } from './app/services/httpClient'
-import localizationHelper from './app/services/localizationHelper'
-import dateFormat from './app/filters/dateFormat'
-import currencyFormat from './app/filters/currencyFormat'
-import App from './app/components/app/app.vue'
+import Identity from './app/shared/plugins/identity'
+import Localization from './app/shared/plugins/localization'
+import { httpClient } from './app/shared/services/httpClient'
+import localizationHelper from './app/shared/services/localizationHelper'
+import dateFormat from './app/shared/filters/dateFormat'
+import currencyFormat from './app/shared/filters/currencyFormat'
+import App from './app/app.vue'
 
 Vue.use(BootstrapVue)
 Vue.use(VeeValidate)
@@ -26,7 +26,7 @@ Vue.use(Identity, {
     client_id: "merp.webapp",
     redirect_uri: window.endpoints.authority.clientCallbackUrl,
     response_type: "id_token token",
-    scope: "openid profile merp.accountancy.api merp.registry.api merp.registry.api.internal merp.timetracking.api merp.auth.api merp.webapp.api",
+    scope: "openid profile merp.accountancy.api merp.accountancy.api.internal merp.registry.api merp.registry.api.internal merp.timetracking.api merp.auth.api merp.webapp.api",
     post_logout_redirect_uri: window.endpoints.authority.clientBaseUrl
 })
 

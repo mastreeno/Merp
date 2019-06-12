@@ -24,6 +24,7 @@ namespace Merp.Accountancy.CommandStack.Model
             Amount = evt.TaxableAmount;
             Taxes = evt.Taxes;
             TotalPrice = evt.TotalPrice;
+            TotalToPay = evt.TotalToPay;
             Description = evt.Description;
             PaymentTerms = evt.PaymentTerms;
             PurchaseOrderNumber = evt.PurchaseOrderNumber;
@@ -32,7 +33,7 @@ namespace Merp.Accountancy.CommandStack.Model
             if (evt.LineItems != null)
             {
                 InvoiceLineItems = evt.LineItems
-                    .Select(i => new InvoiceLineItem(i.Code, i.Description, i.Quantity, i.UnitPrice, i.TotalPrice, i.Vat))
+                    .Select(i => new InvoiceLineItem(i.Code, i.Description, i.Quantity, i.UnitPrice, i.TotalPrice, i.Vat, i.VatDescription))
                     .ToArray();
             }
 
@@ -48,14 +49,29 @@ namespace Merp.Accountancy.CommandStack.Model
                     .Select(t => new NonTaxableItem(t.Description, t.Amount));
             }
 
+            if (!string.IsNullOrWhiteSpace(evt.ProvidenceFundDescription) && evt.ProvidenceFundRate.HasValue && evt.ProvidenceFundAmount.HasValue)
+            {
+                ProvidenceFund = new InvoiceProvidenceFund(evt.ProvidenceFundDescription, evt.ProvidenceFundRate.Value, evt.ProvidenceFundAmount.Value);
+            }
+
+            if (!string.IsNullOrWhiteSpace(evt.WithholdingTaxDescription) && evt.WithholdingTaxRate.HasValue && evt.WithholdingTaxTaxableAmountRate.HasValue && evt.WithholdingTaxAmount.HasValue)
+            {
+                WithholdingTax = new InvoiceWithholdingTax(
+                    evt.WithholdingTaxDescription,
+                    evt.WithholdingTaxRate.Value,
+                    evt.WithholdingTaxTaxableAmountRate.Value,
+                    evt.WithholdingTaxAmount.Value);
+            }
+
             PricesAreVatIncluded = evt.PricesAreVatIncluded;
         }
 
         public static class Factory
         {
-            public static OutgoingCreditNote Issue(IOutgoingCreditNoteNumberGenerator generator, DateTime creditNoteDate, string currency, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, Guid customerId,
+            public static OutgoingCreditNote Issue(IOutgoingCreditNoteNumberGenerator generator, DateTime creditNoteDate, string currency, decimal amount, decimal taxes, decimal totalPrice, decimal totalToPay, string description, string paymentTerms, string purchaseOrderNumber, Guid customerId,
                 string customerName, string customerAddress, string customerCity, string customerPostalCode, string customerCountry, string customerVatIndex, string customerNationalIdentificationNumber,
-                string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber, IEnumerable<InvoiceLineItem> lineItems, bool pricesAreVatIncluded, IEnumerable<InvoicePriceByVat> pricesByVat, IEnumerable<NonTaxableItem> nonTaxableItems, Guid userId)
+                string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber, IEnumerable<InvoiceLineItem> lineItems, bool pricesAreVatIncluded, IEnumerable<InvoicePriceByVat> pricesByVat, IEnumerable<NonTaxableItem> nonTaxableItems,
+                string providenceFundDescription, decimal? providenceFundRate, decimal? providenceFundAmount, string withholdingTaxDescription, decimal? withholdingTaxRate, decimal? withholdingTaxTaxableAmountRate, decimal? withholdingTaxAmount, Guid userId)
             {
                 if (generator == null)
                 {
@@ -76,7 +92,7 @@ namespace Merp.Accountancy.CommandStack.Model
                 if (lineItems.Count() > 0)
                 {
                     _lineItems = lineItems
-                        .Select(l => new OutgoingCreditNoteIssuedEvent.LineItem(l.Code, l.Description, l.Quantity, l.UnitPrice, l.TotalPrice, l.Vat))
+                        .Select(l => new OutgoingCreditNoteIssuedEvent.LineItem(l.Code, l.Description, l.Quantity, l.UnitPrice, l.TotalPrice, l.Vat, l.VatDescription))
                         .ToArray();
                 }
 
@@ -107,6 +123,7 @@ namespace Merp.Accountancy.CommandStack.Model
                     amount,
                     taxes,
                     totalPrice,
+                    totalToPay,
                     description,
                     paymentTerms,
                     purchaseOrderNumber,
@@ -129,6 +146,13 @@ namespace Merp.Accountancy.CommandStack.Model
                     pricesAreVatIncluded,
                     _pricesByVat,
                     _nonTaxableItems,
+                    providenceFundDescription,
+                    providenceFundRate,
+                    providenceFundAmount,
+                    withholdingTaxDescription,
+                    withholdingTaxRate,
+                    withholdingTaxTaxableAmountRate,
+                    withholdingTaxAmount,
                     userId);
 
                 var creditNote = new OutgoingCreditNote();
@@ -137,9 +161,10 @@ namespace Merp.Accountancy.CommandStack.Model
                 return creditNote;
             }
 
-            public static OutgoingCreditNote Register(string creditNoteNumber, DateTime creditNoteDate, string currency, decimal amount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber, Guid customerId,
+            public static OutgoingCreditNote Register(string creditNoteNumber, DateTime creditNoteDate, string currency, decimal amount, decimal taxes, decimal totalPrice, decimal totalToPay, string description, string paymentTerms, string purchaseOrderNumber, Guid customerId,
                 string customerName, string customerAddress, string customerCity, string customerPostalCode, string customerCountry, string customerVatIndex, string customerNationalIdentificationNumber,
-                string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber, IEnumerable<InvoiceLineItem> lineItems, bool pricesAreVatIncluded, IEnumerable<InvoicePriceByVat> pricesByVat, IEnumerable<NonTaxableItem> nonTaxableItems, Guid userId)
+                string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber, IEnumerable<InvoiceLineItem> lineItems, bool pricesAreVatIncluded, IEnumerable<InvoicePriceByVat> pricesByVat, IEnumerable<NonTaxableItem> nonTaxableItems,
+                string providenceFundDescription, decimal? providenceFundRate, decimal? providenceFundAmount, string withholdingTaxDescription, decimal? withholdingTaxRate, decimal? withholdingTaxTaxableAmountRate, decimal? withholdingTaxAmount, Guid userId)
             {
                 if (string.IsNullOrWhiteSpace(creditNoteNumber))
                 {
@@ -160,7 +185,7 @@ namespace Merp.Accountancy.CommandStack.Model
                 if (lineItems.Count() > 0)
                 {
                     _lineItems = lineItems
-                        .Select(l => new OutgoingCreditNoteIssuedEvent.LineItem(l.Code, l.Description, l.Quantity, l.UnitPrice, l.TotalPrice, l.Vat))
+                        .Select(l => new OutgoingCreditNoteIssuedEvent.LineItem(l.Code, l.Description, l.Quantity, l.UnitPrice, l.TotalPrice, l.Vat, l.VatDescription))
                         .ToArray();
                 }
 
@@ -190,6 +215,7 @@ namespace Merp.Accountancy.CommandStack.Model
                     amount,
                     taxes,
                     totalPrice,
+                    totalToPay,
                     description,
                     paymentTerms,
                     purchaseOrderNumber,
@@ -212,6 +238,13 @@ namespace Merp.Accountancy.CommandStack.Model
                     pricesAreVatIncluded,
                     _pricesByVat,
                     _nonTaxableItems,
+                    providenceFundDescription,
+                    providenceFundRate,
+                    providenceFundAmount,
+                    withholdingTaxDescription,
+                    withholdingTaxRate,
+                    withholdingTaxTaxableAmountRate,
+                    withholdingTaxAmount,
                     userId);
 
                 var creditNote = new OutgoingCreditNote();

@@ -17,6 +17,8 @@ namespace Merp.Web.App.Services.Url
 
         public AccountancyEndpoints Accountancy { get; private set; }
 
+        public AccountancyInternalEndpoints AccountancyInternal { get; private set; }
+
         public RegistryEndpoints Registry { get; private set; }
 
         public RegistryInternalEndpoints RegistryInternal { get; private set; }
@@ -30,6 +32,7 @@ namespace Merp.Web.App.Services.Url
             Client = new ClientEndpoints(_endpoints.Client);
             Authority = new AuthorityEndpoints(_endpoints.Authority, _endpoints.Client);
             Accountancy = new AccountancyEndpoints(_endpoints.Accountancy);
+            AccountancyInternal = new AccountancyInternalEndpoints(_endpoints.AccountancyInternal);
             Registry = new RegistryEndpoints(_endpoints.Registry);
             RegistryInternal = new RegistryInternalEndpoints(_endpoints.RegistryInternal);
             TimeTracking = new TimeTrackingEndpoints(_endpoints.TimeTracking);

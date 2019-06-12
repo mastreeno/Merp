@@ -139,7 +139,7 @@ namespace Merp.Registry.CommandStack.Model
             public static Company CreateNewEntryByImport(Guid companyId, DateTime registrationDate, string companyName, string vatNumber, string nationalIdentificationNumber, 
                 string legalAddressAddress, string legalAddressCity, string legalAddressPostalCode, string legalAddressProvince, string legalAddressCountry,
                 string billingAddressAddress, string billingAddressCity, string billingAddressPostalCode, string billingAddressProvince, string billingAddressCountry,
-                string shippingAddressAddress, string shippingAddressCity, string shippingAddressPostalCode, string shippingAddressProvince, string shippingAddressCountry)
+                string shippingAddressAddress, string shippingAddressCity, string shippingAddressPostalCode, string shippingAddressProvince, string shippingAddressCountry, Guid userId)
             {
                 if (string.IsNullOrWhiteSpace(companyName))
                     throw new ArgumentException("The company name must be specified", nameof(companyName));
@@ -151,7 +151,7 @@ namespace Merp.Registry.CommandStack.Model
                 var e = new CompanyRegisteredEvent(companyId, registrationDate, companyName, vatNumber, nationalIdentificationNumber, 
                     legalAddressAddress, legalAddressCity, legalAddressPostalCode, legalAddressProvince, legalAddressCountry,
                     billingAddressAddress, billingAddressCity, billingAddressPostalCode, billingAddressProvince, billingAddressCountry,
-                    shippingAddressAddress, shippingAddressCity, shippingAddressPostalCode, shippingAddressProvince, shippingAddressCountry, Guid.Empty);
+                    shippingAddressAddress, shippingAddressCity, shippingAddressPostalCode, shippingAddressProvince, shippingAddressCountry, userId);
                 p.RaiseEvent(e);
                 return p;
             }

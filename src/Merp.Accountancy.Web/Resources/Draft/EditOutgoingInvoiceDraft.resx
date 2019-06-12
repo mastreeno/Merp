@@ -153,6 +153,9 @@
   <data name="PricesByVat" xml:space="preserve">
     <value>Prices by VAT</value>
   </data>
+  <data name="ProvidenceFund" xml:space="preserve">
+    <value>Providence fund</value>
+  </data>
   <data name="PurchaseOrderNumber" xml:space="preserve">
     <value>PO #</value>
   </data>
@@ -161,6 +164,9 @@
   </data>
   <data name="SaveAsDraft" xml:space="preserve">
     <value>Save Draft</value>
+  </data>
+  <data name="TaxableAmount" xml:space="preserve">
+    <value>Taxable amount</value>
   </data>
   <data name="VatIncluded" xml:space="preserve">
     <value>All prices are VAT included</value>

@@ -45,11 +45,11 @@ namespace Merp.Accountancy.Web
             Bus.Subscribe<IncomingCreditNoteLinkedToJobOrderEvent>();
             Bus.Subscribe<IncomingInvoiceRegisteredEvent>();
             Bus.Subscribe<IncomingInvoicePaidEvent>();
-            Bus.Subscribe<IncomingInvoiceGotOverdueEvent>();
+            Bus.Subscribe<IncomingInvoiceOverdueEvent>();
             Bus.Subscribe<OutgoingInvoiceIssuedEvent>();
             Bus.Subscribe<OutgoingInvoiceLinkedToJobOrderEvent>();
             Bus.Subscribe<OutgoingInvoicePaidEvent>();
-            Bus.Subscribe<OutgoingInvoiceGotOverdueEvent>();
+            Bus.Subscribe<OutgoingInvoiceOverdueEvent>();
             Bus.Subscribe<OutgoingCreditNoteIssuedEvent>();
             Bus.Subscribe<OutgoingCreditNoteLinkedToJobOrderEvent>();
         }

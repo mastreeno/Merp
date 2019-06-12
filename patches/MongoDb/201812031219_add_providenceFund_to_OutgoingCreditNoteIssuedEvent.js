@@ -1,0 +1,1 @@
+db.getCollection('OutgoingCreditNoteIssuedEvent').updateMany({}, { $set: { ProvidenceFundDescription: null, ProvidenceFundRate: null, ProvidenceFundAmount: null } });

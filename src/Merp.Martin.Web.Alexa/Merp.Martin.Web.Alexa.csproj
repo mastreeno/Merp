@@ -2,14 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <Authors>Mastreeno ltd, Andrea Saltarello</Authors>
-    <Product>Merp</Product>
-    <Copyright>Mastreeno ltd, Andrea Saltarello</Copyright>
-    <Description>An event-based Micro ERP</Description>    
+    <UserSecretsId>4c299872-4d91-469f-b021-6baa7224fa44</UserSecretsId>
+    <Configurations>Debug;Release;AzureMongoDB</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Alexa.NET" Version="1.5.5" />
+    <PackageReference Include="Alexa.NET" Version="1.6.3" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
   </ItemGroup>
@@ -25,5 +23,7 @@
   <ItemGroup>
     <Folder Include="CognitiveModels\en\" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>

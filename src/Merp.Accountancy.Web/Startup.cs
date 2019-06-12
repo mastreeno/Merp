@@ -29,7 +29,7 @@ namespace Merp.Accountancy.Web
 
             RegisterClientsCors(services);
             services.AddHttpContextAccessor();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddSingleton(services);
             var bootstrapper = new AppBootstrapper(Configuration, services);

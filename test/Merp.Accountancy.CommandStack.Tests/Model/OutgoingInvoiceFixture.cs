@@ -26,6 +26,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                     1000,
                     100,
                     1100,
+                    1100,
                     "description",
                     string.Empty,
                     string.Empty,
@@ -48,6 +49,13 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                     false,
                     pricesByVat,
                     nonTaxableItems,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     Guid.NewGuid()))
                     .Should()
                     .Throw<ArgumentNullException>()
@@ -74,6 +82,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                     1000,
                     100,
                     1100,
+                    1100,
                     "description",
                     string.Empty,
                     string.Empty,
@@ -96,6 +105,13 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                     false,
                     pricesByVat,
                     nonTaxableItems,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     Guid.NewGuid()))
                     .Should()
                     .Throw<ArgumentNullException>()
@@ -122,6 +138,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                     1000,
                     100,
                     1100,
+                    1100,
                     "description",
                     string.Empty,
                     string.Empty,
@@ -144,6 +161,13 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                     false,
                     pricesByVat,
                     nonTaxableItems,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     Guid.NewGuid()))
                     .Should()
                     .Throw<ArgumentNullException>()
@@ -170,6 +194,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                     1000,
                     100,
                     1100,
+                    1100,
                     "description",
                     string.Empty,
                     string.Empty,
@@ -192,6 +217,13 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                     false,
                     pricesByVat,
                     nonTaxableItems,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     Guid.NewGuid()))
                     .Should()
                     .Throw<ArgumentException>()
@@ -218,6 +250,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                     1000,
                     100,
                     1100,
+                    1100,
                     "description",
                     string.Empty,
                     string.Empty,
@@ -240,6 +273,13 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                     false,
                     pricesByVat,
                     nonTaxableItems,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     Guid.NewGuid()))
                     .Should()
                     .Throw<ArgumentNullException>()
@@ -266,6 +306,7 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                     1000,
                     100,
                     1100,
+                    1100,
                     "description",
                     string.Empty,
                     string.Empty,
@@ -288,6 +329,13 @@ namespace Merp.Accountancy.CommandStack.Tests.Model
                     false,
                     pricesByVat,
                     nonTaxableItems,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
                     Guid.NewGuid()))
                     .Should()
                     .Throw<ArgumentNullException>()

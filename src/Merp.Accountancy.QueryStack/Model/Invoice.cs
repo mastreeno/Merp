@@ -27,6 +27,7 @@ namespace Merp.Accountancy.QueryStack.Model
         public decimal TaxableAmount { get; set; }
         public decimal Taxes { get; set; }
         public decimal TotalPrice { get; set; }
+        public decimal TotalToPay { get; set; }
         public string PurchaseOrderNumber { get; set; }
         public string Description { get; set; }
         //[Index]
@@ -45,11 +46,17 @@ namespace Merp.Accountancy.QueryStack.Model
 
         public bool PricesAreVatIncluded { get; set; }
 
+        public ProvidenceFund ProvidenceFund { get; set; }
+
+        public WithholdingTax WithholdingTax { get; set; }
+
         public Invoice()
         {
             InvoiceLineItems = new List<InvoiceLineItem>();
             PricesByVat = new List<PriceByVat>();
             NonTaxableItems = new List<NonTaxableItem>();
+            ProvidenceFund = new ProvidenceFund();
+            WithholdingTax = new WithholdingTax();
         }
 
         [ComplexType]
@@ -78,6 +85,8 @@ namespace Merp.Accountancy.QueryStack.Model
 
             builder.OwnsOne(c => c.Customer).HasIndex(o=>o.Name);
             builder.OwnsOne(c => c.Supplier).HasIndex(o => o.Name);
+            builder.OwnsOne(c => c.ProvidenceFund);
+            builder.OwnsOne(c => c.WithholdingTax);
 
             builder.HasMany(o => o.InvoiceLineItems);
             builder.HasMany(o => o.PricesByVat);

@@ -42,6 +42,9 @@ namespace Merp.Martin.Web.Alexa
             services.AddScoped<Merp.Martin.Intents.Accountancy.GrossIncomeIntentWorker>();
             services.AddScoped<Merp.Martin.Intents.Accountancy.NetIncomeIntentWorker>();
             services.AddScoped<Merp.Martin.Intents.Accountancy.OutgoingInvoicePaymentCheckWorker>();
+
+            services.AddScoped<Merp.Martin.Intents.General.HelpWorker>();
+            services.AddScoped<Merp.Martin.Intents.General.GreetingWorker>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -45,7 +45,9 @@ namespace Merp.Accountancy.CommandStack.Events
 
             public decimal Vat { get; set; }
 
-            public LineItem(string code, string description, int quantity, decimal unitPrice, decimal totalPrice, decimal vat)
+            public string VatDescription { get; set; }
+
+            public LineItem(string code, string description, int quantity, decimal unitPrice, decimal totalPrice, decimal vat, string vatDescription)
             {
                 Code = code;
                 Description = description;
@@ -53,6 +55,7 @@ namespace Merp.Accountancy.CommandStack.Events
                 UnitPrice = unitPrice;
                 TotalPrice = totalPrice;
                 Vat = vat;
+                VatDescription = vatDescription;
             }
         }
 
@@ -107,6 +110,8 @@ namespace Merp.Accountancy.CommandStack.Events
         
         public decimal TotalPrice { get; private set; }
 
+        public decimal TotalToPay { get; private set; }
+
         public string Description { get; private set; }
 
         public string PaymentTerms { get; private set; }
@@ -121,9 +126,24 @@ namespace Merp.Accountancy.CommandStack.Events
 
         public IEnumerable<NonTaxableItem> NonTaxableItems { get; private set; }
 
-        public OutgoingCreditNoteIssuedEvent(Guid creditNoteId, string creditNoteNumber, DateTime creditNoteDate, string currency, decimal taxableAmount, decimal taxes, decimal totalPrice, string description, string paymentTerms, string purchaseOrderNumber,
+        public string ProvidenceFundDescription { get; set; }
+
+        public decimal? ProvidenceFundRate { get; set; }
+
+        public decimal? ProvidenceFundAmount { get; set; }
+
+        public string WithholdingTaxDescription { get; set; }
+
+        public decimal? WithholdingTaxRate { get; set; }
+
+        public decimal? WithholdingTaxTaxableAmountRate { get; set; }
+
+        public decimal? WithholdingTaxAmount { get; set; }
+
+        public OutgoingCreditNoteIssuedEvent(Guid creditNoteId, string creditNoteNumber, DateTime creditNoteDate, string currency, decimal taxableAmount, decimal taxes, decimal totalPrice, decimal totalToPay, string description, string paymentTerms, string purchaseOrderNumber,
             Guid customerId, string customerName, string customerAddress, string customerCity, string customerPostalCode, string customerCountry, string customerVatIndex, string customerNationalIdentificationNumber,
-            string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber, IEnumerable<LineItem> lineItems, bool pricesAreVatIncluded, IEnumerable<PriceByVat> pricesByVat, IEnumerable<NonTaxableItem> nonTaxableItems, Guid userId)
+            string supplierName, string supplierAddress, string supplierCity, string supplierPostalCode, string supplierCountry, string supplierVatIndex, string supplierNationalIdentificationNumber, IEnumerable<LineItem> lineItems, bool pricesAreVatIncluded, IEnumerable<PriceByVat> pricesByVat, IEnumerable<NonTaxableItem> nonTaxableItems,
+            string providenceFundDescription, decimal? providenceFundRate, decimal? providenceFundAmount, string withholdingTaxDescription, decimal? withholdingTaxRate, decimal? withholdingTaxTaxableAmountRate, decimal? withholdingTaxAmount, Guid userId)
             : base(userId)
         {
             var customer = new PartyInfo(
@@ -156,6 +176,7 @@ namespace Merp.Accountancy.CommandStack.Events
             TaxableAmount = taxableAmount;
             Taxes = taxes;
             TotalPrice = totalPrice;
+            TotalToPay = totalToPay;
             Description = description;
             PaymentTerms = paymentTerms;
             PurchaseOrderNumber = purchaseOrderNumber;
@@ -163,6 +184,13 @@ namespace Merp.Accountancy.CommandStack.Events
             PricesAreVatIncluded = pricesAreVatIncluded;
             PricesByVat = pricesByVat;
             NonTaxableItems = nonTaxableItems;
+            ProvidenceFundDescription = providenceFundDescription;
+            ProvidenceFundRate = providenceFundRate;
+            ProvidenceFundAmount = providenceFundAmount;
+            WithholdingTaxDescription = withholdingTaxDescription;
+            WithholdingTaxRate = withholdingTaxRate;
+            WithholdingTaxTaxableAmountRate = withholdingTaxTaxableAmountRate;
+            WithholdingTaxAmount = withholdingTaxAmount;
         }
     }
 }

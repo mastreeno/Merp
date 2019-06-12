@@ -249,6 +249,9 @@
   <data name="Purchases" xml:space="preserve">
     <value>Acquisti</value>
   </data>
+  <data name="Rate" xml:space="preserve">
+    <value>Aliquota</value>
+  </data>
   <data name="RegisterIncomingCreditNote" xml:space="preserve">
     <value>Registra nota di credito passiva</value>
   </data>
@@ -279,6 +282,9 @@
   <data name="Supplier" xml:space="preserve">
     <value>Fornitore</value>
   </data>
+  <data name="TaxableAmountRate" xml:space="preserve">
+    <value>% Imponibile</value>
+  </data>
   <data name="Taxes" xml:space="preserve">
     <value>Tasse</value>
   </data>
@@ -288,10 +294,16 @@
   <data name="TotalPrice" xml:space="preserve">
     <value>Prezzo totale</value>
   </data>
+  <data name="TotalToPay" xml:space="preserve">
+    <value>Totale a pagare</value>
+  </data>
   <data name="Vat" xml:space="preserve">
     <value>IVA</value>
   </data>
   <data name="VatNumber" xml:space="preserve">
     <value>Partiva IVA</value>
+  </data>
+  <data name="WithholdingTax" xml:space="preserve">
+    <value>Ritenuta d'acconto</value>
   </data>
 </root>

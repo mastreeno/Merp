@@ -13,8 +13,6 @@ namespace Merp.Accountancy.Web.Models.Invoice
 
         public DateTime Date { get; set; }
 
-        public DateTime? DueDate { get; set; }
-
         public DateTime? PaymentDate { get; set; }
 
         public string Currency { get; set; }
@@ -24,6 +22,8 @@ namespace Merp.Accountancy.Web.Models.Invoice
         public decimal Taxes { get; set; }
 
         public decimal TotalPrice { get; set; }
+
+        public decimal TotalToPay { get; set; }
 
         public string Description { get; set; }
 
@@ -36,5 +36,9 @@ namespace Merp.Accountancy.Web.Models.Invoice
         public IEnumerable<InvoiceLineItemModel> LineItems { get; set; }
 
         public IEnumerable<NonTaxableItemModel> NonTaxableItems { get; set; }
+        
+        public ProvidenceFundModel ProvidenceFund { get; set; }
+
+        public WithholdingTaxModel WithholdingTax { get; set; }
     }
 }

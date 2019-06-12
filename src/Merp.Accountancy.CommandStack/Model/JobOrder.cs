@@ -263,7 +263,7 @@ namespace Merp.Accountancy.CommandStack.Model
                 return jobOrder;
             }
 
-            public static JobOrder Import(Guid jobOrderId, string jobOrderNumber, Guid customerId, string customerName, Guid? contactPersonId, Guid managerId, decimal? price, string currency, DateTime dateOfRegistration, DateTime dateOfStart, DateTime dueDate, bool isTimeAndMaterial, string name, string purchaseOrderNumber, string description)
+            public static JobOrder Import(Guid jobOrderId, string jobOrderNumber, Guid customerId, string customerName, Guid? contactPersonId, Guid managerId, decimal? price, string currency, DateTime dateOfRegistration, DateTime dateOfStart, DateTime dueDate, bool isTimeAndMaterial, string name, string purchaseOrderNumber, string description, Guid userId)
             {
                 if (string.IsNullOrWhiteSpace(jobOrderNumber))
                     throw new ArgumentNullException(nameof(jobOrderNumber), "A job order number must be provided");
@@ -292,7 +292,7 @@ namespace Merp.Accountancy.CommandStack.Model
                     jobOrderNumber,
                     purchaseOrderNumber,
                     description,
-                    Guid.Empty);
+                    userId);
                 var jobOrder = new JobOrder();
                 jobOrder.RaiseEvent(@event);
                 return jobOrder;

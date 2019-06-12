@@ -45,6 +45,7 @@
     "vuejs-datepicker": "^1.5.3"
   },
   "dependencies": {
-    "botframework-webchat": "^4.1.0"
+    "botframework-directlinejs": "^0.11.4",
+    "botframework-webchat": "^4.3.0"
   }
 }

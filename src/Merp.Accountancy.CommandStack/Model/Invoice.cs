@@ -15,6 +15,7 @@ namespace Merp.Accountancy.CommandStack.Model
         public decimal Amount { get; protected set; }
         public decimal Taxes { get; protected set; }
         public decimal TotalPrice { get; protected set; }
+        public decimal TotalToPay { get; protected set; }
         public string Description { get; protected set; }
         public string PaymentTerms { get; protected set; }
         public string PurchaseOrderNumber { get; protected set; }
@@ -26,6 +27,8 @@ namespace Merp.Accountancy.CommandStack.Model
         public bool PricesAreVatIncluded { get; protected set; }
         public IEnumerable<InvoicePriceByVat> InvoicePricesByVat { get; protected set; }
         public IEnumerable<NonTaxableItem> NonTaxableItems { get; protected set; }
+        public InvoiceProvidenceFund ProvidenceFund { get; protected set; }
+        public InvoiceWithholdingTax WithholdingTax { get; protected set; }
 
         public class PartyInfo
         {
@@ -65,7 +68,9 @@ namespace Merp.Accountancy.CommandStack.Model
 
             public decimal Vat { get; set; }
 
-            public InvoiceLineItem(string code, string description, int quantity, decimal unitPrice, decimal totalPrice, decimal vat)
+            public string VatDescription { get; set; }
+
+            public InvoiceLineItem(string code, string description, int quantity, decimal unitPrice, decimal totalPrice, decimal vat, string vatDescription)
             {
                 Code = code;
                 Description = description;
@@ -73,6 +78,7 @@ namespace Merp.Accountancy.CommandStack.Model
                 UnitPrice = unitPrice;
                 TotalPrice = totalPrice;
                 Vat = vat;
+                VatDescription = vatDescription;
             }
         }
 
@@ -104,6 +110,41 @@ namespace Merp.Accountancy.CommandStack.Model
             public NonTaxableItem(string description, decimal amount)
             {
                 Description = description;
+                Amount = amount;
+            }
+        }
+
+        public class InvoiceProvidenceFund
+        {
+            public string Description { get; set; }
+
+            public decimal Rate { get; set; }
+
+            public decimal Amount { get; set; }
+
+            public InvoiceProvidenceFund(string description, decimal rate, decimal amount)
+            {
+                Description = description;
+                Rate = rate;
+                Amount = amount;
+            }
+        }
+
+        public class InvoiceWithholdingTax
+        {
+            public string Description { get; set; }
+
+            public decimal Rate { get; set; }
+
+            public decimal TaxableAmountRate { get; set; }
+
+            public decimal Amount { get; set; }
+
+            public InvoiceWithholdingTax(string description, decimal rate, decimal taxableAmountRate, decimal amount)
+            {
+                Description = description;
+                Rate = rate;
+                TaxableAmountRate = taxableAmountRate;
                 Amount = amount;
             }
         }

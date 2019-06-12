@@ -37,7 +37,7 @@ namespace Merp.Registry.Web.Api.Internal
 
             RegisterClientsCors(services);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddHttpContextAccessor();
 
             services.AddSingleton(services);

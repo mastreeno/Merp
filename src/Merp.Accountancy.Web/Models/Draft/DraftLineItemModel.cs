@@ -18,5 +18,7 @@ namespace Merp.Accountancy.Web.Models.Draft
         public decimal TotalPrice { get; set; }
 
         public decimal Vat { get; set; }
+
+        public string VatDescription { get; set; }
     }
 }

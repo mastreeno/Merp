@@ -153,6 +153,9 @@
   <data name="PricesByVat" xml:space="preserve">
     <value>Totale Imponibili IVA</value>
   </data>
+  <data name="ProvidenceFund" xml:space="preserve">
+    <value>Cassa previdenziale</value>
+  </data>
   <data name="PurchaseOrderNumber" xml:space="preserve">
     <value>PO #</value>
   </data>
@@ -161,6 +164,9 @@
   </data>
   <data name="SaveAsDraft" xml:space="preserve">
     <value>Salva bozza</value>
+  </data>
+  <data name="TaxableAmount" xml:space="preserve">
+    <value>Imponibile</value>
   </data>
   <data name="VatIncluded" xml:space="preserve">
     <value>Tutti i prezzi sono IVA inclusa</value>

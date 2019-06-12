@@ -17,6 +17,8 @@ namespace Merp.Accountancy.Web.Models.Draft
 
         public decimal TotalPrice { get; set; }
 
+        public decimal TotalToPay { get; set; }
+
         public string Description { get; set; }
 
         public string PaymentTerms { get; set; }
@@ -30,5 +32,9 @@ namespace Merp.Accountancy.Web.Models.Draft
         public IEnumerable<DraftPriceByVatModel> PricesByVat { get; set; }
 
         public IEnumerable<NonTaxableItemModel> NonTaxableItems { get; set; }
+
+        public ProvidenceFundModel ProvidenceFund { get; set; }
+
+        public WithholdingTaxModel WithholdingTax { get; set; }
     }
 }

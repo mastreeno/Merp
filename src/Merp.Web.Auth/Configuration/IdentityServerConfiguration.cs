@@ -56,6 +56,62 @@ namespace Merp.Web.Auth.Configuration
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile
                     }.Concat(_apiResources.Select(a => a.Name)).ToArray()
+                },
+                new Client
+                {
+                    ClientId = _clients["Merp.Martin.Web.Alexa"].ClientId,
+                    ClientName = _clients["Merp.Martin.Web.Alexa"].ClientName,
+                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowAccessTokensViaBrowser = true,
+                    RequireConsent = false,
+                    RedirectUris = { "https://layla.amazon.com/api/skill/link/M21TL5SCAFP3CZ", "https://alexa.amazon.co.jp/api/skill/link/M21TL5SCAFP3CZ", "https://pitangui.amazon.com/api/skill/link/M21TL5SCAFP3CZ" },
+                    ClientSecrets =
+                    {
+                        new Secret(_clients["Merp.Martin.Web.Alexa"].Secret.Sha256())
+                    },
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
+                    }.Concat(_apiResources.Select(a => a.Name)).ToArray()
+                },
+                new Client
+                {
+                    ClientId = _clients["Merp.Martin.Web.BotFramework"].ClientId,
+                    ClientName = _clients["Merp.Martin.Web.BotFramework"].ClientName,
+                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowAccessTokensViaBrowser = true,
+                    RequireConsent = false,
+                    RedirectUris = { _clients["Merp.Martin.Web.BotFramework"].RedirectUri },
+                    ClientSecrets =
+                    {
+                        new Secret(_clients["Merp.Martin.Web.BotFramework"].Secret.Sha256())
+                    },
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
+                    }.Concat(_apiResources.Select(a => a.Name)).ToArray()
+                },
+                new Client
+                {
+                    ClientId = _clients["Merp.Import.Cli"].ClientId,
+                    ClientName = _clients["Merp.Import.Cli"].ClientName,
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    // AllowAccessTokensViaBrowser = true,
+                    RequireConsent = false,
+                    // AllowedCorsOrigins = { _clients["Merp.Web.App"].Endpoint },
+                    // RedirectUris = { _clients["Merp.Web.App"].RedirectUri },
+                    // PostLogoutRedirectUris = { _clients["Merp.Web.App"].PostLogoutUri },
+                    ClientSecrets =
+                    {
+                        new Secret(_clients["Merp.Import.Cli"].Secret.Sha256())
+                    },
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
+                    }.Concat(_apiResources.Select(a => a.Name)).ToArray()
                 }
             };
         }

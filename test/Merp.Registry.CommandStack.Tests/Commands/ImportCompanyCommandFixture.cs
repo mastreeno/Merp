@@ -31,7 +31,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var websiteAddress = "www.info.com";
             var emailAddress = "user@info.com";
 
-            var command = new ImportCompanyCommand(companyId, DateTime.Now, companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress);
+            var command = new ImportCompanyCommand(Guid.NewGuid(), companyId, DateTime.Now, companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress);
             Assert.Equal(companyId, command.CompanyId);
             Assert.Equal(companyName, command.CompanyName);
             Assert.Equal(nationalIdentificationNumber, command.NationalIdentificationNumber);
@@ -69,7 +69,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var emailAddress = "user@info.com";
 
             Executing.This(
-                () => new ImportCompanyCommand(companyId, DateTime.Now, companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress)
+                () => new ImportCompanyCommand(Guid.NewGuid(), companyId, DateTime.Now, companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress)
             )
             .Should()
             .Throw<ArgumentException>()
@@ -101,7 +101,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var emailAddress = "user@info.com";
 
             Executing.This(
-                () => new ImportCompanyCommand(companyId, DateTime.Now, companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress)
+                () => new ImportCompanyCommand(Guid.NewGuid(), companyId, DateTime.Now, companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress)
             )
             .Should()
             .Throw<ArgumentException>()
@@ -133,7 +133,7 @@ namespace Merp.Registry.CommandStack.Tests.Commands
             var emailAddress = "user@info.com";
 
             Executing.This(
-                () => new ImportCompanyCommand(companyId, DateTime.Now, companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress)
+                () => new ImportCompanyCommand(Guid.NewGuid(), companyId, DateTime.Now, companyName, nationalIdentificationNumber, vatNumber, address, postalCode, city, province, country, address, postalCode, city, province, country, address, postalCode, city, province, country, mainContactId, administrativeContactId, phoneNumber, faxNumber, websiteAddress, emailAddress)
             )
             .Should()
             .Throw<ArgumentException>()
