@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.Accountancy.CommandStack", "src\Merp.Accountancy.CommandStack\Merp.Accountancy.CommandStack.csproj", "{A30BA9D9-CE21-407A-94FB-F9C8C99564B4}"
 EndProject
@@ -70,6 +70,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.Accountancy.Settings", "src\Merp.Accountancy.Settings\Merp.Accountancy.Settings.csproj", "{6D1D96D8-D8CE-4507-B9BB-642FD6E729DF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.Accountancy.Web.Api.Public", "src\Merp.Accountancy.Web.Api.Public\Merp.Accountancy.Web.Api.Public.csproj", "{57CF85EF-C639-4D2F-B7DA-2EB034133647}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.EntityFramework.MigrationSupport", "..\Mastreeno\src\Merp.EntityFramework.MigrationSupport\Merp.EntityFramework.MigrationSupport.csproj", "{44313FA6-8E47-4166-8ABD-D8E85BFDA471}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -246,6 +248,12 @@ Global
 		{57CF85EF-C639-4D2F-B7DA-2EB034133647}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57CF85EF-C639-4D2F-B7DA-2EB034133647}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57CF85EF-C639-4D2F-B7DA-2EB034133647}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44313FA6-8E47-4166-8ABD-D8E85BFDA471}.AzureMongoDB|Any CPU.ActiveCfg = Debug|Any CPU
+		{44313FA6-8E47-4166-8ABD-D8E85BFDA471}.AzureMongoDB|Any CPU.Build.0 = Debug|Any CPU
+		{44313FA6-8E47-4166-8ABD-D8E85BFDA471}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44313FA6-8E47-4166-8ABD-D8E85BFDA471}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44313FA6-8E47-4166-8ABD-D8E85BFDA471}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44313FA6-8E47-4166-8ABD-D8E85BFDA471}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

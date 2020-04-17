@@ -41,14 +41,14 @@
             self.currentUserName = user.profile.name
 
             const directLine = BotChat.createDirectLine({
-                secret: '',
+                secret: 'tt5zxlV94tI.9iG-EIGo8TUVq-E1-HS-LGifgugQJ52cuVtZCS5MNWU',
                 webSocket: false
             })
 
             // let webSpeechPonyfillFactory = BotChat.createBrowserWebSpeechPonyfillFactory()
             let webSpeechPonyfillFactory = await BotChat.createCognitiveServicesSpeechServicesPonyfillFactory({
                 region: 'westeurope',
-                subscriptionKey: ''
+                subscriptionKey: '18d1d2bd948d472aaf374dd9f7e9bb20'
             })
 
             BotChat.renderWebChat({

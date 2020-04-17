@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Merp.Accountancy.Settings.Commands
 {
-    public class SettingsDefaultsCommands : IDisposable
+    public sealed class SettingsDefaultsCommands : IDisposable
     {
         private readonly AccountancySettingsDbContext _context;
 

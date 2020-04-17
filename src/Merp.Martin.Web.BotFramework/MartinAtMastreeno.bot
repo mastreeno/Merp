@@ -6,7 +6,7 @@
     {
       "tenantId": "",
       "subscriptionId": "",
-      "resourceGroup": "Mastreeno",
+      "resourceGroup": "Martin",
       "serviceName": "MartinAtMastreeno",
       "type": "abs",
       "name": "MartinAtMastreeno",
@@ -16,7 +16,7 @@
       "connectionString": "",
       "tenantId": "",
       "subscriptionId": "",
-      "resourceGroup": "Mastreeno",
+      "resourceGroup": "Martin",
       "serviceName": "martinatmastreeno",
       "type": "blob",
       "id": "2"
@@ -32,7 +32,7 @@
     {
       "appId": "",
       "appPassword": "",
-      "endpoint": "",
+      "endpoint": "https://yourpublicsite/api/messages",
       "type": "endpoint",
       "name": "production",
       "id": "4"
@@ -44,7 +44,7 @@
       "tenantId": "",
       "subscriptionId": "",
       "resourceGroup": "Mastreeno",
-      "serviceName": "",
+      "serviceName": "MartinAtMastreenoqla6ki",
       "type": "appInsights",
       "id": "5"
     },
@@ -53,7 +53,7 @@
       "authoringKey": "",
       "subscriptionKey": "",
       "version": "0.1",
-      "region": "",
+      "region": "westeurope",
       "type": "luis",
       "name": "MartinAtMastreeno-en",
       "id": "6"

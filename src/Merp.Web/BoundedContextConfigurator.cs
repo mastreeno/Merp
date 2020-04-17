@@ -11,7 +11,7 @@ namespace Merp.Web
     public abstract class BoundedContextConfigurator
     {
         public IBus Bus { get; private set; }
-        public IHostingEnvironment Environment { get; private set; }
+        public IWebHostEnvironment Environment { get; private set; }
         public IServiceCollection Services { get; private set; }
         public IConfiguration Configuration { get; private set; }
 
@@ -30,7 +30,7 @@ namespace Merp.Web
             Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             Services = services ?? throw new ArgumentNullException(nameof(services));
             Bus = services.BuildServiceProvider().GetService<IBus>();
-            Environment = services.BuildServiceProvider().GetService<IHostingEnvironment>();
+            Environment = services.BuildServiceProvider().GetService<IWebHostEnvironment>();
         }
 
         public void Configure()

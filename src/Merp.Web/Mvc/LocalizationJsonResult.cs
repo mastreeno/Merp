@@ -74,7 +74,7 @@ namespace Merp.Web.Mvc
                 var json = writer.ToString();
                 var stream = Encoding.UTF8.GetBytes(json);
                 context.HttpContext.Response.ContentType = "application/json";
-                context.HttpContext.Response.Body.Write(stream, 0, stream.Length);
+                context.HttpContext.Response.Body.WriteAsync(stream, 0, stream.Length).Wait();
             }
         }
 

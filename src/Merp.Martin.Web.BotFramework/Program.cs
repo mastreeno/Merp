@@ -19,7 +19,7 @@ namespace Merp.Martin.Web.BotFramework
                 .ConfigureLogging((hostingContext, logging) =>
                 {
                     // Add Azure Logging
-                    logging.AddAzureWebAppDiagnostics();
+                    //logging.AddAzureWebAppDiagnostics();
 
                     // Other Loggers.
                     // There are other logging options available:

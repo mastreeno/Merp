@@ -28,18 +28,31 @@ namespace Merp.Registry.QueryStack.Denormalizers
                 CompanyName = message.CompanyName,
                 VatIndex = message.VatIndex,
                 OriginalId = message.CompanyId,
-                NationalIdentificationNumber = message.NationalIdentificationNumber ?? ""
-                //LegalAddress = new PostalAddress
-                //{
-                //    Address = message.LegalAddressAddress,
-                //    City = message.LegalAddressCity,
-                //    Country = message.LegalAddressCountry,
-                //    PostalCode = message.LegalAddressPostalCode,
-                //    Province = message.LegalAddressProvince
-                //},
-                //ShippingAddress = new PostalAddress(),
-                //BillingAddress = new PostalAddress(),
-                //ContactInfo = new ContactInfo()
+                NationalIdentificationNumber = message.NationalIdentificationNumber ?? string.Empty,
+                LegalAddress = new PostalAddress
+                {
+                    Address = message.LegalAddressAddress,
+                    City = message.LegalAddressCity,
+                    Country = message.LegalAddressCountry,
+                    PostalCode = message.LegalAddressPostalCode,
+                    Province = message.LegalAddressProvince
+                },
+                ShippingAddress = new PostalAddress()
+                {
+                    Address = message.ShippingAddressAddress,
+                    City = message.ShippingAddressCity,
+                    Country = message.ShippingAddressCountry,
+                    PostalCode = message.ShippingAddressPostalCode,
+                    Province = message.ShippingAddressProvince
+                },
+                BillingAddress = new PostalAddress()
+                {
+                    Address = message.BillingAddressAddress,
+                    City = message.BillingAddressCity,
+                    Country = message.BillingAddressCountry,
+                    PostalCode = message.BillingAddressPostalCode,
+                    Province = message.BillingAddressProvince
+                }
             };
             using (var context = new RegistryDbContext(Options))
             {
@@ -71,7 +84,8 @@ namespace Merp.Registry.QueryStack.Denormalizers
                 var person = (from c in context.People
                               where c.OriginalId == message.AdministrativeContactId
                               select c).Single();
-                company.AdministrativeContact = $"{person.FirstName} {person.LastName}";
+                company.AdministrativeContactName = $"{person.FirstName} {person.LastName}";
+                company.AdministrativeContactUid = message.AdministrativeContactId;
 
                 await context.SaveChangesAsync();
             }
@@ -87,7 +101,8 @@ namespace Merp.Registry.QueryStack.Denormalizers
                 var person = (from c in context.People
                               where c.OriginalId == message.MainContactId
                               select c).Single();
-                company.MainContact = $"{person.FirstName} {person.LastName}";
+                company.MainContactName = $"{person.FirstName} {person.LastName}";
+                company.MainContactUid = message.MainContactId;
 
                 await context.SaveChangesAsync();
             }

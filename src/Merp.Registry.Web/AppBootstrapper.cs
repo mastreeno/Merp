@@ -18,12 +18,12 @@ namespace Merp.Registry.Web
         {
             Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             Services = services ?? throw new ArgumentNullException(nameof(services));
-            Environment = Services.BuildServiceProvider().GetService<IHostingEnvironment>();
+            Environment = Services.BuildServiceProvider().GetService<IWebHostEnvironment>();
         }
 
         public IConfiguration Configuration { get; }
         public IServiceCollection Services { get; }
-        public IHostingEnvironment Environment { get; set; }
+        public IWebHostEnvironment Environment { get; set; }
 
         public void Configure()
         {

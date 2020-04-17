@@ -1,7 +1,11 @@
 # Merp
-An open source, event-based Micro ERP developed by Andrea Saltarello using ASP.NET Core 2.2
+An open source, event-based Micro ERP developed by Andrea Saltarello using ASP.NET Core 3.1
 
 **Release notes**
+17/4/2020
+- Solution ported to .NET Core 3.1
+- Registry read model major overhaul
+
 12/03/2019
 - Started working on public API to support integration scenarios
 

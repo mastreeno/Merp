@@ -9,17 +9,25 @@ namespace Merp.Web
 {
     public static class EnvironmentExtensions
     {
-        public static bool IsAzureCosmosDB(this IHostingEnvironment env)
+        public static bool IsDevelopment(this IWebHostEnvironment env)
         {
-            return env.EnvironmentName.Contains("AzureCosmosDB");
+            return env.EnvironmentName.ToUpper().Contains("DEVELOPMENT");
         }
-        public static bool IsAzureMongoDB(this IHostingEnvironment env)
+        public static bool IsAzureCosmosDB(this IWebHostEnvironment env)
         {
-            return env.EnvironmentName.Contains("AzureMongoDB");
+            return env.EnvironmentName.ToUpper().Contains("AZURECOSMOSDB");
         }
-        public static bool IsOnPremises(this IHostingEnvironment env)
+        public static bool IsAzureMongoDB(this IWebHostEnvironment env)
         {
-            return env.EnvironmentName.Contains("OnPremises");
+            return env.EnvironmentName.ToUpper().Contains("AZUREMONGODB");
+        }
+        public static bool IsAWS(this IWebHostEnvironment env)
+        {
+            return env.EnvironmentName.ToUpper().Contains("AWS");
+        }
+        public static bool IsOnPremises(this IWebHostEnvironment env)
+        {
+            return env.EnvironmentName.ToUpper().Contains("ONPREMISES");
         }
     }
 }

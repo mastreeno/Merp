@@ -24,7 +24,7 @@ namespace Merp.Martin.Web.BotFramework
         private ILoggerFactory _loggerFactory;
         private bool _isProduction = true;
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             //_isProduction = env.IsProduction();
 
@@ -160,7 +160,7 @@ namespace Merp.Martin.Web.BotFramework
             });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             _loggerFactory = loggerFactory;
 

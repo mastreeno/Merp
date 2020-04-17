@@ -24,6 +24,12 @@ namespace Merp.Martin.Web.BotFramework
     /// <seealso cref="https://docs.microsoft.com/en-us/dotnet/api/microsoft.bot.ibot?view=botbuilder-dotnet-preview"/>
     public class LuisBot : IBot
     {
+        /// <summary>
+        /// Key in the bot config (.bot file) for the LUIS instance.
+        /// In the .bot file, multiple instances of LUIS can be configured.
+        /// </summary>
+        public static readonly string LuisKey = "MartinAtMastreeno-en";
+
         private const string WelcomeText = "Hi, once logged in, you can ask me about your accountancy; such as gross or net income, or query the status of an invoice. \nTry asking me: \"how much are we grossing?\"";
 
         /// <summary>
@@ -50,10 +56,9 @@ namespace Merp.Martin.Web.BotFramework
         {
             _services = services ?? throw new System.ArgumentNullException(nameof(services));
 
-            var luisKey = GetLuisKey();
-            if (!_services.LuisServices.ContainsKey(luisKey))
+            if (!_services.LuisServices.ContainsKey(LuisKey))
             {
-                throw new System.ArgumentException($"Invalid configuration. Please check your '.bot' file for a LUIS service named '{luisKey}'.");
+                throw new System.ArgumentException($"Invalid configuration. Please check your '.bot' file for a LUIS service named '{LuisKey}'.");
             }
 
             _stateAccessors = accessors ?? throw new ArgumentNullException(nameof(accessors));
@@ -95,7 +100,7 @@ namespace Merp.Martin.Web.BotFramework
                     }
                     else
                     {
-                        var recognizerResult = await _services.LuisServices[GetLuisKey()].RecognizeAsync(turnContext, cancellationToken);
+                        var recognizerResult = await _services.LuisServices[LuisKey].RecognizeAsync(turnContext, cancellationToken);
                         var topIntent = recognizerResult?.GetTopScoringIntent();
                         if (topIntent != null && topIntent.HasValue && topIntent.Value.intent != "None")
                         {
@@ -191,15 +196,6 @@ namespace Merp.Martin.Web.BotFramework
                 logger.LogError($"\r\nException caught : {ex.StackTrace}\r\n");
             }
 
-        }
-
-        /// <summary>
-        /// Key in the bot config (.bot file) for the LUIS instance.
-        /// In the .bot file, multiple instances of LUIS can be configured.
-        /// </summary>
-        private static string GetLuisKey()
-        {
-            return "MartinAtMastreeno-en";
         }
 
         /// <summary>

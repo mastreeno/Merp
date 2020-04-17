@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Merp.Accountancy.Settings.Commands
 {
-    public class VatCommands : IDisposable
+    public sealed class VatCommands : IDisposable
     {
         private readonly AccountancySettingsDbContext _context;
 

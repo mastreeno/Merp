@@ -18,12 +18,12 @@ namespace Merp.Accountancy.Web.Api.Internal
         {
             Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             Services = services ?? throw new ArgumentNullException(nameof(services));
-            Environment = Services.BuildServiceProvider().GetService<IHostingEnvironment>();
+            Environment = Services.BuildServiceProvider().GetService<IWebHostEnvironment>();
         }
 
         public IConfiguration Configuration { get; }
         public IServiceCollection Services { get; }
-        public IHostingEnvironment Environment { get; set; }
+        public IWebHostEnvironment Environment { get; set; }
 
         public void Configure()
         {
@@ -39,7 +39,7 @@ namespace Merp.Accountancy.Web.Api.Internal
                 .Routing(r => r.TypeBased()
                     .MapAssemblyOf<IncomingInvoiceSaga>(Configuration["Rebus:QueueName"])
                 )
-                .Subscriptions(s => s.StoreInSqlServer(Configuration["Rebus:Subscriptions:ConnectionString"], Configuration["Rebus:Subscriptions:TableName"], isCentralized: true))
+                //.Subscriptions(s => s.StoreInSqlServer(Configuration["Rebus:Subscriptions:ConnectionString"], Configuration["Rebus:Subscriptions:TableName"], isCentralized: true))
                 .Sagas(s => s.StoreInSqlServer(Configuration["Rebus:Sagas:ConnectionString"], Configuration["Rebus:Sagas:MessagesTableName"], Configuration["Rebus:Sagas:IndexesTableName"]));
             if (Environment.IsDevelopment() || Environment.IsOnPremises())
             {
@@ -47,7 +47,7 @@ namespace Merp.Accountancy.Web.Api.Internal
             }
             else if (Environment.IsAzureCosmosDB() || Environment.IsAzureMongoDB())
             {
-                config.Transport(t => t.UseAzureServiceBus(Configuration["Rebus:ServiceBusConnectionString"], Configuration["Rebus:QueueName"]));
+                config.Transport(t => t.UseAzureServiceBus(Configuration["Rebus:Transport:ConnectionString"], Configuration["Rebus:QueueName"]));
             }
             else
             {

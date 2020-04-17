@@ -6,28 +6,20 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Merp.Registry.QueryStack.Model
 {
-    public class Party : IEntityTypeConfiguration<Party>
+    public class Party
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
-
-        //[Index]
         public Guid OriginalId { get; set; }
+
         [Required]
         public PartyType Type { get; set; }
 
-        //[Index]
         [MaxLength(200)]
         public string DisplayName { get; set; }
-
         public string VatIndex { get; set; }
-
         public string NationalIdentificationNumber { get; set; }
-
-        public PostalAddress LegalAddress { get; set; }
-
-        //public ContactInfo ContactInfo { get; set; }
         public string PhoneNumber { get; set; }
         public string MobileNumber { get; set; }
         public string FaxNumber { get; set; }
@@ -35,19 +27,17 @@ namespace Merp.Registry.QueryStack.Model
         public string EmailAddress { get; set; }
         public string InstantMessaging { get; set; }
         public bool Unlisted { get; set; }
+        //public ContactInfo ContactInfo { get; set; }
+        public PostalAddress BillingAddress { get; set; }
+        public PostalAddress LegalAddress { get; set; }
+        public PostalAddress ShippingAddress { get; set; }
 
-        public enum PartyType
-        {
-            Company,
-            Person
-        }
 
-        void IEntityTypeConfiguration<Party>.Configure(EntityTypeBuilder<Party> builder)
+        public enum PartyType : int
         {
-            builder.HasIndex(o => o.OriginalId);
-            builder.HasIndex(o => o.DisplayName);
-            builder.OwnsOne(o => o.LegalAddress);
-            //builder.OwnsOne(o => o.ContactInfo);
+            Company = 0,
+            Person = 1,
+            Unspecified = 2
         }
     }
 }

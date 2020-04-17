@@ -27,25 +27,23 @@ namespace Merp.Registry.QueryStack.Denormalizers
                 OriginalId = message.PersonId,
                 DisplayName = $"{message.FirstName} {message.LastName}",
                 NationalIdentificationNumber = message.NationalIdentificationNumber,
-                VatIndex = message.VatNumber
-                //LegalAddress = new PostalAddress
-                //{
-                //    Address = message.Address,
-                //    City = message.City,
-                //    Country = message.Country,
-                //    PostalCode = message.PostalCode,
-                //    Province = message.Province
-                //},
-                //ShippingAddress = new PostalAddress(),
-                //BillingAddress = new PostalAddress(),
+                VatIndex = message.VatNumber,
+                LegalAddress = new PostalAddress
+                {
+                    Address = message.LegalAddressAddress,
+                    City = message.LegalAddressCity,
+                    Country = message.LegalAddressCountry,
+                    PostalCode = message.LegalAddressPostalCode,
+                    Province = message.LegalAddressProvince
+                },
                 //ContactInfo = new ContactInfo
                 //{
-                //    PhoneNumber = message.PhoneNumber,
-                //    MobileNumber = message.MobileNumber,
-                //    FaxNumber = message.FaxNumber,
-                //    WebsiteAddress = message.WebsiteAddress,
-                //    EmailAddress = message.EmailAddress,
-                //    InstantMessaging = message.InstantMessaging
+                    PhoneNumber = message.PhoneNumber,
+                    MobileNumber = message.MobileNumber,
+                    FaxNumber = message.FaxNumber,
+                    WebsiteAddress = message.WebsiteAddress,
+                    EmailAddress = message.EmailAddress,
+                    InstantMessaging = message.InstantMessaging
                 //}
             };
             using (var context = new RegistryDbContext(Options))

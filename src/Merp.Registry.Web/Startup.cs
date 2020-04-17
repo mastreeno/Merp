@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Merp.Web;
 
 namespace Merp.Registry.Web
 {
@@ -17,6 +19,15 @@ namespace Merp.Registry.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
+
             services.AddAuthorization();
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>
@@ -29,7 +40,8 @@ namespace Merp.Registry.Web
 
             RegisterClientsCors(services);
             
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc(option => option.EnableEndpointRouting = false);
+
             services.AddHttpContextAccessor();
 
             services.AddSingleton(services);
@@ -37,7 +49,7 @@ namespace Merp.Registry.Web
             bootstrapper.Configure();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {

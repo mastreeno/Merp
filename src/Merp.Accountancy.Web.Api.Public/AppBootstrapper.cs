@@ -19,7 +19,7 @@ namespace Merp.Accountancy.Web.Api.Public
     {
         public IConfiguration Configuration { get; }
 
-        public IHostingEnvironment Environment { get; set; }
+        public IWebHostEnvironment Environment { get; set; }
 
         public IServiceCollection Services { get; }
 
@@ -27,7 +27,7 @@ namespace Merp.Accountancy.Web.Api.Public
         {
             Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             Services = services ?? throw new ArgumentNullException(nameof(services));
-            Environment = Services.BuildServiceProvider().GetService<IHostingEnvironment>();
+            Environment = Services.BuildServiceProvider().GetService<IWebHostEnvironment>();
         }
 
         public void Configure()

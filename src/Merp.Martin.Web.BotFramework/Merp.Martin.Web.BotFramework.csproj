@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <Company>Mastreeno ltd</Company>
     <Version>2.0.0</Version>
     <Product>Merp</Product>
@@ -11,21 +11,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.0" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.2.5" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.13.1" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="2.0.0" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
     <PackageReference Include="Microsoft.Azure.KeyVault.Core" Version="3.0.3" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.4.4" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.4.4" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.4.4" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.4.4" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.4.4" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.4.4" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.4.4" />
-    <PackageReference Include="Microsoft.Bot.Connector" Version="4.4.4" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.4.4" />
-    <PackageReference Include="Microsoft.Graph" Version="1.15.0" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Graph" Version="1.12.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
