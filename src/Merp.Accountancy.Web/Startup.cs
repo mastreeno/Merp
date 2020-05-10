@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Merp.Web;
+using Merp.Accountancy.Web.WorkerServices;
 
 namespace Merp.Accountancy.Web
 {
@@ -46,6 +47,10 @@ namespace Merp.Accountancy.Web
             services.AddSingleton(services);
             var bootstrapper = new AppBootstrapper(Configuration, services);
             bootstrapper.Configure();
+
+            services.AddScoped<JobOrderControllerWorkerServices>();
+            services.AddScoped<InvoiceControllerWorkerServices>();
+            services.AddScoped<DraftControllerWorkerServices>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

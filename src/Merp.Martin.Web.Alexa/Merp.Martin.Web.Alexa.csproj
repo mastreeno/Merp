@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>4c299872-4d91-469f-b021-6baa7224fa44</UserSecretsId>
-    <Configurations>Debug;Release;AzureMongoDB</Configurations>
+    <Configurations>Debug;Release;</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,6 +22,10 @@
     <Folder Include="CognitiveModels\en\" />
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties appsettings_1AzureMongoDB_1json__JSONSchema="http://json.schemastore.org/apple-app-site-association" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties appsettings_1Azure_1json__JSONSchema="http://json.schemastore.org/apple-app-site-association" />
+    </VisualStudio>
+  </ProjectExtensions>
 
 </Project>

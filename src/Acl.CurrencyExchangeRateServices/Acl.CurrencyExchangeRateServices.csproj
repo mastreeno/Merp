@@ -7,7 +7,7 @@
     <Product>Merp</Product>
     <PackageLicenseUrl>https://github.com/mastreeno/Merp/blob/master/LICENSE.txt</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/mastreeno/Merp</PackageProjectUrl>
-    <Configurations>Debug;Release;AzureMongoDB</Configurations>
+    <Configurations>Debug;Release;</Configurations>
   </PropertyGroup>
 
 </Project>

@@ -9,7 +9,7 @@
     <Product>Merp</Product>
     <Copyright>Mastreeno ltd, Andrea Saltarello</Copyright>
     <Description>An event-based Micro ERP</Description>
-    <Configurations>Debug;Release;AzureMongoDB</Configurations>
+    <Configurations>Debug;Release;</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

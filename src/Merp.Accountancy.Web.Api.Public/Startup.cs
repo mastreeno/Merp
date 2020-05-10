@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Merp.Web;
+using Merp.Accountancy.Web.Api.Public.WorkerServices;
 
 namespace Merp.Accountancy.Web.Api.Public
 {
@@ -46,6 +47,9 @@ namespace Merp.Accountancy.Web.Api.Public
 
             var bootstrapper = new AppBootstrapper(Configuration, services);
             bootstrapper.Configure();
+
+            services.AddScoped<InvoiceControllerWorkerServices>();
+            services.AddScoped<JobOrderControllerWorkerServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Merp.Web;
+using Merp.Registry.Web.Api.Internal.WorkerServices;
 
 namespace Merp.Registry.Web.Api.Internal
 {
@@ -55,6 +56,11 @@ namespace Merp.Registry.Web.Api.Internal
             services.AddSingleton(services);
             var bootstrapper = new AppBootstrapper(Configuration, services);
             bootstrapper.Configure();
+
+            services.AddScoped<CountriesControllerWorkerServices>();
+            services.AddScoped<PartyControllerWorkerServices>();
+            services.AddScoped<PersonControllerWorkerServices>();
+            services.AddScoped<CompanyControllerWorkerServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

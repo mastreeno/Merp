@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Authors>Mastreeno ltd, Andrea Saltarello</Authors>
     <Product>Merp</Product>
-    <Configurations>Debug;Release;AzureMongoDB</Configurations>
+    <Configurations>Debug;Release;</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

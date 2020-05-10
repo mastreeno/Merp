@@ -53,13 +53,22 @@ namespace Merp.Web
         {
             var resolvedHandlerInstances = GetAllHandlersInstances<TMessage>();
 
-            transactionContext.OnDisposed(() =>
-            {
-                foreach (var disposableInstance in resolvedHandlerInstances.OfType<IDisposable>())
-                {
-                    disposableInstance.Dispose();
-                }
-            });
+            //try
+            //{
+            //    transactionContext.OnDisposed((_) =>
+            //    {
+            //        foreach (var disposableInstance in resolvedHandlerInstances.OfType<IDisposable>())
+            //        {
+            //            disposableInstance.Dispose();
+            //        }
+            //    });
+            //}
+            //catch (Exception e)
+            //{
+
+            //    throw;
+            //}
+
 
             return resolvedHandlerInstances;
         }

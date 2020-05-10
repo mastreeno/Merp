@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Merp.Web;
+using Merp.TimeTracking.Web.Areas.TaskManagement.WorkerServices;
 
 namespace Merp.TimeTracking.Web
 {
@@ -54,6 +55,8 @@ namespace Merp.TimeTracking.Web
             
             var bootstrapper = new AppBootstrapper(Configuration, services);
             bootstrapper.Configure();
+
+            services.AddScoped<TaskControllerWorkerServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

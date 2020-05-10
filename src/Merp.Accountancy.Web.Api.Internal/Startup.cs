@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Merp.Web;
+using Merp.Accountancy.Web.Api.Internal.WorkerServices;
 
 namespace Merp.Accountancy.Web.Api.Internal
 {
@@ -49,6 +50,11 @@ namespace Merp.Accountancy.Web.Api.Internal
             services.AddSingleton(services);
             var bootstrapper = new AppBootstrapper(Configuration, services);
             bootstrapper.Configure();
+
+            services.AddScoped<VatControllerWorkerServices>();
+            services.AddScoped<ProvidenceFundControllerWorkerServices>();
+            services.AddScoped<WithholdingTaxControllerWorkerServices>();
+            services.AddScoped<SettingsControllerWorkerServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

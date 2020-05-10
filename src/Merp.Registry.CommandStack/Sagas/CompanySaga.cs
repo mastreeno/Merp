@@ -106,8 +106,9 @@ namespace Merp.Registry.CommandStack.Sagas
                 Thread.Sleep(10);
                 company.SetContactInfo(message.PhoneNumber, null, message.FaxNumber, message.WebsiteAddress, message.EmailAddress, null, message.UserId);
             }
-            await _repository.SaveAsync(company);
             this.Data.CompanyId = company.Id;
+            await _repository.SaveAsync(company);
+
         }
 
         public async Task Handle(ImportCompanyCommand message)

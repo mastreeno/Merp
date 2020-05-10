@@ -5,7 +5,7 @@
     <Company>Mastreeno ltd, Andrea Saltarello</Company>
     <Authors>Mastreeno ltd, Andrea Saltarello</Authors>
     <Product>Merp</Product>
-    <Configurations>Debug;Release;AzureMongoDB</Configurations>
+    <Configurations>Debug;Release;</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,9 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MementoFX" Version="2.0.0" />
-    <PackageReference Include="MementoFX.Messaging.Rebus" Version="2.0.0" />
-    <PackageReference Include="MementoFX.Persistence.MongoDB" Version="2.0.1-pre1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -24,16 +21,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Rebus" Version="5.4.1" />
-    <PackageReference Include="Rebus.AzureServiceBus" Version="6.0.7" />
-    <PackageReference Include="Rebus.ServiceProvider" Version="4.0.2" />
-    <PackageReference Include="Rebus.SqlServer" Version="5.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Merp.Registry.CommandStack\Merp.Registry.CommandStack.csproj" />
-    <ProjectReference Include="..\Merp.Registry.QueryStack\Merp.Registry.QueryStack.csproj" />
-    <ProjectReference Include="..\Merp.Web\Merp.Web.csproj" />
+    <ProjectReference Include="..\Merp.Registry.Web.Core\Merp.Registry.Web.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

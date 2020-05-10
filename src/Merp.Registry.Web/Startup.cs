@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Merp.Web;
+using Merp.Registry.Web.WorkerServices;
 
 namespace Merp.Registry.Web
 {
@@ -47,6 +48,10 @@ namespace Merp.Registry.Web
             services.AddSingleton(services);
             var bootstrapper = new AppBootstrapper(Configuration, services);
             bootstrapper.Configure();
+
+            services.AddScoped<PartyControllerWorkerServices>();
+            services.AddScoped<PersonControllerWorkerServices>();
+            services.AddScoped<CompanyControllerWorkerServices>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

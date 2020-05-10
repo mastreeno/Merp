@@ -2,6 +2,9 @@
 An open source, event-based Micro ERP developed by Andrea Saltarello using ASP.NET Core 3.1
 
 **Release notes**
+10/05/2020
+- Experimental support for AWS as an ASP .NET Core environment
+
 17/4/2020
 - Solution ported to .NET Core 3.1
 - Registry read model major overhaul
@@ -27,7 +30,6 @@ An open source, event-based Micro ERP developed by Andrea Saltarello using ASP.N
     - *EntityFrameworkCore\Update-Database -Context ApplicationDbContext*
 - Run *npm run build-vendor-dev* and *npm run build-app-dev* from a prompt pointing at the src/Merp.Web.App folder
     
-
 05/06/2018
 - web project migrated to ASP .NET Core 2.1
 - web project's area moved to Razor UI class libraries

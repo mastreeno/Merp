@@ -21,7 +21,6 @@ namespace Merp.Web
         protected abstract void RegisterServices();
         protected abstract void SubscribeEvents();
         protected abstract void RegisterTypes();
-        protected abstract void RegisterWorkerServices();
         protected abstract void RegisterAclServices();
         protected abstract void ConfigureEventStore();
 
@@ -37,8 +36,8 @@ namespace Merp.Web
         {
             if (Environment.IsDevelopment() ||
                 Environment.IsOnPremises() ||
-                Environment.IsAzureCosmosDB() ||
-                Environment.IsAzureMongoDB())
+                Environment.IsAzure() ||
+                Environment.IsAWS())
             {
                 RegisterDenormalizers();
                 RegisterHandlers();
@@ -47,7 +46,6 @@ namespace Merp.Web
                 SubscribeEvents();
             }
             RegisterTypes();
-            RegisterWorkerServices();
             RegisterAclServices();
             ConfigureEventStore();
         }

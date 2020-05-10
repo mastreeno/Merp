@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Merp.Registry.Web.Api.Public.WorkerServices;
 using Merp.Web;
 
 namespace Merp.Registry.Web.Api.Public
@@ -48,6 +49,9 @@ namespace Merp.Registry.Web.Api.Public
             services.AddSingleton(services);
             var bootstrapper = new AppBootstrapper(Configuration, services);
             bootstrapper.Configure();
+
+            services.AddScoped<PersonControllerWorkerServices>();
+            services.AddScoped<CompanyControllerWorkerServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
