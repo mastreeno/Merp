@@ -12,6 +12,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Merp.Web;
 using Merp.Accountancy.Web.Api.Public.WorkerServices;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen.ConventionalRouting;
 
 namespace Merp.Accountancy.Web.Api.Public
 {
@@ -40,7 +42,14 @@ namespace Merp.Accountancy.Web.Api.Public
 
             RegisterClientsCors(services);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc(option => option.EnableEndpointRouting = true);
+            services.AddSwaggerGen(c =>
+            {
+                c.CustomSchemaIds(type => type.ToString());
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Merp public API - Accountancy", Version = "v1" });
+            });
+            services.AddSwaggerGenWithConventionalRoutes();
+
             services.AddHttpContextAccessor();
 
             services.AddSingleton(services);
@@ -67,17 +76,38 @@ namespace Merp.Accountancy.Web.Api.Public
             app.UseHttpsRedirection();
             UseClientsCors(app);
             app.UseAuthentication();
-            app.UseMvc(routes =>
-            {
-                //routes.MapRoute(
-                //    name: "i18n",
-                //    template: "api/i18n/{controllerResourceName}/{actionResourceName}",
-                //    defaults: new { controller = "Config", action = "GetLocalization" });
 
-                routes.MapRoute(
-                    name: "default",
-                    template: "api/{controller}/{action}/{id?}");
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Merp public API V1 - Accountancy");
             });
+
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "api/{controller}/{action}/{id?}");
+
+                ConventionalRoutingSwaggerGen.UseRoutes(endpoints);
+            });
+            //app.UseMvc(routes =>
+            //{
+            //    //routes.MapRoute(
+            //    //    name: "i18n",
+            //    //    template: "api/i18n/{controllerResourceName}/{actionResourceName}",
+            //    //    defaults: new { controller = "Config", action = "GetLocalization" });
+
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "api/{controller}/{action}/{id?}");
+
+            //    ConventionalRoutingSwaggerGen.UseRoutes(routes.Routes.ToList());
+            //});
         }
 
         private void RegisterClientsCors(IServiceCollection services)

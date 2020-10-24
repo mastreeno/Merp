@@ -25,6 +25,7 @@ namespace Merp.Registry.QueryStack.Denormalizers
         {
             var p = new Company()
             {
+                DisplayName = message.CompanyName,
                 CompanyName = message.CompanyName,
                 VatIndex = message.VatIndex,
                 OriginalId = message.CompanyId,

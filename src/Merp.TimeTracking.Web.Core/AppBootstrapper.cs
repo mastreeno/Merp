@@ -44,7 +44,8 @@ namespace Merp.TimeTracking.Web
             if (Environment.IsDevelopment() || Environment.IsOnPremises())
             {
                 config.Subscriptions(s => s.StoreInSqlServer(Configuration["Rebus:Subscriptions:ConnectionString"], Configuration["Rebus:Subscriptions:TableName"], isCentralized: true));
-                config.Transport(t => t.UseSqlServer(Configuration["Rebus:Transport:ConnectionString"], Configuration["Rebus:QueueName"]));
+                var transportOptions = new SqlServerTransportOptions(Configuration["Rebus:Transport:ConnectionString"]);
+                config.Transport(t => t.UseSqlServer(transportOptions, Configuration["Rebus:QueueName"]));
             }
             else if (Environment.IsAWS())
             {

@@ -1,24 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <Configurations>Debug;Release;</Configurations>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<Company>Mastreeno ltd, Andrea Saltarello</Company>
+		<Authors>Mastreeno ltd, Andrea Saltarello</Authors>
+		<!--<AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>-->
+		<Configurations>Debug;Release;</Configurations>
+		<UserSecretsId>68573512-fe11-4601-b6da-b7944d3911ba</UserSecretsId>
+	</PropertyGroup>
 
-  <ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen.ConventionalRouting" Version="3.0.1.7" />
+	</ItemGroup>
 
+	<ItemGroup>
+		<ProjectReference Include="..\Merp.Accountancy.Web.Core\Merp.Accountancy.Web.Core.csproj" />
+	</ItemGroup>
 
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Merp.Accountancy.Web.Core\Merp.Accountancy.Web.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="appsettings.json">
-      <TransformOnBuild>true</TransformOnBuild>
-    </Content>
-  </ItemGroup>
+	<ItemGroup>
+		<Content Update="appsettings.json">
+			<TransformOnBuild>true</TransformOnBuild>
+		</Content>
+	</ItemGroup>
 
 </Project>

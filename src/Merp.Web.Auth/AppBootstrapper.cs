@@ -50,8 +50,8 @@ namespace Merp.Web.Auth
                     options.Events.RaiseSuccessEvents = true;
                     options.UserInteraction.LoginUrl = "/Account/Login";
                     options.UserInteraction.LogoutUrl = "/Account/Logout";
-                    // options.IssuerUri = "https://mastreenoauth.azurewebsites.net";
-                    // options.PublicOrigin = "https://mastreenoauth.azurewebsites.net";
+                    // options.IssuerUri = "";
+                    // options.PublicOrigin = "";
                 })
                 .AddConfigurationStore(options =>
                 {
