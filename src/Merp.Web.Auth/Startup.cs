@@ -1,65 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Merp.Web.Auth.Configuration;
+﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+
+
+using IdentityServer4;
 using Merp.Web.Auth.Data;
-using Merp.Web.Site.Models;
+using Merp.Web.Auth.Models;
 using Merp.Web.Auth.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Primitives;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace Merp.Web.Auth
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public IWebHostEnvironment Environment { get; }
+        public IConfiguration Configuration { get; }
+
+        public Startup(IWebHostEnvironment environment, IConfiguration configuration)
         {
+            Environment = environment;
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+            services.AddControllersWithViews();
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("AspNetIdentityConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("AspNetIdentityConnection")));
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            RegisterClientsCors(services);
-
-            services.AddMvc(option => option.EnableEndpointRouting = false);
-
-            services.AddHttpContextAccessor();
-
             services.AddTransient<IEmailSender, EmailSender>();
+            //services.RegisterClientsCors(Configuration);
 
-            var _clientsConfiguration = new Dictionary<string, ClientConfiguration>();
-            var _apiResourcesConfiguration = new List<ApiResourceConfiguration>();
-            Configuration.GetSection("ClientConfigurations").Bind(_clientsConfiguration);
-            Configuration.GetSection("ApiResourceConfigurations").Bind(_apiResourcesConfiguration);
+            var config = new Config(Configuration);
+            services.AddSingleton(config);
 
-            services.AddSingleton(new IdentityServerConfiguration(_clientsConfiguration, _apiResourcesConfiguration));
-            
             var bootstrapper = new AppBootstrapper(Configuration, services);
             bootstrapper.Configure();
 
@@ -73,62 +61,46 @@ namespace Merp.Web.Auth
 
                     options.ApiName = "merp.auth.api";
                 });
+                //.AddGoogle(options =>
+                //{
+                //    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+
+                //    // register your IdentityServer with Google at https://console.developers.google.com
+                //    // enable the Google+ API
+                //    // set the redirect URI to https://localhost:5001/signin-google
+                //    options.ClientId = "copy client ID from Google here";
+                //    options.ClientSecret = "copy client secret from Google here";
+                //});
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
+            if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
+                app.UseDatabaseErrorPage();
             }
 
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+            //app.UseClientsCors();
+
+            app.UseRouting();
             app.UseIdentityServer();
-
-            UseClientsCors(app);
-            app.UseAuthentication();
-
-            app.UseMvc(routes =>
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "i18n",
-                    template: "api/private/i18n/{controllerResourceName}/{actionResourceName}",
+                    pattern: "api/private/i18n/{controllerResourceName}/{actionResourceName}",
                     defaults: new { controller = "Config", action = "GetLocalization" });
 
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "managePrivateApi",
-                    template: "api/private/Manage/{action=Index}/{id?}",
+                    pattern: "api/private/Manage/{action=Index}/{id?}",
                     defaults: new { controller = "Manage" });
 
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapDefaultControllerRoute();
             });
-        }
-
-        private void RegisterClientsCors(IServiceCollection services)
-        {
-            services.AddCors(options =>
-            {
-                options.AddPolicy("WebApp", policy =>
-                {
-                    policy.WithOrigins(Configuration["ClientEndpoints:WebApp"])
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
-                });
-            });
-        }
-
-        private void UseClientsCors(IApplicationBuilder app)
-        {
-            app.UseCors("WebApp");
         }
     }
 }

@@ -2,6 +2,10 @@
 An open source, event-based Micro ERP developed by Andrea Saltarello using ASP.NET Core 3.1
 
 **Release notes**
+25/11/2020
+- Started migrating auth server to IdentityServer4 v4
+- Started working on Blazor-based WASM client app
+
 10/05/2020
 - Experimental support for AWS as an ASP .NET Core environment
 

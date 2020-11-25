@@ -1,0 +1,15 @@
+Merp.Web.Auth					44370
+Merp.Web.Auth4					44371
+
+Merp.Martin.Web.Alexa			44339
+Merp.Martin.Web.BotFramework	44339
+
+Merp.Accountancy.Web			44304
+Merp.Accountancy.Web.Internal	44352
+Merp.Accountancy.Web.Public		44346
+
+Merp.Registry.Web				44373
+Merp.Registry.Web.Internal		44385
+Merp.Registry.Web.Public		44386
+
+Merp.TimeTracking.Web			44375

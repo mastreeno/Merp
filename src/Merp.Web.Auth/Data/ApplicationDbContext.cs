@@ -1,6 +1,6 @@
-﻿using Merp.Web.Site.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Merp.Web.Auth.Models;
 
 namespace Merp.Web.Auth.Data
 {

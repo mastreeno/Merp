@@ -1,0 +1,55 @@
+﻿@page "/registry/person/add"
+
+<div class="row align-items-center">
+    <div class="col">
+        <h2>
+            <i class="fa fa-user"></i> Register a person
+        </h2>
+    </div>
+    <div class="col">
+        <NavLink class="btn btn-outline-secondary float-right" href="/registry/">
+            <i class="fa fa-angle-left"></i> Search
+        </NavLink>
+    </div>
+</div>
+<hr />
+<EditForm Model="@Model" OnValidSubmit="@Submit" class="col-md-12">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="row">
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="companyName">First name</label>
+                <InputText @bind-Value="Model.FirstName" class="form-control" />
+            </div>
+            <div class="form-group col-md-12">
+                <label for="companyName">Last name</label>
+                <InputText @bind-Value="Model.LastName" class="form-control" />
+            </div>
+            <div class="form-group col-md-12">
+                <label for="companyName">SSN</label>
+                <InputText @bind-Value="Model.NationalIdentificationNumber" class="form-control" />
+            </div>
+            <div class="form-group col-md-12">
+                <label for="vatNumber">VAT Number</label>
+                <VatNumber Value="@Model.VatNumber" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h3>Legal address</h3>
+    </div>
+    <div class="row">
+        <h3>Shipping address</h3>
+    </div>
+    <div class="row">
+        <h3>Billing address</h3>
+    </div>
+    <div class="row">
+        <div class="btn-group float-right" role="group">
+            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="button" class="btn btn-outline-secondary">Cancel</button>
+        </div>
+    </div>
+</EditForm>

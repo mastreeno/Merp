@@ -7,9 +7,12 @@
 		<Product>Merp</Product>
 		<Configurations>Debug;Release;</Configurations>
 		<UserSecretsId>8b6e4560-49f7-48af-a564-6c087a556d30</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..</DockerfileContext>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen.ConventionalRouting" Version="3.0.1.7" />
 	</ItemGroup>

@@ -1,5 +1,4 @@
-﻿using Merp.Web.Site.Models;
-using Merp.Web.Auth.Models.Manage;
+﻿using Merp.Web.Auth.Models.Manage;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Merp.Web.Auth.Services;
+using Merp.Web.Auth.Models;
 
 namespace Merp.Web.Auth.WorkerServices
 {

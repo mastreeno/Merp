@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Merp.Web;
 using Merp.TimeTracking.Web.Areas.TaskManagement.WorkerServices;
+using Merp.Web.Cors;
 
 namespace Merp.TimeTracking.Web
 {
@@ -46,7 +47,7 @@ namespace Merp.TimeTracking.Web
                     options.ApiName = "merp.timetracking.api";
                 });
 
-            RegisterClientsCors(services);
+            services.RegisterClientsCors(Configuration);
 
             services.AddMvc(option => option.EnableEndpointRouting = false);
 
@@ -72,7 +73,7 @@ namespace Merp.TimeTracking.Web
             }
 
             app.UseHttpsRedirection();
-            UseClientsCors(app);
+            app.UseClientsCors();
             app.UseAuthentication();
             app.UseMvc(routes =>
             {
@@ -90,24 +91,6 @@ namespace Merp.TimeTracking.Web
                     name: "default",
                     template: "api/{area:exists}/{controller}/{action}/{id?}");
             });
-        }
-
-        private void RegisterClientsCors(IServiceCollection services)
-        {
-            services.AddCors(options =>
-            {
-                options.AddPolicy("WebApp", policy =>
-                {
-                    policy.WithOrigins(Configuration["ClientEndpoints:WebApp"])
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
-                });
-            });
-        }
-
-        private void UseClientsCors(IApplicationBuilder app)
-        {
-            app.UseCors("WebApp");
         }
     }
 }

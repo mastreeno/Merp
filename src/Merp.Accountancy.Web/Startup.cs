@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Merp.Web;
 using Merp.Accountancy.Web.WorkerServices;
+using Merp.Web.Cors;
 
 namespace Merp.Accountancy.Web
 {
@@ -39,7 +40,7 @@ namespace Merp.Accountancy.Web
                     options.ApiName = "merp.accountancy.api";
                 });
 
-            RegisterClientsCors(services);
+            services.RegisterClientsCors(Configuration);
             services.AddHttpContextAccessor();
             
             services.AddMvc(option => option.EnableEndpointRouting = false);
@@ -65,7 +66,7 @@ namespace Merp.Accountancy.Web
             }
 
             app.UseHttpsRedirection();
-            UseClientsCors(app);
+            app.UseClientsCors();
             app.UseAuthentication();
             app.UseMvc(routes =>
             {
@@ -78,24 +79,6 @@ namespace Merp.Accountancy.Web
                     name: "default",
                     template: "api/{controller}/{action}/{id?}");
             });
-        }
-
-        private void RegisterClientsCors(IServiceCollection services)
-        {
-            services.AddCors(options =>
-            {
-                options.AddPolicy("WebApp", policy =>
-                {
-                    policy.WithOrigins(Configuration["ClientEndpoints:WebApp"])
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
-                });
-            });
-        }
-
-        private void UseClientsCors(IApplicationBuilder app)
-        {
-            app.UseCors("WebApp");
         }
     }
 }
