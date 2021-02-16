@@ -2,6 +2,9 @@
 An open source, event-based Micro ERP developed by Andrea Saltarello using ASP.NET Core 3.1
 
 **Release notes**
+16/02/2021
+- Improvements in Blazor-based WASM client app (Merp.Wasm.App)
+
 25/11/2020
 - Started migrating auth server to IdentityServer4 v4
 - Started working on Blazor-based WASM client app

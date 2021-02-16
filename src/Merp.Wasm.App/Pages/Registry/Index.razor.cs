@@ -12,13 +12,12 @@ namespace Merp.Wasm.App.Pages.Registry
     public partial class Index
     {
         [Inject] RegistryPrivateApiHttpClient Http { get; set; }
-        private ViewModel Model = new ViewModel();
-        private SearchParameters Params = new SearchParameters();
+        private RegistryPrivateApiHttpClient.SearchModel Model = new();
+        private SearchParameters Params = new();
 
         async Task Search()
         {
-            string url = $"api/Party/Search?query={Params.PartyName}&partyType={Params.PartyType}&city={Params.CityName}&postalCode={Params.PostalCode}&orderBy={""}&orderDirection={""}&page={Params.PageIndex}&size={Params.PageSize}";
-            Model = await Http.Http.GetFromJsonAsync<ViewModel>(url);
+            Model = await Http.SearchAsync(Params.PartyName, Params.PartyType, Params.CityName, Params.PostalCode, Params.PageIndex, Params.PageSize);
         }
 
         public class SearchParameters
@@ -30,30 +29,6 @@ namespace Merp.Wasm.App.Pages.Registry
             public SortOrder Order = SortOrder.Ascending;
             public int PageIndex = 1;
             public int PageSize = 20;
-        }
-
-        public class ViewModel
-        {
-            public IEnumerable<PartyDescriptor> Parties { get; set; } = new List<PartyDescriptor>();
-
-            public int TotalNumberOfParties { get; set; }
-
-            public class PartyDescriptor
-            {
-                public int Id { get; set; }
-
-                public Guid Uid { get; set; }
-
-                public string Name { get; set; }
-
-                public string PhoneNumber { get; set; }
-
-                public string NationalIdentificationNumber { get; set; }
-
-                public string VatIndex { get; set; }
-
-                public string PartyType { get; set; }
-            }
         }
 
         public enum SortOrder

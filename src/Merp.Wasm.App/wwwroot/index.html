@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Merp.Wasm.App</title>
     <base href="/" />
-    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <!--<link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />-->
+    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="lib/font-awesome/css/all.min.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet" />
     <link href="Merp.Wasm.App.styles.css" rel="stylesheet" />
@@ -20,8 +21,24 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
+    <script src="lib/jquery/jquery.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js"></script>
     <script src="_framework/blazor.webassembly.js"></script>
+    <script>
+        const environmentName = 'Development';
+        Blazor.start({
+            loadBootResource: function (type, name, defaultUri, integrity) {
+                // Adds a custom HTTP header to the outbound requests
+                // To retain the default integrity checking behavior, it's necessary to pass through the 'integrity' parameter
+                return fetch(defaultUri, {
+                    cache: 'no-cache',
+                    integrity: integrity,
+                    headers: { 'blazor-environment': environmentName }
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

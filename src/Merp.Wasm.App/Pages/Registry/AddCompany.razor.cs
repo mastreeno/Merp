@@ -24,6 +24,10 @@ namespace Merp.Wasm.App.Pages.Registry
             public string CompanyName { get; set; }
             public string NationalIdentificationNumber { get; set; }
             public string VatNumber { get; set; }
+
+            public Merp.Wasm.App.Model.PostalAddress BillingAddress { get; set; } = new Model.PostalAddress();
+            public Merp.Wasm.App.Model.PostalAddress LegalAddress { get; set; } = new Model.PostalAddress();
+            public Merp.Wasm.App.Model.PostalAddress ShippingAddress { get; set; } = new Model.PostalAddress();
         }
     }
 }

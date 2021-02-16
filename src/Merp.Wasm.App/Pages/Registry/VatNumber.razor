@@ -4,62 +4,17 @@
             <option value="">Country</option>
             @foreach (var country in countries)
             {
-                <option value="@country.Code">@country.Name</option>
+                <option value="@country.Code">@country.DisplayName</option>
+                Console.WriteLine($"Code: {country.Code}\tName: { country.DisplayName }");
             }
         </InputSelect>
     </div>
     <InputText @bind-Value="vatIndex" class="form-control" />
     <div class="input-group-append">
-        <button class="btn btn-outline-primary" type="button">
+        <button class="btn btn-outline-primary" type="button" @onclick="@Lookup">
             <i class="fa fa-search"></i>
             Search
         </button>
     </div>
 </div>
-
-@code {
-    private string vatIndex;
-    private string countryCode;
-    private IEnumerable<Country> countries = new List<Country>() {
-        new Country { Code="AT", Name = "Austria" },
-        new Country { Code="BE", Name = "Belgium" },
-        new Country { Code="BG", Name = "Bulgaria" },
-        new Country { Code="IT", Name = "Italy" },
-    };
-
-    class Country
-    {
-        public string Code;
-        public string Name;
-    }
-
-    [Parameter]
-    public string Value
-    {
-        set
-        {
-            if (value != null && value.Length > 3 && countries.Any(c => c.Code == value.Substring(0, 2)))
-            {
-                countryCode = value.Substring(0, 2);
-                vatIndex = value.Substring(2);
-            }
-            else
-            {
-                vatIndex = value;
-            }
-        }
-        get
-        {
-            return vatIndex switch
-            {
-                null => null,
-                "" => null,
-                string vi when vi.Length == 0 => null,
-                string vi when vi.Length > 0 => string.Concat(countryCode, vi),
-                _ => vatIndex
-            };
-        }
-    }
-
-}
 
