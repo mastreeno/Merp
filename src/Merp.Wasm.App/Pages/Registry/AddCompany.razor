@@ -15,31 +15,87 @@
 <EditForm Model="@Model" OnValidSubmit="@Submit" class="col-md-12">
     <DataAnnotationsValidator />
     <ValidationSummary />
-
-    <div class="row">
-        <div class="form-row">
-            <div class="form-group col-md-12">
-                <label for="companyName">Company name</label>
-                <InputText @bind-Value="Model.CompanyName" class="form-control" />
-            </div>
-            <div class="form-group col-md-12">
-                <label for="companyName">SSN</label>
-                <InputText @bind-Value="Model.NationalIdentificationNumber" class="form-control" />
-            </div>
-            <div class="form-group col-md-12">
-                <label for="vatNumber">VAT Number</label>
-                <VatNumber Value="@Model.VatNumber" />
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#general" role="tab" aria-controls="home" aria-selected="true">General</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#legalAddress" role="tab" aria-controls="legalAddress" aria-selected="false">Legal address</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#billingAddress" role="tab" aria-controls="billingAddress" aria-selected="false">Billing address</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#shippingAddress" role="tab" aria-controls="shippingAddress" aria-selected="false">Shipping address</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contactInfo" role="tab" aria-controls="contactInfo" aria-selected="false">Contact info</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="home-tab">
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="companyName">Company name</label>
+                    <InputText @bind-Value="Model.CompanyName" class="form-control" />
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="companyName">SSN</label>
+                    <InputText @bind-Value="Model.NationalIdentificationNumber" class="form-control" />
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="vatNumber">VAT Number</label>
+                    <VatNumber Type="VatNumber.PartyType.Company" Value="@Model.VatNumber" OnLookup="@VatNumberLookup" />
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <h3>Legal address</h3>
-    </div>
-    <div class="row">
-        <h3>Shipping address</h3>
-    </div>
-    <div class="row">
-        <h3>Billing address</h3>
+        <div class="tab-pane fade" id="legalAddress" role="tabpanel" aria-labelledby="profile-tab">
+            <PostalAddressEditor Address="@Model.LegalAddress" />
+        </div>
+        <div class="tab-pane fade" id="billingAddress" role="tabpanel" aria-labelledby="contact-tab">
+            <label>
+                <InputCheckbox @bind-Value="@Model.UseLegalAddressAsBillingAddress" />
+                Use legal address as Billing address
+            </label>
+            <PostalAddressEditor Address="@Model.BillingAddress" IsDisabled="@Model.UseLegalAddressAsBillingAddress" />
+        </div>
+        <div class="tab-pane fade" id="shippingAddress" role="tabpanel" aria-labelledby="profile-tab">
+            <label>
+                <InputCheckbox @bind-Value="@Model.UseLegalAddressAsShippingAddress" />
+                Use legal address as Shipping address
+            </label>
+            <PostalAddressEditor Address="@Model.ShippingAddress" IsDisabled="@Model.UseLegalAddressAsShippingAddress" />
+        </div>
+        <div class="tab-pane fade" id="contactInfo" role="tabpanel" aria-labelledby="contact-tab">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="phoneNumber">
+                        Phone number
+                        <InputText class="form-control" @bind-Value="@Model.PhoneNumber" />
+                    </label>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="faxNumber">
+                        Fax Number
+                        <InputText class="form-control" @bind-Value="@Model.FaxNumber" />
+                    </label>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="websiteAddress">
+                        Web site address:
+                        <InputText class="form-control" @bind-Value="@Model.WebSiteUrl" />
+                    </label>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="emailAddress">
+                        e-mail address:
+                        <InputText class="form-control" type="email" @bind-Value="@Model.EmailAddress" />
+                    </label>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row">
         <div class="btn-group float-right" role="group">

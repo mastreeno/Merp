@@ -1,9 +1,10 @@
-﻿using Merp.Wasm.App.Http;
-using Microsoft.AspNetCore.Components;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.AspNetCore.Components;
+using Merp.Wasm.App.Http;
 
 namespace Merp.Wasm.App.Pages.Registry
 {
@@ -14,6 +15,12 @@ namespace Merp.Wasm.App.Pages.Registry
         private string countryCode;
 
         private IEnumerable<RegistryInternalApiHttpClient.Country> countries = new List<RegistryInternalApiHttpClient.Country>();
+
+        [Parameter]
+        public EventCallback<PartyInfo> OnLookup { get; set; }
+
+        [Parameter]
+        public PartyType Type { get; set; }
 
         [Parameter]
         public string Value
@@ -55,11 +62,31 @@ namespace Merp.Wasm.App.Pages.Registry
 
         private async void Lookup()
         {
-            if(!string.IsNullOrWhiteSpace(this.countryCode) && !string.IsNullOrWhiteSpace(this.vatIndex))
+            if (string.IsNullOrWhiteSpace(this.countryCode) || string.IsNullOrWhiteSpace(this.vatIndex))
+                return;
+
+            var config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<RegistryInternalApiHttpClient.GetCompanyInfoByVatNumberModel, PartyInfo>();
+                cfg.CreateMap<RegistryInternalApiHttpClient.GetPersonInfoByVatNumberModel, PartyInfo>();
+            });
+
+            PartyInfo partyInfo = null;
+            IMapper mapper = config.CreateMapper();
+            switch(Type)
             {
-                var partyInfo = await this.RegistryInternalApi.GetPartyInfoByVatNumberAsync(vatIndex, countryCode);
-                Console.WriteLine(partyInfo?.FirstName);
+                case PartyType.Company:
+                    var companyInfo = await this.RegistryInternalApi.GetCompanyInfoByVatNumberAsync(vatIndex, countryCode);
+                    partyInfo = mapper.Map<RegistryInternalApiHttpClient.GetCompanyInfoByVatNumberModel, PartyInfo>(companyInfo);
+                    break;
+                case PartyType.Person:
+                    var personInfo = await this.RegistryInternalApi.GetPersonInfoByVatNumberAsync(vatIndex, countryCode);
+                    partyInfo = mapper.Map<RegistryInternalApiHttpClient.GetPersonInfoByVatNumberModel, PartyInfo>(personInfo);
+                    break;
             }
+            if (partyInfo != null)
+                await OnLookup.InvokeAsync(partyInfo);
+
+            Console.WriteLine(partyInfo?.FirstName);
         }
 
         private IEnumerable<RegistryInternalApiHttpClient.Country> MockGetCountries()
@@ -95,6 +122,25 @@ namespace Merp.Wasm.App.Pages.Registry
                 new RegistryInternalApiHttpClient.Country { Code="SI", DisplayName = "Slovenia" },
                 new RegistryInternalApiHttpClient.Country { Code="SK", DisplayName = "Slovakia" },
             };
+        }
+
+        public enum PartyType
+        {
+            Company,
+            Person
+        }
+
+        public class PartyInfo
+        {
+            public string CompanyName { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+            public string VatNumber { get; set; }
+            public string Address { get; set; }
+            public string City { get; set; }
+            public string PostalCode { get; set; }
+            public string Province { get; set; }
+            public string Country { get; set; }
         }
     }
 }

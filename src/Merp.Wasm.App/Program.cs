@@ -26,6 +26,11 @@ namespace Merp.Wasm.App
             });
             builder.Services.AddLocalization();
 
+            var endpointConfiguration = builder.Configuration.Get<EndpointConfiguration>();
+            Console.WriteLine($"Registry: {endpointConfiguration.Registry}");
+            Console.WriteLine($"Registry internal: {endpointConfiguration.RegistryInternal}");
+
+            #region Back-end services
             //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
             //builder.Services
@@ -43,11 +48,7 @@ namespace Merp.Wasm.App
             //    });
             //builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
             //                .CreateClient("merp.registry.api"));
-
-            var endpointConfiguration = builder.Configuration.Get<EndpointConfiguration>();
-            Console.WriteLine($"Registry: {endpointConfiguration.Registry}");
-            Console.WriteLine($"Registry internal: {endpointConfiguration.RegistryInternal}");
-
+            #endregion
             builder.Services.AddRegistryPrivateApiHttpClient(endpointConfiguration.Registry);
             builder.Services.AddRegistryInternalApiHttpClient(endpointConfiguration.RegistryInternal);
 
@@ -56,7 +57,7 @@ namespace Merp.Wasm.App
                 // Configure your authentication provider options here.
                 // For more information, see https://aka.ms/blazor-standalone-auth
                 builder.Configuration.Bind("Local", options.ProviderOptions);
-
+                
                 options.ProviderOptions.DefaultScopes.Add("merp.auth.api");
                 options.ProviderOptions.DefaultScopes.Add("merp.accountancy.api");
                 options.ProviderOptions.DefaultScopes.Add("merp.accountancy.api.internal");

@@ -13,6 +13,17 @@ namespace Merp.Wasm.App.Pages.Registry
         [Inject] RegistryPrivateApiHttpClient Http { get; set; }
         public ViewModel Model = new();
 
+        private void VatNumberLookup(VatNumber.PartyInfo partyInfo)
+        {
+            Model.FirstName = partyInfo.FirstName;
+            Model.LastName = partyInfo.LastName;
+            Model.LegalAddress.Address = partyInfo.Address;
+            Model.LegalAddress.City = partyInfo.City;
+            Model.LegalAddress.Country = partyInfo.Country;
+            Model.LegalAddress.PostalCode = partyInfo.PostalCode;
+            Model.LegalAddress.Province = partyInfo.Province;
+        }
+
         private async Task Submit()
         {
 
@@ -27,9 +38,9 @@ namespace Merp.Wasm.App.Pages.Registry
             public string NationalIdentificationNumber { get; set; }
             public string VatNumber { get; set; }
 
+            public Merp.Wasm.App.Model.PostalAddress LegalAddress { get; set; } = new Model.PostalAddress();
             public bool UseLegalAddressAsBillingAddress { get; set; } = true;
             public Merp.Wasm.App.Model.PostalAddress BillingAddress { get; set; } = new Model.PostalAddress();
-            public Merp.Wasm.App.Model.PostalAddress LegalAddress { get; set; } = new Model.PostalAddress();
             public bool UseLegalAddressAsShippingAddress { get; set; } = true;
             public Merp.Wasm.App.Model.PostalAddress ShippingAddress { get; set; } = new Model.PostalAddress();
 

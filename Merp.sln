@@ -71,8 +71,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.Accountancy.Settings",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.Accountancy.Web.Api.Public", "src\Merp.Accountancy.Web.Api.Public\Merp.Accountancy.Web.Api.Public.csproj", "{57CF85EF-C639-4D2F-B7DA-2EB034133647}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.EntityFramework.MigrationSupport", "..\Mastreeno\src\Merp.EntityFramework.MigrationSupport\Merp.EntityFramework.MigrationSupport.csproj", "{44313FA6-8E47-4166-8ABD-D8E85BFDA471}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.Registry.Web.Core", "src\Merp.Registry.Web.Core\Merp.Registry.Web.Core.csproj", "{56A103BD-F094-46A4-A458-3C60634E0571}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.TimeTracking.Web.Core", "src\Merp.TimeTracking.Web.Core\Merp.TimeTracking.Web.Core.csproj", "{C4382C41-3B0F-457E-9802-60BC2F88AB1C}"
@@ -89,6 +87,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client Apps", "Client Apps", "{B665D155-6268-4687-8362-37CD8130D6CB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.Wasm.App", "src\Merp.Wasm.App\Merp.Wasm.App.csproj", "{27ED0C3A-AF53-42C2-97B6-86DC0B91D89A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.EntityFramework.MigrationSupport", "src\Merp.EntityFramework.MigrationSupport\Merp.EntityFramework.MigrationSupport.csproj", "{E77C5A1C-B500-4166-A713-ABA394FCC276}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -265,12 +265,6 @@ Global
 		{57CF85EF-C639-4D2F-B7DA-2EB034133647}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57CF85EF-C639-4D2F-B7DA-2EB034133647}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57CF85EF-C639-4D2F-B7DA-2EB034133647}.Release|Any CPU.Build.0 = Release|Any CPU
-		{44313FA6-8E47-4166-8ABD-D8E85BFDA471}.AzureMongoDB|Any CPU.ActiveCfg = Debug|Any CPU
-		{44313FA6-8E47-4166-8ABD-D8E85BFDA471}.AzureMongoDB|Any CPU.Build.0 = Debug|Any CPU
-		{44313FA6-8E47-4166-8ABD-D8E85BFDA471}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{44313FA6-8E47-4166-8ABD-D8E85BFDA471}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{44313FA6-8E47-4166-8ABD-D8E85BFDA471}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{44313FA6-8E47-4166-8ABD-D8E85BFDA471}.Release|Any CPU.Build.0 = Release|Any CPU
 		{56A103BD-F094-46A4-A458-3C60634E0571}.AzureMongoDB|Any CPU.ActiveCfg = Debug|Any CPU
 		{56A103BD-F094-46A4-A458-3C60634E0571}.AzureMongoDB|Any CPU.Build.0 = Debug|Any CPU
 		{56A103BD-F094-46A4-A458-3C60634E0571}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -301,6 +295,12 @@ Global
 		{27ED0C3A-AF53-42C2-97B6-86DC0B91D89A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27ED0C3A-AF53-42C2-97B6-86DC0B91D89A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27ED0C3A-AF53-42C2-97B6-86DC0B91D89A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E77C5A1C-B500-4166-A713-ABA394FCC276}.AzureMongoDB|Any CPU.ActiveCfg = Debug|Any CPU
+		{E77C5A1C-B500-4166-A713-ABA394FCC276}.AzureMongoDB|Any CPU.Build.0 = Debug|Any CPU
+		{E77C5A1C-B500-4166-A713-ABA394FCC276}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E77C5A1C-B500-4166-A713-ABA394FCC276}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E77C5A1C-B500-4166-A713-ABA394FCC276}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E77C5A1C-B500-4166-A713-ABA394FCC276}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
