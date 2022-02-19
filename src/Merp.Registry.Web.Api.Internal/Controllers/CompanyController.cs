@@ -43,13 +43,13 @@ namespace Merp.Registry.Web.Api.Internal.Controllers
 
             try
             {
-                var personInformation = await ResolverServiceProxy.LookupCompanyInfoByVatNumberAsync(countryCode, vatNumber);
-                if (personInformation == null)
+                var companyInformation = await ResolverServiceProxy.LookupCompanyInfoByVatNumberAsync(countryCode, vatNumber);
+                if (companyInformation == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(personInformation);
+                return Ok(companyInformation);
             }
             catch (Exception e)
             {

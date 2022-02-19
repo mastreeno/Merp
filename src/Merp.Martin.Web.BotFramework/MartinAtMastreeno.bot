@@ -1,0 +1,72 @@
+{
+  "name": "MartinAtMastreeno",
+  "padlock": "",
+  "version": "2.0",
+  "services": [
+    {
+      "tenantId": "d07675e2-0c12-4bf3-aeb7-fcdaa6ea631a",
+      "subscriptionId": "d1087ea0-4cc9-4cdd-8e6b-6371d56c3d79",
+      "resourceGroup": "Martin",
+      "serviceName": "MartinAtMastreeno",
+      "type": "abs",
+      "name": "MartinAtMastreeno",
+      "id": "1"
+    },
+    {
+      "connectionString": "Re4bEqRyIaionj/1vazQZQ==!+C+w+SsJTq7Q2VO0jLYYp8sV40bwYlDcYFGChMWB0Ml7FRZ1zTmXNZG645yCSoCUdb5ACGaAgHz92hbs3QUxqXFeyzjaJwm0JmwDwedkDjhUp8opdyiG/tKHAogGPkQ7vnz/p1GAX/je4HJv4lOcmpC8ZcgEqG6xSvfaXlvJuIhGtOoQIjm3RnyKl+JMCiZ4fCINtKvYBVw/5hGG2QQ0nyyNeLGGbhrSlXg0wa3aw4o=",
+      "tenantId": "d07675e2-0c12-4bf3-aeb7-fcdaa6ea631a",
+      "subscriptionId": "9fa0098e-8bf9-483b-a0b2-7359b2b3826c",
+      "resourceGroup": "Martin",
+      "serviceName": "martinatmastreeno",
+      "type": "blob",
+      "id": "2"
+    },
+    {
+      "appId": "",
+      "appPassword": "",
+      "endpoint": "http://localhost:3978/api/messages",
+      "type": "endpoint",
+      "name": "development",
+      "id": "3"
+    },
+    {
+      "appId": "88d612c7-cc87-46f7-a57a-5324f1f4fe17",
+      "appPassword": "(m7#)Z:-N[S)Ev5{x*{+e-Iu>fB%Od",
+      "endpoint": "https://martinatmastreeno.azurewebsites.net/api/messages",
+      "type": "endpoint",
+      "name": "production",
+      "id": "4"
+    },
+    {
+      "instrumentationKey": "kaDkJ6xHXR4HtJr2RKRnBw==!yEjCXkf4HFwdN6tx5xD2uEOOVg2LKK3sLhbRV/v4GBiBj6NDDHuE8Twq2y5dHZPY",
+      "applicationId": "bc4a7071-e1a5-48b5-b40a-012b6f9293a0",
+      "apiKeys": {},
+      "tenantId": "d07675e2-0c12-4bf3-aeb7-fcdaa6ea631a",
+      "subscriptionId": "9fa0098e-8bf9-483b-a0b2-7359b2b3826c",
+      "resourceGroup": "Mastreeno",
+      "serviceName": "MartinAtMastreenoqla6ki",
+      "type": "appInsights",
+      "id": "5"
+    },
+    {
+      "appId": "5c903f40-f879-43c4-99d3-b09ca1ff0c55",
+      "authoringKey": "f44d086731824acb884120f85a3e14d1",
+      "subscriptionKey": "f44d086731824acb884120f85a3e14d1",
+      "version": "0.1",
+      "region": "westeurope",
+      "type": "luis",
+      "name": "MartinAtMastreeno-en",
+      "id": "6"
+    },
+    {
+      "appId": "0e038061-2b70-4ca4-80de-e73580091b51",
+      "authoringKey": "f44d086731824acb884120f85a3e14d1",
+      "subscriptionKey": "f44d086731824acb884120f85a3e14d1",
+      "version": "0.1",
+      "region": "westeurope",
+      "type": "luis",
+      "name": "MartinAtMastreeno-it",
+      "id": "7"
+    }
+  ]
+}

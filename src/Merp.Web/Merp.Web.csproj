@@ -1,35 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Authors>Mastreeno ltd, Andrea Saltarello</Authors>
-    <Product>Merp</Product>
-    <Configurations>Debug;Release;</Configurations>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6</TargetFramework>
+		<Authors>Mastreeno ltd, Andrea Saltarello</Authors>
+		<Product>Merp</Product>
+		<Configurations>Debug;Release;</Configurations>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <CodeAnalysisRuleSet />
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<CodeAnalysisRuleSet />
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <CodeAnalysisRuleSet />
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<CodeAnalysisRuleSet />
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="IdentityModel" Version="4.4.0" />
-    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.1.4" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.8" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.8" />
-	  <PackageReference Include="Rebus" Version="6.4.1" />
-	  <PackageReference Include="Rebus.AmazonSqs" Version="6.1.1" />
-	  <PackageReference Include="Rebus.AzureServiceBus" Version="7.1.5" />
-	  <PackageReference Include="Rebus.ServiceProvider" Version="5.0.6" />
-	  <PackageReference Include="Rebus.SqlServer" Version="7.1.5" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="IdentityModel" Version="4.6.0" />
+		<PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.14" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.14" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.14" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.1.14" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.14" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.14" />
+		<PackageReference Include="Rebus" Version="6.4.1" />
+		<PackageReference Include="Rebus.AmazonSqs" Version="6.1.1" />
+		<PackageReference Include="Rebus.AzureServiceBus" Version="7.1.5" />
+		<PackageReference Include="Rebus.ServiceProvider" Version="5.0.6" />
+		<PackageReference Include="Rebus.SqlServer" Version="7.1.5" />
+	</ItemGroup>
 </Project>

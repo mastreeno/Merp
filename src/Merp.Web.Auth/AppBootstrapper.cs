@@ -87,8 +87,8 @@ namespace Merp.Web.Auth
             //        options.Events.RaiseSuccessEvents = true;
             //        options.UserInteraction.LoginUrl = "/Account/Login";
             //        options.UserInteraction.LogoutUrl = "/Account/Logout";
-            //        // options.IssuerUri = "";
-            //        // options.PublicOrigin = "";
+            //        // options.IssuerUri = "https://mastreenoauth.azurewebsites.net";
+            //        // options.PublicOrigin = "https://mastreenoauth.azurewebsites.net";
             //    })
             //    .AddConfigurationStore(options =>
             //    {
@@ -109,76 +109,6 @@ namespace Merp.Web.Auth
             //    identityServerBuilder.AddDeveloperSigningCredential();
             //}
             #endregion
-        }
-
-        private void SetupIdentityServerConfigurationDataLegacy()
-        {
-            var identityServerConfiguration = Services.BuildServiceProvider().GetService<Config>();
-
-            using var configurationContext = Services.BuildServiceProvider().GetService<ConfigurationDbContext>();
-            configurationContext.Database.Migrate();
-            foreach (var apiScope in identityServerConfiguration.ApiScopes)
-            {
-                if (!configurationContext.ApiScopes.Any(r => r.Name == apiScope.Name))
-                {
-                    configurationContext.ApiScopes.Add(apiScope.ToEntity());
-                }
-            }
-            configurationContext.SaveChanges();
-
-            foreach (var apiResource in identityServerConfiguration.ApiResouces)
-            {
-                if (!configurationContext.ApiResources.Any(r => r.Name == apiResource.Name))
-                {
-                    configurationContext.ApiResources.Add(apiResource.ToEntity());
-                }
-            }
-            configurationContext.SaveChanges();
-
-            foreach (var identityResource in identityServerConfiguration.IdentityResources)
-            {
-                if (!configurationContext.IdentityResources.Any(i => i.Name == identityResource.Name))
-                {
-                    configurationContext.IdentityResources.Add(identityResource.ToEntity());
-                }
-            }
-            configurationContext.SaveChanges();
-
-            var clients = identityServerConfiguration.Clients;
-            foreach (var client in clients)
-            {
-                if (!configurationContext.Clients.Any(c => c.ClientId == client.ClientId))
-                {
-                    configurationContext.Clients.Add(client.ToEntity());
-                }
-                else
-                {
-                    var clientEntity = configurationContext.Clients
-                        .Include(c => c.AllowedScopes)
-                        .Single(c => c.ClientId == client.ClientId);
-
-                    if (clientEntity.AllowedScopes == null && client.AllowedScopes.Count > 0)
-                    {
-                        clientEntity.AllowedScopes = client.AllowedScopes.Select(s => new IdentityServer4.EntityFramework.Entities.ClientScope
-                        {
-                            Scope = s
-                        }).ToList();
-                    }
-                    else if (clientEntity.AllowedScopes != null)
-                    {
-                        var scopesNotSaved = client.AllowedScopes.Where(s => !clientEntity.AllowedScopes.Any(cs => cs.Scope == s));
-                        if (scopesNotSaved.Count() > 0)
-                        {
-                            clientEntity.AllowedScopes
-                                .AddRange(scopesNotSaved.Select(s => new IdentityServer4.EntityFramework.Entities.ClientScope
-                                {
-                                    Scope = s
-                                }));
-                        }
-                    }
-                }
-            }
-            configurationContext.SaveChanges();
         }
 
         private void SetupIdentityServerConfigurationData()

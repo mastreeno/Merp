@@ -3,6 +3,7 @@
 
 
 using IdentityServer4;
+using Merp.Web.Auth.Controllers;
 using Merp.Web.Auth.Data;
 using Merp.Web.Auth.Models;
 using Merp.Web.Auth.Services;
@@ -43,7 +44,6 @@ namespace Merp.Web.Auth
                 .AddDefaultTokenProviders();
 
             services.AddTransient<IEmailSender, EmailSender>();
-            //services.RegisterClientsCors(Configuration);
 
             var config = new Config(Configuration);
             services.AddSingleton(config);
@@ -82,7 +82,13 @@ namespace Merp.Web.Auth
             }
 
             app.UseStaticFiles();
-            //app.UseClientsCors();
+            app.UseCors(builder =>
+                builder
+                    //.WithOrigins(Configuration["ClientEndpoints:WebApp"], Configuration["ClientEndpoints:WasmApp"])
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+            );
 
             app.UseRouting();
             app.UseIdentityServer();
@@ -92,7 +98,7 @@ namespace Merp.Web.Auth
                 endpoints.MapControllerRoute(
                     name: "i18n",
                     pattern: "api/private/i18n/{controllerResourceName}/{actionResourceName}",
-                    defaults: new { controller = "Config", action = "GetLocalization" });
+                    defaults: new { controller = "Config", action = nameof(ConfigController.GetLocalization) });
 
                 endpoints.MapControllerRoute(
                     name: "managePrivateApi",

@@ -1,14 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<TargetFramework>net6</TargetFramework>
 		<Company>Mastreeno ltd, Andrea Saltarello</Company>
 		<Authors>Mastreeno ltd, Andrea Saltarello</Authors>
 		<Product>Merp</Product>
 		<Configurations>Debug;Release;</Configurations>
 		<UserSecretsId>8b6e4560-49f7-48af-a564-6c087a556d30</UserSecretsId>
-		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-		<DockerfileContext>..\..</DockerfileContext>
 	</PropertyGroup>
 
 	<ItemGroup>

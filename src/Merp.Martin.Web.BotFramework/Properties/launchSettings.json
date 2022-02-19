@@ -1,19 +1,11 @@
 {
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:3978/",
-      "sslPort": 0
-    }
-  },
   "profiles": {
-    "BasicBot": {
+    "Merp.Martin.Web.BotFramework": {
       "commandName": "Project",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:3978/"
+      "applicationUrl": "http://localhost:44305;https://localhost:44306"
     }
   }
 }

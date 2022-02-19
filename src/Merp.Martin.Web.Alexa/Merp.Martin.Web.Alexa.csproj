@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6</TargetFramework>
     <UserSecretsId>4c299872-4d91-469f-b021-6baa7224fa44</UserSecretsId>
     <Configurations>Debug;Release;</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Alexa.NET" Version="1.14.0" />
+    <PackageReference Include="Alexa.NET" Version="1.20.0" />
   </ItemGroup>
 
   <ItemGroup>

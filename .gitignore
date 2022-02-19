@@ -21,6 +21,7 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
+/src/Merp.Web.Site/wwwroot/lib
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -215,3 +216,7 @@ ModelManifest.xml
 /src/Merp.Web.Site/App_Data/EventStore
 /src/Merp.Web.Site/Assemblies
 /src/Merp.Web.Site/CompiledIndexCache
+
+# Libraries neede to build the solution
+!/etc/libs/*
+/import/Merp.Import.Cli/Core/Compression

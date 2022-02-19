@@ -1,14 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFramework>netcoreapp3.1</TargetFramework>
-		<Company>Mastreeno ltd, Andrea Saltarello</Company>
-		<Authors>Mastreeno ltd, Andrea Saltarello</Authors>
-		<!--<AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>-->
+		<TargetFramework>net6</TargetFramework>
+		<Authors>Andrea Saltarello</Authors>
 		<Configurations>Debug;Release;</Configurations>
 		<UserSecretsId>68573512-fe11-4601-b6da-b7944d3911ba</UserSecretsId>
-		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-		<DockerfileContext>..\..</DockerfileContext>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -38,8 +38,9 @@ namespace Acl.RegistryResolutionServices
                 throw new ArgumentException("vatNumber must be provided", nameof(vatNumber));
             }
 
+            var clientRequest = new Vies.checkVatRequest(countryCode, vatNumber);
             var channel = new Vies.checkVatPortTypeClient();              
-            var checkVatResponse = await channel.checkVatAsync(countryCode, vatNumber);
+            var checkVatResponse = await channel.checkVatAsync(clientRequest);
             var mapper = _companyInformationMapperFactory.CreateMapper(countryCode);
 
             if (checkVatResponse == null || !mapper.CanMap(checkVatResponse))
@@ -70,8 +71,9 @@ namespace Acl.RegistryResolutionServices
                 throw new ArgumentException("vatNumber must be provided", nameof(vatNumber));
             }
 
+            var clientRequest = new Vies.checkVatRequest(countryCode, vatNumber);
             var channel = new Vies.checkVatPortTypeClient();
-            var checkVatResponse = await channel.checkVatAsync(countryCode, vatNumber);
+            var checkVatResponse = await channel.checkVatAsync(clientRequest);
             var mapper = _personInformationMapperFactory.CreateMapper(countryCode);
 
             if (checkVatResponse == null || !mapper.CanMap(checkVatResponse))

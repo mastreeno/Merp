@@ -1,15 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFramework>netcoreapp3.1</TargetFramework>
-		<Company>Mastreeno ltd, Andrea Saltarello</Company>
-		<Authors>Mastreeno ltd, Andrea Saltarello</Authors>
+		<TargetFramework>net6</TargetFramework>
+		<Authors>Andrea Saltarello</Authors>
 		<Product>Merp</Product>
 		<PackageId>Merp.Registry.Web.Api.Internal</PackageId>
 		<Configurations>Debug;Release;</Configurations>
 		<UserSecretsId>ae52400d-4760-4d97-8ede-186a97308953</UserSecretsId>
-		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-		<DockerfileContext>..\..</DockerfileContext>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -18,11 +15,11 @@
 
 	<ItemGroup>
 		<PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.8">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.14">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.8">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.14">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 		</PackageReference>
