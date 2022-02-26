@@ -1,0 +1,20 @@
+﻿<div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <InputSelect @bind-Value="countryCode" class="form-control">
+            <option value="">Country</option>
+            @foreach (var country in countries)
+            {
+                <option value="@country.Code">@country.DisplayName</option>
+                Console.WriteLine($"Code: {country.Code}\tName: { country.DisplayName }");
+            }
+        </InputSelect>
+    </div>
+    <InputText @bind-Value="vatIndex" class="form-control" />
+    <div class="input-group-append">
+        <button class="btn btn-outline-primary" type="button" @onclick="@Lookup">
+            <i class="fa fa-search"></i>
+            Search
+        </button>
+    </div>
+</div>
+
