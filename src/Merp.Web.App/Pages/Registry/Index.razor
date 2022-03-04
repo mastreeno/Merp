@@ -100,6 +100,8 @@
                 <th></th>
             </tr>
         </thead>
+        @if(Model.Parties != null)
+        {
         <tbody>
             @foreach (var party in Model.Parties)
             {
@@ -111,6 +113,7 @@
                     <td></td>
                 </tr>
             }
-        </tbody>
+        </tbody>            
+        }
     </table>
 </div>
