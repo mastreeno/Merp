@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Rebus.Config;
 using Rebus.ServiceProvider;
 
 namespace Merp.Accountancy.Web

@@ -7,6 +7,7 @@ using Merp.Web;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Rebus.Config;
 using Rebus.ServiceProvider;
 
 namespace Merp.Registry.Web

@@ -34,7 +34,7 @@
     <PackageReference Include="MementoFX.Messaging.Rebus" Version="2.1.0-pre1" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Rebus" Version="6.4.1" />
+    <PackageReference Include="Rebus" Version="6.6.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Merp.Domain\Merp.Domain.csproj" />

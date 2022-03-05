@@ -38,6 +38,7 @@ app.Run();
 static void ConfigureRegistryBoundedContext(WebApplicationBuilder builder)
 {
     var settings = builder.Configuration.GetValue<string>("Modules:Registry:ConnectionStrings:ReadModel");
+    
     var readModelConnectionString = builder.Configuration.GetValue<string>("Modules:Registry:ConnectionStrings:ReadModel");
     builder.Services.AddDbContext<Merp.Registry.QueryStack.RegistryDbContext>(options => options.UseSqlServer(readModelConnectionString));
     builder.Services.AddScoped<Merp.Registry.QueryStack.IDatabase, Merp.Registry.QueryStack.Database>();

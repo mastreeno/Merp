@@ -24,12 +24,12 @@
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.14" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.1.14" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.14" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.14" />
-		<PackageReference Include="Rebus" Version="6.4.1" />
-		<PackageReference Include="Rebus.AmazonSqs" Version="6.1.1" />
-		<PackageReference Include="Rebus.AzureServiceBus" Version="7.1.5" />
-		<PackageReference Include="Rebus.ServiceProvider" Version="5.0.6" />
-		<PackageReference Include="Rebus.SqlServer" Version="7.1.5" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+		<PackageReference Include="Rebus" Version="6.6.2" />
+		<PackageReference Include="Rebus.AmazonSqs" Version="6.3.2" />
+		<PackageReference Include="Rebus.AzureServiceBus" Version="9.0.8" />
+		<PackageReference Include="Rebus.ServiceProvider" Version="7.0.0" />
+		<PackageReference Include="Rebus.SqlServer" Version="7.2.0" />
 	</ItemGroup>
 </Project>
