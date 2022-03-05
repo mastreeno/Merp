@@ -1,27 +1,28 @@
-﻿using Merp.Registry.QueryStack;
-using Microsoft.AspNetCore.Components;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+using Merp.Registry.QueryStack;
+using Merp.Registry.Web.App.Model;
 
-namespace Merp.Web.App.Pages.Registry
+namespace Merp.Registry.Web.App.Pages
 {
     public partial class AddCompany
     {
         [Inject] IDatabase Database { get; set; }
 
-        public ViewModel Model = new();
+        public CompanyModel ViewModel = new();
 
         private void VatNumberLookup(VatNumber.PartyInfo partyInfo)
         {
-            Model.CompanyName = partyInfo.CompanyName;
-            Model.LegalAddress.Address = partyInfo.Address;
-            Model.LegalAddress.City = partyInfo.City;
-            Model.LegalAddress.Country = partyInfo.Country;
-            Model.LegalAddress.PostalCode = partyInfo.PostalCode;
-            Model.LegalAddress.Province = partyInfo.Province;
+            ViewModel.CompanyName = partyInfo.CompanyName;
+            ViewModel.LegalAddress.Address = partyInfo.Address;
+            ViewModel.LegalAddress.City = partyInfo.City;
+            ViewModel.LegalAddress.Country = partyInfo.Country;
+            ViewModel.LegalAddress.PostalCode = partyInfo.PostalCode;
+            ViewModel.LegalAddress.Province = partyInfo.Province;
         }
 
         private async Task Submit()
@@ -29,18 +30,18 @@ namespace Merp.Web.App.Pages.Registry
         
         }
 
-        public class ViewModel
+        public class CompanyModel
         {
             [Required]
             public string CompanyName { get; set; }
             public string NationalIdentificationNumber { get; set; }
             public string VatNumber { get; set; }
 
-            public Merp.Web.App.Model.PostalAddress LegalAddress { get; set; } = new Model.PostalAddress();
+            public PostalAddress LegalAddress { get; set; } = new Model.PostalAddress();
             public bool UseLegalAddressAsBillingAddress { get; set; } = true;
-            public Merp.Web.App.Model.PostalAddress BillingAddress { get; set; } = new Model.PostalAddress();
+            public PostalAddress BillingAddress { get; set; } = new Model.PostalAddress();
             public bool UseLegalAddressAsShippingAddress { get; set; } = true;
-            public Merp.Web.App.Model.PostalAddress ShippingAddress { get; set; } = new Model.PostalAddress();
+            public PostalAddress ShippingAddress { get; set; } = new Model.PostalAddress();
 
             [Phone]
             public string PhoneNumber { get; set; }

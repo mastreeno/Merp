@@ -1,16 +1,23 @@
-﻿using Merp.Registry.QueryStack;
-using Microsoft.AspNetCore.Components;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+using MementoFX.Persistence;
+using Merp.Registry.QueryStack;
+using Merp.Registry.Web.App.Model;
 
-namespace Merp.Web.App.Pages.Registry
+namespace Merp.Registry.Web.App.Pages
 {
-    public partial class AddPerson
+    public partial class EditPerson
     {
         [Inject] IDatabase Database { get; set; }
+        [Inject] IRepository Repository { get; set; }
+
+        [Parameter]
+        public int Id { get; set; }
+
         public ViewModel Model = new();
 
         private void VatNumberLookup(VatNumber.PartyInfo partyInfo)
@@ -38,11 +45,11 @@ namespace Merp.Web.App.Pages.Registry
             public string NationalIdentificationNumber { get; set; }
             public string VatNumber { get; set; }
 
-            public Merp.Web.App.Model.PostalAddress LegalAddress { get; set; } = new Model.PostalAddress();
+            public PostalAddress LegalAddress { get; set; } = new Model.PostalAddress();
             public bool UseLegalAddressAsBillingAddress { get; set; } = true;
-            public Merp.Web.App.Model.PostalAddress BillingAddress { get; set; } = new Model.PostalAddress();
+            public PostalAddress BillingAddress { get; set; } = new Model.PostalAddress();
             public bool UseLegalAddressAsShippingAddress { get; set; } = true;
-            public Merp.Web.App.Model.PostalAddress ShippingAddress { get; set; } = new Model.PostalAddress();
+            public PostalAddress ShippingAddress { get; set; } = new Model.PostalAddress();
 
             [Phone]
             public string PhoneNumber { get; set; }

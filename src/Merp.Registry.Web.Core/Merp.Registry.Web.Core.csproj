@@ -1,26 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6</TargetFramework>
-    <Authors>Mastreeno ltd, Andrea Saltarello</Authors>
-    <Product>Merp</Product>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6</TargetFramework>
+		<Authors>Mastreeno ltd, Andrea Saltarello</Authors>
+		<Product>Merp</Product>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="MementoFX" Version="2.0.0" />
-    <PackageReference Include="MementoFX.Messaging.Rebus" Version="2.1.0-pre1" />
-    <PackageReference Include="MementoFX.Persistence.MongoDB" Version="2.0.1-pre1" />
-	  <PackageReference Include="Rebus" Version="6.6.2" />
-	  <PackageReference Include="Rebus.AmazonSqs" Version="6.3.2" />
-	  <PackageReference Include="Rebus.AzureServiceBus" Version="9.0.8" />
-	  <PackageReference Include="Rebus.ServiceProvider" Version="7.0.0" />
-	  <PackageReference Include="Rebus.SqlServer" Version="7.2.0" /> 
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="MementoFX" Version="2.0.0" />
+		<PackageReference Include="MementoFX.Messaging.Rebus" Version="2.1.0-pre1" />
+		<PackageReference Include="MementoFX.Persistence.MongoDB" Version="2.0.1-pre1" />
+		<PackageReference Include="Rebus" Version="6.6.2" />
+		<PackageReference Include="Rebus.AmazonSqs" Version="6.3.2" />
+		<PackageReference Include="Rebus.AzureServiceBus" Version="9.0.8" />
+		<PackageReference Include="Rebus.ServiceProvider" Version="7.0.0" />
+		<PackageReference Include="Rebus.SqlServer" Version="7.2.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Acl.RegistryResolutionServices\Acl.RegistryResolutionServices.csproj" />
-    <ProjectReference Include="..\Merp.Registry.CommandStack\Merp.Registry.CommandStack.csproj" />
-    <ProjectReference Include="..\Merp.Registry.QueryStack\Merp.Registry.QueryStack.csproj" />
-    <ProjectReference Include="..\Merp.Web\Merp.Web.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Acl.RegistryResolutionServices\Acl.RegistryResolutionServices.csproj" />
+		<ProjectReference Include="..\Merp.Registry.CommandStack\Merp.Registry.CommandStack.csproj" />
+		<ProjectReference Include="..\Merp.Registry.QueryStack\Merp.Registry.QueryStack.csproj" />
+		<ProjectReference Include="..\Merp.Web\Merp.Web.csproj" />
+	</ItemGroup>
 </Project>

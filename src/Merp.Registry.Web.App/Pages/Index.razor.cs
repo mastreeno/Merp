@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore;
 using Merp.Registry.QueryStack;
 using Merp.Registry.QueryStack.Model;
 
-namespace Merp.Web.App.Pages.Registry
+namespace Merp.Registry.Web.App.Pages
 {
     public partial class Index
     {      
         [Inject] IDatabase Database { get; set; }      
         
-        private SearchResult Model = new();
-        private SearchParameters Params = new();
+        public SearchResult Model = new();
+        public SearchParameters Params = new();
 
         async Task Search()
         {            

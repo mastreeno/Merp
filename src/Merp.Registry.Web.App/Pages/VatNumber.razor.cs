@@ -6,7 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Components;
 using Acl.RegistryResolutionServices;
 
-namespace Merp.Web.App.Pages.Registry
+namespace Merp.Registry.Web.App.Pages
 {
     public partial class VatNumber
     {
@@ -48,11 +48,6 @@ namespace Merp.Web.App.Pages.Registry
                     _ => vatIndex
                 };
             }
-        }
-
-        protected override async Task OnInitializedAsync()
-        {           
-
         }
 
         private async void Lookup()

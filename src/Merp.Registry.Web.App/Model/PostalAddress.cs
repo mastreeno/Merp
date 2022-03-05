@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Merp.Web.App.Model
+namespace Merp.Registry.Web.App.Model
 {
     public class PostalAddress
     {
