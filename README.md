@@ -2,6 +2,10 @@
 An open source, event-based Micro ERP developed by Andrea Saltarello
 
 **Release notes**
+06/03/2022
+- Almost all references updated to .NET 6
+- Started working on a Blazor Server client
+ 
 16/02/2021
 - Improvements in Blazor-based WASM client app (Merp.Wasm.App)
 

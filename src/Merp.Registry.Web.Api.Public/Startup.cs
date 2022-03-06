@@ -55,7 +55,10 @@ namespace Merp.Registry.Web.Api.Public
             services.AddHttpContextAccessor();
 
             services.AddSingleton(services);
-            var bootstrapper = new AppBootstrapper(Configuration, services);
+
+            services.AddScoped<Merp.Registry.Web.Core.Configuration.IBoundedContextConfigurationProvider, Merp.Registry.Web.Core.Configuration.BoundedContextConfigurationProvider>();
+            services.AddSingleton<Merp.Registry.Web.AppBootstrapper>();
+            var bootstrapper = services.BuildServiceProvider().GetService<Merp.Registry.Web.AppBootstrapper>();
             bootstrapper.Configure();
 
             services.AddScoped<PersonControllerWorkerServices>();

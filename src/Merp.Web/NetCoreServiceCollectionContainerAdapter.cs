@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Rebus.Activation;
 using Rebus.Bus;
 using Rebus.Extensions;
@@ -34,7 +35,7 @@ namespace Merp.Web
             _services = services;
 
             var serviceProvider = _services.BuildServiceProvider();
-            var applicationLifetime = serviceProvider.GetService<IApplicationLifetime>();
+            var applicationLifetime = serviceProvider.GetService<IHostApplicationLifetime>();
 
             if (applicationLifetime != null)
             {

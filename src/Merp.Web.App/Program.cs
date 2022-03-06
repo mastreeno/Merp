@@ -13,7 +13,7 @@ builder.Services.AddServerSideBlazor();
 
 builder.Services.AddScoped<Resolver>();
 
-
+builder.Services.AddSingleton(builder.Services);
 
 ConfigureRegistryBoundedContext(builder);
 
@@ -39,20 +39,12 @@ app.MapFallbackToPage("/_Host");
 app.Run();
 
 static void ConfigureRegistryBoundedContext(WebApplicationBuilder builder)
-{   
-    //Services
-    builder.Services.AddSingleton<Merp.Registry.Web.App.Services.UrlBuilder>();
+{
+    builder.Services.AddScoped<Merp.Registry.Web.Core.Configuration.IBoundedContextConfigurationProvider, Merp.Registry.Web.App.Configuration.BoundedContextConfigurationProvider>();
+    builder.Services.AddScoped<Merp.Registry.Web.AppBootstrapper>();
 
-    //Read Model
-    var readModelConnectionString = builder.Configuration.GetValue<string>("Modules:Registry:ConnectionStrings:ReadModel");
-    builder.Services.AddDbContext<Merp.Registry.QueryStack.RegistryDbContext>(options => options.UseSqlServer(readModelConnectionString));
-    builder.Services.AddScoped<Merp.Registry.QueryStack.IDatabase, Merp.Registry.QueryStack.Database>();
+    var bootstrapper = builder.Services.BuildServiceProvider().GetService<Merp.Registry.Web.AppBootstrapper>();
+    bootstrapper.Configure();
 
-    //Event Store
-    //var mongoDbConnectionString = builder.Configuration.GetValue<string>("Modules:Registry:ConnectionStrings:EventStore");
-    //var mongoDbDatabaseName = MongoDB.Driver.MongoUrl.Create(mongoDbConnectionString).DatabaseName;
-    //var mongoClient = new MongoDB.Driver.MongoClient(mongoDbConnectionString);
-    //builder.Services.AddSingleton(mongoClient.GetDatabase(mongoDbDatabaseName));
-    //builder.Services.AddScoped<IEventStore, MementoFX.Persistence.MongoDB.MongoDbEventStore>();
-    //builder.Services.AddScoped<IRepository, MementoFX.Persistence.Repository>();
+    builder.Services.AddScoped<Merp.Registry.Web.App.Services.UrlBuilder>();
 }

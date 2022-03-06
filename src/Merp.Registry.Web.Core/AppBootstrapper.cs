@@ -1,15 +1,16 @@
-﻿using Amazon.SQS;
+﻿using System;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Amazon.SQS;
+using Rebus.Bus;
+using Rebus.Config;
+using Rebus.Routing.TypeBased;
 using MementoFX.Messaging;
 using MementoFX.Messaging.Rebus;
 using Merp.Registry.CommandStack.Sagas;
 using Merp.Web;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Rebus.Bus;
-using Rebus.Config;
-using Rebus.Routing.TypeBased;
-using System;
+using Merp.Registry.Web.Core.Configuration;
 
 namespace Merp.Registry.Web
 {
@@ -18,11 +19,13 @@ namespace Merp.Registry.Web
         public IConfiguration Configuration { get; }
         public IServiceCollection Services { get; }
         public IWebHostEnvironment Environment { get; set; }
+        public readonly IBoundedContextConfigurationProvider BoundedContextConfigurationProvider;
 
-        public AppBootstrapper(IConfiguration configuration, IServiceCollection services)
+        public AppBootstrapper(IConfiguration configuration, IServiceCollection services, IBoundedContextConfigurationProvider boundedContextConfigurationProvider)
         {
             Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             Services = services ?? throw new ArgumentNullException(nameof(services));
+            BoundedContextConfigurationProvider = boundedContextConfigurationProvider ?? throw new ArgumentNullException(nameof(boundedContextConfigurationProvider));
             Environment = Services.BuildServiceProvider().GetService<IWebHostEnvironment>();
         }
 
@@ -30,7 +33,7 @@ namespace Merp.Registry.Web
         {
             ConfigureBus();
             var bus = Services.BuildServiceProvider().GetService<IBus>();
-            new RegistryBoundedContextConfigurator(Configuration, Services).Configure();
+            new RegistryBoundedContextConfigurator(Configuration, Services, BoundedContextConfigurationProvider).Configure();
         }
 
         private void ConfigureBus()
@@ -38,15 +41,15 @@ namespace Merp.Registry.Web
             var config = Rebus.Config.Configure.With(new NetCoreServiceCollectionContainerAdapter(Services))
                 .Logging(l => l.Trace())
                 .Routing(r => r.TypeBased()
-                    .MapAssemblyOf<CompanySaga>(Configuration["Rebus:QueueName"])
+                    .MapAssemblyOf<CompanySaga>(BoundedContextConfigurationProvider.GetRebusQueueName())
                 )
-                .Sagas(s => s.StoreInSqlServer(Configuration["Rebus:Sagas:ConnectionString"], Configuration["Rebus:Sagas:MessagesTableName"], Configuration["Rebus:Sagas:IndexesTableName"]));
+                .Sagas(s => s.StoreInSqlServer(BoundedContextConfigurationProvider.GetRebusSagasConnectionString(), BoundedContextConfigurationProvider.GetRebusSagasMessagesTableName(), BoundedContextConfigurationProvider.GetRebusSagasIndexesTableName()));
 
             if (Environment.IsDevelopment() || Environment.IsOnPremises())
             {
-                config.Subscriptions(s => s.StoreInSqlServer(Configuration["Rebus:Subscriptions:ConnectionString"], Configuration["Rebus:Subscriptions:TableName"], isCentralized: true));
-                var transportOptions = new SqlServerTransportOptions(Configuration["Rebus:Transport:ConnectionString"]);
-                config.Transport(t => t.UseSqlServer(transportOptions, Configuration["Rebus:QueueName"]));
+                config.Subscriptions(s => s.StoreInSqlServer(BoundedContextConfigurationProvider.GetRebusSubscriptionsConnectionString(), BoundedContextConfigurationProvider.GetRebusSubscriptionsTableName(), isCentralized: true));
+                var transportOptions = new SqlServerTransportOptions(BoundedContextConfigurationProvider.GetRebusTransportConnectionString());
+                config.Transport(t => t.UseSqlServer(transportOptions, BoundedContextConfigurationProvider.GetRebusQueueName()));
             }
             else if (Environment.IsAWS())
             {
@@ -55,7 +58,7 @@ namespace Merp.Registry.Web
             }
             else if (Environment.IsAzure())
             {
-                config.Transport(t => t.UseAzureServiceBus(Configuration["Rebus:Transport:ConnectionString"], Configuration["Rebus:QueueName"]));
+                config.Transport(t => t.UseAzureServiceBus(BoundedContextConfigurationProvider.GetRebusTransportConnectionString(), BoundedContextConfigurationProvider.GetRebusQueueName()));
             }
             else
             {

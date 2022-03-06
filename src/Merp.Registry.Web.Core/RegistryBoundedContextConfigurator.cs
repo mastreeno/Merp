@@ -1,27 +1,31 @@
-﻿using MementoFX.Persistence;
-using Merp.Registry.CommandStack.Events;
-using Merp.Registry.CommandStack.Sagas;
-using Merp.Registry.CommandStack.Services;
-using Merp.Registry.QueryStack.Denormalizers;
-using Merp.Web;
+﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rebus.Config;
 using Rebus.ServiceProvider;
+using MementoFX.Persistence;
+using Merp.Registry.CommandStack.Events;
+using Merp.Registry.CommandStack.Sagas;
+using Merp.Registry.CommandStack.Services;
+using Merp.Registry.QueryStack.Denormalizers;
+using Merp.Registry.Web.Core.Configuration;
+using Merp.Web;
 
 namespace Merp.Registry.Web
 {
     public class RegistryBoundedContextConfigurator : BoundedContextConfigurator
     {
-        public RegistryBoundedContextConfigurator(IConfiguration configuration, IServiceCollection services) : base(configuration, services)
-        {
+        public readonly IBoundedContextConfigurationProvider BoundedContextConfigurationProvider;
 
+        public RegistryBoundedContextConfigurator(IConfiguration configuration, IServiceCollection services, IBoundedContextConfigurationProvider boundedContextConfigurationProvider) : base(configuration, services)
+        {
+            BoundedContextConfigurationProvider = boundedContextConfigurationProvider ?? throw new ArgumentNullException(nameof(boundedContextConfigurationProvider));
         }
 
         protected override void ConfigureEventStore()
         {
-            var mongoDbConnectionString = Configuration.GetConnectionString("Merp-Registry-EventStore");
+            var mongoDbConnectionString = BoundedContextConfigurationProvider.GetEventStoreConnectionString();
             var mongoDbDatabaseName = MongoDB.Driver.MongoUrl.Create(mongoDbConnectionString).DatabaseName;
             var mongoClient = new MongoDB.Driver.MongoClient(mongoDbConnectionString);
             Services.AddSingleton(mongoClient.GetDatabase(mongoDbDatabaseName));
@@ -69,7 +73,7 @@ namespace Merp.Registry.Web
         protected override void RegisterTypes()
         {
             //Types
-            var readModelConnectionString = Configuration.GetConnectionString("Merp-Registry-ReadModel");
+            var readModelConnectionString = BoundedContextConfigurationProvider.GetReadModelConnectionString();
             Services.AddDbContext<Merp.Registry.QueryStack.RegistryDbContext>(options => options.UseSqlServer(readModelConnectionString));
             Services.AddScoped<Merp.Registry.QueryStack.IDatabase, Merp.Registry.QueryStack.Database>();
         }
