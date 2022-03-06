@@ -2,7 +2,7 @@
 {
     public class UrlBuilder
     {
-        public string BuildEditPartyUrl(int partyId, string partyType)
+        public string BuildEditPartyUrl(Guid partyId, string partyType)
         {
             return partyType.ToLower() switch
             {
@@ -12,12 +12,12 @@
             };
         }
 
-        public string BuildEditCompanyUrl(int partyId)
+        public string BuildEditCompanyUrl(Guid partyId)
         {
             return $"/registry/person/edit/{partyId}";
         }
 
-        public string BuildEditPersonUrl(int partyId)
+        public string BuildEditPersonUrl(Guid partyId)
         {
             return $"/registry/person/edit/{partyId}";
         }

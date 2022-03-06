@@ -110,7 +110,7 @@
             @foreach (var party in Model.Parties)
             {
                 <tr>
-                    <td><button @onclick="@(_ => NavigationManager.NavigateTo(UrlBuilder.BuildEditPartyUrl(party.Id, party.PartyType)))"><i class="fas fa-edit" ></i></button></td>
+                    <td><button @onclick="@(_ => NavigationManager.NavigateTo(UrlBuilder.BuildEditPartyUrl(party.Uid, party.PartyType)))"><i class="fas fa-edit" ></i></button></td>
                     <td>@party.Name</td>
                     <td>@party.NationalIdentificationNumber</td>
                     <td>@party.VatIndex</td>

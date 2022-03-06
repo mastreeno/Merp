@@ -16,7 +16,7 @@ namespace Merp.Registry.Web.App.Pages
         [Inject] IRepository Repository { get; set; }
 
         [Parameter]
-        public int Id { get; set; }
+        public Guid PersonId { get; set; }
 
         public ViewModel Model = new();
 
@@ -34,8 +34,14 @@ namespace Merp.Registry.Web.App.Pages
         protected override Task OnInitializedAsync()
         {
             return Task.Run(() => {
-                var person = Repository.GetById<CommandStack.Model.Person>(Guid.Empty);
+                var person = Repository.GetById<CommandStack.Model.Person>(PersonId);
+                Model.FirstName = person.FirstName;
+                Model.LastName = person.LastName;
+                Model.NationalIdentificationNumber = person.NationalIdentificationNumber;
+                Model.VatNumber = person.VatNumber;
             });
+
+
         }
 
         private async Task Submit()
