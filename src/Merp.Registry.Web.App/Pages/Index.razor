@@ -1,5 +1,6 @@
 ﻿@page "/registry"
 @inject IStringLocalizer<Merp.Registry.Web.App.Resources.Index> localizer
+@inject NavigationManager NavigationManager
 @inject Merp.Registry.Web.App.Services.UrlBuilder UrlBuilder
 
 <div class="row">
@@ -95,6 +96,7 @@
         <thead>
             <tr>
                 <th></th>
+                <th></th>
                 <th>@localizer[nameof(Merp.Registry.Web.App.Resources.Index.NameColumn)]</th>
                 <th>@localizer[nameof(Merp.Registry.Web.App.Resources.Index.SSNColumn)]</th>
                 <th>@localizer[nameof(Merp.Registry.Web.App.Resources.Index.VatNumberColumn)]</th>
@@ -108,7 +110,7 @@
             @foreach (var party in Model.Parties)
             {
                 <tr>
-                    <td><a href="@UrlBuilder.BuildEditPartyUrl(party.Id, party.PartyType)"><i class="fas fa-edit"></i></a></td>
+                    <td><button @onclick="@(_ => NavigationManager.NavigateTo(UrlBuilder.BuildEditPartyUrl(party.Id, party.PartyType)))"><i class="fas fa-edit" ></i></button></td>
                     <td>@party.Name</td>
                     <td>@party.NationalIdentificationNumber</td>
                     <td>@party.VatIndex</td>

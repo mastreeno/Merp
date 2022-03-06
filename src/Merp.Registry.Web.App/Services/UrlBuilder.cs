@@ -8,7 +8,7 @@
             {
                 "company" => BuildEditCompanyUrl(partyId),
                 "person" => BuildEditPersonUrl(partyId),
-                _ => throw new ArgumentException("Unknoiwn party type", nameof(partyType))
+                _ => throw new ArgumentException("Unknown party type", nameof(partyType))
             };
         }
 

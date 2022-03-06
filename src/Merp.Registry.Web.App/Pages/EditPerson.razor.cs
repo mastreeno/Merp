@@ -31,6 +31,13 @@ namespace Merp.Registry.Web.App.Pages
             Model.LegalAddress.Province = partyInfo.Province;
         }
 
+        protected override Task OnInitializedAsync()
+        {
+            return Task.Run(() => {
+                var person = Repository.GetById<CommandStack.Model.Person>(Guid.Empty);
+            });
+        }
+
         private async Task Submit()
         {
 

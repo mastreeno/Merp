@@ -13,8 +13,7 @@ namespace Merp.Registry.Web.App.Pages
 {
     public partial class Index
     {      
-        [Inject] IDatabase Database { get; set; }      
-        
+        [Inject] IDatabase Database { get; set; }
         public SearchResult Model = new();
         public SearchParameters Params = new();
 
@@ -93,7 +92,7 @@ namespace Merp.Registry.Web.App.Pages
         public class SearchParameters
         {
             public int PageIndex = 1;
-            public int PageSize = 20;
+            public int PageSize = 15;
 
             public string CityName;
             public string PartyName;
