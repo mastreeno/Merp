@@ -50,6 +50,11 @@ namespace Merp.Registry.Web.App.Pages
             }
         }
 
+        protected override void OnInitialized()
+        {
+            countries = MockGetCountries();
+        }
+
         private async void Lookup()
         {
             if (string.IsNullOrWhiteSpace(this.countryCode) || string.IsNullOrWhiteSpace(this.vatIndex))

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components;
 using MementoFX.Persistence;
 using Merp.Registry.QueryStack;
 using Merp.Registry.Web.App.Model;
+using Rebus.Bus;
 
 namespace Merp.Registry.Web.App.Pages
 {
@@ -14,6 +15,7 @@ namespace Merp.Registry.Web.App.Pages
     {
         [Inject] IDatabase Database { get; set; }
         [Inject] IRepository Repository { get; set; }
+        [Inject] IBus Bus { get; set; }
 
         [Parameter]
         public Guid PersonId { get; set; }
@@ -46,7 +48,7 @@ namespace Merp.Registry.Web.App.Pages
 
         private async Task Submit()
         {
-
+            
         }
 
         public class ViewModel
