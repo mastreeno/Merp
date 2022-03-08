@@ -80,8 +80,6 @@ namespace Merp.Registry.Web.App.Pages
             }
             if (partyInfo != null)
                 await OnLookup.InvokeAsync(partyInfo);
-
-            Console.WriteLine(partyInfo?.FirstName);
         }
 
         private IEnumerable<Country> MockGetCountries()

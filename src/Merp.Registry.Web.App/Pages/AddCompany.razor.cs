@@ -4,20 +4,23 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using Merp.Registry.QueryStack;
+using Rebus.Bus;
+using Merp.Registry.CommandStack.Commands;
 using Merp.Registry.Web.App.Model;
+
 
 namespace Merp.Registry.Web.App.Pages
 {
     public partial class AddCompany
     {
-        [Inject] IDatabase Database { get; set; }
+        [Inject] IBus Bus { get; set; }
 
         public CompanyModel ViewModel = new();
 
         private void VatNumberLookup(VatNumber.PartyInfo partyInfo)
         {
             ViewModel.CompanyName = partyInfo.CompanyName;
+            ViewModel.VatNumber = partyInfo.VatNumber;
             ViewModel.LegalAddress.Address = partyInfo.Address;
             ViewModel.LegalAddress.City = partyInfo.City;
             ViewModel.LegalAddress.Country = partyInfo.Country;
@@ -26,8 +29,9 @@ namespace Merp.Registry.Web.App.Pages
         }
 
         private async Task Submit()
-        { 
-        
+        {
+            var command = new RegisterCompanyCommand(Guid.Empty, ViewModel.CompanyName, ViewModel.NationalIdentificationNumber, ViewModel.VatNumber);
+            await Bus.Send(command);
         }
 
         public class CompanyModel

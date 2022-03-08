@@ -89,6 +89,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.Registry.Web.App", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.Registry.Web.Api.Private", "src\Merp.Registry.Web.Api.Private\Merp.Registry.Web.Api.Private.csproj", "{81DBB241-982A-46E1-98C7-16FF9FC7FA4F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.Web.Blazor", "src\Merp.Web.Blazor\Merp.Web.Blazor.csproj", "{1BB53289-7988-4BA3-AEBC-1567E0FAC9B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -227,6 +229,10 @@ Global
 		{81DBB241-982A-46E1-98C7-16FF9FC7FA4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81DBB241-982A-46E1-98C7-16FF9FC7FA4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81DBB241-982A-46E1-98C7-16FF9FC7FA4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BB53289-7988-4BA3-AEBC-1567E0FAC9B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BB53289-7988-4BA3-AEBC-1567E0FAC9B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BB53289-7988-4BA3-AEBC-1567E0FAC9B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BB53289-7988-4BA3-AEBC-1567E0FAC9B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

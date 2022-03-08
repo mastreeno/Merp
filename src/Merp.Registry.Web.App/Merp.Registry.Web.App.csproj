@@ -22,6 +22,7 @@
 		<ProjectReference Include="..\Merp.Registry.CommandStack\Merp.Registry.CommandStack.csproj" />
 		<ProjectReference Include="..\Merp.Registry.QueryStack\Merp.Registry.QueryStack.csproj" />
 		<ProjectReference Include="..\Merp.Registry.Web.Core\Merp.Registry.Web.Core.csproj" />
+		<ProjectReference Include="..\Merp.Web.Blazor\Merp.Web.Blazor.csproj" />
 		<ProjectReference Include="..\Merp.Web\Merp.Web.csproj" />
 	</ItemGroup>
 

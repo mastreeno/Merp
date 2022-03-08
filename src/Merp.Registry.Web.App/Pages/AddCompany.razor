@@ -13,28 +13,14 @@
     </div>
 </div>
 <hr />
+
+<hr />
 <EditForm Model="@ViewModel" OnValidSubmit="@Submit" class="row">
     <DataAnnotationsValidator />
     <ValidationSummary />
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#general" role="tab" aria-controls="home" aria-selected="true">General</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#legalAddress" role="tab" aria-controls="legalAddress" aria-selected="false">Legal address</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#billingAddress" role="tab" aria-controls="billingAddress" aria-selected="false">Billing address</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#shippingAddress" role="tab" aria-controls="shippingAddress" aria-selected="false">Shipping address</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contactInfo" role="tab" aria-controls="contactInfo" aria-selected="false">Contact info</a>
-        </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="home-tab">
+
+    <TabControl>
+        <TabPage Text="General">
             <div class="row">
                 <div class="col-12">
                     <label class="col-form-label" for="companyName">Company name</label>
@@ -49,25 +35,25 @@
                     <VatNumber Type="VatNumber.PartyType.Company" Value="@ViewModel.VatNumber" OnLookup="@VatNumberLookup" />
                 </div>
             </div>
-        </div>
-        <div class="tab-pane fade" id="legalAddress" role="tabpanel" aria-labelledby="profile-tab">
+        </TabPage>
+        <TabPage Text="LegalAddress">
             <PostalAddressEditor Address="@ViewModel.LegalAddress" />
-        </div>
-        <div class="tab-pane fade" id="billingAddress" role="tabpanel" aria-labelledby="contact-tab">
+        </TabPage>
+        <TabPage Text="Billing address">
             <label>
                 <InputCheckbox @bind-Value="@ViewModel.UseLegalAddressAsBillingAddress" />
                 Use legal address as Billing address
             </label>
             <PostalAddressEditor Address="@ViewModel.BillingAddress" IsDisabled="@ViewModel.UseLegalAddressAsBillingAddress" />
-        </div>
-        <div class="tab-pane fade" id="shippingAddress" role="tabpanel" aria-labelledby="profile-tab">
+        </TabPage>
+        <TabPage Text="Shipping address">
             <label>
                 <InputCheckbox @bind-Value="@ViewModel.UseLegalAddressAsShippingAddress" />
                 Use legal address as Shipping address
             </label>
             <PostalAddressEditor Address="@ViewModel.ShippingAddress" IsDisabled="@ViewModel.UseLegalAddressAsShippingAddress" />
-        </div>
-        <div class="tab-pane fade" id="contactInfo" role="tabpanel" aria-labelledby="contact-tab">
+        </TabPage>
+        <TabPage Text="Contact info">
             <div class="row">
                 <div class="col-6">
                     <label for="phoneNumber">
@@ -96,8 +82,8 @@
                     </label>
                 </div>
             </div>
-        </div>
-    </div>
+        </TabPage>
+    </TabControl>
     <div class="row">
         <div class="btn-group float-end" role="group">
             <button type="submit" class="btn btn-primary">Register</button>
