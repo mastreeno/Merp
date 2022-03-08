@@ -3,6 +3,11 @@
 @inject NavigationManager NavigationManager
 @inject Merp.Registry.Web.App.Services.UrlBuilder UrlBuilder
 
+<PageTitle>Merp - Registry</PageTitle>
+<HeadContent>
+    <link rel="stylesheet" href="/_content/Merp.Registry.Web.App/lib/font-awesome/css/all.min.css" />
+</HeadContent>
+
 <div class="row">
     <EditForm Model="@Params" OnValidSubmit="@Search" class="col-md-12">
         <div class="row">

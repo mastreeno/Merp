@@ -6,6 +6,9 @@ using MementoFX.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.WebHost.UseWebRoot("wwwroot");
+builder.WebHost.UseStaticWebAssets();
+
 // Add services to the container.
 builder.Services.AddLocalization();
 builder.Services.AddRazorPages();
