@@ -7,13 +7,13 @@
         </h2>
     </div>
     <div class="col">
-        <NavLink class="btn btn-outline-secondary float-right" href="/registry/">
+        <NavLink class="btn btn-outline-secondary float-end" href="/registry/">
             <i class="fa fa-angle-left"></i> Search
         </NavLink>
     </div>
 </div>
 <hr />
-<EditForm Model="@ViewModel" OnValidSubmit="@Submit" class="col-md-12">
+<EditForm Model="@ViewModel" OnValidSubmit="@Submit" class="row">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -35,16 +35,16 @@
     </ul>
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="home-tab">
-            <div class="form-row">
-                <div class="form-group col-md-12">
-                    <label for="companyName">Company name</label>
+            <div class="row">
+                <div class="col-12">
+                    <label class="col-form-label" for="companyName">Company name</label>
                     <InputText @bind-Value="ViewModel.CompanyName" class="form-control" />
                 </div>
-                <div class="form-group col-md-12">
+                <div class="col-12">
                     <label for="companyName">SSN</label>
                     <InputText @bind-Value="ViewModel.NationalIdentificationNumber" class="form-control" />
                 </div>
-                <div class="form-group col-md-12">
+                <div class="col-12">
                     <label for="vatNumber">VAT Number</label>
                     <VatNumber Type="VatNumber.PartyType.Company" Value="@ViewModel.VatNumber" OnLookup="@VatNumberLookup" />
                 </div>
@@ -68,28 +68,28 @@
             <PostalAddressEditor Address="@ViewModel.ShippingAddress" IsDisabled="@ViewModel.UseLegalAddressAsShippingAddress" />
         </div>
         <div class="tab-pane fade" id="contactInfo" role="tabpanel" aria-labelledby="contact-tab">
-            <div class="form-row">
-                <div class="form-group col-md-6">
+            <div class="row">
+                <div class="col-6">
                     <label for="phoneNumber">
                         Phone number
                         <InputText class="form-control" @bind-Value="@ViewModel.PhoneNumber" />
                     </label>
                 </div>
-                <div class="form-group col-md-6">
+                <div class="col-6">
                     <label for="faxNumber">
                         Fax Number
                         <InputText class="form-control" @bind-Value="@ViewModel.FaxNumber" />
                     </label>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
+            <div class="row">
+                <div class="col-6">
                     <label for="websiteAddress">
                         Web site address:
                         <InputText class="form-control" @bind-Value="@ViewModel.WebSiteUrl" />
                     </label>
                 </div>
-                <div class="form-group col-md-6">
+                <div class="col-6">
                     <label for="emailAddress">
                         e-mail address:
                         <InputText class="form-control" type="email" @bind-Value="@ViewModel.EmailAddress" />
@@ -99,7 +99,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="btn-group float-right" role="group">
+        <div class="btn-group float-end" role="group">
             <button type="submit" class="btn btn-primary">Register</button>
             <button type="button" class="btn btn-outline-secondary">Cancel</button>
         </div>

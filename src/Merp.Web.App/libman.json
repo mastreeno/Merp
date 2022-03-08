@@ -3,12 +3,12 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "library": "jquery@3.5.1",
-      "destination": "wwwroot/lib/jquery"
+      "library": "bootstrap@5.1.3",
+      "destination": "wwwroot/lib/bootstrap"
     },
     {
-      "library": "twitter-bootstrap@4.5.3",
-      "destination": "wwwroot/lib/bootstrap"
+      "library": "bootstrap-icons@1.8.1",
+      "destination": "wwwroot/lib/bootstrap-icons"
     },
     {
       "library": "font-awesome@5.15.1",
