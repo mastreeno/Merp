@@ -1,8 +1,4 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.EntityFrameworkCore;
 using Acl.RegistryResolutionServices;
-using MementoFX.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +31,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+var supportedLanguages = new[] { "en", "it" };
+app.UseRequestLocalization(new RequestLocalizationOptions()
+    .AddSupportedCultures(supportedLanguages)
+    .AddSupportedUICultures(supportedLanguages));
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");

@@ -22,7 +22,7 @@ namespace Merp.Registry.Web.App.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Index {
+    public class Index {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Merp.Registry.Web.App.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Merp.Registry.Web.App.Resources.Index", typeof(Index).Assembly);
@@ -51,7 +51,7 @@ namespace Merp.Registry.Web.App.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Merp.Registry.Web.App.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Company.
         /// </summary>
-        internal static string AddCompanyButtonText {
+        public static string AddCompanyButtonText {
             get {
                 return ResourceManager.GetString("AddCompanyButtonText", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace Merp.Registry.Web.App.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Person.
         /// </summary>
-        internal static string AddPersonButtonText {
+        public static string AddPersonButtonText {
             get {
                 return ResourceManager.GetString("AddPersonButtonText", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace Merp.Registry.Web.App.Resources {
         /// <summary>
         ///   Looks up a localized string similar to City.
         /// </summary>
-        internal static string CityLabel {
+        public static string CityLabel {
             get {
                 return ResourceManager.GetString("CityLabel", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace Merp.Registry.Web.App.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
-        internal static string DisplayName {
+        public static string DisplayName {
             get {
                 return ResourceManager.GetString("DisplayName", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace Merp.Registry.Web.App.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
-        internal static string NameColumn {
+        public static string NameColumn {
             get {
                 return ResourceManager.GetString("NameColumn", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace Merp.Registry.Web.App.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Any.
         /// </summary>
-        internal static string PartyTypeSelectAny {
+        public static string PartyTypeSelectAny {
             get {
                 return ResourceManager.GetString("PartyTypeSelectAny", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace Merp.Registry.Web.App.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Company.
         /// </summary>
-        internal static string PartyTypeSelectCompany {
+        public static string PartyTypeSelectCompany {
             get {
                 return ResourceManager.GetString("PartyTypeSelectCompany", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace Merp.Registry.Web.App.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Party type.
         /// </summary>
-        internal static string PartyTypeSelectLabel {
+        public static string PartyTypeSelectLabel {
             get {
                 return ResourceManager.GetString("PartyTypeSelectLabel", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace Merp.Registry.Web.App.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Person.
         /// </summary>
-        internal static string PartyTypeSelectPerson {
+        public static string PartyTypeSelectPerson {
             get {
                 return ResourceManager.GetString("PartyTypeSelectPerson", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace Merp.Registry.Web.App.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Phone number.
         /// </summary>
-        internal static string PhoneColumn {
+        public static string PhoneColumn {
             get {
                 return ResourceManager.GetString("PhoneColumn", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace Merp.Registry.Web.App.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Postal code.
         /// </summary>
-        internal static string PostalCodeLabel {
+        public static string PostalCodeLabel {
             get {
                 return ResourceManager.GetString("PostalCodeLabel", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace Merp.Registry.Web.App.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
-        internal static string SearchButtonText {
+        public static string SearchButtonText {
             get {
                 return ResourceManager.GetString("SearchButtonText", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace Merp.Registry.Web.App.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Ascending.
         /// </summary>
-        internal static string SortOrderSelectAscending {
+        public static string SortOrderSelectAscending {
             get {
                 return ResourceManager.GetString("SortOrderSelectAscending", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace Merp.Registry.Web.App.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Descending.
         /// </summary>
-        internal static string SortOrderSelectDescending {
+        public static string SortOrderSelectDescending {
             get {
                 return ResourceManager.GetString("SortOrderSelectDescending", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace Merp.Registry.Web.App.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Sort order.
         /// </summary>
-        internal static string SortOrderSelectLabel {
+        public static string SortOrderSelectLabel {
             get {
                 return ResourceManager.GetString("SortOrderSelectLabel", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace Merp.Registry.Web.App.Resources {
         /// <summary>
         ///   Looks up a localized string similar to SSN.
         /// </summary>
-        internal static string SSNColumn {
+        public static string SSNColumn {
             get {
                 return ResourceManager.GetString("SSNColumn", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace Merp.Registry.Web.App.Resources {
         /// <summary>
         ///   Looks up a localized string similar to VAT number.
         /// </summary>
-        internal static string VatNumberColumn {
+        public static string VatNumberColumn {
             get {
                 return ResourceManager.GetString("VatNumberColumn", resourceCulture);
             }

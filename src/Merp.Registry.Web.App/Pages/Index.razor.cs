@@ -18,7 +18,7 @@ namespace Merp.Registry.Web.App.Pages
         public SearchParameters Params = new();
 
         async Task Search()
-        {            
+        {              
             var parties = Database.Parties.NotUnlisted();          
 
             parties = Params.PartyType switch
