@@ -132,6 +132,9 @@
   <data name="NameColumn" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="PageTitle" xml:space="preserve">
+    <value>Merp - Registry</value>
+  </data>
   <data name="PartyTypeSelectAny" xml:space="preserve">
     <value>Any</value>
   </data>

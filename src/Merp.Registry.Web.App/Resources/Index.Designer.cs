@@ -106,6 +106,15 @@ namespace Merp.Registry.Web.App.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Merp - Registry.
+        /// </summary>
+        internal static string PageTitle {
+            get {
+                return ResourceManager.GetString("PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Any.
         /// </summary>
         internal static string PartyTypeSelectAny {

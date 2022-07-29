@@ -30,7 +30,10 @@ namespace Merp.Registry.Web.App.Pages
 
         private async Task Submit()
         {
-            var command = new RegisterCompanyCommand(Guid.Empty, ViewModel.CompanyName, ViewModel.NationalIdentificationNumber, ViewModel.VatNumber);
+            var companyName = ViewModel.CompanyName;
+            var nationalIdentificationNumber = ViewModel.NationalIdentificationNumber;
+            var vatNumber = ViewModel.VatNumber;
+            var command = new RegisterCompanyCommand(Guid.Empty, companyName, nationalIdentificationNumber, vatNumber);
             await Bus.Send(command);
         }
 
