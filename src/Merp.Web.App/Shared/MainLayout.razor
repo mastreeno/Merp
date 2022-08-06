@@ -2,18 +2,29 @@
 
 <PageTitle>Merp.Web.App</PageTitle>
 
-<div class="page">
-    <div class="sidebar">
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Dense="true">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => ToggleDrawer())" />
+        <MudText Typo="Typo.h5" Class="ml-3">MERP</MudText>
+        <MudSpacer />
+        <a href="https://github.com/mastreeno/Merp" target="_blank" style="color:#fff;">About</a>
+    </MudAppBar>
+    <MudDrawer @bind-Open="isDrawerOpen" ClipMode="DrawerClipMode.Always" Variant="DrawerVariant.Mini">
         <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
+    </MudDrawer>
+    <MudMainContent>
+        <MudContainer Class="mt-4 px-8" MaxWidth="MaxWidth.False">
             @Body
-        </article>
-    </main>
-</div>
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private bool isDrawerOpen = true;
+
+    private void ToggleDrawer() => isDrawerOpen = !isDrawerOpen;
+}

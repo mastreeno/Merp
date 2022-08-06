@@ -7,6 +7,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="MudBlazor" Version="6.0.14" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\Merp.Registry.Web.App\Merp.Registry.Web.App.csproj" />
 		<ProjectReference Include="..\Merp.Registry.Web.Core\Merp.Registry.Web.Core.csproj" />
 	</ItemGroup>

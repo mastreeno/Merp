@@ -1,4 +1,5 @@
 using Acl.RegistryResolutionServices;
+using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,8 @@ builder.Services.AddScoped<Resolver>();
 builder.Services.AddSingleton(builder.Services);
 
 ConfigureRegistryBoundedContext(builder);
+
+builder.Services.AddMudServices();
 
 var app = builder.Build();
 
