@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Merp.Accountancy.Web.Api.Internal.WorkerServices;
+using Merp.Web;
+using Merp.Web.Cors;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Merp.Web;
-using Merp.Accountancy.Web.Api.Internal.WorkerServices;
-using Merp.Web.Cors;
 
 namespace Merp.Accountancy.Web.Api.Internal
 {
@@ -43,13 +42,17 @@ namespace Merp.Accountancy.Web.Api.Internal
 
 
             services.RegisterClientsCors(Configuration);
-            
+
             services.AddMvc(option => option.EnableEndpointRouting = false);
 
             services.AddHttpContextAccessor();
 
             services.AddSingleton(services);
-            var bootstrapper = new AppBootstrapper(Configuration, services);
+
+
+            services.AddScoped<Merp.Accountancy.Web.Core.Configuration.IBoundedContextConfigurationProvider, Merp.Accountancy.Web.Core.Configuration.BoundedContextConfigurationProvider>();
+            services.AddSingleton<Merp.Accountancy.Web.AppBootstrapper>();
+            var bootstrapper = services.BuildServiceProvider().GetService<Merp.Accountancy.Web.AppBootstrapper>();
             bootstrapper.Configure();
 
             services.AddScoped<VatControllerWorkerServices>();

@@ -3,30 +3,34 @@ using Merp.Accountancy.CommandStack.Events;
 using Merp.Accountancy.CommandStack.Sagas;
 using Merp.Accountancy.CommandStack.Services;
 using Merp.Accountancy.QueryStack.Denormalizers;
+using Merp.Accountancy.Web.Core.Configuration;
 using Merp.Web;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Rebus.Config;
-using Rebus.ServiceProvider;
 
 namespace Merp.Accountancy.Web
 {
     public class AccountancyBoundedContextConfigurator : BoundedContextConfigurator
     {
-        public AccountancyBoundedContextConfigurator(IConfiguration configuration, IServiceCollection services) : base(configuration, services)
+        public readonly IBoundedContextConfigurationProvider BoundedContextConfigurationProvider;
+
+        public AccountancyBoundedContextConfigurator(IConfiguration configuration, IServiceCollection services, IBoundedContextConfigurationProvider boundedContextConfigurationProvider)
+            : base(configuration, services)
         {
-            var section = configuration.GetSection("Merp:Accountancy:InvoicingSettings");
+            //var section = configuration.GetSection("Merp:Accountancy:InvoicingSettings");
             var config = new InvoicingSettings();
-            new ConfigureFromConfigurationOptions<InvoicingSettings>(section)
-                .Configure(config);
+            //new ConfigureFromConfigurationOptions<InvoicingSettings>(section)
+            //    .Configure(config);
             services.AddSingleton(config);
+
+            BoundedContextConfigurationProvider = boundedContextConfigurationProvider ?? throw new System.ArgumentNullException(nameof(boundedContextConfigurationProvider));
         }
 
         protected override void ConfigureEventStore()
         {
-            var mongoDbConnectionString = Configuration.GetConnectionString("Merp-Accountancy-EventStore");
+            var mongoDbConnectionString = BoundedContextConfigurationProvider.GetEventStoreConnectionString();
             var mongoDbDatabaseName = MongoDB.Driver.MongoUrl.Create(mongoDbConnectionString).DatabaseName;
             var mongoClient = new MongoDB.Driver.MongoClient(mongoDbConnectionString);
             Services.AddSingleton(mongoClient.GetDatabase(mongoDbDatabaseName));
@@ -82,11 +86,11 @@ namespace Merp.Accountancy.Web
         protected override void RegisterTypes()
         {
             //Types
-            var readModelConnectionString = Configuration.GetConnectionString("Merp-Accountancy-ReadModel");
+            var readModelConnectionString = BoundedContextConfigurationProvider.GetReadModelConnectionString();
             Services.AddDbContext<Merp.Accountancy.QueryStack.AccountancyDbContext>(options => options.UseSqlServer(readModelConnectionString));
             Services.AddScoped<Merp.Accountancy.QueryStack.IDatabase, Merp.Accountancy.QueryStack.Database>();
 
-            var draftsConnectionString = Configuration.GetConnectionString("Merp-Accountancy-Drafts");
+            var draftsConnectionString = BoundedContextConfigurationProvider.GetDraftsConnectionString();
             Services.AddDbContext<Merp.Accountancy.Drafts.AccountancyDraftsDbContext>(options => options.UseSqlServer(draftsConnectionString));
             Services.AddScoped<Merp.Accountancy.Drafts.IDatabase, Merp.Accountancy.Drafts.Database>();
             Services.AddScoped<Merp.Accountancy.Drafts.Commands.OutgoingInvoiceCommands>();

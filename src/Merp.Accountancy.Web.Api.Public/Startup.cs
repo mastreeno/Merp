@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Merp.Accountancy.Web.Api.Public.WorkerServices;
+using Merp.Web;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Merp.Web;
-using Merp.Accountancy.Web.Api.Public.WorkerServices;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen.ConventionalRouting;
 
@@ -25,7 +17,7 @@ namespace Merp.Accountancy.Web.Api.Public
         {
             Configuration = configuration;
         }
-        
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -54,7 +46,9 @@ namespace Merp.Accountancy.Web.Api.Public
 
             services.AddSingleton(services);
 
-            var bootstrapper = new AppBootstrapper(Configuration, services);
+            services.AddScoped<Merp.Accountancy.Web.Core.Configuration.IBoundedContextConfigurationProvider, Merp.Accountancy.Web.Core.Configuration.BoundedContextConfigurationProvider>();
+            services.AddSingleton<Merp.Accountancy.Web.AppBootstrapper>();
+            var bootstrapper = services.BuildServiceProvider().GetService<Merp.Accountancy.Web.AppBootstrapper>();
             bootstrapper.Configure();
 
             services.AddScoped<InvoiceControllerWorkerServices>();

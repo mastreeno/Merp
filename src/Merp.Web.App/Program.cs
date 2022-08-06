@@ -16,6 +16,7 @@ builder.Services.AddScoped<Resolver>();
 builder.Services.AddSingleton(builder.Services);
 
 ConfigureRegistryBoundedContext(builder);
+ConfigureAccountancyBoundedContext(builder);
 
 builder.Services.AddMudServices();
 
@@ -54,4 +55,13 @@ static void ConfigureRegistryBoundedContext(WebApplicationBuilder builder)
     bootstrapper.Configure();
 
     builder.Services.AddScoped<Merp.Registry.Web.App.Services.UrlBuilder>();
+}
+
+static void ConfigureAccountancyBoundedContext(WebApplicationBuilder builder)
+{
+    builder.Services.AddScoped<Merp.Accountancy.Web.Core.Configuration.IBoundedContextConfigurationProvider, Merp.Accountancy.Web.App.Configuration.BoundedContextConfigurationProvider>();
+    builder.Services.AddScoped<Merp.Accountancy.Web.AppBootstrapper>();
+
+    var bootstrapper = builder.Services.BuildServiceProvider().GetService<Merp.Accountancy.Web.AppBootstrapper>();
+    bootstrapper.Configure();
 }
