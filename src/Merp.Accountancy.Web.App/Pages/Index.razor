@@ -1,7 +1,37 @@
 ﻿@page "/accountancy"
 
-<h3>Accountancy</h3>
+@inject UrlBuilder UrlBuilder
 
-@code {
+<MudText Typo="Typo.h5">Accountancy</MudText>
+<MudDivider />
 
-}
+<MudGrid>
+    <MudItem md="4" xs="12">
+        <MudPaper Class="mt-4 px-2">
+            <MudNavMenu Class="mud-width-full">
+                <MudText Typo="Typo.h6">Job orders</MudText>
+
+                <MudNavLink Href="@UrlBuilder.BuildSearchJobOrdersUrl()">View job orders</MudNavLink>
+                <MudNavLink Href="@UrlBuilder.BuildCreateJobOrderUrl()">Create a job orders</MudNavLink>
+            </MudNavMenu>
+        </MudPaper>
+        <MudPaper Class="mt-4 px-2">
+            <MudNavMenu Class="mud-width-full">
+                <MudText Typo="Typo.h6">Invoices</MudText>
+
+                <MudNavLink Href="#">Search invoices</MudNavLink>
+                <MudNavLink Href="#">Issue an invoice</MudNavLink>
+                <MudNavLink Href="#">Issue a credit note</MudNavLink>
+                <MudNavLink Href="#">Register an incoming invoice</MudNavLink>
+                <MudNavLink Href="#">Register an incoming credit note</MudNavLink>
+                <MudNavLink Href="#">Register an outgoing invoice</MudNavLink>
+                <MudNavLink Href="#">Register an outgoing credit note</MudNavLink>
+                <MudNavLink Href="#">Link an outgoing invoice to a job order</MudNavLink>
+                <MudNavLink Href="#">Link an incoming invoice to a job order</MudNavLink>
+            </MudNavMenu>
+        </MudPaper>
+    </MudItem>
+    <MudItem md="8" xs="12">
+        @* Accountancy Stats goes here *@
+    </MudItem>
+</MudGrid>

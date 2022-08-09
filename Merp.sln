@@ -77,7 +77,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.Registry.Web.App", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.Web.Blazor", "src\Merp.Web.Blazor\Merp.Web.Blazor.csproj", "{1BB53289-7988-4BA3-AEBC-1567E0FAC9B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Merp.Accountancy.Web.App", "src\Merp.Accountancy.Web.App\Merp.Accountancy.Web.App.csproj", "{2328833E-3BB7-42B6-9079-2241DD673C09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Merp.Accountancy.Web.App", "src\Merp.Accountancy.Web.App\Merp.Accountancy.Web.App.csproj", "{2328833E-3BB7-42B6-9079-2241DD673C09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

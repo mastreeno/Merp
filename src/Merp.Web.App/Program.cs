@@ -64,4 +64,6 @@ static void ConfigureAccountancyBoundedContext(WebApplicationBuilder builder)
 
     var bootstrapper = builder.Services.BuildServiceProvider().GetService<Merp.Accountancy.Web.AppBootstrapper>();
     bootstrapper.Configure();
+
+    builder.Services.AddScoped<Merp.Accountancy.Web.App.Services.UrlBuilder>();
 }

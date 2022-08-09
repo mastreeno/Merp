@@ -1,0 +1,60 @@
+﻿@page "/accountancy/joborder/search"
+
+@inject NavigationManager NavigationManager
+@inject UrlBuilder UrlBuilder
+
+<PageTitle>Job orders</PageTitle>
+<HeadContent>
+    <link rel="stylesheet" href="/_content/Merp.Accountancy.Web.App/lib/font-awesome/css/all.min.css" />
+</HeadContent>
+
+<MudText Typo="Typo.h5">Job orders</MudText>
+<MudDivider />
+
+<MudPaper Class="mt-4 mb-2 pb-2 px-4">
+    <EditForm Model="@parameters" OnValidSubmit="Search">
+        <DataAnnotationsValidator />
+
+        <MudGrid>
+            <MudItem md="5" xs="12">
+                <MudSelect Label="Customer" @bind-Value="parameters.CustomerId" Variant="Variant.Outlined" Margin="Margin.Dense">
+                    <MudSelectItem T="Guid?" Value="null"></MudSelectItem>
+                    @foreach (var customer in parameters.Customers)
+                    {
+                        <MudSelectItem Value="@customer.Id">@customer.CustomerName</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+            <MudItem md="5" xs="12">
+                <MudTextField Label="Name"
+                              @bind-Value="parameters.Name"
+                              Variant="Variant.Outlined"
+                              Margin="Margin.Dense"/>
+            </MudItem>
+            <MudItem md="2" xs="12">
+                <MudCheckBox Label="Current only"
+                             @bind-Checked="parameters.CurrentOnly" />
+            </MudItem>
+        </MudGrid>
+        <div class="d-flex align-center justify-space-between mt-4">
+            <MudButton Variant="Variant.Filled" StartIcon="fas fa-search" Color="Color.Primary">Search</MudButton>
+            <MudButton type="button" OnClick="@(() => NavigationManager.NavigateTo(UrlBuilder.BuildCreateJobOrderUrl()))" Variant="Variant.Outlined" StartIcon="fas fa-plus" Color="Color.Primary">Create a job order</MudButton>
+        </div>
+    </EditForm>
+</MudPaper>
+<MudDivider />
+
+<MudTable Items="model.JobOrders" Striped="true">
+    <HeaderContent>
+        <MudTh>Customer name</MudTh>
+        <MudTh>Job order name</MudTh>
+        <MudTh>&nbsp;</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>@context.CustomerName</MudTd>
+        <MudTd>@context.Name</MudTd>
+        <MudTd>
+            <MudButton Color="Color.Primary" StartIcon="fas fa-eye" OnClick="@(() => NavigationManager.NavigateTo(UrlBuilder.BuildJobOrderDetailUrl(context.Id)))">View</MudButton>
+        </MudTd>
+    </RowTemplate>
+</MudTable>
