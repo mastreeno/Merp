@@ -1,33 +1,36 @@
 ﻿@page "/accountancy"
 
 @inject UrlBuilder UrlBuilder
+@inject IStringLocalizer<Resources.Index> localizer
 
-<MudText Typo="Typo.h5">Accountancy</MudText>
+<PageTitle>@localizer[nameof(Resources.Index.PageTitle)]</PageTitle>
+
+<MudText Typo="Typo.h5">@localizer[nameof(Resources.Index.PageHeaderText)]</MudText>
 <MudDivider />
 
 <MudGrid>
     <MudItem md="4" xs="12">
         <MudPaper Class="mt-4 px-2">
             <MudNavMenu Class="mud-width-full">
-                <MudText Typo="Typo.h6">Job orders</MudText>
+                <MudText Typo="Typo.h6">@localizer[nameof(Resources.Index.JobOrdersMenuLabel)]</MudText>
 
-                <MudNavLink Href="@UrlBuilder.BuildSearchJobOrdersUrl()">View job orders</MudNavLink>
-                <MudNavLink Href="@UrlBuilder.BuildCreateJobOrderUrl()">Create a job orders</MudNavLink>
+                <MudNavLink Href="@UrlBuilder.BuildSearchJobOrdersUrl()">@localizer[nameof(Resources.Index.SearchJobOrdersMenuItemLabel)]</MudNavLink>
+                <MudNavLink Href="@UrlBuilder.BuildCreateJobOrderUrl()">@localizer[nameof(Resources.Index.CreateJobOrderMenuItemLabel)]</MudNavLink>
             </MudNavMenu>
         </MudPaper>
         <MudPaper Class="mt-4 px-2">
             <MudNavMenu Class="mud-width-full">
-                <MudText Typo="Typo.h6">Invoices</MudText>
+                <MudText Typo="Typo.h6">@localizer[nameof(Resources.Index.InvoicesMenuLabel)]</MudText>
 
-                <MudNavLink Href="#">Search invoices</MudNavLink>
-                <MudNavLink Href="#">Issue an invoice</MudNavLink>
-                <MudNavLink Href="#">Issue a credit note</MudNavLink>
-                <MudNavLink Href="#">Register an incoming invoice</MudNavLink>
-                <MudNavLink Href="#">Register an incoming credit note</MudNavLink>
-                <MudNavLink Href="#">Register an outgoing invoice</MudNavLink>
-                <MudNavLink Href="#">Register an outgoing credit note</MudNavLink>
-                <MudNavLink Href="#">Link an outgoing invoice to a job order</MudNavLink>
-                <MudNavLink Href="#">Link an incoming invoice to a job order</MudNavLink>
+                <MudNavLink Href="#">@localizer[nameof(Resources.Index.SearchInvoicesMenuItemLabel)]</MudNavLink>
+                <MudNavLink Href="#">@localizer[nameof(Resources.Index.IssueInvoiceMenuItemLabel)]</MudNavLink>
+                <MudNavLink Href="#">@localizer[nameof(Resources.Index.IssueCreditNoteMenuItemLabel)]</MudNavLink>
+                <MudNavLink Href="#">@localizer[nameof(Resources.Index.RegisterIncomingInvoiceMenuItemLabel)]</MudNavLink>
+                <MudNavLink Href="#">@localizer[nameof(Resources.Index.RegisterIncomingCreditNoteMenuItemLabel)]</MudNavLink>
+                <MudNavLink Href="#">@localizer[nameof(Resources.Index.RegisterOutgoingInvoiceMenuItemLabel)]</MudNavLink>
+                <MudNavLink Href="#">@localizer[nameof(Resources.Index.RegisterOutgoingCreditNoteMenuItemLabel)]</MudNavLink>
+                <MudNavLink Href="#">@localizer[nameof(Resources.Index.LinkOutgoingInvoiceToJobOrderMenuItemLabel)]</MudNavLink>
+                <MudNavLink Href="#">@localizer[nameof(Resources.Index.LinkIncomingInvoiceToJobOrderMenuItemLabel)]</MudNavLink>
             </MudNavMenu>
         </MudPaper>
     </MudItem>

@@ -1,3 +1,110 @@
 ﻿@page "/accountancy/joborder/create"
 
-<h3>CreateJobOrder</h3>
+@inject UrlBuilder UrlBuilder
+@inject NavigationManager NavigationManager
+@inject IStringLocalizer<Resources.CreateJobOrder> localizer
+
+<PageTitle>@localizer[nameof(Resources.CreateJobOrder.PageTitle)]</PageTitle>
+<HeadContent>
+    <link rel="stylesheet" href="/_content/Merp.Accountancy.Web.App/lib/font-awesome/css/all.min.css" />
+</HeadContent>
+
+<MudToolBar>
+    <MudText Typo="Typo.h5">@localizer[nameof(Resources.CreateJobOrder.PageHeaderText)]</MudText>
+    <MudSpacer />
+    <MudButton type="button" OnClick="@(() => NavigationManager.NavigateTo(UrlBuilder.BuildSearchJobOrdersUrl()))" Variant="Variant.Outlined" EndIcon="fas fa-caret-right" Color="Color.Primary">
+        @localizer[nameof(Resources.CreateJobOrder.BackButtonText)]
+    </MudButton>
+</MudToolBar>
+<MudDivider />
+
+<EditForm Model="model" OnValidSubmit="SubmitAsync">
+    <DataAnnotationsValidator />
+
+    <MudCard>
+        <MudCardContent>
+            <MudGrid>
+                <MudItem xs="12" md="6">
+                    <PartyInfoAutocomplete Label="@localizer[nameof(Resources.CreateJobOrder.CustomerAutocompleteLabel)]"
+                                           @bind-Value="model.Customer"
+                                           DebounceInterval="500"/>
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField Label="@localizer[nameof(Resources.CreateJobOrder.NameTextLabel)]"
+                                  @bind-Value="model.Name"
+                                  For="@(() => model.Name)"
+                                  Variant="Variant.Outlined" />
+                </MudItem>
+            </MudGrid>
+            <MudGrid>
+                <MudItem xs="12" md="6">
+                    <PersonInfoAutocomplete Label="@localizer[nameof(Resources.CreateJobOrder.ContactPersonAutocompleteLabel)]"
+                                            @bind-Value="model.ContactPerson"
+                                            DebounceInterval="500"/>
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <PersonInfoAutocomplete Label="@localizer[nameof(Resources.CreateJobOrder.ManagerAutocompleteLabel)]"
+                                            @bind-Value="model.Manager"
+                                            DebounceInterval="500"/>
+                </MudItem>
+            </MudGrid>
+            <MudGrid>
+                <MudItem xs="12" md="6">
+                    <MudDatePicker Label="@localizer[nameof(Resources.CreateJobOrder.DateOfStartDatepickerLabel)]"
+                                   @bind-Date="model.DateOfStart"
+                                   For="@(() => model.DateOfStart)"
+                                   Variant="Variant.Outlined"
+                                   Editable="true"
+                                   AutoClose="true"/>
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudDatePicker Label="@localizer[nameof(Resources.CreateJobOrder.DueDateDatepickerLabel)]"
+                                   @bind-Date="model.DueDate"
+                                   For="@(() => model.DueDate)"
+                                   Variant="Variant.Outlined"
+                                   Editable="true"
+                                   AutoClose="true"/>
+                </MudItem>
+            </MudGrid>
+            <MudGrid>
+                <MudItem xs="12" md="3">
+                    <MudCheckBox Label="@localizer[nameof(Resources.CreateJobOrder.TimeAndMaterialCheckboxLabel)]"
+                                 @bind-Checked="model.IsTimeAndMaterial" />
+                </MudItem>
+                <MudItem xs="12" md="3">
+                    <MudNumericField Label="@localizer[nameof(Resources.CreateJobOrder.PriceAmountNumericLabel)]"
+                                     @bind-Value="model.Price.Amount"
+                                     For="@(() => model.Price.Amount)"
+                                     Variant="Variant.Outlined"
+                                     Min="0"
+                                     Step=".01M"/>
+                </MudItem>
+                <MudItem xs="12" md="2">
+                    <MudTextField Label="@localizer[nameof(Resources.CreateJobOrder.PriceCurrencyTextLabel)]"
+                                  @bind-Value="model.Price.Currency"
+                                  For="@(() => model.Price.Currency)"
+                                  Variant="Variant.Outlined"/>
+                </MudItem>
+                <MudItem xs="12" md="4">
+                    <MudTextField Label="@localizer[nameof(Resources.CreateJobOrder.PurchaseOrderNumberTextLabel)]"
+                                  @bind-Value="model.PurchaseOrderNumber"
+                                  For="@(() => model.PurchaseOrderNumber)"
+                                  Variant="Variant.Outlined" />
+                </MudItem>
+            </MudGrid>
+            <MudGrid>
+                <MudItem md="12">
+                    <MudTextField Label="@localizer[nameof(Resources.CreateJobOrder.DescriptionTextLabel)]"
+                                  @bind-Value="model.Description"
+                                  For="@(() => model.Description)"
+                                  Variant="Variant.Outlined" />
+                </MudItem>
+            </MudGrid>
+            
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled" Class="mr-2">@localizer[nameof(Resources.CreateJobOrder.SaveButtonText)]</MudButton>
+            <MudButton OnClick="Cancel" ButtonType="ButtonType.Button" Color="Color.Primary" Variant="Variant.Outlined">@localizer[nameof(Resources.CreateJobOrder.SaveButtonText)]</MudButton>
+        </MudCardActions>
+    </MudCard>
+</EditForm>

@@ -4,6 +4,8 @@
     {
         private readonly string urlPrefix = "/accountancy";
 
+        public string BuildAccountancyHomePageUrl() => urlPrefix;
+
         public string BuildSearchJobOrdersUrl() => $"{urlPrefix}/joborder/search";
 
         public string BuildCreateJobOrderUrl() => $"{urlPrefix}/joborder/create";

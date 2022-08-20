@@ -1,0 +1,19 @@
+﻿<MudGrid>
+    <MudItem xs="10" md="10">
+        <MudAutocomplete Label="@Label"
+                         Value="Value"
+                         ValueChanged="ValueChanged"
+                         For="ValueExpression"
+                         SearchFunc="SearchPartyByTextAsync"
+                         Variant="Variant.Outlined"
+                         DebounceInterval="DebounceInterval"
+                         ToStringFunc="DisplayValueTemplate" />
+    </MudItem>
+    <MudItem xs="2" md="2" class="d-flex align-center">
+        <MudIconButton Icon="fas fa-plus" 
+                       aria-label="Create new customer" 
+                       Color="Color.Primary" 
+                       Variant="Variant.Outlined"
+                       Size="Size.Large"/>
+    </MudItem>
+</MudGrid>
