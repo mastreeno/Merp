@@ -45,7 +45,7 @@
 </MudPaper>
 <MudDivider />
 
-<MudTable Items="model.JobOrders" Striped="true">
+<MudTable Items="model.JobOrders" Striped="true" RowsPerPage="@parameters.PageSize">
     <HeaderContent>
         <MudTh>@localizer[nameof(Resources.SearchJobOrders.CustomerNameColumn)]</MudTh>
         <MudTh>@localizer[nameof(Resources.SearchJobOrders.JobOrderNameColumn)]</MudTh>
@@ -58,4 +58,18 @@
             <MudButton Color="Color.Primary" StartIcon="fas fa-eye" OnClick="@(() => NavigationManager.NavigateTo(UrlBuilder.BuildJobOrderDetailUrl(context.Id)))">@localizer[nameof(Resources.SearchJobOrders.DetailsButtonText)]</MudButton>
         </MudTd>
     </RowTemplate>
+    <PagerContent>
+        @if (model.JobOrders.Any())
+        {
+            <div class=" px-4 mt-4 mb-2 d-flex align-center flex-row-reverse">
+                <MudPagination Count="numberOfPages"
+                               Variant="Variant.Filled"
+                               Rectangular="true"
+                               ShowFirstButton="true"
+                               ShowLastButton="true"
+                               SelectedChanged="OnPageChanged" />
+                <span class="mr-2">@localizer[nameof(Resources.SearchJobOrders.PaginationItemsNumberText), model.JobOrders.Count(), model.TotalNumberOfJobOrders]</span>
+            </div>
+        }
+    </PagerContent>
 </MudTable>

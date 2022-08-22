@@ -12,6 +12,8 @@ namespace Merp.Accountancy.Web.App.Pages
 
         private SearchResult model = new();
 
+        private int numberOfPages = 0;
+
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
@@ -29,7 +31,6 @@ namespace Merp.Accountancy.Web.App.Pages
 
         async Task Search()
         {
-            //TODO implementing the job order search
             var jobOrders = Database.JobOrders;
 
             if (parameters.CustomerId.HasValue)
@@ -61,6 +62,14 @@ namespace Merp.Accountancy.Web.App.Pages
 
             model.TotalNumberOfJobOrders = totalNumberOfJobOrders;
             model.JobOrders = await jobOrdersViewModel.Skip(skip).Take(parameters.PageSize).ToArrayAsync();
+
+            numberOfPages = (int)Math.Ceiling(totalNumberOfJobOrders / (decimal)parameters.PageSize);
+        }
+
+        private async Task OnPageChanged(int pageIndex)
+        {
+            parameters.PageIndex = pageIndex;
+            await Search();
         }
 
         public class SearchResult

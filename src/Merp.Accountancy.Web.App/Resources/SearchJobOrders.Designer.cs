@@ -151,6 +151,15 @@ namespace Merp.Accountancy.Web.App.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} items of {1}.
+        /// </summary>
+        public static string PaginationItemsNumberText {
+            get {
+                return ResourceManager.GetString("PaginationItemsNumberText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
         public static string SearchButtonText {

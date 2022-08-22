@@ -24,26 +24,7 @@ namespace Merp.Accountancy.Web.App.Pages
 
         private Task<IEnumerable<ViewModel>> SearchPartyByTextAsync(string text)
         {
-            return Task.Run(() =>
-            {
-                var customers = new[]
-                {
-                    new ViewModel { Id = 1, OriginalId = Guid.NewGuid(), Name = "Alberto Mori" },
-                    new ViewModel { Id = 2, OriginalId = Guid.NewGuid(), Name = "Paolino Paperino" },
-                    new ViewModel { Id = 3, OriginalId = Guid.NewGuid(), Name = "Gastone Paperone" },
-                    new ViewModel { Id = 4, OriginalId = Guid.NewGuid(), Name = "Paperon de Paperoni" },
-                    new ViewModel { Id = 5, OriginalId = Guid.NewGuid(), Name = "Renè Ferretti" },
-                    new ViewModel { Id = 6, OriginalId = Guid.NewGuid(), Name = "Stanis La Rochelle" },
-                    new ViewModel { Id = 7, OriginalId = Guid.NewGuid(), Name = "Corinna Negri" },
-                };
-
-                if (string.IsNullOrWhiteSpace(text))
-                {
-                    return customers;
-                }
-
-                return customers.Where(c => c.Name.Contains(text, StringComparison.InvariantCultureIgnoreCase));
-            });
+            return Task.Run(() => Enumerable.Empty<ViewModel>());
         }
 
         public class ViewModel
