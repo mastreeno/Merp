@@ -23,7 +23,7 @@
                 <MudText Typo="Typo.h6">@localizer[nameof(Resources.Index.InvoicesMenuLabel)]</MudText>
 
                 <MudNavLink Href="#">@localizer[nameof(Resources.Index.SearchInvoicesMenuItemLabel)]</MudNavLink>
-                <MudNavLink Href="#">@localizer[nameof(Resources.Index.IssueInvoiceMenuItemLabel)]</MudNavLink>
+                <MudNavLink Href="@UrlBuilder.BuildIssueOutgoingInvoiceUrl()">@localizer[nameof(Resources.Index.IssueInvoiceMenuItemLabel)]</MudNavLink>
                 <MudNavLink Href="#">@localizer[nameof(Resources.Index.IssueCreditNoteMenuItemLabel)]</MudNavLink>
                 <MudNavLink Href="#">@localizer[nameof(Resources.Index.RegisterIncomingInvoiceMenuItemLabel)]</MudNavLink>
                 <MudNavLink Href="#">@localizer[nameof(Resources.Index.RegisterIncomingCreditNoteMenuItemLabel)]</MudNavLink>

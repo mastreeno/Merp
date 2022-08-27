@@ -11,5 +11,7 @@
         public string BuildCreateJobOrderUrl() => $"{urlPrefix}/joborder/create";
 
         public string BuildJobOrderDetailUrl(Guid jobOrderId) => $"{urlPrefix}/joborder/detail/{jobOrderId}";
+
+        public string BuildIssueOutgoingInvoiceUrl() => $"{urlPrefix}/invoice/issue";
     }
 }

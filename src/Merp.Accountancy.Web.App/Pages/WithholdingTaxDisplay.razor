@@ -1,0 +1,33 @@
+﻿<fieldset>
+    <legend>Withholding Tax</legend>
+
+    <MudGrid>
+        <MudItem xs="6" md="6">
+            <MudText>Description</MudText>
+        </MudItem>
+        <MudItem xs="2" md="2">
+            <MudText>Rate</MudText>
+        </MudItem>
+        <MudItem xs="2" md="2">
+            <MudText>Taxable amount rate</MudText>
+        </MudItem>
+        <MudItem xs="2" md="2">
+            <MudText>Amount</MudText>
+        </MudItem>
+    </MudGrid>
+
+    <MudGrid>
+        <MudItem xs="6" md="6">
+            <MudText>@WithholdingTax.Description</MudText>
+        </MudItem>
+        <MudItem xs="2" md="2">
+            <MudText>@WithholdingTax.Rate %</MudText>
+        </MudItem>
+        <MudItem xs="2" md="2">
+            <MudText>@WithholdingTax.TaxableAmountRate %</MudText>
+        </MudItem>
+        <MudItem xs="2" md="2">
+            <MudText>@Currency @WithholdingTax.Amount</MudText>
+        </MudItem>
+    </MudGrid>
+</fieldset>

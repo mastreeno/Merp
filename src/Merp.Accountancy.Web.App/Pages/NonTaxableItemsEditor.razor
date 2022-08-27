@@ -1,0 +1,54 @@
+﻿<fieldset>
+    <legend>Non taxable items</legend>
+
+    <MudGrid>
+        <MudItem xs="8" md="8">
+            <MudText>Description</MudText>
+        </MudItem>
+        <MudItem xs="4" md="4">
+            <MudText>Amount</MudText>
+        </MudItem>
+    </MudGrid>
+    <MudDivider />
+
+    @foreach (var item in NonTaxableItems)
+    {
+        <MudGrid>
+            <MudItem xs="8" md="8">
+                <MudTextField Label="Description"
+                              @bind-Value="item.Description"
+                              For="@(() => item.Description)"
+                              Variant="Variant.Outlined"
+                              Margin="Margin.Dense"/>
+            </MudItem>
+            <MudItem xs="3" md="3">
+                <MudNumericField Label="Amount"
+                                 @bind-Value="item.Amount"
+                                 For="@(() => item.Amount)"
+                                 Variant="Variant.Outlined"
+                                 Step=".01M"
+                                 Min="0"
+                                 Margin="Margin.Dense"/>
+            </MudItem>
+            <MudItem xs="1" md="1" class="d-flex align-center">
+                <MudIconButton Icon="fas fa-times"
+                               aria-label="Remove item"
+                               Color="Color.Error"
+                               Variant="Variant.Outlined"
+                               OnClick="@(() => RemoveNonTaxableItem(item))" />
+            </MudItem>
+        </MudGrid>
+    }
+
+    <MudGrid>
+        <MudItem xs="12" md="12">
+            <MudButton StartIcon="fas fa-plus"
+                       ButtonType="ButtonType.Button"
+                       Color="Color.Primary"
+                       Variant="Variant.Outlined"
+                       OnClick="AddNewNonTaxableItem">
+                Add new
+            </MudButton>
+        </MudItem>
+    </MudGrid>
+</fieldset>

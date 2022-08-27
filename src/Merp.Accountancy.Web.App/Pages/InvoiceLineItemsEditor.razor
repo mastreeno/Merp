@@ -1,0 +1,94 @@
+﻿<fieldset>
+    <legend>Line items</legend>
+
+    <MudGrid>
+        <MudItem xs="1" md="1">
+            <MudText>Code</MudText>
+        </MudItem>
+        <MudItem xs="3" md="3">
+            <MudText>Description</MudText>
+        </MudItem>
+        <MudItem xs="1" md="1">
+            <MudText>Qty</MudText>
+        </MudItem>
+        <MudItem xs="2" md="2">
+            <MudText>Price</MudText>
+        </MudItem>
+        <MudItem xs="2" md="2">
+            <MudText>Tot. price</MudText>
+        </MudItem>
+        <MudItem xs="3" md="3">
+            <MudText>VAT</MudText>
+        </MudItem>
+    </MudGrid>
+    <MudDivider />
+
+    @foreach (var item in LineItems)
+    {
+        <MudGrid>
+            <MudItem xs="1" md="1">
+                <MudTextField Label="Code"
+                              @bind-Value="item.Code"
+                              For="@(() => item.Code)"
+                              Variant="Variant.Outlined"
+                              Margin="Margin.Dense"/>
+            </MudItem>
+            <MudItem xs="3" md="3">
+                <MudTextField Label="Description"
+                              @bind-Value="item.Description"
+                              For="@(() => item.Description)"
+                              Variant="Variant.Outlined"
+                              Margin="Margin.Dense"/>
+            </MudItem>
+            <MudItem xs="1" md="1">
+                <MudNumericField Label="Qty"
+                                 @bind-Value="item.Quantity"
+                                 For="@(() => item.Quantity)"
+                                 Variant="Variant.Outlined"
+                                 Min="0"
+                                 Step="1"
+                                 Margin="Margin.Dense"
+                                 TextChanged="@(() => CalculateTotalPrice(item))"/>
+            </MudItem>
+            <MudItem xs="2" md="2">
+                <MudNumericField Label="Price"
+                                 @bind-Value="item.UnitPrice"
+                                 For="@(() => item.UnitPrice)"
+                                 Variant="Variant.Outlined"
+                                 Min=".01M"
+                                 Margin="Margin.Dense"
+                                 TextChanged="@(() => CalculateTotalPrice(item))"/>
+            </MudItem>
+            <MudItem xs="2" md="2">
+                <MudNumericField Label="Tot. price"
+                                 @bind-Value="item.TotalPrice"
+                                 For="@(() => item.TotalPrice)"
+                                 Variant="Variant.Outlined"
+                                 Min=".01M"
+                                 Margin="Margin.Dense"/>
+            </MudItem>
+            <MudItem xs="2" md="2">
+
+            </MudItem>
+            <MudItem xs="1" md="1" class="d-flex align-center">
+                <MudIconButton Icon="fas fa-times"
+                               aria-label="Remove line item"
+                               Color="Color.Error"
+                               Variant="Variant.Outlined"
+                               OnClick="@(() => RemoveLineItem(item))"/>
+            </MudItem>
+        </MudGrid>
+    }
+
+    <MudGrid>
+        <MudItem xs="12" md="12">
+            <MudButton StartIcon="fas fa-plus"
+                       ButtonType="ButtonType.Button" 
+                       Color="Color.Primary" 
+                       Variant="Variant.Outlined"
+                       OnClick="AddNewLineItem">
+                Add new
+            </MudButton>
+        </MudItem>
+    </MudGrid>
+</fieldset>
