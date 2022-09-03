@@ -4,33 +4,36 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Merp.Accountancy.Web.App.Pages
 {
-    public partial class IssueInvoiceForm
+    public partial class RegisterIncomingInvoiceForm
     {
         [Parameter]
         public ViewModel Model { get; set; } = new();
 
         [Parameter]
-        public EventCallback<ViewModel> OnIssueInvoice { get; set; }
+        public EventCallback<ViewModel> OnRegisterIncomingInvoice { get; set; }
 
         [Parameter]
-        public EventCallback<ViewModel> OnSaveDraft { get; set; }
+        public bool HideDueDate { get; set; } = false;
 
         [Parameter]
         public EventCallback OnCancel { get; set; }
 
-        private async Task SubmitAsync() => await OnIssueInvoice.InvokeAsync(Model);
+        private async Task SubmitAsync() => await OnRegisterIncomingInvoice.InvokeAsync(Model);
 
         private async Task CancelAsync() => await OnCancel.InvokeAsync();
 
-        private async Task SaveDraftAsync() => await OnSaveDraft.InvokeAsync(Model);
-
-        public partial class ViewModel
+        public class ViewModel
         {
             [Required]
-            public PartyInfoAutocomplete.ViewModel? Customer { get; set; }
+            public PartyInfoAutocomplete.ViewModel? Supplier { get; set; }
+
+            [Required]
+            public string Number { get; set; } = string.Empty;
 
             [Required]
             public DateTime? Date { get; set; } = DateTime.Today;
+
+            public DateTime? DueDate { get; set; }
 
             [Required]
             public string Currency { get; set; } = string.Empty;

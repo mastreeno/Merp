@@ -24,11 +24,11 @@
 
                 <MudNavLink Href="#">@localizer[nameof(Resources.Index.SearchInvoicesMenuItemLabel)]</MudNavLink>
                 <MudNavLink Href="@UrlBuilder.BuildIssueOutgoingInvoiceUrl()">@localizer[nameof(Resources.Index.IssueInvoiceMenuItemLabel)]</MudNavLink>
-                <MudNavLink Href="#">@localizer[nameof(Resources.Index.IssueCreditNoteMenuItemLabel)]</MudNavLink>
-                <MudNavLink Href="#">@localizer[nameof(Resources.Index.RegisterIncomingInvoiceMenuItemLabel)]</MudNavLink>
-                <MudNavLink Href="#">@localizer[nameof(Resources.Index.RegisterIncomingCreditNoteMenuItemLabel)]</MudNavLink>
-                <MudNavLink Href="#">@localizer[nameof(Resources.Index.RegisterOutgoingInvoiceMenuItemLabel)]</MudNavLink>
-                <MudNavLink Href="#">@localizer[nameof(Resources.Index.RegisterOutgoingCreditNoteMenuItemLabel)]</MudNavLink>
+                <MudNavLink Href="@UrlBuilder.BuildIssueOutgoingCreditNoteUrl()">@localizer[nameof(Resources.Index.IssueCreditNoteMenuItemLabel)]</MudNavLink>
+                <MudNavLink Href="@UrlBuilder.BuildRegisterIncomingInvoiceUrl()">@localizer[nameof(Resources.Index.RegisterIncomingInvoiceMenuItemLabel)]</MudNavLink>
+                <MudNavLink Href="@UrlBuilder.BuildRegisterIncomingCreditNoteUrl()">@localizer[nameof(Resources.Index.RegisterIncomingCreditNoteMenuItemLabel)]</MudNavLink>
+                <MudNavLink Href="@UrlBuilder.BuildRegisterOutgoingInvoiceUrl()">@localizer[nameof(Resources.Index.RegisterOutgoingInvoiceMenuItemLabel)]</MudNavLink>
+                <MudNavLink Href="@UrlBuilder.BuildRegisterOutgoingCreditNoteUrl()">@localizer[nameof(Resources.Index.RegisterOutgoingCreditNoteMenuItemLabel)]</MudNavLink>
                 <MudNavLink Href="#">@localizer[nameof(Resources.Index.LinkOutgoingInvoiceToJobOrderMenuItemLabel)]</MudNavLink>
                 <MudNavLink Href="#">@localizer[nameof(Resources.Index.LinkIncomingInvoiceToJobOrderMenuItemLabel)]</MudNavLink>
             </MudNavMenu>

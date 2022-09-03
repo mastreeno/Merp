@@ -13,5 +13,15 @@
         public string BuildJobOrderDetailUrl(Guid jobOrderId) => $"{urlPrefix}/joborder/detail/{jobOrderId}";
 
         public string BuildIssueOutgoingInvoiceUrl() => $"{urlPrefix}/invoice/issue";
+
+        public string BuildIssueOutgoingCreditNoteUrl() => $"{urlPrefix}/creditnote/issue";
+
+        public string BuildRegisterIncomingInvoiceUrl() => $"{urlPrefix}/invoice/register";
+
+        public string BuildRegisterIncomingCreditNoteUrl() => $"{urlPrefix}/creditnote/register";
+
+        public string BuildRegisterOutgoingInvoiceUrl() => $"{urlPrefix}/invoice/registeroutgoing";
+
+        public string BuildRegisterOutgoingCreditNoteUrl() => $"{urlPrefix}/creditnote/registeroutgoing";
     }
 }

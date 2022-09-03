@@ -1,0 +1,19 @@
+﻿@page "/accountancy/creditnote/issue"
+
+<PageTitle>Merp - Accountancy - Issue outgoing credit note</PageTitle>
+<HeadContent>
+    <link rel="stylesheet" href="/_content/Merp.Accountancy.Web.App/lib/font-awesome/css/all.min.css" />
+</HeadContent>
+
+<MudToolBar>
+    <MudText Typo="Typo.h5">Issue outgoing credit note</MudText>
+    <MudSpacer />
+    <MudButton type="button" Variant="Variant.Outlined" EndIcon="fas fa-caret-right" Color="Color.Primary">
+        Back
+    </MudButton>
+</MudToolBar>
+<MudDivider />
+
+<IssueInvoiceForm Model="model"
+                  OnIssueInvoice="IssueOutgoingCreditNoteAsync"
+                  OnCancel="Cancel" />

@@ -9,7 +9,21 @@
                                            @bind-Value="Model.Customer"
                                            DebounceInterval="500" />
                 </MudItem>
-                <MudItem xs="12" md="3">
+                <MudItem xs="12" md="6">
+                    <MudTextField Label="Invoice number"
+                                  @bind-Value="Model.Number"
+                                  For="@(() => Model.Number)"
+                                  Variant="Variant.Outlined" />
+                </MudItem>
+            </MudGrid>
+            <MudGrid>
+                <MudItem Class="col">
+                    <MudTextField Label="Currency"
+                                  @bind-Value="Model.Currency"
+                                  For="@(() => Model.Currency)"
+                                  Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem Class="col">
                     <MudDatePicker Label="Date"
                                    @bind-Date="Model.Date"
                                    For="@(() => Model.Date)"
@@ -17,19 +31,24 @@
                                    Editable="true"
                                    AutoClose="true" />
                 </MudItem>
-                <MudItem xs="12" md="3">
-                    <MudTextField Label="Currency"
-                                  @bind-Value="Model.Currency"
-                                  For="@(() => Model.Currency)"
-                                  Variant="Variant.Outlined" />
-                </MudItem>
+                @if (!HideDueDate)
+                {
+                    <MudItem Class="col">
+                        <MudDatePicker Label="Due date"
+                                       @bind-Date="Model.DueDate"
+                                       For="@(() => Model.DueDate)"
+                                       Variant="Variant.Outlined"
+                                       Editable="true"
+                                       AutoClose="true" />
+                    </MudItem>
+                }
             </MudGrid>
             <MudGrid>
                 <MudItem xs="12" md="6">
-                    <MudTextField Label="Purchase order number" 
+                    <MudTextField Label="Purchase order number"
                                   @bind-Value="Model.PurchaseOrderNumber"
                                   For="@(() => Model.PurchaseOrderNumber)"
-                                  Variant="Variant.Outlined"/>
+                                  Variant="Variant.Outlined" />
                 </MudItem>
                 <MudItem xs="12" md="6">
                     <MudTextField Label="Payment terms"
@@ -55,7 +74,7 @@
 
             <MudGrid>
                 <MudItem xs="12" md="12">
-                    <InvoiceLineItemsEditor LineItems="Model.LineItems"/>
+                    <InvoiceLineItemsEditor LineItems="Model.LineItems" />
                 </MudItem>
             </MudGrid>
 
@@ -64,17 +83,17 @@
                 <MudGrid>
                     <MudItem xs="12" md="12">
                         <ProvidenceFundDisplay ProvidenceFund="Model.ProvidenceFund"
-                                               Currency="@Model.Currency"/>
+                                               Currency="@Model.Currency" />
                     </MudItem>
                 </MudGrid>
             }
 
             <MudGrid>
                 <MudItem xs="12" md="6">
-                    <PricesByVatEditor PricesByVat="Model.PricesByVat"/>
+                    <PricesByVatEditor PricesByVat="Model.PricesByVat" />
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <NonTaxableItemsEditor NonTaxableItems="Model.NonTaxableItems"/>
+                    <NonTaxableItemsEditor NonTaxableItems="Model.NonTaxableItems" />
                 </MudItem>
             </MudGrid>
 
@@ -83,7 +102,7 @@
                 <MudGrid>
                     <MudItem xs="12" md="12">
                         <WithholdingTaxDisplay WithholdingTax="Model.WithholdingTax"
-                                               Currency="@Model.Currency"/>
+                                               Currency="@Model.Currency" />
                     </MudItem>
                 </MudGrid>
             }
@@ -110,7 +129,7 @@
                                 <MudText>@Model.Currency @Model.Taxes</MudText>
                             </MudItem>
                         </MudGrid>
-                        
+
                         @if (Model.NonTaxableItems.Any())
                         {
                             @foreach (var item in Model.NonTaxableItems)
@@ -125,7 +144,7 @@
                                 </MudGrid>
                             }
                         }
-                        
+
                         <MudGrid>
                             <MudItem xs="12" md="2">
                                 <MudText>Tot. price</MudText>
@@ -147,10 +166,8 @@
             </MudGrid>
         </MudCardContent>
         <MudCardActions>
-            <MudButton Class="mr-2" ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">Issue</MudButton>
-            <MudButton Class="mr-8" OnClick="CancelAsync" ButtonType="ButtonType.Button" Color="Color.Primary" Variant="Variant.Outlined">Cancel</MudButton>
-
-            <MudButton OnClick="SaveDraftAsync" ButtonType="ButtonType.Button" Variant="Variant.Outlined" Color="Color.Secondary">Save as draft</MudButton>
+            <MudButton Class="mr-2" ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">Register</MudButton>
+            <MudButton OnClick="CancelAsync" ButtonType="ButtonType.Button" Color="Color.Primary" Variant="Variant.Outlined">Cancel</MudButton>
         </MudCardActions>
     </MudCard>
 </EditForm>

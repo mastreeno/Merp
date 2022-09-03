@@ -1,0 +1,19 @@
+﻿@page "/accountancy/creditnote/registeroutgoing"
+
+<PageTitle>Merp - Accountancy - Register outgoing credit note</PageTitle>
+<HeadContent>
+    <link rel="stylesheet" href="/_content/Merp.Accountancy.Web.App/lib/font-awesome/css/all.min.css" />
+</HeadContent>
+
+<MudToolBar>
+    <MudText Typo="Typo.h5">Register outgoing credit note</MudText>
+    <MudSpacer />
+    <MudButton type="button" Variant="Variant.Outlined" EndIcon="fas fa-caret-right" Color="Color.Primary">
+        Back
+    </MudButton>
+</MudToolBar>
+<MudDivider />
+
+<RegisterOutgoingInvoiceForm Model="model"
+                             OnRegisterOutgoingInvoice="RegisterOutgoingCreditNoteAsync"
+                             OnCancel="Cancel" />

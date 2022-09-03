@@ -1,0 +1,19 @@
+﻿@page "/accountancy/invoice/registeroutgoing"
+
+<PageTitle>Merp - Accountancy - Register outgoing invoice</PageTitle>
+<HeadContent>
+    <link rel="stylesheet" href="/_content/Merp.Accountancy.Web.App/lib/font-awesome/css/all.min.css" />
+</HeadContent>
+
+<MudToolBar>
+    <MudText Typo="Typo.h5">Register outgoing invoice</MudText>
+    <MudSpacer />
+    <MudButton type="button" Variant="Variant.Outlined" EndIcon="fas fa-caret-right" Color="Color.Primary">
+        Back
+    </MudButton>
+</MudToolBar>
+<MudDivider />
+
+<RegisterOutgoingInvoiceForm Model="model"
+                             OnRegisterOutgoingInvoice="RegisterOutgoingInvoiceAsync"
+                             OnCancel="Cancel"/>
