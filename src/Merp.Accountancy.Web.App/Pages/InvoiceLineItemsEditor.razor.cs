@@ -8,13 +8,48 @@ namespace Merp.Accountancy.Web.App.Pages
         [Parameter]
         public List<InvoiceLineItem> LineItems { get; set; } = new();
 
+        [Parameter]
+        public IEnumerable<Vat> VatList { get; set; } = Array.Empty<Vat>();
+
+        [Parameter]
+        public EventCallback OnLineItemsChange { get; set; }
+
         private void AddNewLineItem() => LineItems.Add(new());
 
-        private void RemoveLineItem(InvoiceLineItem item) => LineItems.Remove(item);
+        private async Task RemoveLineItemAsync(InvoiceLineItem item)
+        {
+            LineItems.Remove(item);
+            await OnLineItemsChange.InvokeAsync();
+        }
 
-        private void CalculateTotalPrice(InvoiceLineItem item)
+        private async Task CalculateTotalPriceAsync(InvoiceLineItem item)
         {
             item.TotalPrice = item.UnitPrice * item.Quantity;
+            await OnLineItemsChange.InvokeAsync();
+        }
+
+        private async Task OnItemQuantityChange(int value, InvoiceLineItem item)
+        {
+            item.Quantity = value;
+            await CalculateTotalPriceAsync(item);
+        }
+
+        private async Task OnUnitPriceChange(decimal value, InvoiceLineItem item)
+        {
+            item.UnitPrice = value;
+            await CalculateTotalPriceAsync(item);
+        }
+
+        private async Task OnTotalPriceChange(decimal value, InvoiceLineItem item)
+        {
+            item.TotalPrice = value;
+            await OnLineItemsChange.InvokeAsync();
+        }
+
+        private async Task OnVatChange(Vat value, InvoiceLineItem item)
+        {
+            item.Vat = value;
+            await OnLineItemsChange.InvokeAsync();
         }
     }
 }

@@ -23,11 +23,13 @@
             </MudItem>
             <MudItem xs="3" md="3">
                 <MudNumericField Label="Amount"
-                                 @bind-Value="item.Amount"
+                                 Value="item.Amount"
+                                 ValueChanged="@((decimal value) => OnAmountChange(value, item))"
                                  For="@(() => item.Amount)"
                                  Variant="Variant.Outlined"
                                  Step=".01M"
                                  Min="0"
+                                 Format="N2"
                                  Margin="Margin.Dense"/>
             </MudItem>
             <MudItem xs="1" md="1" class="d-flex align-center">
@@ -35,7 +37,7 @@
                                aria-label="Remove item"
                                Color="Color.Error"
                                Variant="Variant.Outlined"
-                               OnClick="@(() => RemoveNonTaxableItem(item))" />
+                               OnClick="@(() => RemoveNonTaxableItemAsync(item))" />
             </MudItem>
         </MudGrid>
     }

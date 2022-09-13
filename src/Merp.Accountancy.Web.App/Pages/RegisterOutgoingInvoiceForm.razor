@@ -67,14 +67,18 @@
             </MudGrid>
             <MudGrid>
                 <MudItem xs="12" md="12">
-                    <MudCheckBox Label="VAT included"
-                                 @bind-Checked="Model.VatIncluded" />
+                    <MudCheckBox T="bool"
+                                 Label="VAT included"
+                                 Checked="Model.VatIncluded"
+                                 CheckedChanged="OnVatIncludedChange"/>
                 </MudItem>
             </MudGrid>
 
             <MudGrid>
                 <MudItem xs="12" md="12">
-                    <InvoiceLineItemsEditor LineItems="Model.LineItems" />
+                    <InvoiceLineItemsEditor LineItems="Model.LineItems"
+                                            VatList="vatList"
+                                            OnLineItemsChange="CalculatePricesByVat"/>
                 </MudItem>
             </MudGrid>
 
@@ -90,10 +94,12 @@
 
             <MudGrid>
                 <MudItem xs="12" md="6">
-                    <PricesByVatEditor PricesByVat="Model.PricesByVat" />
+                    <PricesByVatEditor PricesByVat="Model.PricesByVat"
+                                       OnPriceByVatChange="CalculateInvoiceTotals"/>
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <NonTaxableItemsEditor NonTaxableItems="Model.NonTaxableItems" />
+                    <NonTaxableItemsEditor NonTaxableItems="Model.NonTaxableItems"
+                                           OnNonTaxableItemsChange="CalculateInvoiceTotals"/>
                 </MudItem>
             </MudGrid>
 
@@ -118,7 +124,7 @@
                                 <MudText>Taxable amount</MudText>
                             </MudItem>
                             <MudItem xs="12" md="10">
-                                <MudText>@Model.Currency @Model.Amount</MudText>
+                                <MudText>@Model.Currency @Model.Amount.ToString("N2")</MudText>
                             </MudItem>
                         </MudGrid>
                         <MudGrid>
@@ -126,7 +132,7 @@
                                 <MudText>Taxes</MudText>
                             </MudItem>
                             <MudItem xs="12" md="10">
-                                <MudText>@Model.Currency @Model.Taxes</MudText>
+                                <MudText>@Model.Currency @Model.Taxes.ToString("N2")</MudText>
                             </MudItem>
                         </MudGrid>
 
@@ -139,7 +145,7 @@
                                         <MudText>@item.Description</MudText>
                                     </MudItem>
                                     <MudItem xs="12" md="10">
-                                        <MudText>@Model.Currency @item.Amount</MudText>
+                                        <MudText>@Model.Currency @item.Amount.ToString("N2")</MudText>
                                     </MudItem>
                                 </MudGrid>
                             }
@@ -150,7 +156,7 @@
                                 <MudText>Tot. price</MudText>
                             </MudItem>
                             <MudItem xs="12" md="10">
-                                <MudText>@Model.Currency @Model.TotalPrice</MudText>
+                                <MudText>@Model.Currency @Model.TotalPrice.ToString("N2")</MudText>
                             </MudItem>
                         </MudGrid>
                         <MudGrid>
@@ -158,7 +164,7 @@
                                 <MudText>Total to pay</MudText>
                             </MudItem>
                             <MudItem xs="12" md="10">
-                                <MudText>@Model.Currency @Model.TotalToPay</MudText>
+                                <MudText>@Model.Currency @Model.TotalToPay.ToString("N2")</MudText>
                             </MudItem>
                         </MudGrid>
                     </fieldset>

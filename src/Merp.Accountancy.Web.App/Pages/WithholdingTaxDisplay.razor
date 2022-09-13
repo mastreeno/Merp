@@ -27,7 +27,7 @@
             <MudText>@WithholdingTax.TaxableAmountRate %</MudText>
         </MudItem>
         <MudItem xs="2" md="2">
-            <MudText>@Currency @WithholdingTax.Amount</MudText>
+            <MudText>@Currency @WithholdingTax.Amount.ToString("N2")</MudText>
         </MudItem>
     </MudGrid>
 </fieldset>

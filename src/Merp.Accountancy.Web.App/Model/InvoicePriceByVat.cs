@@ -10,6 +10,6 @@
 
         public decimal TotalPrice { get; set; }
 
-        public decimal? ProvidenceFundAmount { get; set; }
+        public decimal ProvidenceFundAmount { get; set; }
     }
 }

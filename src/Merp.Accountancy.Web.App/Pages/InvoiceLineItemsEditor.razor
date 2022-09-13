@@ -42,40 +42,56 @@
             </MudItem>
             <MudItem xs="1" md="1">
                 <MudNumericField Label="Qty"
-                                 @bind-Value="item.Quantity"
+                                 Value="item.Quantity"
                                  For="@(() => item.Quantity)"
                                  Variant="Variant.Outlined"
                                  Min="0"
                                  Step="1"
                                  Margin="Margin.Dense"
-                                 TextChanged="@(() => CalculateTotalPrice(item))"/>
+                                 ValueChanged="@((int value) => OnItemQuantityChange(value, item))"/>
             </MudItem>
             <MudItem xs="2" md="2">
                 <MudNumericField Label="Price"
-                                 @bind-Value="item.UnitPrice"
+                                 Value="item.UnitPrice"
                                  For="@(() => item.UnitPrice)"
                                  Variant="Variant.Outlined"
-                                 Min=".01M"
+                                 Min="0"
+                                 Step=".01M"
+                                 Format="N2"
                                  Margin="Margin.Dense"
-                                 TextChanged="@(() => CalculateTotalPrice(item))"/>
+                                 ValueChanged="@((decimal value) => OnUnitPriceChange(value, item))"/>
             </MudItem>
             <MudItem xs="2" md="2">
                 <MudNumericField Label="Tot. price"
-                                 @bind-Value="item.TotalPrice"
+                                 Value="item.TotalPrice"
+                                 ValueChanged="@((decimal value) => OnTotalPriceChange(value, item))"
                                  For="@(() => item.TotalPrice)"
                                  Variant="Variant.Outlined"
-                                 Min=".01M"
+                                 Min="0"
+                                 Step=".01M"
+                                 Format="N2"
                                  Margin="Margin.Dense"/>
             </MudItem>
             <MudItem xs="2" md="2">
-
+                <MudSelect Label="VAT"
+                           Value="item.Vat" 
+                           ValueChanged="@((Vat value) => OnVatChange(value, item))"
+                           For="@(() => item.Vat)"
+                           Variant="Variant.Outlined" 
+                           Margin="Margin.Dense"
+                           AnchorOrigin="Origin.BottomCenter">
+                    @foreach (var vat in VatList)
+                    {
+                        <MudSelectItem Value="@vat" />
+                    }
+                </MudSelect>
             </MudItem>
             <MudItem xs="1" md="1" class="d-flex align-center">
                 <MudIconButton Icon="fas fa-times"
                                aria-label="Remove line item"
                                Color="Color.Error"
                                Variant="Variant.Outlined"
-                               OnClick="@(() => RemoveLineItem(item))"/>
+                               OnClick="@(() => RemoveLineItemAsync(item))"/>
             </MudItem>
         </MudGrid>
     }

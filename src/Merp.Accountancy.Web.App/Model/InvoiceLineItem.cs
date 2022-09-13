@@ -15,8 +15,6 @@ namespace Merp.Accountancy.Web.App.Model
 
         public decimal TotalPrice { get; set; }
 
-        public decimal Vat { get; set; }
-
-        public string VatDescription { get; set; } = string.Empty;
+        public Vat? Vat { get; set; }
     }
 }

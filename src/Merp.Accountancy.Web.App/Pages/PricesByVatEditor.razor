@@ -18,31 +18,39 @@
     {
         <MudGrid>
             <MudItem xs="3" md="3">
-                <MudNumericField Label="Taxable amount"
+                <MudNumericField Label="Tax. amount"
                                  @bind-Value="item.TaxableAmount"
                                  For="@(() => item.TaxableAmount)"
                                  Variant="Variant.Outlined"
                                  Step=".01M" 
-                                 Min="0"/>
+                                 Min="0"
+                                 Format="N2"
+                                 Margin="Margin.Dense"/>
             </MudItem>
-            <MudItem xs="2" md="2">
+            <MudItem xs="2" md="2" Class="d-flex align-center">
                 <MudText>@item.VatRate %</MudText>
             </MudItem>
             <MudItem xs="3" md="3">
                 <MudNumericField Label="VAT"
-                                 @bind-Value="item.VatAmount"
+                                 Value="item.VatAmount"
+                                 ValueChanged="@((decimal value) => OnVatAmountChange(value, item))"
                                  For="@(() => item.VatAmount)"
                                  Variant="Variant.Outlined"
                                  Step=".01M" 
-                                 Min="0"/>
+                                 Min="0"
+                                 Format="N2"
+                                 Margin="Margin.Dense"/>
             </MudItem>
             <MudItem xs="4" md="4">
-                <MudNumericField Label="VAT"
-                                 @bind-Value="item.TotalPrice"
+                <MudNumericField Label="Tot. price"
+                                 Value="item.TotalPrice"
+                                 ValueChanged="@((decimal value) => OnTotalPriceChange(value, item))"
                                  For="@(() => item.TotalPrice)"
                                  Variant="Variant.Outlined"
                                  Step=".01M" 
-                                 Min="0"/>
+                                 Min="0"
+                                 Format="N2"
+                                 Margin="Margin.Dense"/>
             </MudItem>
         </MudGrid>
     }
