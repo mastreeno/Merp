@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Merp.Accountancy.Web.App.Components;
+using Microsoft.AspNetCore.Components;
 using Rebus.Bus;
 
 namespace Merp.Accountancy.Web.App.Pages

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
-using MementoFX.Persistence;
+﻿using MementoFX.Persistence;
 using Merp.Registry.QueryStack;
+using Merp.Registry.Web.App.Components;
 using Merp.Registry.Web.App.Model;
+using Microsoft.AspNetCore.Components;
 using Rebus.Bus;
+using System.ComponentModel.DataAnnotations;
 
 namespace Merp.Registry.Web.App.Pages
 {
@@ -35,7 +32,8 @@ namespace Merp.Registry.Web.App.Pages
 
         protected override Task OnInitializedAsync()
         {
-            return Task.Run(() => {
+            return Task.Run(() =>
+            {
                 var person = Repository.GetById<CommandStack.Model.Person>(PersonId);
                 Model.FirstName = person.FirstName;
                 Model.LastName = person.LastName;
@@ -48,7 +46,7 @@ namespace Merp.Registry.Web.App.Pages
 
         private async Task Submit()
         {
-            
+
         }
 
         public class ViewModel

@@ -13,6 +13,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Merp.Accountancy.Web.App\Merp.Accountancy.Web.App.csproj" />
 		<ProjectReference Include="..\Merp.Accountancy.Web.Core\Merp.Accountancy.Web.Core.csproj" />
+		<ProjectReference Include="..\Merp.Registry.Web.Api.Internal\Merp.Registry.Web.Api.Internal.csproj" />
 		<ProjectReference Include="..\Merp.Registry.Web.App\Merp.Registry.Web.App.csproj" />
 		<ProjectReference Include="..\Merp.Registry.Web.Core\Merp.Registry.Web.Core.csproj" />
 	</ItemGroup>

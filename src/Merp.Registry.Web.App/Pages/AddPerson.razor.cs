@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
-using Merp.Registry.QueryStack;
+﻿using Merp.Registry.QueryStack;
+using Merp.Registry.Web.App.Components;
 using Merp.Registry.Web.App.Model;
+using Microsoft.AspNetCore.Components;
+using System.ComponentModel.DataAnnotations;
 
 namespace Merp.Registry.Web.App.Pages
 {

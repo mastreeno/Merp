@@ -13,6 +13,10 @@ builder.Services.AddServerSideBlazor();
 
 builder.Services.AddScoped<Resolver>();
 
+builder.Services
+    .AddScoped<Merp.Registry.Web.Api.Internal.IPartyApiServices, Merp.Registry.Web.Api.Internal.PartyApiServices>()
+    .AddScoped<Merp.Registry.Web.Api.Internal.IPersonApiServices, Merp.Registry.Web.Api.Internal.PersonApiServices>();
+
 builder.Services.AddSingleton(builder.Services);
 
 ConfigureRegistryBoundedContext(builder);

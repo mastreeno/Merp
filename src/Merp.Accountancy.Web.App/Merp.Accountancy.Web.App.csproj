@@ -21,6 +21,7 @@
     <ProjectReference Include="..\Merp.Accountancy.CommandStack\Merp.Accountancy.CommandStack.csproj" />
     <ProjectReference Include="..\Merp.Accountancy.QueryStack\Merp.Accountancy.QueryStack.csproj" />
     <ProjectReference Include="..\Merp.Accountancy.Web.Core\Merp.Accountancy.Web.Core.csproj" />
+    <ProjectReference Include="..\Merp.Registry.Web.Api.Internal\Merp.Registry.Web.Api.Internal.csproj" />
   </ItemGroup>
 
   <ItemGroup>

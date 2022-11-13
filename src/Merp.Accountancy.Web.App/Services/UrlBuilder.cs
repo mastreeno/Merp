@@ -23,5 +23,7 @@
         public string BuildRegisterOutgoingInvoiceUrl() => $"{urlPrefix}/invoice/registeroutgoing";
 
         public string BuildRegisterOutgoingCreditNoteUrl() => $"{urlPrefix}/creditnote/registeroutgoing";
+
+        public string BuildSearchInvoicesUrl() => $"{urlPrefix}/invoice/search";
     }
 }

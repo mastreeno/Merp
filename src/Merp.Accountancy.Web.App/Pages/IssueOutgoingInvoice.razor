@@ -1,5 +1,7 @@
 ﻿@page "/accountancy/invoice/issue"
 
+@inject UrlBuilder UrlBuilder
+
 <PageTitle>Merp - Accountancy - Issue outgoing invoice</PageTitle>
 <HeadContent>
     <link rel="stylesheet" href="/_content/Merp.Accountancy.Web.App/lib/font-awesome/css/all.min.css" />
@@ -8,7 +10,7 @@
 <MudToolBar>
     <MudText Typo="Typo.h5">Issue outgoing invoice</MudText>
     <MudSpacer />
-    <MudButton type="button"  Variant="Variant.Outlined" EndIcon="fas fa-caret-right" Color="Color.Primary">
+    <MudButton Href="@UrlBuilder.BuildSearchInvoicesUrl()" Variant="Variant.Outlined" EndIcon="fas fa-caret-right" Color="Color.Primary">
         Back
     </MudButton>
 </MudToolBar>
