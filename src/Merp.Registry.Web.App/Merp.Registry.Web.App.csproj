@@ -27,7 +27,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Resources\Index.Designer.cs">
+	  <Compile Update="Resources\Pages\Index.Designer.cs">
 	    <DependentUpon>Index.resx</DependentUpon>
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
@@ -35,7 +35,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Update="Resources\Index.resx">
+	  <EmbeddedResource Update="Resources\Pages\Index.resx">
 	    <LastGenOutput>Index.Designer.cs</LastGenOutput>
 	    <Generator>PublicResXFileCodeGenerator</Generator>
 	  </EmbeddedResource>

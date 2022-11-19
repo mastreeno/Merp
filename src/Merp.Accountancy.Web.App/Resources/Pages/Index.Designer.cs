@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Merp.Accountancy.Web.App.Resources {
+namespace Merp.Accountancy.Web.App.Resources.Pages {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Merp.Accountancy.Web.App.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Merp.Accountancy.Web.App.Resources.Index", typeof(Index).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Merp.Accountancy.Web.App.Resources.Pages.Index", typeof(Index).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

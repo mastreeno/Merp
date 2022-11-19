@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Merp.Registry.Web.App.Resources {
+namespace Merp.Accountancy.Web.App.Resources.Pages {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Merp.Registry.Web.App.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Index {
+    public class CreateJobOrder {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Index() {
+        internal CreateJobOrder() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Merp.Registry.Web.App.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Merp.Registry.Web.App.Resources.Index", typeof(Index).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Merp.Accountancy.Web.App.Resources.Pages.CreateJobOrder", typeof(CreateJobOrder).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,164 +61,146 @@ namespace Merp.Registry.Web.App.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Company.
+        ///   Looks up a localized string similar to Back.
         /// </summary>
-        public static string AddCompanyButtonText {
+        public static string BackButtonText {
             get {
-                return ResourceManager.GetString("AddCompanyButtonText", resourceCulture);
+                return ResourceManager.GetString("BackButtonText", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Person.
+        ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        public static string AddPersonButtonText {
+        public static string CancelButtonText {
             get {
-                return ResourceManager.GetString("AddPersonButtonText", resourceCulture);
+                return ResourceManager.GetString("CancelButtonText", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to City.
+        ///   Looks up a localized string similar to Contact person.
         /// </summary>
-        public static string CityLabel {
+        public static string ContactPersonAutocompleteLabel {
             get {
-                return ResourceManager.GetString("CityLabel", resourceCulture);
+                return ResourceManager.GetString("ContactPersonAutocompleteLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customer.
+        /// </summary>
+        public static string CustomerAutocompleteLabel {
+            get {
+                return ResourceManager.GetString("CustomerAutocompleteLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date of start.
+        /// </summary>
+        public static string DateOfStartDatepickerLabel {
+            get {
+                return ResourceManager.GetString("DateOfStartDatepickerLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string DescriptionTextLabel {
+            get {
+                return ResourceManager.GetString("DescriptionTextLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Due date.
+        /// </summary>
+        public static string DueDateDatepickerLabel {
+            get {
+                return ResourceManager.GetString("DueDateDatepickerLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manager.
+        /// </summary>
+        public static string ManagerAutocompleteLabel {
+            get {
+                return ResourceManager.GetString("ManagerAutocompleteLabel", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
-        public static string DisplayName {
+        public static string NameTextLabel {
             get {
-                return ResourceManager.GetString("DisplayName", resourceCulture);
+                return ResourceManager.GetString("NameTextLabel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Name.
+        ///   Looks up a localized string similar to Create Job order.
         /// </summary>
-        public static string NameColumn {
+        public static string PageHeaderText {
             get {
-                return ResourceManager.GetString("NameColumn", resourceCulture);
+                return ResourceManager.GetString("PageHeaderText", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Merp - Registry.
+        ///   Looks up a localized string similar to Merp- Accountancy - Create Job order.
         /// </summary>
-        internal static string PageTitle {
+        public static string PageTitle {
             get {
                 return ResourceManager.GetString("PageTitle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Any.
+        ///   Looks up a localized string similar to Amount.
         /// </summary>
-        public static string PartyTypeSelectAny {
+        public static string PriceAmountNumericLabel {
             get {
-                return ResourceManager.GetString("PartyTypeSelectAny", resourceCulture);
+                return ResourceManager.GetString("PriceAmountNumericLabel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Company.
+        ///   Looks up a localized string similar to Currency.
         /// </summary>
-        public static string PartyTypeSelectCompany {
+        public static string PriceCurrencyTextLabel {
             get {
-                return ResourceManager.GetString("PartyTypeSelectCompany", resourceCulture);
+                return ResourceManager.GetString("PriceCurrencyTextLabel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Party type.
+        ///   Looks up a localized string similar to Purchase order number.
         /// </summary>
-        public static string PartyTypeSelectLabel {
+        public static string PurchaseOrderNumberTextLabel {
             get {
-                return ResourceManager.GetString("PartyTypeSelectLabel", resourceCulture);
+                return ResourceManager.GetString("PurchaseOrderNumberTextLabel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Person.
+        ///   Looks up a localized string similar to Save.
         /// </summary>
-        public static string PartyTypeSelectPerson {
+        public static string SaveButtonText {
             get {
-                return ResourceManager.GetString("PartyTypeSelectPerson", resourceCulture);
+                return ResourceManager.GetString("SaveButtonText", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Phone number.
+        ///   Looks up a localized string similar to Time &amp; material.
         /// </summary>
-        public static string PhoneColumn {
+        public static string TimeAndMaterialCheckboxLabel {
             get {
-                return ResourceManager.GetString("PhoneColumn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Postal code.
-        /// </summary>
-        public static string PostalCodeLabel {
-            get {
-                return ResourceManager.GetString("PostalCodeLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Search.
-        /// </summary>
-        public static string SearchButtonText {
-            get {
-                return ResourceManager.GetString("SearchButtonText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Ascending.
-        /// </summary>
-        public static string SortOrderSelectAscending {
-            get {
-                return ResourceManager.GetString("SortOrderSelectAscending", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Descending.
-        /// </summary>
-        public static string SortOrderSelectDescending {
-            get {
-                return ResourceManager.GetString("SortOrderSelectDescending", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sort order.
-        /// </summary>
-        public static string SortOrderSelectLabel {
-            get {
-                return ResourceManager.GetString("SortOrderSelectLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to SSN.
-        /// </summary>
-        public static string SSNColumn {
-            get {
-                return ResourceManager.GetString("SSNColumn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to VAT number.
-        /// </summary>
-        public static string VatNumberColumn {
-            get {
-                return ResourceManager.GetString("VatNumberColumn", resourceCulture);
+                return ResourceManager.GetString("TimeAndMaterialCheckboxLabel", resourceCulture);
             }
         }
     }
