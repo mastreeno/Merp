@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Alexa.NET" Version="1.20.0" />
+    <PackageReference Include="Alexa.NET" Version="1.21.0" />
   </ItemGroup>
 
   <ItemGroup>

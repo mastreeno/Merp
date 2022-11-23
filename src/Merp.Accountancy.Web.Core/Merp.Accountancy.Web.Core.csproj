@@ -8,10 +8,10 @@
 		<PackageReference Include="MementoFX" Version="2.0.0" />
 		<PackageReference Include="MementoFX.Messaging.Rebus" Version="2.1.0-pre1" />
 		<PackageReference Include="MementoFX.Persistence.MongoDB" Version="2.0.1-pre1" />
-		<PackageReference Include="Rebus" Version="6.6.2" />
-		<PackageReference Include="Rebus.AmazonSqs" Version="6.3.2" />
-		<PackageReference Include="Rebus.AzureServiceBus" Version="9.0.8" />
-		<PackageReference Include="Rebus.ServiceProvider" Version="7.0.0" />
+		<PackageReference Include="Rebus" Version="6.6.5" />
+		<PackageReference Include="Rebus.AmazonSqs" Version="6.5.0" />
+		<PackageReference Include="Rebus.AzureServiceBus" Version="9.1.0" />
+		<PackageReference Include="Rebus.ServiceProvider" Version="8.4.0" />
 		<PackageReference Include="Rebus.SqlServer" Version="7.2.0" />
 	</ItemGroup>
 
