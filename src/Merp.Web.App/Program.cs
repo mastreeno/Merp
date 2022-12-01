@@ -17,6 +17,8 @@ builder.Services
     .AddScoped<Merp.Registry.Web.Api.Internal.IPartyApiServices, Merp.Registry.Web.Api.Internal.PartyApiServices>()
     .AddScoped<Merp.Registry.Web.Api.Internal.IPersonApiServices, Merp.Registry.Web.Api.Internal.PersonApiServices>();
 
+builder.Services.AddScoped<Merp.Web.IAppContext, Merp.Web.App.MockAppContext>();
+
 builder.Services.AddSingleton(builder.Services);
 
 ConfigureRegistryBoundedContext(builder);

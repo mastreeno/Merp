@@ -1,4 +1,8 @@
-﻿using Merp.Accountancy.Web.App.Components;
+﻿using Merp.Accountancy.CommandStack.Commands;
+using Merp.Accountancy.Web.App.Components;
+using Merp.Accountancy.Web.App.Model;
+using Merp.Registry.Web.Api.Internal;
+using Merp.Web;
 using Microsoft.AspNetCore.Components;
 using Rebus.Bus;
 
@@ -8,11 +12,55 @@ namespace Merp.Accountancy.Web.App.Pages
     {
         [Inject] public IBus Bus { get; set; } = default!;
 
+        [Inject] public IAppContext AppContext { get; set; } = default!;
+
+        [Inject] public IPartyApiServices PartyApi { get; set; } = default!;
+
         private IssueInvoiceForm.ViewModel model = new();
 
         private async Task IssueOutgoingCreditNoteAsync(IssueInvoiceForm.ViewModel creditNote)
         {
-            //TODO
+            var customerLegalInfo = await PartyApi.GetPartyLegalInfoByPartyIdAsync(creditNote.Customer!.OriginalId);
+
+            var command = new IssueCreditNoteCommand(
+                AppContext.UserId,
+                creditNote.Date!.Value,
+                creditNote.Currency,
+                creditNote.Amount,
+                creditNote.Taxes,
+                creditNote.TotalPrice,
+                creditNote.TotalToPay,
+                creditNote.Description,
+                creditNote.PaymentTerms,
+                creditNote.PurchaseOrderNumber,
+                creditNote.Customer!.OriginalId,
+                creditNote.Customer!.Name,
+                customerLegalInfo?.Address?.Address,
+                customerLegalInfo?.Address?.City,
+                customerLegalInfo?.Address?.PostalCode,
+                customerLegalInfo?.Address?.Country,
+                customerLegalInfo?.VatIndex,
+                customerLegalInfo?.NationalIdentificationNumber,
+                "", //supplier name
+                "", //supplier address
+                "", //supplier city
+                "", //supplier postal code
+                "", //supplier country
+                "", //supplier VAT
+                "", //supplier National identification number
+                creditNote.LineItems.Select(MapLineItemForIssue),
+                creditNote.VatIncluded,
+                creditNote.PricesByVat.Select(MapPriceByVatForIssue),
+                creditNote.NonTaxableItems.Select(MapNonTaxableItemForIssue),
+                creditNote.ProvidenceFund?.Description,
+                creditNote.ProvidenceFund?.Rate,
+                creditNote.ProvidenceFund?.Amount,
+                creditNote.WithholdingTax?.Description,
+                creditNote.WithholdingTax?.Rate,
+                creditNote.WithholdingTax?.TaxableAmountRate,
+                creditNote.WithholdingTax?.Amount);
+
+            await Bus.Send(command);
         }
 
         protected override void OnInitialized()
@@ -31,5 +79,32 @@ namespace Merp.Accountancy.Web.App.Pages
             model = new();
             model.LineItems.Add(new());
         }
+
+        #region Mapping
+        private IssueCreditNoteCommand.LineItem MapLineItemForIssue(InvoiceLineItem lineItem)
+        {
+            return new IssueCreditNoteCommand.LineItem(
+                lineItem.Code,
+                lineItem.Description,
+                lineItem.Quantity,
+                lineItem.TotalPrice,
+                lineItem.UnitPrice,
+                lineItem.Vat?.Rate ?? 0,
+                lineItem.Vat?.Description);
+        }
+
+        private IssueCreditNoteCommand.PriceByVat MapPriceByVatForIssue(InvoicePriceByVat priceByVat)
+        {
+            return new IssueCreditNoteCommand.PriceByVat(
+                priceByVat.TaxableAmount,
+                priceByVat.VatRate,
+                priceByVat.VatAmount,
+                priceByVat.TotalPrice,
+                priceByVat.ProvidenceFundAmount);
+        }
+
+        private IssueCreditNoteCommand.NonTaxableItem MapNonTaxableItemForIssue(NonTaxableItem nonTaxableItem)
+            => new IssueCreditNoteCommand.NonTaxableItem(nonTaxableItem.Description, nonTaxableItem.Amount);
+        #endregion
     }
 }

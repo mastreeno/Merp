@@ -1,6 +1,7 @@
 ﻿using Merp.Registry.CommandStack.Commands;
 using Merp.Registry.Web.App.Components;
 using Merp.Registry.Web.App.Model;
+using Merp.Web;
 using Microsoft.AspNetCore.Components;
 using Rebus.Bus;
 using System.ComponentModel.DataAnnotations;
@@ -10,6 +11,8 @@ namespace Merp.Registry.Web.App.Pages
     public partial class AddCompany
     {
         [Inject] IBus Bus { get; set; }
+
+        [Inject] IAppContext AppContext { get; set; }
 
         public CompanyModel ViewModel = new();
 
@@ -29,7 +32,7 @@ namespace Merp.Registry.Web.App.Pages
             var companyName = ViewModel.CompanyName;
             var nationalIdentificationNumber = ViewModel.NationalIdentificationNumber;
             var vatNumber = ViewModel.VatNumber;
-            var command = new RegisterCompanyCommand(Guid.Empty, companyName, nationalIdentificationNumber, vatNumber);
+            var command = new RegisterCompanyCommand(AppContext.UserId, companyName, nationalIdentificationNumber, vatNumber);
             await Bus.Send(command);
         }
 

@@ -100,24 +100,33 @@ namespace Merp.Registry.Web.Api.Internal
             await Bus.Send(command);
         }
 
-        public async Task<PostalAddress?> GetPartyLegalAddressByPartyIdAsync(Guid partyId)
+        public async Task<PartyLegalInfo?> GetPartyLegalInfoByPartyIdAsync(Guid partyId)
         {
             var party = await Database.Parties.SingleOrDefaultAsync(p => p.OriginalId == partyId);
-            if (party?.LegalAddress is null)
+            if (party is null)
             {
                 return null;
             }
 
-            var address = new PostalAddress
+            var address = party.LegalAddress is null ?
+                null :
+                new PostalAddress
+                {
+                    Address = party.LegalAddress.Address,
+                    City = party.LegalAddress.City,
+                    Province = party.LegalAddress.Province,
+                    Country = party.LegalAddress.Country,
+                    PostalCode = party.LegalAddress.PostalCode
+                };
+
+            var legalInfo = new PartyLegalInfo
             {
-                Address = party.LegalAddress.Address,
-                City = party.LegalAddress.City,
-                Province = party.LegalAddress.Province,
-                Country = party.LegalAddress.Country,
-                PostalCode = party.LegalAddress.PostalCode
+                VatIndex = party.VatIndex,
+                NationalIdentificationNumber = party.NationalIdentificationNumber,
+                Address = address
             };
 
-            return address;
+            return legalInfo;
         }
     }
 }
