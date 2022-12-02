@@ -25,6 +25,41 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Resources\Components\InvoiceLineItemsEditor.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>InvoiceLineItemsEditor.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\NonTaxableItemsEditor.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NonTaxableItemsEditor.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\PartyInfoAutocomplete.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PartyInfoAutocomplete.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\PersonInfoAutocomplete.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PersonInfoAutocomplete.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\PricesByVatEditor.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PricesByVatEditor.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\ProvidenceFundDisplay.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ProvidenceFundDisplay.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\WithholdingTaxDisplay.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WithholdingTaxDisplay.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Pages\CreateJobOrder.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -43,6 +78,55 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Resources\Components\InvoiceLineItemsEditor.it.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\InvoiceLineItemsEditor.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>InvoiceLineItemsEditor.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\NonTaxableItemsEditor.it.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\NonTaxableItemsEditor.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>NonTaxableItemsEditor.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\PartyInfoAutocomplete.it.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\PartyInfoAutocomplete.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>PartyInfoAutocomplete.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\PersonInfoAutocomplete.it.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\PersonInfoAutocomplete.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>PersonInfoAutocomplete.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\PricesByVatEditor.it.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\PricesByVatEditor.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>PricesByVatEditor.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\ProvidenceFundDisplay.it.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\ProvidenceFundDisplay.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProvidenceFundDisplay.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\WithholdingTaxDisplay.it.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\WithholdingTaxDisplay.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>WithholdingTaxDisplay.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Pages\CreateJobOrder.it.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>

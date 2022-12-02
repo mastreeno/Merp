@@ -1,6 +1,6 @@
 ﻿namespace Merp.Registry.Web.Api.Internal.Models
 {
-    public class PartyLegalInfo
+    public class PartyBillingInfo
     {
         public string? VatIndex { get; set; }
 

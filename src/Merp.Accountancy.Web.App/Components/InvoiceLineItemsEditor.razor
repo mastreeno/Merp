@@ -1,24 +1,26 @@
-﻿<fieldset>
-    <legend>Line items</legend>
+﻿@inject IStringLocalizer<Resources.Components.InvoiceLineItemsEditor> localizer
+
+<fieldset>
+    <legend>@localizer[nameof(Resources.Components.InvoiceLineItemsEditor.LineItemsSectionTitle)]</legend>
 
     <MudGrid>
         <MudItem xs="1" md="1">
-            <MudText>Code</MudText>
+            <MudText>@localizer[nameof(Resources.Components.InvoiceLineItemsEditor.CodeLabel)]</MudText>
         </MudItem>
         <MudItem xs="3" md="3">
-            <MudText>Description</MudText>
+            <MudText>@localizer[nameof(Resources.Components.InvoiceLineItemsEditor.DescriptionLabel)]</MudText>
         </MudItem>
         <MudItem xs="1" md="1">
-            <MudText>Qty</MudText>
+            <MudText>@localizer[nameof(Resources.Components.InvoiceLineItemsEditor.QuantityLabel)]</MudText>
         </MudItem>
         <MudItem xs="2" md="2">
-            <MudText>Price</MudText>
+            <MudText>@localizer[nameof(Resources.Components.InvoiceLineItemsEditor.PriceLabel)]</MudText>
         </MudItem>
         <MudItem xs="2" md="2">
-            <MudText>Tot. price</MudText>
+            <MudText>@localizer[nameof(Resources.Components.InvoiceLineItemsEditor.TotalPriceLabel)]</MudText>
         </MudItem>
         <MudItem xs="3" md="3">
-            <MudText>VAT</MudText>
+            <MudText>@localizer[nameof(Resources.Components.InvoiceLineItemsEditor.VatLabel)]</MudText>
         </MudItem>
     </MudGrid>
     <MudDivider />
@@ -27,21 +29,21 @@
     {
         <MudGrid>
             <MudItem xs="1" md="1">
-                <MudTextField Label="Code"
+                <MudTextField Label="@localizer[nameof(Resources.Components.InvoiceLineItemsEditor.CodeLabel)]"
                               @bind-Value="item.Code"
                               For="@(() => item.Code)"
                               Variant="Variant.Outlined"
                               Margin="Margin.Dense"/>
             </MudItem>
             <MudItem xs="3" md="3">
-                <MudTextField Label="Description"
+                <MudTextField Label="@localizer[nameof(Resources.Components.InvoiceLineItemsEditor.DescriptionLabel)]"
                               @bind-Value="item.Description"
                               For="@(() => item.Description)"
                               Variant="Variant.Outlined"
                               Margin="Margin.Dense"/>
             </MudItem>
             <MudItem xs="1" md="1">
-                <MudNumericField Label="Qty"
+                <MudNumericField Label="@localizer[nameof(Resources.Components.InvoiceLineItemsEditor.QuantityLabel)]"
                                  Value="item.Quantity"
                                  For="@(() => item.Quantity)"
                                  Variant="Variant.Outlined"
@@ -51,7 +53,7 @@
                                  ValueChanged="@((int value) => OnItemQuantityChange(value, item))"/>
             </MudItem>
             <MudItem xs="2" md="2">
-                <MudNumericField Label="Price"
+                <MudNumericField Label="@localizer[nameof(Resources.Components.InvoiceLineItemsEditor.PriceLabel)]"
                                  Value="item.UnitPrice"
                                  For="@(() => item.UnitPrice)"
                                  Variant="Variant.Outlined"
@@ -62,7 +64,7 @@
                                  ValueChanged="@((decimal value) => OnUnitPriceChange(value, item))"/>
             </MudItem>
             <MudItem xs="2" md="2">
-                <MudNumericField Label="Tot. price"
+                <MudNumericField Label="@localizer[nameof(Resources.Components.InvoiceLineItemsEditor.TotalPriceLabel)]"
                                  Value="item.TotalPrice"
                                  ValueChanged="@((decimal value) => OnTotalPriceChange(value, item))"
                                  For="@(() => item.TotalPrice)"
@@ -73,7 +75,7 @@
                                  Margin="Margin.Dense"/>
             </MudItem>
             <MudItem xs="2" md="2">
-                <MudSelect Label="VAT"
+                <MudSelect Label="@localizer[nameof(Resources.Components.InvoiceLineItemsEditor.VatLabel)]"
                            Value="item.Vat" 
                            ValueChanged="@((Vat value) => OnVatChange(value, item))"
                            For="@(() => item.Vat)"
@@ -88,7 +90,7 @@
             </MudItem>
             <MudItem xs="1" md="1" class="d-flex align-center">
                 <MudIconButton Icon="fas fa-times"
-                               aria-label="Remove line item"
+                               aria-label="@localizer[nameof(Resources.Components.InvoiceLineItemsEditor.RemoveLineItemButtonLabel)]"
                                Color="Color.Error"
                                Variant="Variant.Outlined"
                                OnClick="@(() => RemoveLineItemAsync(item))"/>
@@ -103,7 +105,7 @@
                        Color="Color.Primary" 
                        Variant="Variant.Outlined"
                        OnClick="AddNewLineItem">
-                Add new
+                @localizer[nameof(Resources.Components.InvoiceLineItemsEditor.AddNewLineItemButtonLabel)]
             </MudButton>
         </MudItem>
     </MudGrid>

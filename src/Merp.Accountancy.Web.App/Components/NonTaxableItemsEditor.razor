@@ -1,12 +1,14 @@
-﻿<fieldset>
-    <legend>Non taxable items</legend>
+﻿@inject IStringLocalizer<Resources.Components.NonTaxableItemsEditor> localizer
+
+<fieldset>
+    <legend>@localizer[nameof(Resources.Components.NonTaxableItemsEditor.NonTaxableItemsSectionTitle)]</legend>
 
     <MudGrid>
         <MudItem xs="8" md="8">
-            <MudText>Description</MudText>
+            <MudText>@localizer[nameof(Resources.Components.NonTaxableItemsEditor.DescriptionLabel)]</MudText>
         </MudItem>
         <MudItem xs="4" md="4">
-            <MudText>Amount</MudText>
+            <MudText>@localizer[nameof(Resources.Components.NonTaxableItemsEditor.AmountLabel)]</MudText>
         </MudItem>
     </MudGrid>
     <MudDivider />
@@ -15,14 +17,14 @@
     {
         <MudGrid>
             <MudItem xs="8" md="8">
-                <MudTextField Label="Description"
+                <MudTextField Label="@localizer[nameof(Resources.Components.NonTaxableItemsEditor.DescriptionLabel)]"
                               @bind-Value="item.Description"
                               For="@(() => item.Description)"
                               Variant="Variant.Outlined"
                               Margin="Margin.Dense"/>
             </MudItem>
             <MudItem xs="3" md="3">
-                <MudNumericField Label="Amount"
+                <MudNumericField Label="@localizer[nameof(Resources.Components.NonTaxableItemsEditor.AmountLabel)]"
                                  Value="item.Amount"
                                  ValueChanged="@((decimal value) => OnAmountChange(value, item))"
                                  For="@(() => item.Amount)"
@@ -34,7 +36,7 @@
             </MudItem>
             <MudItem xs="1" md="1" class="d-flex align-center">
                 <MudIconButton Icon="fas fa-times"
-                               aria-label="Remove item"
+                               aria-label="@localizer[nameof(Resources.Components.NonTaxableItemsEditor.RemoveNonTaxableItemLabel)]"
                                Color="Color.Error"
                                Variant="Variant.Outlined"
                                OnClick="@(() => RemoveNonTaxableItemAsync(item))" />
@@ -49,7 +51,7 @@
                        Color="Color.Primary"
                        Variant="Variant.Outlined"
                        OnClick="AddNewNonTaxableItem">
-                Add new
+                @localizer[nameof(Resources.Components.NonTaxableItemsEditor.AddNewNonTaxableItemButtonLabel)]
             </MudButton>
         </MudItem>
     </MudGrid>

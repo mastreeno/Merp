@@ -20,7 +20,7 @@ namespace Merp.Accountancy.Web.App.Pages
 
         private async Task RegisterOutgoingInvoiceAsync(RegisterOutgoingInvoiceForm.ViewModel invoice)
         {
-            var customerLegalInfo = await PartyApi.GetPartyLegalInfoByPartyIdAsync(invoice.Customer!.OriginalId);
+            var customerBillingInfo = await PartyApi.GetPartyBillingInfoByPartyIdAsync(invoice.Customer!.OriginalId);
 
             var command = new RegisterOutgoingInvoiceCommand(
                 AppContext.UserId,
@@ -37,12 +37,12 @@ namespace Merp.Accountancy.Web.App.Pages
                 invoice.PurchaseOrderNumber,
                 invoice.Customer!.OriginalId,
                 invoice.Customer!.Name,
-                customerLegalInfo?.Address?.Address,
-                customerLegalInfo?.Address?.City,
-                customerLegalInfo?.Address?.PostalCode,
-                customerLegalInfo?.Address?.Country,
-                customerLegalInfo?.VatIndex,
-                customerLegalInfo?.NationalIdentificationNumber,
+                customerBillingInfo?.Address?.Address,
+                customerBillingInfo?.Address?.City,
+                customerBillingInfo?.Address?.PostalCode,
+                customerBillingInfo?.Address?.Country,
+                customerBillingInfo?.VatIndex,
+                customerBillingInfo?.NationalIdentificationNumber,
                 "",
                 "",
                 "",

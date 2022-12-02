@@ -100,7 +100,7 @@ namespace Merp.Registry.Web.Api.Internal
             await Bus.Send(command);
         }
 
-        public async Task<PartyLegalInfo?> GetPartyLegalInfoByPartyIdAsync(Guid partyId)
+        public async Task<PartyBillingInfo?> GetPartyBillingInfoByPartyIdAsync(Guid partyId)
         {
             var party = await Database.Parties.SingleOrDefaultAsync(p => p.OriginalId == partyId);
             if (party is null)
@@ -108,7 +108,7 @@ namespace Merp.Registry.Web.Api.Internal
                 return null;
             }
 
-            var address = party.LegalAddress is null ?
+            var address = party.BillingAddress is null ?
                 null :
                 new PostalAddress
                 {
@@ -119,7 +119,7 @@ namespace Merp.Registry.Web.Api.Internal
                     PostalCode = party.LegalAddress.PostalCode
                 };
 
-            var legalInfo = new PartyLegalInfo
+            var legalInfo = new PartyBillingInfo
             {
                 VatIndex = party.VatIndex,
                 NationalIdentificationNumber = party.NationalIdentificationNumber,

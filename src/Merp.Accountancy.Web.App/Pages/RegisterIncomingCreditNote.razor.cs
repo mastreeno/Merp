@@ -21,7 +21,7 @@ namespace Merp.Accountancy.Web.App.Pages
         private async Task RegisterIncomingCreditNoteAsync(RegisterIncomingInvoiceForm.ViewModel creditNote)
         {
             //INCOMING -> Customer should be retrieved by settings
-            var supplierLegalInfo = await PartyApi.GetPartyLegalInfoByPartyIdAsync(creditNote.Supplier!.OriginalId);
+            var supplierBillingInfo = await PartyApi.GetPartyBillingInfoByPartyIdAsync(creditNote.Supplier!.OriginalId);
 
             var command = new RegisterIncomingCreditNoteCommand(
                 AppContext.UserId,
@@ -45,12 +45,12 @@ namespace Merp.Accountancy.Web.App.Pages
                 "",
                 creditNote.Supplier!.OriginalId,
                 creditNote.Supplier!.Name,
-                supplierLegalInfo?.Address?.Address,
-                supplierLegalInfo?.Address?.City,
-                supplierLegalInfo?.Address?.PostalCode,
-                supplierLegalInfo?.Address?.Country,
-                supplierLegalInfo?.VatIndex,
-                supplierLegalInfo?.NationalIdentificationNumber,
+                supplierBillingInfo?.Address?.Address,
+                supplierBillingInfo?.Address?.City,
+                supplierBillingInfo?.Address?.PostalCode,
+                supplierBillingInfo?.Address?.Country,
+                supplierBillingInfo?.VatIndex,
+                supplierBillingInfo?.NationalIdentificationNumber,
                 creditNote.LineItems.Select(MapLineItemForRegister),
                 creditNote.VatIncluded,
                 creditNote.PricesByVat.Select(MapPriceByVatForRegister),

@@ -22,7 +22,7 @@ namespace Merp.Accountancy.Web.App.Pages
         {
             //INCOMING -> Customer should be retrieved by settings
 
-            var supplierLegalInfo = await PartyApi.GetPartyLegalInfoByPartyIdAsync(invoice.Supplier!.OriginalId);
+            var supplierBillingInfo = await PartyApi.GetPartyBillingInfoByPartyIdAsync(invoice.Supplier!.OriginalId);
 
             var command = new RegisterIncomingInvoiceCommand(
                 AppContext.UserId,
@@ -47,12 +47,12 @@ namespace Merp.Accountancy.Web.App.Pages
                 "",
                 invoice.Supplier!.OriginalId,
                 invoice.Supplier!.Name,
-                supplierLegalInfo?.Address?.Address,
-                supplierLegalInfo?.Address?.City,
-                supplierLegalInfo?.Address?.PostalCode,
-                supplierLegalInfo?.Address?.Country,
-                supplierLegalInfo?.VatIndex,
-                supplierLegalInfo?.NationalIdentificationNumber,
+                supplierBillingInfo?.Address?.Address,
+                supplierBillingInfo?.Address?.City,
+                supplierBillingInfo?.Address?.PostalCode,
+                supplierBillingInfo?.Address?.Country,
+                supplierBillingInfo?.VatIndex,
+                supplierBillingInfo?.NationalIdentificationNumber,
                 invoice.LineItems.Select(MapLineItemForRegister),
                 invoice.VatIncluded,
                 invoice.PricesByVat.Select(MapPriceByVatForRegister),

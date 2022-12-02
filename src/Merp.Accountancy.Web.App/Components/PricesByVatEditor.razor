@@ -1,15 +1,17 @@
-﻿<fieldset>
-    <legend>Prices by VAT</legend>
+﻿@inject IStringLocalizer<Resources.Components.PricesByVatEditor> localizer
+
+<fieldset>
+    <legend>@localizer[nameof(Resources.Components.PricesByVatEditor.PricesByVatSectionTitle)]</legend>
 
     <MudGrid>
         <MudItem xs="5" md="5">
-            <MudText>Taxable amount</MudText>
+            <MudText>@localizer[nameof(Resources.Components.PricesByVatEditor.PriceByVatTaxableAmountLabel)]</MudText>
         </MudItem>
         <MudItem xs="3" md="3">
-            <MudText>VAT</MudText>
+            <MudText>@localizer[nameof(Resources.Components.PricesByVatEditor.PriceByVatVatLabel)]</MudText>
         </MudItem>
         <MudItem xs="4" md="4">
-            <MudText>Tot. price</MudText>
+            <MudText>@localizer[nameof(Resources.Components.PricesByVatEditor.PriceByVatTotalPriceLabel)]</MudText>
         </MudItem>
     </MudGrid>
     <MudDivider />
@@ -18,7 +20,7 @@
     {
         <MudGrid>
             <MudItem xs="3" md="3">
-                <MudNumericField Label="Tax. amount"
+                <MudNumericField Label="@localizer[nameof(Resources.Components.PricesByVatEditor.PriceByVatTaxableAmountLabel)]"
                                  @bind-Value="item.TaxableAmount"
                                  For="@(() => item.TaxableAmount)"
                                  Variant="Variant.Outlined"
@@ -31,7 +33,7 @@
                 <MudText>@item.VatRate %</MudText>
             </MudItem>
             <MudItem xs="3" md="3">
-                <MudNumericField Label="VAT"
+                <MudNumericField Label="@localizer[nameof(Resources.Components.PricesByVatEditor.PriceByVatVatLabel)]"
                                  Value="item.VatAmount"
                                  ValueChanged="@((decimal value) => OnVatAmountChange(value, item))"
                                  For="@(() => item.VatAmount)"
@@ -42,7 +44,7 @@
                                  Margin="Margin.Dense"/>
             </MudItem>
             <MudItem xs="4" md="4">
-                <MudNumericField Label="Tot. price"
+                <MudNumericField Label="@localizer[nameof(Resources.Components.PricesByVatEditor.PriceByVatTotalPriceLabel)]"
                                  Value="item.TotalPrice"
                                  ValueChanged="@((decimal value) => OnTotalPriceChange(value, item))"
                                  For="@(() => item.TotalPrice)"

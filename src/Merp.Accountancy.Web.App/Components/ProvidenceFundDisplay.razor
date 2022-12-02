@@ -1,15 +1,17 @@
-﻿<fieldset>
-    <legend>Providence fund</legend>
+﻿@inject IStringLocalizer<Resources.Components.ProvidenceFundDisplay> localizer
+
+<fieldset>
+    <legend>@localizer[nameof(Resources.Components.ProvidenceFundDisplay.ProvidenceFundSectionTitle)]</legend>
 
     <MudGrid>
         <MudItem xs="7" md="7">
-            <MudText>Description</MudText>
+            <MudText>@localizer[nameof(Resources.Components.ProvidenceFundDisplay.ProvidenceFundDescriptionLabel)]</MudText>
         </MudItem>
         <MudItem xs="2" md="2">
-            <MudText>Rate</MudText>
+            <MudText>@localizer[nameof(Resources.Components.ProvidenceFundDisplay.ProvidenceFundRateLabel)]</MudText>
         </MudItem>
         <MudItem xs="3" md="3">
-            <MudText>Amount</MudText>
+            <MudText>@localizer[nameof(Resources.Components.ProvidenceFundDisplay.ProvidenceFundAmount)]</MudText>
         </MudItem>
     </MudGrid>
     <MudGrid>

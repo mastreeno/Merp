@@ -10,6 +10,6 @@ namespace Merp.Registry.Web.Api.Internal
 
         Task RegisterPartyAsync(RegisterPartyModel model);
 
-        Task<PartyLegalInfo?> GetPartyLegalInfoByPartyIdAsync(Guid partyId);
+        Task<PartyBillingInfo?> GetPartyBillingInfoByPartyIdAsync(Guid partyId);
     }
 }

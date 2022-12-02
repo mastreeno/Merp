@@ -21,7 +21,7 @@ namespace Merp.Accountancy.Web.App.Pages
         private async Task RegisterOutgoingCreditNoteAsync(RegisterOutgoingInvoiceForm.ViewModel creditNote)
         {
             //TODO
-            var customerLegalInfo = await PartyApi.GetPartyLegalInfoByPartyIdAsync(creditNote.Customer!.OriginalId);
+            var customerBillingInfo = await PartyApi.GetPartyBillingInfoByPartyIdAsync(creditNote.Customer!.OriginalId);
 
             var command = new RegisterOutgoingCreditNoteCommand(
                 AppContext.UserId,
@@ -37,12 +37,12 @@ namespace Merp.Accountancy.Web.App.Pages
                 creditNote.PurchaseOrderNumber,
                 creditNote.Customer!.OriginalId,
                 creditNote.Customer!.Name,
-                customerLegalInfo?.Address?.Address,
-                customerLegalInfo?.Address?.City,
-                customerLegalInfo?.Address?.PostalCode,
-                customerLegalInfo?.Address?.Country,
-                customerLegalInfo?.VatIndex,
-                customerLegalInfo?.NationalIdentificationNumber,
+                customerBillingInfo?.Address?.Address,
+                customerBillingInfo?.Address?.City,
+                customerBillingInfo?.Address?.PostalCode,
+                customerBillingInfo?.Address?.Country,
+                customerBillingInfo?.VatIndex,
+                customerBillingInfo?.NationalIdentificationNumber,
                 "",
                 "",
                 "",

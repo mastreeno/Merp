@@ -1,4 +1,6 @@
-﻿<MudGrid>
+﻿@inject IStringLocalizer<Resources.Components.PersonInfoAutocomplete> localizer
+
+<MudGrid>
     <MudItem xs="10" md="10">
         <MudAutocomplete Label="@Label"
                          Value="Value"
@@ -11,7 +13,7 @@
     </MudItem>
     <MudItem xs="2" md="2" class="d-flex align-center">
         <MudIconButton Icon="fas fa-plus"
-                       aria-label="Create new person"
+                       aria-label="@localizer[nameof(Resources.Components.PersonInfoAutocomplete.CreateNewPersonButtonLabel)]"
                        Color="Color.Primary"
                        Variant="Variant.Outlined"
                        Size="Size.Large" />

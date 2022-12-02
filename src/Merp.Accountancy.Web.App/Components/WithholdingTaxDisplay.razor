@@ -1,18 +1,20 @@
-﻿<fieldset>
-    <legend>Withholding Tax</legend>
+﻿@inject IStringLocalizer<Resources.Components.WithholdingTaxDisplay> localizer
+
+<fieldset>
+    <legend>@localizer[nameof(Resources.Components.WithholdingTaxDisplay.WithholdingTaxSectionTitle)]</legend>
 
     <MudGrid>
         <MudItem xs="6" md="6">
-            <MudText>Description</MudText>
+            <MudText>@localizer[nameof(Resources.Components.WithholdingTaxDisplay.WithholdingTaxDescriptionLabel)]</MudText>
         </MudItem>
         <MudItem xs="2" md="2">
-            <MudText>Rate</MudText>
+            <MudText>@localizer[nameof(Resources.Components.WithholdingTaxDisplay.WithholdingTaxRateLabel)]</MudText>
         </MudItem>
         <MudItem xs="2" md="2">
-            <MudText>Taxable amount rate</MudText>
+            <MudText>@localizer[nameof(Resources.Components.WithholdingTaxDisplay.WithholdingTaxTaxableAmountRateLabel)]</MudText>
         </MudItem>
         <MudItem xs="2" md="2">
-            <MudText>Amount</MudText>
+            <MudText>@localizer[nameof(Resources.Components.WithholdingTaxDisplay.WithholdingTaxAmountLabel)]</MudText>
         </MudItem>
     </MudGrid>
 
