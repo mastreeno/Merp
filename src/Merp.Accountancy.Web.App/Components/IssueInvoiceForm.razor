@@ -1,16 +1,18 @@
-﻿<EditForm Model="Model" OnValidSubmit="SubmitAsync">
+﻿@inject IStringLocalizer<Resources.Components.IssueInvoiceForm> localizer
+
+<EditForm Model="Model" OnValidSubmit="SubmitAsync">
     <DataAnnotationsValidator />
 
     <MudCard>
         <MudCardContent>
             <MudGrid>
                 <MudItem xs="12" md="6">
-                    <PartyInfoAutocomplete Label="Customer"
+                    <PartyInfoAutocomplete Label="@localizer[nameof(Resources.Components.IssueInvoiceForm.CustomerAutocompleteLabel)]"
                                            @bind-Value="Model.Customer"
                                            DebounceInterval="500" />
                 </MudItem>
                 <MudItem xs="12" md="3">
-                    <MudDatePicker Label="Date"
+                    <MudDatePicker Label="@localizer[nameof(Resources.Components.IssueInvoiceForm.DateDatepickerLabel)]"
                                    @bind-Date="Model.Date"
                                    For="@(() => Model.Date)"
                                    Variant="Variant.Outlined"
@@ -18,7 +20,7 @@
                                    AutoClose="true" />
                 </MudItem>
                 <MudItem xs="12" md="3">
-                    <MudTextField Label="Currency"
+                    <MudTextField Label="@localizer[nameof(Resources.Components.IssueInvoiceForm.CurrencyTextLabel)]"
                                   @bind-Value="Model.Currency"
                                   For="@(() => Model.Currency)"
                                   Variant="Variant.Outlined" />
@@ -26,13 +28,13 @@
             </MudGrid>
             <MudGrid>
                 <MudItem xs="12" md="6">
-                    <MudTextField Label="Purchase order number" 
+                    <MudTextField Label="@localizer[nameof(Resources.Components.IssueInvoiceForm.PurchaseOrderNumberTextLabel)]" 
                                   @bind-Value="Model.PurchaseOrderNumber"
                                   For="@(() => Model.PurchaseOrderNumber)"
                                   Variant="Variant.Outlined"/>
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField Label="Payment terms"
+                    <MudTextField Label="@localizer[nameof(Resources.Components.IssueInvoiceForm.PaymentTermsTextLabel)]"
                                   @bind-Value="Model.PaymentTerms"
                                   For="@(() => Model.PaymentTerms)"
                                   Variant="Variant.Outlined" />
@@ -40,7 +42,7 @@
             </MudGrid>
             <MudGrid>
                 <MudItem xs="12" md="12">
-                    <MudTextField Label="Description"
+                    <MudTextField Label="@localizer[nameof(Resources.Components.IssueInvoiceForm.DescriptionTextLabel)]"
                                   @bind-Value="Model.Description"
                                   For="@(() => Model.Description)"
                                   Variant="Variant.Outlined" />
@@ -49,7 +51,7 @@
             <MudGrid>
                 <MudItem xs="12" md="12">
                     <MudCheckBox T="bool"
-                                 Label="VAT included"
+                                 Label="@localizer[nameof(Resources.Components.IssueInvoiceForm.VatIncludedCheckboxLabel)]"
                                  Checked="Model.VatIncluded"
                                  CheckedChanged="OnVatIncludedChange"/>
                 </MudItem>
@@ -98,11 +100,11 @@
             <MudGrid Class="mt-2">
                 <MudItem xs="12" md="12">
                     <fieldset>
-                        <legend>Totals</legend>
+                        <legend>@localizer[nameof(Resources.Components.IssueInvoiceForm.TotalsSectionTitle)]</legend>
 
                         <MudGrid>
                             <MudItem xs="12" md="2">
-                                <MudText>Taxable amount</MudText>
+                                <MudText>@localizer[nameof(Resources.Components.IssueInvoiceForm.TaxableAmountText)]</MudText>
                             </MudItem>
                             <MudItem xs="12" md="10">
                                 <MudText>@Model.Currency @Model.Amount.ToString("N2")</MudText>
@@ -110,7 +112,7 @@
                         </MudGrid>
                         <MudGrid>
                             <MudItem xs="12" md="2">
-                                <MudText>Taxes</MudText>
+                                <MudText>@localizer[nameof(Resources.Components.IssueInvoiceForm.TaxesText)]</MudText>
                             </MudItem>
                             <MudItem xs="12" md="10">
                                 <MudText>@Model.Currency @Model.Taxes.ToString("N2")</MudText>
@@ -134,7 +136,7 @@
                         
                         <MudGrid>
                             <MudItem xs="12" md="2">
-                                <MudText>Tot. price</MudText>
+                                <MudText>@localizer[nameof(Resources.Components.IssueInvoiceForm.TotalPriceText)]</MudText>
                             </MudItem>
                             <MudItem xs="12" md="10">
                                 <MudText>@Model.Currency @Model.TotalPrice.ToString("N2")</MudText>
@@ -142,7 +144,7 @@
                         </MudGrid>
                         <MudGrid>
                             <MudItem xs="12" md="2">
-                                <MudText>Total to pay</MudText>
+                                <MudText>@localizer[nameof(Resources.Components.IssueInvoiceForm.TotalToPayText)]</MudText>
                             </MudItem>
                             <MudItem xs="12" md="10">
                                 <MudText>@Model.Currency @Model.TotalToPay.ToString("N2")</MudText>
@@ -153,10 +155,10 @@
             </MudGrid>
         </MudCardContent>
         <MudCardActions>
-            <MudButton Class="mr-2" ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">Issue</MudButton>
-            <MudButton Class="mr-8" OnClick="CancelAsync" ButtonType="ButtonType.Button" Color="Color.Primary" Variant="Variant.Outlined">Cancel</MudButton>
+            <MudButton Class="mr-2" ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">@localizer[nameof(Resources.Components.IssueInvoiceForm.IssueButtonText)]</MudButton>
+            <MudButton Class="mr-8" OnClick="CancelAsync" ButtonType="ButtonType.Button" Color="Color.Primary" Variant="Variant.Outlined">@localizer[nameof(Resources.Components.IssueInvoiceForm.CancelButtonText)]</MudButton>
 
-            <MudButton OnClick="SaveDraftAsync" ButtonType="ButtonType.Button" Variant="Variant.Outlined" Color="Color.Secondary">Save as draft</MudButton>
+            <MudButton OnClick="SaveDraftAsync" ButtonType="ButtonType.Button" Variant="Variant.Outlined" Color="Color.Secondary">@localizer[nameof(Resources.Components.IssueInvoiceForm.SaveAsDraftButtonText)]</MudButton>
         </MudCardActions>
     </MudCard>
 </EditForm>

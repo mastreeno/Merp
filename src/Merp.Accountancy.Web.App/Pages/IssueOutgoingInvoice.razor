@@ -1,17 +1,18 @@
 ﻿@page "/accountancy/invoice/issue"
 
 @inject UrlBuilder UrlBuilder
+@inject IStringLocalizer<Resources.Pages.IssueOutgoingInvoice> localizer
 
-<PageTitle>Merp - Accountancy - Issue outgoing invoice</PageTitle>
+<PageTitle>@localizer[nameof(Resources.Pages.IssueOutgoingInvoice.PageTitle)]</PageTitle>
 <HeadContent>
     <link rel="stylesheet" href="/_content/Merp.Accountancy.Web.App/lib/font-awesome/css/all.min.css" />
 </HeadContent>
 
 <MudToolBar>
-    <MudText Typo="Typo.h5">Issue outgoing invoice</MudText>
+    <MudText Typo="Typo.h5">@localizer[nameof(Resources.Pages.IssueOutgoingInvoice.PageHeaderText)]</MudText>
     <MudSpacer />
     <MudButton Href="@UrlBuilder.BuildSearchInvoicesUrl()" Variant="Variant.Outlined" EndIcon="fas fa-caret-right" Color="Color.Primary">
-        Back
+        @localizer[nameof(Resources.Pages.IssueOutgoingInvoice.BackButtonText)]
     </MudButton>
 </MudToolBar>
 <MudDivider />

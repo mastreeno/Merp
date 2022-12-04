@@ -1,15 +1,17 @@
 ﻿@page "/accountancy/creditnote/register"
 
-<PageTitle>Merp - Accountancy - Register incoming credit note</PageTitle>
+@inject IStringLocalizer<Resources.Pages.RegisterIncomingCreditNote> localizer
+
+<PageTitle>@localizer[nameof(Resources.Pages.RegisterIncomingCreditNote.PageTitle)]</PageTitle>
 <HeadContent>
     <link rel="stylesheet" href="/_content/Merp.Accountancy.Web.App/lib/font-awesome/css/all.min.css" />
 </HeadContent>
 
 <MudToolBar>
-    <MudText Typo="Typo.h5">Register incoming credit note</MudText>
+    <MudText Typo="Typo.h5">@localizer[nameof(Resources.Pages.RegisterIncomingCreditNote.PageHeaderText)]</MudText>
     <MudSpacer />
     <MudButton type="button" Variant="Variant.Outlined" EndIcon="fas fa-caret-right" Color="Color.Primary">
-        Back
+        @localizer[nameof(Resources.Pages.RegisterIncomingCreditNote.BackButtonText)]
     </MudButton>
 </MudToolBar>
 <MudDivider />

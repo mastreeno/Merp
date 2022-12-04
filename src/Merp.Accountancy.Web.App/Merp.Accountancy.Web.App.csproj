@@ -30,6 +30,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>InvoiceLineItemsEditor.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Components\IssueInvoiceForm.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IssueInvoiceForm.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Components\NonTaxableItemsEditor.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -55,6 +60,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ProvidenceFundDisplay.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Components\RegisterIncomingInvoiceForm.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RegisterIncomingInvoiceForm.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\RegisterOutgoingInvoiceForm.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RegisterOutgoingInvoiceForm.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Components\WithholdingTaxDisplay.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -70,6 +85,36 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Index.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Pages\IssueOutgoingCreditNote.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IssueOutgoingCreditNote.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\IssueOutgoingInvoice.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IssueOutgoingInvoice.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\RegisterIncomingCreditNote.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RegisterIncomingCreditNote.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\RegisterIncomingInvoice.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RegisterIncomingInvoice.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\RegisterOutgoingCreditNote.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RegisterOutgoingCreditNote.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\RegisterOutgoingInvoice.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RegisterOutgoingInvoice.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Pages\SearchJobOrders.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -84,6 +129,13 @@
     <EmbeddedResource Update="Resources\Components\InvoiceLineItemsEditor.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>InvoiceLineItemsEditor.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\IssueInvoiceForm.it.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\IssueInvoiceForm.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>IssueInvoiceForm.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Components\NonTaxableItemsEditor.it.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -120,6 +172,20 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ProvidenceFundDisplay.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\RegisterIncomingInvoiceForm.it.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\RegisterIncomingInvoiceForm.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>RegisterIncomingInvoiceForm.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\RegisterOutgoingInvoiceForm.it.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\RegisterOutgoingInvoiceForm.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>RegisterOutgoingInvoiceForm.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Components\WithholdingTaxDisplay.it.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
@@ -140,6 +206,48 @@
     <EmbeddedResource Update="Resources\Pages\Index.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Index.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\IssueOutgoingCreditNote.it.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\IssueOutgoingCreditNote.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>IssueOutgoingCreditNote.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\IssueOutgoingInvoice.it.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\IssueOutgoingInvoice.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>IssueOutgoingInvoice.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\RegisterIncomingCreditNote.it.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\RegisterIncomingCreditNote.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>RegisterIncomingCreditNote.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\RegisterIncomingInvoice.it.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\RegisterIncomingInvoice.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>RegisterIncomingInvoice.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\RegisterOutgoingCreditNote.it.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\RegisterOutgoingCreditNote.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>RegisterOutgoingCreditNote.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\RegisterOutgoingInvoice.it.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\RegisterOutgoingInvoice.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>RegisterOutgoingInvoice.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Pages\SearchJobOrders.it.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
