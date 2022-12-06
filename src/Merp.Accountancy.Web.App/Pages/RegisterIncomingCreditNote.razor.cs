@@ -1,6 +1,7 @@
 ﻿using Merp.Accountancy.CommandStack.Commands;
 using Merp.Accountancy.Web.App.Components;
 using Merp.Accountancy.Web.App.Model;
+using Merp.Accountancy.Web.App.Services;
 using Merp.Registry.Web.Api.Internal;
 using Merp.Web;
 using Microsoft.AspNetCore.Components;
@@ -16,12 +17,15 @@ namespace Merp.Accountancy.Web.App.Pages
 
         [Inject] public IPartyApiServices PartyApi { get; set; } = default!;
 
+        [Inject] public IAccountancySettingsProvider AccountancySettings { get; set; } = default!;
+
         private RegisterIncomingInvoiceForm.ViewModel model = new();
 
         private async Task RegisterIncomingCreditNoteAsync(RegisterIncomingInvoiceForm.ViewModel creditNote)
         {
             //INCOMING -> Customer should be retrieved by settings
             var supplierBillingInfo = await PartyApi.GetPartyBillingInfoByPartyIdAsync(creditNote.Supplier!.OriginalId);
+            var invoicingSettings = AccountancySettings.GetInvoicingSettings();
 
             var command = new RegisterIncomingCreditNoteCommand(
                 AppContext.UserId,
@@ -35,14 +39,14 @@ namespace Merp.Accountancy.Web.App.Pages
                 creditNote.Description,
                 creditNote.PaymentTerms,
                 creditNote.PurchaseOrderNumber,
-                Guid.NewGuid(),
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
+                invoicingSettings.PartyId,
+                invoicingSettings.CompanyName,
+                invoicingSettings.Address,
+                invoicingSettings.City,
+                invoicingSettings.PostalCode,
+                invoicingSettings.Country,
+                invoicingSettings.TaxId,
+                invoicingSettings.NationalIdentificationNumber,
                 creditNote.Supplier!.OriginalId,
                 creditNote.Supplier!.Name,
                 supplierBillingInfo?.Address?.Address,

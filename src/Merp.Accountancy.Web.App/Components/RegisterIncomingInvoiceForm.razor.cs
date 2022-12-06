@@ -1,4 +1,5 @@
 ﻿using Merp.Accountancy.Web.App.Model;
+using Merp.Accountancy.Web.App.Services;
 using Microsoft.AspNetCore.Components;
 using System.ComponentModel.DataAnnotations;
 
@@ -6,6 +7,9 @@ namespace Merp.Accountancy.Web.App.Components
 {
     public partial class RegisterIncomingInvoiceForm
     {
+        [Inject]
+        public IAccountancySettingsProvider AccountancySettings { get; set; } = default!;
+
         [Parameter]
         public ViewModel Model { get; set; } = new();
 
@@ -27,7 +31,7 @@ namespace Merp.Accountancy.Web.App.Components
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            vatList = MockGetVatList();
+            vatList = AccountancySettings.GetVatList();
 
             foreach (var item in Model.LineItems)
             {
@@ -134,7 +138,7 @@ namespace Merp.Accountancy.Web.App.Components
         #region Prices by VAT
         private void CalculatePricesByVat()
         {
-            var uniqueVatRates = Model.LineItems.Where(l => l.Vat != null).Select(l => l.Vat!).DistinctBy(v => v.Id);
+            var uniqueVatRates = Model.LineItems.Where(l => l.Vat != null).Select(l => l.Vat!).Distinct();
 
             var pricesByVat = new List<InvoicePriceByVat>();
             if (uniqueVatRates.Any())
@@ -237,15 +241,6 @@ namespace Merp.Accountancy.Web.App.Components
             }
 
             return amount * (Model.ProvidenceFund.Rate / 100);
-        }
-
-        private IEnumerable<Vat> MockGetVatList()
-        {
-            return new[]
-            {
-                new Vat { Id = Guid.NewGuid(), Rate = 22, Description = "VAT 22%" },
-                new Vat { Id = Guid.NewGuid(), Rate = 10, Description = "VAT 10%" }
-            };
         }
 
         public class ViewModel

@@ -1,6 +1,7 @@
 ﻿using Merp.Accountancy.CommandStack.Commands;
 using Merp.Accountancy.Web.App.Components;
 using Merp.Accountancy.Web.App.Model;
+using Merp.Accountancy.Web.App.Services;
 using Merp.Registry.Web.Api.Internal;
 using Merp.Web;
 using Microsoft.AspNetCore.Components;
@@ -16,11 +17,14 @@ namespace Merp.Accountancy.Web.App.Pages
 
         [Inject] public IPartyApiServices PartyApi { get; set; } = default!;
 
+        [Inject] public IAccountancySettingsProvider AccountancySettings { get; set; } = default!;
+
         private IssueInvoiceForm.ViewModel model = new();
 
         private async Task IssueOutgoingCreditNoteAsync(IssueInvoiceForm.ViewModel creditNote)
         {
             var customerBillingInfo = await PartyApi.GetPartyBillingInfoByPartyIdAsync(creditNote.Customer!.OriginalId);
+            var invoicingSettings = AccountancySettings.GetInvoicingSettings();
 
             var command = new IssueCreditNoteCommand(
                 AppContext.UserId,
@@ -41,13 +45,13 @@ namespace Merp.Accountancy.Web.App.Pages
                 customerBillingInfo?.Address?.Country,
                 customerBillingInfo?.VatIndex,
                 customerBillingInfo?.NationalIdentificationNumber,
-                "", //supplier name
-                "", //supplier address
-                "", //supplier city
-                "", //supplier postal code
-                "", //supplier country
-                "", //supplier VAT
-                "", //supplier National identification number
+                invoicingSettings.CompanyName,
+                invoicingSettings.Address,
+                invoicingSettings.City,
+                invoicingSettings.PostalCode,
+                invoicingSettings.Country,
+                invoicingSettings.TaxId,
+                invoicingSettings.NationalIdentificationNumber,
                 creditNote.LineItems.Select(MapLineItemForIssue),
                 creditNote.VatIncluded,
                 creditNote.PricesByVat.Select(MapPriceByVatForIssue),

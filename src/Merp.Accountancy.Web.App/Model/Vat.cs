@@ -2,8 +2,6 @@
 {
     public record Vat
     {
-        public Guid Id { get; set; }
-
         public decimal Rate { get; set; }
 
         public string Description { get; set; } = string.Empty;
