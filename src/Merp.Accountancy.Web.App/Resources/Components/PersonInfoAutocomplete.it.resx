@@ -120,4 +120,7 @@
   <data name="CreateNewPersonButtonLabel" xml:space="preserve">
     <value>Crea una nuova persona fisica</value>
   </data>
+  <data name="RegisterNewPersonDialogTitle" xml:space="preserve">
+    <value>Registra una nuova persona fisica</value>
+  </data>
 </root>

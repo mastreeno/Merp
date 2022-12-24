@@ -68,5 +68,14 @@ namespace Merp.Accountancy.Web.App.Resources.Components {
                 return ResourceManager.GetString("CreateNewPersonButtonLabel", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Register new person.
+        /// </summary>
+        public static string RegisterNewPersonDialogTitle {
+            get {
+                return ResourceManager.GetString("RegisterNewPersonDialogTitle", resourceCulture);
+            }
+        }
     }
 }

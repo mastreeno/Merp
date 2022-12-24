@@ -1,0 +1,90 @@
+﻿@inject IStringLocalizer<Resources.Components.RegisterPersonDialog> localizer
+
+<EditForm Model="model" OnValidSubmit="RegisterPersonAsync">
+    <MudDialog>
+        <DialogContent>
+            <MudGrid>
+                <MudItem xs="12" md="12">
+                    <MudTextField Label="@localizer[nameof(Resources.Components.RegisterPersonDialog.FirstNameTextLabel)]"
+                                  @bind-Value="model.FirstName"
+                                  Variant="Variant.Outlined"
+                                  Margin="Margin.Dense"
+                                  For="@(() => model.FirstName)" />
+                </MudItem>
+            </MudGrid>
+            <MudGrid>
+                <MudItem xs="12" md="12">
+                    <MudTextField Label="@localizer[nameof(Resources.Components.RegisterPersonDialog.LastNameTextLabel)]"
+                                  @bind-Value="model.LastName"
+                                  Variant="Variant.Outlined"
+                                  Margin="Margin.Dense"
+                                  For="@(() => model.LastName)" />
+                </MudItem>
+            </MudGrid>
+            <MudGrid>
+                <MudItem xs="12" md="12">
+                    <MudTextField Label="@localizer[nameof(Resources.Components.RegisterPersonDialog.NationalIdentificationNumberTextLabel)]"
+                                  @bind-Value="model.NationalIdentificationNumber"
+                                  Variant="Variant.Outlined"
+                                  Margin="Margin.Dense"
+                                  For="@(() => model.NationalIdentificationNumber)" />
+                </MudItem>
+            </MudGrid>
+            <MudGrid>
+                <MudItem xs="12" md="12">
+                    <MudTextField Label="@localizer[nameof(Resources.Components.RegisterPersonDialog.VatNumberTextLabel)]"
+                                  @bind-Value="model.VatNumber"
+                                  Variant="Variant.Outlined"
+                                  Margin="Margin.Dense"
+                                  For="@(() => model.VatNumber)" />
+                </MudItem>
+            </MudGrid>
+            <fieldset class="mt-2">
+                <legend>@localizer[nameof(Resources.Components.RegisterPersonDialog.AddressSectionTitle)]</legend>
+                <MudGrid>
+                    <MudItem xs="12" md="6">
+                        <MudTextField Label="@localizer[nameof(Resources.Components.RegisterPersonDialog.AddressTextLabel)]"
+                                      @bind-Value="model.Address.Address"
+                                      Variant="Variant.Outlined"
+                                      Margin="Margin.Dense"
+                                      For="@(() => model.Address.Address)" />
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudTextField Label="@localizer[nameof(Resources.Components.RegisterPersonDialog.CityTextLabel)]"
+                                      @bind-Value="model.Address.City"
+                                      Variant="Variant.Outlined"
+                                      Margin="Margin.Dense"
+                                      For="@(() => model.Address.City)" />
+                    </MudItem>
+                </MudGrid>
+                <MudGrid>
+                    <MudItem xs="12" md="4">
+                        <MudTextField Label="@localizer[nameof(Resources.Components.RegisterPersonDialog.PostalCodeTextLabel)]"
+                                      @bind-Value="model.Address.PostalCode"
+                                      Variant="Variant.Outlined"
+                                      Margin="Margin.Dense"
+                                      For="@(() => model.Address.PostalCode)" />
+                    </MudItem>
+                    <MudItem xs="12" md="4">
+                        <MudTextField Label="@localizer[nameof(Resources.Components.RegisterPersonDialog.ProvinceTextLabel)]"
+                                      @bind-Value="model.Address.Province"
+                                      Variant="Variant.Outlined"
+                                      Margin="Margin.Dense"
+                                      For="@(() => model.Address.Province)" />
+                    </MudItem>
+                    <MudItem xs="12" md="4">
+                        <MudTextField Label="@localizer[nameof(Resources.Components.RegisterPersonDialog.CountryTextLabel)]"
+                                      @bind-Value="model.Address.Country"
+                                      Variant="Variant.Outlined"
+                                      Margin="Margin.Dense"
+                                      For="@(() => model.Address.Country)" />
+                    </MudItem>
+                </MudGrid>
+            </fieldset>
+        </DialogContent>
+        <DialogActions>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">@localizer[nameof(Resources.Components.RegisterPersonDialog.SaveButtonText)]</MudButton>
+            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Outlined" Color="Color.Primary" OnClick="Close">@localizer[nameof(Resources.Components.RegisterPersonDialog.CloseButtonText)]</MudButton>
+        </DialogActions>
+    </MudDialog>
+</EditForm>

@@ -117,10 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CreateNewPersonButtonLabel" xml:space="preserve">
-    <value>Create new person</value>
+  <data name="AddressSectionTitle" xml:space="preserve">
+    <value>Address info</value>
   </data>
-  <data name="RegisterNewPersonDialogTitle" xml:space="preserve">
-    <value>Register new person</value>
+  <data name="AddressTextLabel" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="CityTextLabel" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="CloseButtonText" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="CountryTextLabel" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="FirstNameTextLabel" xml:space="preserve">
+    <value>First name</value>
+  </data>
+  <data name="LastNameTextLabel" xml:space="preserve">
+    <value>Last name</value>
+  </data>
+  <data name="NationalIdentificationNumberTextLabel" xml:space="preserve">
+    <value>National identification number</value>
+  </data>
+  <data name="PostalCodeTextLabel" xml:space="preserve">
+    <value>Postal code</value>
+  </data>
+  <data name="ProvinceTextLabel" xml:space="preserve">
+    <value>Province</value>
+  </data>
+  <data name="SaveButtonText" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="VatNumberTextLabel" xml:space="preserve">
+    <value>VAT number</value>
   </data>
 </root>

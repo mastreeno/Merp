@@ -68,5 +68,14 @@ namespace Merp.Accountancy.Web.App.Resources.Components {
                 return ResourceManager.GetString("CreateNewPartyButtonLabel", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Register new party.
+        /// </summary>
+        public static string RegisterNewPartyDialogTitle {
+            get {
+                return ResourceManager.GetString("RegisterNewPartyDialogTitle", resourceCulture);
+            }
+        }
     }
 }

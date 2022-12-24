@@ -70,6 +70,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>RegisterOutgoingInvoiceForm.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Components\RegisterPartyDialog.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RegisterPartyDialog.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Components\RegisterPersonDialog.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RegisterPersonDialog.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Components\WithholdingTaxDisplay.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -185,6 +195,20 @@
     <EmbeddedResource Update="Resources\Components\RegisterOutgoingInvoiceForm.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>RegisterOutgoingInvoiceForm.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\RegisterPartyDialog.it.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\RegisterPartyDialog.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>RegisterPartyDialog.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\RegisterPersonDialog.it.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\RegisterPersonDialog.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>RegisterPersonDialog.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Components\WithholdingTaxDisplay.it.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

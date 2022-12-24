@@ -1,5 +1,7 @@
 ﻿using Merp.Registry.Web.Api.Internal;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
+using MudBlazor.Extensions;
 using System.Linq.Expressions;
 
 namespace Merp.Accountancy.Web.App.Components
@@ -8,6 +10,9 @@ namespace Merp.Accountancy.Web.App.Components
     {
         [Inject]
         public IPersonApiServices PersonApi { get; set; } = default!;
+
+        [Inject]
+        public IDialogService Dialog { get; set; } = default!;
 
         [Parameter]
         public string Label { get; set; } = string.Empty;
@@ -30,6 +35,29 @@ namespace Merp.Accountancy.Web.App.Components
         {
             var people = await PersonApi.SearchPeopleByPatternAsync(text);
             return people.Select(p => new ViewModel { Id = p.Id, OriginalId = p.OriginalId, Name = p.Name });
+        }
+
+        private async Task OpenRegisterNewPersonDialogAsync()
+        {
+            var registerPersonResult = await Dialog.Show<RegisterPersonDialog>(
+                localizer[nameof(Resources.Components.PersonInfoAutocomplete.RegisterNewPersonDialogTitle)],
+                new DialogOptions
+                {
+                    Position = DialogPosition.Center,
+                    FullWidth = true
+                }).Result;
+
+            if (!registerPersonResult.Cancelled)
+            {
+                var personRegistered = registerPersonResult.Data.As<RegisterPersonDialog.PersonRegistered>();
+                var personFullName = $"{personRegistered.FirstName} {personRegistered.LastName}".Trim();
+
+                var peopleFound = await SearchPeopleByTextAsync(personFullName);
+                if (peopleFound.Any())
+                {
+                    await ValueChanged.InvokeAsync(peopleFound.FirstOrDefault());
+                }
+            }
         }
 
         public class ViewModel

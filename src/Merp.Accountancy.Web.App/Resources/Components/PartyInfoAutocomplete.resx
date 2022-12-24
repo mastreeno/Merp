@@ -120,4 +120,7 @@
   <data name="CreateNewPartyButtonLabel" xml:space="preserve">
     <value>Create new</value>
   </data>
+  <data name="RegisterNewPartyDialogTitle" xml:space="preserve">
+    <value>Register new party</value>
+  </data>
 </root>

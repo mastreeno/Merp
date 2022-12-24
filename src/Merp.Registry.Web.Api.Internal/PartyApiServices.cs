@@ -2,6 +2,7 @@
 using Merp.Registry.CommandStack.Commands;
 using Merp.Registry.QueryStack;
 using Merp.Registry.Web.Api.Internal.Models;
+using Merp.Web;
 using Microsoft.EntityFrameworkCore;
 using Rebus.Bus;
 
@@ -11,11 +12,13 @@ namespace Merp.Registry.Web.Api.Internal
     {
         public IDatabase Database { get; }
         public IBus Bus { get; }
+        public IAppContext AppContext { get; }
 
-        public PartyApiServices(IDatabase database, IBus bus)
+        public PartyApiServices(IDatabase database, IBus bus, IAppContext appContext)
         {
             Database = database ?? throw new ArgumentNullException(nameof(database));
             Bus = bus ?? throw new ArgumentNullException(nameof(bus));
+            AppContext = appContext ?? throw new ArgumentNullException(nameof(appContext));
         }
 
         public async Task<IEnumerable<PartyInfoModel>> GetPartyInfoByPatternAsync(string query)
@@ -44,7 +47,7 @@ namespace Merp.Registry.Web.Api.Internal
         public async Task RegisterPartyAsync(RegisterPartyModel model)
         {
             Command command;
-            var userId = Guid.NewGuid(); // How we can manage the user id required by commands?!
+            var userId = AppContext.UserId;
             var nationalIdentificationNumber = string.IsNullOrWhiteSpace(model.NationalIdentificationNumber) ? default : model.NationalIdentificationNumber.Trim().ToUpper();
 
             if (string.IsNullOrWhiteSpace(model.FirstName))
