@@ -33,18 +33,18 @@
     <ProjectReference Include="..\..\src\Merp.Registry.CommandStack\Merp.Registry.CommandStack.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Castle.Core" Version="4.4.1" />
+    <PackageReference Include="Castle.Core" Version="5.1.0" />
     <PackageReference Include="MementoFX" Version="2.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Moq" Version="4.17.1" />
+    <PackageReference Include="Moq" Version="4.18.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
+    <PackageReference Include="xunit" Version="2.4.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Rebus" Version="6.6.2" />
+    <PackageReference Include="Rebus" Version="6.6.5" />
     <PackageReference Include="SharpTestsEx" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
