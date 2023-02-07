@@ -1,0 +1,106 @@
+﻿@page "/accountancy/invoice/search"
+
+@inject UrlBuilder UrlBuilder
+
+<PageTitle>Merp - Accountancy - Search Invoices</PageTitle>
+<HeadContent>
+    <link rel="stylesheet" href="/_content/Merp.Accountancy.Web.App/lib/font-awesome/css/all.min.css" />
+</HeadContent>
+
+<MudText Typo="Typo.h5">Search invoices</MudText>
+<MudDivider />
+
+<MudPaper Class="mt-4 mb-2 pb-2 px-4">
+    <EditForm Model="parameters" OnValidSubmit="SearchInvoicesAsync">
+        <MudGrid>
+            <MudItem xs="12" md="6">
+                <MudSelect Label="Invoice kind" @bind-Value="parameters.Kind" Variant="Variant.Outlined" Margin="Margin.Dense">
+                    @foreach (var kind in Enum.GetValues<InvoiceKind>())
+                    {
+                        <MudSelectItem Value="kind">@kind.ToString()</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12" md="6">
+                <MudSelect Label="Invoice status" @bind-Value="parameters.Status" Variant="Variant.Outlined" Margin="Margin.Dense">
+                    @foreach (var status in Enum.GetValues<SearchParameters.InvoiceState>())
+                    {
+                        <MudSelectItem Value="status">@status.ToString()</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+        </MudGrid>
+        <MudGrid>
+            <MudItem xs="12" md="6">
+                <MudSelect Label="Customer" @bind-Value="parameters.CustomerId" Variant="Variant.Outlined" Margin="Margin.Dense">
+                    <MudSelectItem T="Guid?" Value="null">All</MudSelectItem>
+                    @foreach (var customer in parameters.InvoiceCustomers)
+                    {
+                        <MudSelectItem Value="@customer.Id">@customer.Name</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12" md="6">
+                <MudSelect Label="Supplier" @bind-Value="parameters.SupplierId" Variant="Variant.Outlined" Margin="Margin.Dense">
+                    <MudSelectItem T="Guid?" Value="null">All</MudSelectItem>
+                    @foreach (var supplier in parameters.InvoiceSuppliers)
+                    {
+                        <MudSelectItem Value="@supplier.Id">@supplier.Name</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+        </MudGrid>
+        <MudGrid>
+            <MudItem xs="12" md="6">
+                <MudDatePicker Label="From"
+                               @bind-Date="parameters.DateFrom"
+                               Variant="Variant.Outlined"
+                               Margin="Margin.Dense"
+                               Editable="true"
+                               AutoClose="true" />
+            </MudItem>
+            <MudItem xs="12" md="6">
+                <MudDatePicker Label="To"
+                               @bind-Date="parameters.DateTo"
+                               Variant="Variant.Outlined"
+                               Margin="Margin.Dense"
+                               Editable="true"
+                               AutoClose="true" />
+            </MudItem>
+        </MudGrid>
+        <MudGrid>
+            <MudItem xs="12" md="12">
+                <div class="d-flex align-center justify-space-between mt-4">
+                    <div>
+                        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="fas fa-search" Color="Color.Primary">Search</MudButton>
+                        <MudButton Variant="Variant.Outlined" StartIcon="fas fa-times" Color="Color.Primary" OnClick="ClearSearchParametersAsync">Clear</MudButton>
+                    </div>
+                    <div>
+                        <MudButton Href="#" Variant="Variant.Outlined" Color="Color.Primary" StartIcon="fas fa-search">View drafts</MudButton>
+                        <MudMenu AnchorOrigin="Origin.BottomLeft">
+                            <ActivatorContent>
+                                <MudButton Variant="Variant.Outlined" Color="Color.Primary" EndIcon="fas fa-caret-down">Sales</MudButton>
+                            </ActivatorContent>
+                            <ChildContent>
+                                <MudMenuItem Href="@UrlBuilder.BuildIssueOutgoingInvoiceUrl()">Issue invoice</MudMenuItem>
+                                <MudMenuItem Href="@UrlBuilder.BuildIssueOutgoingCreditNoteUrl()">Issue credit note</MudMenuItem>
+                                <MudMenuItem Href="@UrlBuilder.BuildRegisterOutgoingInvoiceUrl()">Register outgoing invoice</MudMenuItem>
+                                <MudMenuItem Href="@UrlBuilder.BuildRegisterOutgoingCreditNoteUrl()">Register outgoing credit note</MudMenuItem>
+                            </ChildContent>
+                        </MudMenu>
+                        <MudMenu AnchorOrigin="Origin.BottomRight">
+                            <ActivatorContent>
+                                <MudButton Variant="Variant.Outlined" Color="Color.Primary" EndIcon="fas fa-caret-down">Purchases</MudButton>
+                            </ActivatorContent>
+                            <ChildContent>
+                                <MudMenuItem Href="@UrlBuilder.BuildRegisterIncomingInvoiceUrl()">Register incoming invoice</MudMenuItem>
+                                <MudMenuItem Href="@UrlBuilder.BuildRegisterIncomingCreditNoteUrl()">Register incoming credit note</MudMenuItem>
+                            </ChildContent>
+                        </MudMenu>
+                    </div>
+                </div>
+            </MudItem>
+        </MudGrid>
+    </EditForm>
+</MudPaper>
+<MudDivider />

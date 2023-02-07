@@ -1,5 +1,6 @@
 ﻿@page "/accountancy/creditnote/registeroutgoing"
 
+@inject UrlBuilder UrlBuilder 
 @inject IStringLocalizer<Resources.Pages.RegisterOutgoingCreditNote> localizer
 
 <PageTitle>@localizer[nameof(Resources.Pages.RegisterOutgoingCreditNote.PageTitle)]</PageTitle>
@@ -10,7 +11,7 @@
 <MudToolBar>
     <MudText Typo="Typo.h5">@localizer[nameof(Resources.Pages.RegisterOutgoingCreditNote.PageHeaderText)]</MudText>
     <MudSpacer />
-    <MudButton type="button" Variant="Variant.Outlined" EndIcon="fas fa-caret-right" Color="Color.Primary">
+    <MudButton Href="@UrlBuilder.BuildSearchInvoicesUrl()" Variant="Variant.Outlined" EndIcon="fas fa-caret-right" Color="Color.Primary">
         @localizer[nameof(Resources.Pages.RegisterOutgoingCreditNote.BackButtonText)]
     </MudButton>
 </MudToolBar>

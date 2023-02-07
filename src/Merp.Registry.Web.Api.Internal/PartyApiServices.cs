@@ -122,14 +122,14 @@ namespace Merp.Registry.Web.Api.Internal
                     PostalCode = party.LegalAddress.PostalCode
                 };
 
-            var legalInfo = new PartyBillingInfo
+            var billingInfo = new PartyBillingInfo
             {
                 VatIndex = party.VatIndex,
                 NationalIdentificationNumber = party.NationalIdentificationNumber,
                 Address = address
             };
 
-            return legalInfo;
+            return billingInfo;
         }
     }
 }
