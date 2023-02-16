@@ -13,6 +13,8 @@ namespace Merp.Accountancy.Web.App.Pages
 
         private SearchResult model = new();
 
+        private int numberOfPages = 0;
+
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
@@ -92,9 +94,13 @@ namespace Merp.Accountancy.Web.App.Pages
                 _ => SearchAllInvoices(parameters)
             };
 
+            var totalNumberOfInvoices = invoices.Count();
+
             int skip = (parameters.PageIndex - 1) * parameters.PageSize;
-            model.TotalNumberOfInvoices = invoices.Count();
+            model.TotalNumberOfInvoices = totalNumberOfInvoices;
             model.Invoices = await invoices.OrderByDescending(i => i.Date).Skip(skip).Take(parameters.PageSize).ToListAsync();
+
+            numberOfPages = (int)Math.Ceiling(totalNumberOfInvoices / (decimal)parameters.PageSize);
         }
 
         private async Task ClearSearchParametersAsync()
@@ -103,6 +109,12 @@ namespace Merp.Accountancy.Web.App.Pages
             await LoadInvoiceCustomersAsync();
             await LoadInvoiceSuppliersAsync();
 
+            await SearchInvoicesAsync();
+        }
+
+        private async Task OnPageChanged(int pageIndex)
+        {
+            parameters.PageIndex = pageIndex;
             await SearchInvoicesAsync();
         }
 

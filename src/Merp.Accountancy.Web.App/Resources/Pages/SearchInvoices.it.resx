@@ -117,43 +117,118 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AllCustomerOptionLabel" xml:space="preserve">
-    <value>Tutti</value>
+  <data name="ClearButtonText" xml:space="preserve">
+    <value>Annulla</value>
   </data>
-  <data name="CreateJobOrderButtonText" xml:space="preserve">
-    <value>Crea una commessa</value>
+  <data name="CustomerColumn" xml:space="preserve">
+    <value>Cliente</value>
   </data>
-  <data name="CurrentOnlyCheckboxLabel" xml:space="preserve">
-    <value>Solo commesse attive</value>
+  <data name="CustomerSearchLabel" xml:space="preserve">
+    <value>Cliente</value>
   </data>
-  <data name="CustomerNameColumn" xml:space="preserve">
-    <value>Nome cliente</value>
+  <data name="DateOfIssueColumn" xml:space="preserve">
+    <value>Data di emissione</value>
   </data>
-  <data name="CustomerSelectLabel" xml:space="preserve">
-    <value>Clienti</value>
+  <data name="DocumentTypeColumn" xml:space="preserve">
+    <value>Tipo documento</value>
   </data>
-  <data name="DetailsButtonText" xml:space="preserve">
+  <data name="DueDateColumn" xml:space="preserve">
+    <value>Data di scadenza</value>
+  </data>
+  <data name="FromDateSearchLabel" xml:space="preserve">
+    <value>Dalla data</value>
+  </data>
+  <data name="InvoiceDetailsButtonText" xml:space="preserve">
     <value>Dettagli</value>
   </data>
-  <data name="JobOrderNameColumn" xml:space="preserve">
-    <value>Nome commessa</value>
+  <data name="InvoiceKindAny" xml:space="preserve">
+    <value>Tutte</value>
   </data>
-  <data name="NameTextLabel" xml:space="preserve">
-    <value>Nome</value>
+  <data name="InvoiceKindIncomingCreditNotes" xml:space="preserve">
+    <value>Note di credito passive</value>
   </data>
-  <data name="NoJobOrdersFoundText" xml:space="preserve">
-    <value>Nessuna commessa trovata. Prova a specificare altri parametri di ricerca</value>
+  <data name="InvoiceKindIncomingInvoices" xml:space="preserve">
+    <value>Fatture passive</value>
+  </data>
+  <data name="InvoiceKindOutgoingCreditNotes" xml:space="preserve">
+    <value>Note di credito attive</value>
+  </data>
+  <data name="InvoiceKindOutgoingInvoices" xml:space="preserve">
+    <value>Fatture attive</value>
+  </data>
+  <data name="InvoiceKindSearchLabel" xml:space="preserve">
+    <value>Tipologia</value>
+  </data>
+  <data name="InvoiceNumberColumn" xml:space="preserve">
+    <value>Num. Fattura</value>
+  </data>
+  <data name="InvoiceStateAny" xml:space="preserve">
+    <value>Tutte</value>
+  </data>
+  <data name="InvoiceStateOutstanding" xml:space="preserve">
+    <value>In sospeso</value>
+  </data>
+  <data name="InvoiceStateOverdue" xml:space="preserve">
+    <value>Scadute</value>
+  </data>
+  <data name="InvoiceStatePaid" xml:space="preserve">
+    <value>Pagate</value>
+  </data>
+  <data name="InvoiceStateSearchLabel" xml:space="preserve">
+    <value>Stato</value>
+  </data>
+  <data name="IssueCreditNoteButtonText" xml:space="preserve">
+    <value>Emetti nota di credito</value>
+  </data>
+  <data name="IssueInvoiceButtonText" xml:space="preserve">
+    <value>Emetti fattura</value>
+  </data>
+  <data name="NoInvoicesFoundText" xml:space="preserve">
+    <value>Nessuna fattura trovata. Prova a specificare altri parametri di ricerca</value>
   </data>
   <data name="PageHeaderText" xml:space="preserve">
-    <value>Commesse</value>
+    <value>Ricerca fatture</value>
   </data>
   <data name="PageTitle" xml:space="preserve">
-    <value>Merp - Contabilità - Commesse</value>
+    <value>Merp - Contabilità - Ricerca fatture</value>
   </data>
   <data name="PaginationItemsNumberText" xml:space="preserve">
     <value>{0} elementi di {1}</value>
   </data>
+  <data name="PriceColumn" xml:space="preserve">
+    <value>Prezzo</value>
+  </data>
+  <data name="PurchasesButtonText" xml:space="preserve">
+    <value>Ciclo passivo</value>
+  </data>
+  <data name="RegisterIncomingCreditNoteButtonText" xml:space="preserve">
+    <value>Registra nota di credito passiva</value>
+  </data>
+  <data name="RegisterIncomingInvoiceButtonText" xml:space="preserve">
+    <value>Registra fattura passiva</value>
+  </data>
+  <data name="RegisterOutgoingCreditNoteButtonText" xml:space="preserve">
+    <value>Registra nota di credito attiva</value>
+  </data>
+  <data name="RegisterOutgoingInvoiceButtonText" xml:space="preserve">
+    <value>Registra fattura attiva</value>
+  </data>
+  <data name="SalesButtonText" xml:space="preserve">
+    <value>Ciclo attivo</value>
+  </data>
   <data name="SearchButtonText" xml:space="preserve">
     <value>Cerca</value>
+  </data>
+  <data name="SupplierColumn" xml:space="preserve">
+    <value>Fornitore</value>
+  </data>
+  <data name="SupplierSearchLabel" xml:space="preserve">
+    <value>Fornitore</value>
+  </data>
+  <data name="ToDateSearchLabel" xml:space="preserve">
+    <value>Alla data</value>
+  </data>
+  <data name="ViewDraftsButtonText" xml:space="preserve">
+    <value>Bozze</value>
   </data>
 </root>

@@ -12,7 +12,7 @@
 <MudToolBar>
     <MudText Typo="Typo.h5">@localizer[nameof(Resources.Pages.CreateJobOrder.PageHeaderText)]</MudText>
     <MudSpacer />
-    <MudButton type="button" OnClick="@(() => NavigationManager.NavigateTo(UrlBuilder.BuildSearchJobOrdersUrl()))" Variant="Variant.Outlined" EndIcon="fas fa-caret-right" Color="Color.Primary">
+    <MudButton type="button" Href="@UrlBuilder.BuildSearchJobOrdersUrl()" Variant="Variant.Outlined" EndIcon="fas fa-caret-right" Color="Color.Primary">
         @localizer[nameof(Resources.Pages.CreateJobOrder.BackButtonText)]
     </MudButton>
 </MudToolBar>

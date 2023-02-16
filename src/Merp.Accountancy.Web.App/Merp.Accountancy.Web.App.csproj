@@ -125,6 +125,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>RegisterOutgoingInvoice.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Pages\SearchInvoices.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SearchInvoices.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Pages\SearchJobOrders.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -272,6 +277,13 @@
     <EmbeddedResource Update="Resources\Pages\RegisterOutgoingInvoice.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>RegisterOutgoingInvoice.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\SearchInvoices.it.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\SearchInvoices.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SearchInvoices.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Pages\SearchJobOrders.it.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

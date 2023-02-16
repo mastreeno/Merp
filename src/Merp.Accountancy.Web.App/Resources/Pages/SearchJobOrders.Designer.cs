@@ -133,6 +133,15 @@ namespace Merp.Accountancy.Web.App.Resources.Pages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No job orders found. Please, try to specify other search terms..
+        /// </summary>
+        public static string NoJobOrdersFoundText {
+            get {
+                return ResourceManager.GetString("NoJobOrdersFoundText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Job orders.
         /// </summary>
         public static string PageHeaderText {

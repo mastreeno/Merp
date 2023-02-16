@@ -1,6 +1,5 @@
 ﻿@page "/accountancy/joborder/search"
 
-@inject NavigationManager NavigationManager
 @inject UrlBuilder UrlBuilder
 @inject IStringLocalizer<Resources.Pages.SearchJobOrders> localizer
 
@@ -39,7 +38,7 @@
         </MudGrid>
         <div class="d-flex align-center justify-space-between mt-4">
             <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="fas fa-search" Color="Color.Primary">@localizer[nameof(Resources.Pages.SearchJobOrders.SearchButtonText)]</MudButton>
-            <MudButton OnClick="@(() => NavigationManager.NavigateTo(UrlBuilder.BuildCreateJobOrderUrl()))" Variant="Variant.Outlined" StartIcon="fas fa-plus" Color="Color.Primary">@localizer[nameof(Resources.Pages.SearchJobOrders.CreateJobOrderButtonText)]</MudButton>
+            <MudButton Href="@UrlBuilder.BuildCreateJobOrderUrl()" Variant="Variant.Outlined" StartIcon="fas fa-plus" Color="Color.Primary">@localizer[nameof(Resources.Pages.SearchJobOrders.CreateJobOrderButtonText)]</MudButton>
         </div>
     </EditForm>
 </MudPaper>
@@ -55,9 +54,14 @@
         <MudTd>@context.CustomerName</MudTd>
         <MudTd>@context.Name</MudTd>
         <MudTd>
-            <MudButton Color="Color.Primary" StartIcon="fas fa-eye" OnClick="@(() => NavigationManager.NavigateTo(UrlBuilder.BuildJobOrderDetailUrl(context.Id)))">@localizer[nameof(Resources.Pages.SearchJobOrders.DetailsButtonText)]</MudButton>
+            <MudButton Color="Color.Primary" StartIcon="fas fa-eye" Href="@UrlBuilder.BuildJobOrderDetailUrl(context.Id)">@localizer[nameof(Resources.Pages.SearchJobOrders.DetailsButtonText)]</MudButton>
         </MudTd>
     </RowTemplate>
+    <NoRecordsContent>
+        <MudText>
+            @localizer[nameof(Resources.Pages.SearchJobOrders.NoJobOrdersFoundText)]
+        </MudText>
+    </NoRecordsContent>
     <PagerContent>
         @if (model.JobOrders.Any())
         {

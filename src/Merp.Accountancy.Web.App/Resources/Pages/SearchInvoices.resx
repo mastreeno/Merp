@@ -117,43 +117,118 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AllCustomerOptionLabel" xml:space="preserve">
-    <value>Tutti</value>
+  <data name="ClearButtonText" xml:space="preserve">
+    <value>Clear</value>
   </data>
-  <data name="CreateJobOrderButtonText" xml:space="preserve">
-    <value>Crea una commessa</value>
+  <data name="CustomerColumn" xml:space="preserve">
+    <value>Customer</value>
   </data>
-  <data name="CurrentOnlyCheckboxLabel" xml:space="preserve">
-    <value>Solo commesse attive</value>
+  <data name="CustomerSearchLabel" xml:space="preserve">
+    <value>Customer</value>
   </data>
-  <data name="CustomerNameColumn" xml:space="preserve">
-    <value>Nome cliente</value>
+  <data name="DateOfIssueColumn" xml:space="preserve">
+    <value>Date of issue</value>
   </data>
-  <data name="CustomerSelectLabel" xml:space="preserve">
-    <value>Clienti</value>
+  <data name="DocumentTypeColumn" xml:space="preserve">
+    <value>Document type</value>
   </data>
-  <data name="DetailsButtonText" xml:space="preserve">
-    <value>Dettagli</value>
+  <data name="DueDateColumn" xml:space="preserve">
+    <value>Due date</value>
   </data>
-  <data name="JobOrderNameColumn" xml:space="preserve">
-    <value>Nome commessa</value>
+  <data name="FromDateSearchLabel" xml:space="preserve">
+    <value>From</value>
   </data>
-  <data name="NameTextLabel" xml:space="preserve">
-    <value>Nome</value>
+  <data name="InvoiceDetailsButtonText" xml:space="preserve">
+    <value>Details</value>
   </data>
-  <data name="NoJobOrdersFoundText" xml:space="preserve">
-    <value>Nessuna commessa trovata. Prova a specificare altri parametri di ricerca</value>
+  <data name="InvoiceKindAny" xml:space="preserve">
+    <value>Any</value>
+  </data>
+  <data name="InvoiceKindIncomingCreditNotes" xml:space="preserve">
+    <value>IncomingCreditNotes</value>
+  </data>
+  <data name="InvoiceKindIncomingInvoices" xml:space="preserve">
+    <value>IncomingInvoices</value>
+  </data>
+  <data name="InvoiceKindOutgoingCreditNotes" xml:space="preserve">
+    <value>OutgoingCreditNotes</value>
+  </data>
+  <data name="InvoiceKindOutgoingInvoices" xml:space="preserve">
+    <value>OutgoingInvoices</value>
+  </data>
+  <data name="InvoiceKindSearchLabel" xml:space="preserve">
+    <value>Invoice kind</value>
+  </data>
+  <data name="InvoiceNumberColumn" xml:space="preserve">
+    <value>Invoice nr.</value>
+  </data>
+  <data name="InvoiceStateAny" xml:space="preserve">
+    <value>Any</value>
+  </data>
+  <data name="InvoiceStateOutstanding" xml:space="preserve">
+    <value>Outstanding</value>
+  </data>
+  <data name="InvoiceStateOverdue" xml:space="preserve">
+    <value>Overdue</value>
+  </data>
+  <data name="InvoiceStatePaid" xml:space="preserve">
+    <value>Paid</value>
+  </data>
+  <data name="InvoiceStateSearchLabel" xml:space="preserve">
+    <value>Invoice status</value>
+  </data>
+  <data name="IssueCreditNoteButtonText" xml:space="preserve">
+    <value>Issue credit note</value>
+  </data>
+  <data name="IssueInvoiceButtonText" xml:space="preserve">
+    <value>Issue invoice</value>
+  </data>
+  <data name="NoInvoicesFoundText" xml:space="preserve">
+    <value>No invoices found. Please, try to specify other search terms.</value>
   </data>
   <data name="PageHeaderText" xml:space="preserve">
-    <value>Commesse</value>
+    <value>Search invoices</value>
   </data>
   <data name="PageTitle" xml:space="preserve">
-    <value>Merp - Contabilità - Commesse</value>
+    <value>Merp - Accountancy - Search Invoices</value>
   </data>
   <data name="PaginationItemsNumberText" xml:space="preserve">
-    <value>{0} elementi di {1}</value>
+    <value>{0} items of {1}</value>
+  </data>
+  <data name="PriceColumn" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="PurchasesButtonText" xml:space="preserve">
+    <value>Purchases</value>
+  </data>
+  <data name="RegisterIncomingCreditNoteButtonText" xml:space="preserve">
+    <value>Register incoming credit note</value>
+  </data>
+  <data name="RegisterIncomingInvoiceButtonText" xml:space="preserve">
+    <value>Register incoming invoice</value>
+  </data>
+  <data name="RegisterOutgoingCreditNoteButtonText" xml:space="preserve">
+    <value>Register outgoing credit note</value>
+  </data>
+  <data name="RegisterOutgoingInvoiceButtonText" xml:space="preserve">
+    <value>Register outgoing invoice</value>
+  </data>
+  <data name="SalesButtonText" xml:space="preserve">
+    <value>Sales</value>
   </data>
   <data name="SearchButtonText" xml:space="preserve">
-    <value>Cerca</value>
+    <value>Search</value>
+  </data>
+  <data name="SupplierColumn" xml:space="preserve">
+    <value>Supplier</value>
+  </data>
+  <data name="SupplierSearchLabel" xml:space="preserve">
+    <value>Supplier</value>
+  </data>
+  <data name="ToDateSearchLabel" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="ViewDraftsButtonText" xml:space="preserve">
+    <value>View drafts</value>
   </data>
 </root>

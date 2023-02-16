@@ -141,6 +141,9 @@
   <data name="NameTextLabel" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="NoJobOrdersFoundText" xml:space="preserve">
+    <value>No job orders found. Please, try to specify other search terms.</value>
+  </data>
   <data name="PageHeaderText" xml:space="preserve">
     <value>Job orders</value>
   </data>

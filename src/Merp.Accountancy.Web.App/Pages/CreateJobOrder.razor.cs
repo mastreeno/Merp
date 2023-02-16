@@ -22,18 +22,20 @@ namespace Merp.Accountancy.Web.App.Pages
                 AppContext.UserId,
                 model.Customer.OriginalId,
                 model.Customer.Name,
-                model.ContactPerson.OriginalId,
+                model.ContactPerson?.OriginalId,
                 model.Manager.OriginalId,
                 model.Price.Amount,
                 model.Price.Currency,
-                model.DateOfStart.Value,
-                model.DueDate.Value,
+                model.DateOfStart!.Value,
+                model.DueDate!.Value,
                 model.IsTimeAndMaterial,
                 model.Name,
                 model.PurchaseOrderNumber,
                 model.Description);
 
             await Bus.Send(command);
+
+            NavigationManager.NavigateTo(UrlBuilder.BuildSearchJobOrdersUrl());
         }
 
         private void Cancel() => model = new();

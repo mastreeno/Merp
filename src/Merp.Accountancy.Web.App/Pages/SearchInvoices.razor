@@ -1,38 +1,41 @@
 ﻿@page "/accountancy/invoice/search"
 
 @inject UrlBuilder UrlBuilder
+@inject IStringLocalizer<Resources.Pages.SearchInvoices> localizer
 
-<PageTitle>Merp - Accountancy - Search Invoices</PageTitle>
+<PageTitle>@localizer[nameof(Resources.Pages.SearchInvoices.PageTitle)]</PageTitle>
 <HeadContent>
     <link rel="stylesheet" href="/_content/Merp.Accountancy.Web.App/lib/font-awesome/css/all.min.css" />
 </HeadContent>
 
-<MudText Typo="Typo.h5">Search invoices</MudText>
+<MudText Typo="Typo.h5">@localizer[nameof(Resources.Pages.SearchInvoices.PageHeaderText)]</MudText>
 <MudDivider />
 
 <MudPaper Class="mt-4 mb-2 pb-2 px-4">
     <EditForm Model="parameters" OnValidSubmit="SearchInvoicesAsync">
+        <DataAnnotationsValidator />
+
         <MudGrid>
             <MudItem xs="12" md="6">
-                <MudSelect Label="Invoice kind" @bind-Value="parameters.Kind" Variant="Variant.Outlined" Margin="Margin.Dense">
+                <MudSelect Label="@localizer[nameof(Resources.Pages.SearchInvoices.InvoiceKindSearchLabel)]" @bind-Value="parameters.Kind" Variant="Variant.Outlined" Margin="Margin.Dense">
                     @foreach (var kind in Enum.GetValues<InvoiceKind>())
                     {
-                        <MudSelectItem Value="kind">@kind.ToString()</MudSelectItem>
+                        <MudSelectItem Value="kind">@localizer[$"{nameof(InvoiceKind)}{kind}"]</MudSelectItem>
                     }
                 </MudSelect>
             </MudItem>
             <MudItem xs="12" md="6">
-                <MudSelect Label="Invoice status" @bind-Value="parameters.Status" Variant="Variant.Outlined" Margin="Margin.Dense">
+                <MudSelect Label="@localizer[nameof(Resources.Pages.SearchInvoices.InvoiceStateSearchLabel)]" @bind-Value="parameters.Status" Variant="Variant.Outlined" Margin="Margin.Dense">
                     @foreach (var status in Enum.GetValues<SearchParameters.InvoiceState>())
                     {
-                        <MudSelectItem Value="status">@status.ToString()</MudSelectItem>
+                        <MudSelectItem Value="status">@localizer[$"{nameof(SearchParameters.InvoiceState)}{status}"]</MudSelectItem>
                     }
                 </MudSelect>
             </MudItem>
         </MudGrid>
         <MudGrid>
             <MudItem xs="12" md="6">
-                <MudSelect Label="Customer" @bind-Value="parameters.CustomerId" Variant="Variant.Outlined" Margin="Margin.Dense">
+                <MudSelect Label="@localizer[nameof(Resources.Pages.SearchInvoices.CustomerSearchLabel)]" @bind-Value="parameters.CustomerId" Variant="Variant.Outlined" Margin="Margin.Dense">
                     <MudSelectItem T="Guid?" Value="null">All</MudSelectItem>
                     @foreach (var customer in parameters.InvoiceCustomers)
                     {
@@ -41,7 +44,7 @@
                 </MudSelect>
             </MudItem>
             <MudItem xs="12" md="6">
-                <MudSelect Label="Supplier" @bind-Value="parameters.SupplierId" Variant="Variant.Outlined" Margin="Margin.Dense">
+                <MudSelect Label="@localizer[nameof(Resources.Pages.SearchInvoices.SupplierSearchLabel)]" @bind-Value="parameters.SupplierId" Variant="Variant.Outlined" Margin="Margin.Dense">
                     <MudSelectItem T="Guid?" Value="null">All</MudSelectItem>
                     @foreach (var supplier in parameters.InvoiceSuppliers)
                     {
@@ -52,7 +55,7 @@
         </MudGrid>
         <MudGrid>
             <MudItem xs="12" md="6">
-                <MudDatePicker Label="From"
+                <MudDatePicker Label="@localizer[nameof(Resources.Pages.SearchInvoices.FromDateSearchLabel)]"
                                @bind-Date="parameters.DateFrom"
                                Variant="Variant.Outlined"
                                Margin="Margin.Dense"
@@ -60,7 +63,7 @@
                                AutoClose="true" />
             </MudItem>
             <MudItem xs="12" md="6">
-                <MudDatePicker Label="To"
+                <MudDatePicker Label="@localizer[nameof(Resources.Pages.SearchInvoices.ToDateSearchLabel)]"
                                @bind-Date="parameters.DateTo"
                                Variant="Variant.Outlined"
                                Margin="Margin.Dense"
@@ -72,29 +75,29 @@
             <MudItem xs="12" md="12">
                 <div class="d-flex align-center justify-space-between mt-4">
                     <div>
-                        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="fas fa-search" Color="Color.Primary">Search</MudButton>
-                        <MudButton Variant="Variant.Outlined" StartIcon="fas fa-times" Color="Color.Primary" OnClick="ClearSearchParametersAsync">Clear</MudButton>
+                        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="fas fa-search" Color="Color.Primary">@localizer[nameof(Resources.Pages.SearchInvoices.SearchButtonText)]</MudButton>
+                        <MudButton Variant="Variant.Outlined" StartIcon="fas fa-times" Color="Color.Primary" OnClick="ClearSearchParametersAsync">@localizer[nameof(Resources.Pages.SearchInvoices.ClearButtonText)]</MudButton>
                     </div>
                     <div>
-                        <MudButton Href="#" Variant="Variant.Outlined" Color="Color.Primary" StartIcon="fas fa-search">View drafts</MudButton>
+                        <MudButton Href="#" Variant="Variant.Outlined" Color="Color.Primary" StartIcon="fas fa-search">@localizer[nameof(Resources.Pages.SearchInvoices.ViewDraftsButtonText)]</MudButton>
                         <MudMenu AnchorOrigin="Origin.BottomLeft">
                             <ActivatorContent>
-                                <MudButton Variant="Variant.Outlined" Color="Color.Primary" EndIcon="fas fa-caret-down">Sales</MudButton>
+                                <MudButton Variant="Variant.Outlined" Color="Color.Primary" EndIcon="fas fa-caret-down">@localizer[nameof(Resources.Pages.SearchInvoices.SalesButtonText)]</MudButton>
                             </ActivatorContent>
                             <ChildContent>
-                                <MudMenuItem Href="@UrlBuilder.BuildIssueOutgoingInvoiceUrl()">Issue invoice</MudMenuItem>
-                                <MudMenuItem Href="@UrlBuilder.BuildIssueOutgoingCreditNoteUrl()">Issue credit note</MudMenuItem>
-                                <MudMenuItem Href="@UrlBuilder.BuildRegisterOutgoingInvoiceUrl()">Register outgoing invoice</MudMenuItem>
-                                <MudMenuItem Href="@UrlBuilder.BuildRegisterOutgoingCreditNoteUrl()">Register outgoing credit note</MudMenuItem>
+                                <MudMenuItem Href="@UrlBuilder.BuildIssueOutgoingInvoiceUrl()">@localizer[nameof(Resources.Pages.SearchInvoices.IssueInvoiceButtonText)]</MudMenuItem>
+                                <MudMenuItem Href="@UrlBuilder.BuildIssueOutgoingCreditNoteUrl()">@localizer[nameof(Resources.Pages.SearchInvoices.IssueCreditNoteButtonText)]</MudMenuItem>
+                                <MudMenuItem Href="@UrlBuilder.BuildRegisterOutgoingInvoiceUrl()">@localizer[nameof(Resources.Pages.SearchInvoices.RegisterOutgoingInvoiceButtonText)]</MudMenuItem>
+                                <MudMenuItem Href="@UrlBuilder.BuildRegisterOutgoingCreditNoteUrl()">@localizer[nameof(Resources.Pages.SearchInvoices.RegisterOutgoingCreditNoteButtonText)]</MudMenuItem>
                             </ChildContent>
                         </MudMenu>
                         <MudMenu AnchorOrigin="Origin.BottomRight">
                             <ActivatorContent>
-                                <MudButton Variant="Variant.Outlined" Color="Color.Primary" EndIcon="fas fa-caret-down">Purchases</MudButton>
+                                <MudButton Variant="Variant.Outlined" Color="Color.Primary" EndIcon="fas fa-caret-down">@localizer[nameof(Resources.Pages.SearchInvoices.PurchasesButtonText)]</MudButton>
                             </ActivatorContent>
                             <ChildContent>
-                                <MudMenuItem Href="@UrlBuilder.BuildRegisterIncomingInvoiceUrl()">Register incoming invoice</MudMenuItem>
-                                <MudMenuItem Href="@UrlBuilder.BuildRegisterIncomingCreditNoteUrl()">Register incoming credit note</MudMenuItem>
+                                <MudMenuItem Href="@UrlBuilder.BuildRegisterIncomingInvoiceUrl()">@localizer[nameof(Resources.Pages.SearchInvoices.RegisterIncomingInvoiceButtonText)]</MudMenuItem>
+                                <MudMenuItem Href="@UrlBuilder.BuildRegisterIncomingCreditNoteUrl()">@localizer[nameof(Resources.Pages.SearchInvoices.RegisterIncomingCreditNoteButtonText)]</MudMenuItem>
                             </ChildContent>
                         </MudMenu>
                     </div>
@@ -104,3 +107,47 @@
     </EditForm>
 </MudPaper>
 <MudDivider />
+
+<MudTable Items="model.Invoices" Striped="true" RowsPerPage="parameters.PageSize">
+    <HeaderContent>
+        <MudTh>@localizer[nameof(Resources.Pages.SearchInvoices.DocumentTypeColumn)]</MudTh>
+        <MudTh>@localizer[nameof(Resources.Pages.SearchInvoices.DateOfIssueColumn)]</MudTh>
+        <MudTh>@localizer[nameof(Resources.Pages.SearchInvoices.DueDateColumn)]</MudTh>
+        <MudTh>@localizer[nameof(Resources.Pages.SearchInvoices.SupplierColumn)]</MudTh>
+        <MudTh>@localizer[nameof(Resources.Pages.SearchInvoices.CustomerColumn)]</MudTh>
+        <MudTh>@localizer[nameof(Resources.Pages.SearchInvoices.InvoiceNumberColumn)]</MudTh>
+        <MudTh>@localizer[nameof(Resources.Pages.SearchInvoices.PriceColumn)]</MudTh>
+        <MudTh>&nbsp;</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>@localizer[$"{nameof(InvoiceKind)}{context.DocumentType}"]</MudTd>
+        <MudTd>@context.Date.ToShortDateString()</MudTd>
+        <MudTd>@(context.DueDate?.ToShortDateString() ?? "-")</MudTd>
+        <MudTd>@context.SupplierName</MudTd>
+        <MudTd>@context.CustomerName</MudTd>
+        <MudTd>@context.Number</MudTd>
+        <MudTd>@context.Currency @context.TotalPrice.ToString("N2")</MudTd>
+        <MudTd>
+            <MudButton Color="Color.Primary" StartIcon="fas fa-eye">@localizer[nameof(Resources.Pages.SearchInvoices.InvoiceDetailsButtonText)]</MudButton>
+        </MudTd>
+    </RowTemplate>
+    <NoRecordsContent>
+        <MudText>
+            @localizer[nameof(Resources.Pages.SearchInvoices.NoInvoicesFoundText)]
+        </MudText>
+    </NoRecordsContent>
+    <PagerContent>
+        @if (model.Invoices.Any())
+        {
+            <div class="px-4 mt-4 mb-2 d-flex align-center flex-row-reverse">
+                <MudPagination Count="numberOfPages"
+                               Variant="Variant.Filled"
+                               Rectangular="true"
+                               ShowFirstButton="true"
+                               ShowLastButton="true"
+                               SelectedChanged="OnPageChanged" />
+                <span class="mr-2">@localizer[nameof(Resources.Pages.SearchInvoices.PaginationItemsNumberText), model.Invoices.Count(), model.TotalNumberOfInvoices]</span>
+            </div>
+        }
+    </PagerContent>
+</MudTable>
