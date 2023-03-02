@@ -70,6 +70,24 @@ namespace Merp.Accountancy.Web.App.Resources.Pages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred saving this draft.
+        /// </summary>
+        public static string DraftSaveErrorMessage {
+            get {
+                return ResourceManager.GetString("DraftSaveErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The draft has been saved successfully!.
+        /// </summary>
+        public static string DraftSaveSuccessMessage {
+            get {
+                return ResourceManager.GetString("DraftSaveSuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Issue outgoing invoice.
         /// </summary>
         public static string PageHeaderText {

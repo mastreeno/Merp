@@ -120,6 +120,12 @@
   <data name="BackButtonText" xml:space="preserve">
     <value>Indietro</value>
   </data>
+  <data name="DraftSaveErrorMessage" xml:space="preserve">
+    <value>Si è verificato un errore durante il salvataggio della bozza</value>
+  </data>
+  <data name="DraftSaveSuccessMessage" xml:space="preserve">
+    <value>La bozza è stata salvata con successo!</value>
+  </data>
   <data name="PageHeaderText" xml:space="preserve">
     <value>Emetti una nota di credito</value>
   </data>

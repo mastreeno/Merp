@@ -120,6 +120,12 @@
   <data name="BackButtonText" xml:space="preserve">
     <value>Back</value>
   </data>
+  <data name="DraftSaveErrorMessage" xml:space="preserve">
+    <value>An error occurred saving this draft</value>
+  </data>
+  <data name="DraftSaveSuccessMessage" xml:space="preserve">
+    <value>The draft has been saved successfully!</value>
+  </data>
   <data name="PageHeaderText" xml:space="preserve">
     <value>Issue outgoing credit note</value>
   </data>

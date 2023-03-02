@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.14">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.14">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Merp.Accountancy.QueryStack\Merp.Accountancy.QueryStack.csproj" />
     <ProjectReference Include="..\Merp.Accountancy.Settings\Merp.Accountancy.Settings.csproj" />
+    <ProjectReference Include="..\Merp.Accountancy.Drafts\Merp.Accountancy.Drafts.csproj" />
     <ProjectReference Include="..\Merp.Registry.QueryStack\Merp.Registry.QueryStack.csproj" />
     <ProjectReference Include="..\Merp.TimeTracking.TaskManagement.QueryStack\Merp.TimeTracking.TaskManagement.QueryStack.csproj" />
   </ItemGroup>

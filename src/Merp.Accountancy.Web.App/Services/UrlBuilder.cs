@@ -25,5 +25,7 @@
         public string BuildRegisterOutgoingCreditNoteUrl() => $"{urlPrefix}/creditnote/registeroutgoing";
 
         public string BuildSearchInvoicesUrl() => $"{urlPrefix}/invoice/search";
+
+        public string BuildSearchDraftsUrl() => $"{urlPrefix}/draft/search";
     }
 }

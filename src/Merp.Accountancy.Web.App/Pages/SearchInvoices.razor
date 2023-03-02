@@ -39,7 +39,7 @@
                     <MudSelectItem T="Guid?" Value="null">All</MudSelectItem>
                     @foreach (var customer in parameters.InvoiceCustomers)
                     {
-                        <MudSelectItem Value="@customer.Id">@customer.Name</MudSelectItem>
+                        <MudSelectItem T="Guid?" Value="@customer.Id">@customer.Name</MudSelectItem>
                     }
                 </MudSelect>
             </MudItem>
@@ -48,7 +48,7 @@
                     <MudSelectItem T="Guid?" Value="null">All</MudSelectItem>
                     @foreach (var supplier in parameters.InvoiceSuppliers)
                     {
-                        <MudSelectItem Value="@supplier.Id">@supplier.Name</MudSelectItem>
+                        <MudSelectItem T="Guid?" Value="@supplier.Id">@supplier.Name</MudSelectItem>
                     }
                 </MudSelect>
             </MudItem>
@@ -79,7 +79,7 @@
                         <MudButton Variant="Variant.Outlined" StartIcon="fas fa-times" Color="Color.Primary" OnClick="ClearSearchParametersAsync">@localizer[nameof(Resources.Pages.SearchInvoices.ClearButtonText)]</MudButton>
                     </div>
                     <div>
-                        <MudButton Href="#" Variant="Variant.Outlined" Color="Color.Primary" StartIcon="fas fa-search">@localizer[nameof(Resources.Pages.SearchInvoices.ViewDraftsButtonText)]</MudButton>
+                        <MudButton Href="@UrlBuilder.BuildSearchDraftsUrl()" Variant="Variant.Outlined" Color="Color.Primary" StartIcon="fas fa-search">@localizer[nameof(Resources.Pages.SearchInvoices.ViewDraftsButtonText)]</MudButton>
                         <MudMenu AnchorOrigin="Origin.BottomLeft">
                             <ActivatorContent>
                                 <MudButton Variant="Variant.Outlined" Color="Color.Primary" EndIcon="fas fa-caret-down">@localizer[nameof(Resources.Pages.SearchInvoices.SalesButtonText)]</MudButton>
@@ -119,14 +119,14 @@
         <MudTh>@localizer[nameof(Resources.Pages.SearchInvoices.PriceColumn)]</MudTh>
         <MudTh>&nbsp;</MudTh>
     </HeaderContent>
-    <RowTemplate>
-        <MudTd>@localizer[$"{nameof(InvoiceKind)}{context.DocumentType}"]</MudTd>
-        <MudTd>@context.Date.ToShortDateString()</MudTd>
-        <MudTd>@(context.DueDate?.ToShortDateString() ?? "-")</MudTd>
-        <MudTd>@context.SupplierName</MudTd>
-        <MudTd>@context.CustomerName</MudTd>
-        <MudTd>@context.Number</MudTd>
-        <MudTd>@context.Currency @context.TotalPrice.ToString("N2")</MudTd>
+    <RowTemplate Context="invoice">
+        <MudTd>@localizer[$"{nameof(InvoiceKind)}{invoice.DocumentType}"]</MudTd>
+        <MudTd>@invoice.Date.ToShortDateString()</MudTd>
+        <MudTd>@(invoice.DueDate?.ToShortDateString() ?? "-")</MudTd>
+        <MudTd>@invoice.SupplierName</MudTd>
+        <MudTd>@invoice.CustomerName</MudTd>
+        <MudTd>@invoice.Number</MudTd>
+        <MudTd>@invoice.Currency @invoice.TotalPrice.ToString("N2")</MudTd>
         <MudTd>
             <MudButton Color="Color.Primary" StartIcon="fas fa-eye">@localizer[nameof(Resources.Pages.SearchInvoices.InvoiceDetailsButtonText)]</MudButton>
         </MudTd>

@@ -98,7 +98,7 @@ namespace Merp.Accountancy.Web.App.Pages
 
             int skip = (parameters.PageIndex - 1) * parameters.PageSize;
             model.TotalNumberOfInvoices = totalNumberOfInvoices;
-            model.Invoices = await invoices.OrderByDescending(i => i.Date).Skip(skip).Take(parameters.PageSize).ToListAsync();
+            model.Invoices = await invoices.OrderByDescending(i => i.Date).Skip(skip).Take(parameters.PageSize).ToArrayAsync();
 
             numberOfPages = (int)Math.Ceiling(totalNumberOfInvoices / (decimal)parameters.PageSize);
         }
@@ -284,7 +284,7 @@ namespace Merp.Accountancy.Web.App.Pages
         {
             public int TotalNumberOfInvoices { get; set; }
 
-            public List<InvoiceDescriptor> Invoices { get; set; } = new();
+            public IEnumerable<InvoiceDescriptor> Invoices { get; set; } = Enumerable.Empty<InvoiceDescriptor>();
 
             public class InvoiceDescriptor
             {

@@ -1,0 +1,108 @@
+﻿@page "/accountancy/draft/search"
+
+@inject UrlBuilder UrlBuilder
+
+<PageTitle>Merp - Accountancy - Search drafts</PageTitle>
+<HeadContent>
+    <link rel="stylesheet" href="/_content/Merp.Accountancy.Web.App/lib/font-awesome/css/all.min.css" />
+</HeadContent>
+
+<MudToolBar>
+    <MudText Typo="Typo.h5">Search drafts</MudText>
+    <MudSpacer />
+    <MudButton Href="@UrlBuilder.BuildSearchInvoicesUrl()" Variant="Variant.Outlined" EndIcon="fas fa-caret-right" Color="Color.Primary">
+        Back
+    </MudButton>
+</MudToolBar>
+<MudDivider />
+
+<MudPaper Class="mt-4 mb-2 pb-2 px-4">
+    <EditForm Model="parameters" OnValidSubmit="SearchDraftsAsync">
+        <DataAnnotationsValidator />
+
+        <MudGrid>
+            <MudItem xs="12" md="6">
+                <MudSelect Label="Kind" @bind-Value="parameters.Kind" Variant="Variant.Outlined" Margin="Margin.Dense">
+                    @foreach (var kind in Enum.GetValues<DraftKind>())
+                    {
+                        <MudSelectItem Value="kind">@kind</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12" md="6">
+                <MudSelect Label="Customer" @bind-Value="parameters.CustomerId" Variant="Variant.Outlined" Margin="Margin.Dense">
+                    <MudSelectItem T="Guid?" Value="null">All</MudSelectItem>
+                    @foreach (var customer in parameters.DraftCustomers)
+                    {
+                        <MudSelectItem T="Guid?" Value="@customer.Id">@customer.Name</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+        </MudGrid>
+
+        <MudGrid>
+            <MudItem xs="12" md="4">
+                <MudDatePicker Label="From date"
+                               @bind-Date="parameters.DateFrom"
+                               Variant="Variant.Outlined"
+                               Margin="Margin.Dense"
+                               Editable="true"
+                               AutoClose="true" />
+            </MudItem>
+            <MudItem xs="12" md="4">
+                <MudDatePicker Label="To date"
+                               @bind-Date="parameters.DateTo"
+                               Variant="Variant.Outlined"
+                               Margin="Margin.Dense"
+                               Editable="true"
+                               AutoClose="true" />
+            </MudItem>
+            <MudItem xs="12" md="4" class="d-flex align-center">
+                <MudButton class="mr-4" ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="fas fa-search" Color="Color.Primary">Search</MudButton>
+                <MudButton OnClick="ClearSearchParametersAsync" Variant="Variant.Outlined" StartIcon="fas fa-times" Color="Color.Primary">Clear</MudButton>
+            </MudItem>
+        </MudGrid>
+    </EditForm>
+</MudPaper>
+<MudDivider />
+
+<MudTable Items="model.Drafts" Striped="true" RowsPerPage="parameters.PageSize">
+    <HeaderContent>
+        <MudTh>Document type</MudTh>
+        <MudTh>Date</MudTh>
+        <MudTh>Customer</MudTh>
+        <MudTh>Price</MudTh>
+        <MudTh>&nbsp;</MudTh>
+    </HeaderContent>
+    <RowTemplate Context="draft">
+        <MudTd>@draft.DocumentType</MudTd>
+        <MudTd>@(draft.Date?.ToShortDateString() ?? "-")</MudTd>
+        <MudTd>@draft.CustomerName</MudTd>
+        <MudTd>@draft.Currency @draft.TotalPrice.ToString("N2")</MudTd>
+        <MudTd Class="d-flex align-content-end">
+            <MudButtonGroup Color="Color.Primary" Variant="Variant.Outlined">
+                <MudButton StartIcon="fas fa-edit">Edit</MudButton>
+                <MudButton StartIcon="fas fa-trash" IconColor="Color.Error">Delete</MudButton>
+            </MudButtonGroup>
+        </MudTd>
+    </RowTemplate>
+    <NoRecordsContent>
+        <MudText>
+            No drafts found. Please try to specify other search terms
+        </MudText>
+    </NoRecordsContent>
+    <PagerContent>
+        @if (model.Drafts.Any())
+        {
+            <div class="px-4 mt-4 mb-2 d-flex align-center flex-row-reverse">
+                <MudPagination Count="numberOfPages"
+                               Variant="Variant.Filled"
+                               Rectangular="true"
+                               ShowFirstButton="true"
+                               ShowLastButton="true"
+                               SelectedChanged="OnPageChanged"/>
+                <span class="mr-2">@model.Drafts.Count() of @model.TotalNumberOfDrafts</span>
+            </div>
+        }
+    </PagerContent>
+</MudTable>
