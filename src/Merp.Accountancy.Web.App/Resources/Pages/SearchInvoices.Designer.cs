@@ -61,6 +61,24 @@ namespace Merp.Accountancy.Web.App.Resources.Pages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All.
+        /// </summary>
+        public static string AllCustomersOptionValue {
+            get {
+                return ResourceManager.GetString("AllCustomersOptionValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All.
+        /// </summary>
+        public static string AllSuppliersOptionValue {
+            get {
+                return ResourceManager.GetString("AllSuppliersOptionValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clear.
         /// </summary>
         public static string ClearButtonText {
@@ -142,7 +160,7 @@ namespace Merp.Accountancy.Web.App.Resources.Pages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to IncomingCreditNotes.
+        ///   Looks up a localized string similar to Incoming credit notes.
         /// </summary>
         public static string InvoiceKindIncomingCreditNotes {
             get {
@@ -151,7 +169,7 @@ namespace Merp.Accountancy.Web.App.Resources.Pages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to IncomingInvoices.
+        ///   Looks up a localized string similar to Incoming invoices.
         /// </summary>
         public static string InvoiceKindIncomingInvoices {
             get {
@@ -160,7 +178,7 @@ namespace Merp.Accountancy.Web.App.Resources.Pages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to OutgoingCreditNotes.
+        ///   Looks up a localized string similar to Outgoing credit notes.
         /// </summary>
         public static string InvoiceKindOutgoingCreditNotes {
             get {
@@ -169,7 +187,7 @@ namespace Merp.Accountancy.Web.App.Resources.Pages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to OutgoingInvoices.
+        ///   Looks up a localized string similar to Outgoing invoices.
         /// </summary>
         public static string InvoiceKindOutgoingInvoices {
             get {

@@ -36,7 +36,7 @@
         <MudGrid>
             <MudItem xs="12" md="6">
                 <MudSelect Label="@localizer[nameof(Resources.Pages.SearchInvoices.CustomerSearchLabel)]" @bind-Value="parameters.CustomerId" Variant="Variant.Outlined" Margin="Margin.Dense">
-                    <MudSelectItem T="Guid?" Value="null">All</MudSelectItem>
+                    <MudSelectItem T="Guid?" Value="null">@localizer[nameof(Resources.Pages.SearchInvoices.AllCustomersOptionValue)]</MudSelectItem>
                     @foreach (var customer in parameters.InvoiceCustomers)
                     {
                         <MudSelectItem T="Guid?" Value="@customer.Id">@customer.Name</MudSelectItem>
@@ -45,7 +45,7 @@
             </MudItem>
             <MudItem xs="12" md="6">
                 <MudSelect Label="@localizer[nameof(Resources.Pages.SearchInvoices.SupplierSearchLabel)]" @bind-Value="parameters.SupplierId" Variant="Variant.Outlined" Margin="Margin.Dense">
-                    <MudSelectItem T="Guid?" Value="null">All</MudSelectItem>
+                    <MudSelectItem T="Guid?" Value="null">@localizer[nameof(Resources.Pages.SearchInvoices.AllSuppliersOptionValue)]</MudSelectItem>
                     @foreach (var supplier in parameters.InvoiceSuppliers)
                     {
                         <MudSelectItem T="Guid?" Value="@supplier.Id">@supplier.Name</MudSelectItem>
@@ -137,9 +137,9 @@
         </MudText>
     </NoRecordsContent>
     <PagerContent>
-        @if (model.Invoices.Any())
+        @if (model.Invoices.Any() && numberOfPages > 1)
         {
-            <div class="px-4 mt-4 mb-2 d-flex align-center flex-row-reverse">
+            <div class="px-4 mt-4 mb-2 pb-2 d-flex align-center flex-row-reverse">
                 <MudPagination Count="numberOfPages"
                                Variant="Variant.Filled"
                                Rectangular="true"

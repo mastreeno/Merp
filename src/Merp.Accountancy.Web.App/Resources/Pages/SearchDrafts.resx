@@ -118,123 +118,66 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AllCustomersOptionValue" xml:space="preserve">
-    <value>Tutti</value>
+    <value>All</value>
   </data>
-  <data name="AllSuppliersOptionValue" xml:space="preserve">
-    <value>Tutti</value>
+  <data name="BackButtonText" xml:space="preserve">
+    <value>Back</value>
   </data>
   <data name="ClearButtonText" xml:space="preserve">
-    <value>Annulla</value>
+    <value>Clear</value>
   </data>
   <data name="CustomerColumn" xml:space="preserve">
-    <value>Cliente</value>
+    <value>Customer</value>
   </data>
   <data name="CustomerSearchLabel" xml:space="preserve">
-    <value>Cliente</value>
+    <value>Customer</value>
   </data>
-  <data name="DateOfIssueColumn" xml:space="preserve">
-    <value>Data di emissione</value>
+  <data name="DateColumn" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DateFromSearchLabel" xml:space="preserve">
+    <value>From date</value>
+  </data>
+  <data name="DateToSearchLabel" xml:space="preserve">
+    <value>To date</value>
+  </data>
+  <data name="DeleteButtonText" xml:space="preserve">
+    <value>Delete</value>
   </data>
   <data name="DocumentTypeColumn" xml:space="preserve">
-    <value>Tipo documento</value>
+    <value>Document type</value>
   </data>
-  <data name="DueDateColumn" xml:space="preserve">
-    <value>Data di scadenza</value>
+  <data name="DraftKindAny" xml:space="preserve">
+    <value>Any</value>
   </data>
-  <data name="FromDateSearchLabel" xml:space="preserve">
-    <value>Dalla data</value>
+  <data name="DraftKindOutgoingCreditNotes" xml:space="preserve">
+    <value>Outgoing credit notes</value>
   </data>
-  <data name="InvoiceDetailsButtonText" xml:space="preserve">
-    <value>Dettagli</value>
+  <data name="DraftKindOutgoingInvoices" xml:space="preserve">
+    <value>Outgoing invoices</value>
   </data>
-  <data name="InvoiceKindAny" xml:space="preserve">
-    <value>Tutte</value>
+  <data name="DraftKindSearchLabel" xml:space="preserve">
+    <value>Draft kind</value>
   </data>
-  <data name="InvoiceKindIncomingCreditNotes" xml:space="preserve">
-    <value>Note di credito passive</value>
+  <data name="EditButtonText" xml:space="preserve">
+    <value>Edit</value>
   </data>
-  <data name="InvoiceKindIncomingInvoices" xml:space="preserve">
-    <value>Fatture passive</value>
-  </data>
-  <data name="InvoiceKindOutgoingCreditNotes" xml:space="preserve">
-    <value>Note di credito attive</value>
-  </data>
-  <data name="InvoiceKindOutgoingInvoices" xml:space="preserve">
-    <value>Fatture attive</value>
-  </data>
-  <data name="InvoiceKindSearchLabel" xml:space="preserve">
-    <value>Tipologia</value>
-  </data>
-  <data name="InvoiceNumberColumn" xml:space="preserve">
-    <value>Num. Fattura</value>
-  </data>
-  <data name="InvoiceStateAny" xml:space="preserve">
-    <value>Tutte</value>
-  </data>
-  <data name="InvoiceStateOutstanding" xml:space="preserve">
-    <value>In sospeso</value>
-  </data>
-  <data name="InvoiceStateOverdue" xml:space="preserve">
-    <value>Scadute</value>
-  </data>
-  <data name="InvoiceStatePaid" xml:space="preserve">
-    <value>Pagate</value>
-  </data>
-  <data name="InvoiceStateSearchLabel" xml:space="preserve">
-    <value>Stato</value>
-  </data>
-  <data name="IssueCreditNoteButtonText" xml:space="preserve">
-    <value>Emetti nota di credito</value>
-  </data>
-  <data name="IssueInvoiceButtonText" xml:space="preserve">
-    <value>Emetti fattura</value>
-  </data>
-  <data name="NoInvoicesFoundText" xml:space="preserve">
-    <value>Nessuna fattura trovata. Prova a specificare altri parametri di ricerca</value>
+  <data name="NoDraftsFoundText" xml:space="preserve">
+    <value>No drafts found. Please try to specify other search terms</value>
   </data>
   <data name="PageHeaderText" xml:space="preserve">
-    <value>Ricerca fatture</value>
+    <value>Search drafts</value>
   </data>
   <data name="PageTitle" xml:space="preserve">
-    <value>Merp - Contabilità - Ricerca fatture</value>
+    <value>Merp - Accountancy - Search drafts</value>
   </data>
   <data name="PaginationItemsNumberText" xml:space="preserve">
-    <value>{0} elementi di {1}</value>
+    <value>{0} items of {1}</value>
   </data>
   <data name="PriceColumn" xml:space="preserve">
-    <value>Prezzo</value>
-  </data>
-  <data name="PurchasesButtonText" xml:space="preserve">
-    <value>Ciclo passivo</value>
-  </data>
-  <data name="RegisterIncomingCreditNoteButtonText" xml:space="preserve">
-    <value>Registra nota di credito passiva</value>
-  </data>
-  <data name="RegisterIncomingInvoiceButtonText" xml:space="preserve">
-    <value>Registra fattura passiva</value>
-  </data>
-  <data name="RegisterOutgoingCreditNoteButtonText" xml:space="preserve">
-    <value>Registra nota di credito attiva</value>
-  </data>
-  <data name="RegisterOutgoingInvoiceButtonText" xml:space="preserve">
-    <value>Registra fattura attiva</value>
-  </data>
-  <data name="SalesButtonText" xml:space="preserve">
-    <value>Ciclo attivo</value>
+    <value>Price</value>
   </data>
   <data name="SearchButtonText" xml:space="preserve">
-    <value>Cerca</value>
-  </data>
-  <data name="SupplierColumn" xml:space="preserve">
-    <value>Fornitore</value>
-  </data>
-  <data name="SupplierSearchLabel" xml:space="preserve">
-    <value>Fornitore</value>
-  </data>
-  <data name="ToDateSearchLabel" xml:space="preserve">
-    <value>Alla data</value>
-  </data>
-  <data name="ViewDraftsButtonText" xml:space="preserve">
-    <value>Bozze</value>
+    <value>Search</value>
   </data>
 </root>
