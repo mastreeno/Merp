@@ -21,7 +21,7 @@ namespace Merp.Accountancy.Web.App.Pages
 
         [Inject] public IAccountancySettingsProvider AccountancySettings { get; set; } = default!;
 
-        [Inject] public OutgoingInvoiceCommands DraftCommands { get; set; } = default!;
+        [Inject] public OutgoingCreditNoteCommands DraftCommands { get; set; } = default!;
 
         [Inject] public ISnackbar Snackbar { get; set; } = default!;
 

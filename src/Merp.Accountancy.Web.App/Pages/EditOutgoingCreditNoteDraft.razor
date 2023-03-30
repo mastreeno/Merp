@@ -1,0 +1,30 @@
+﻿@page "/accountancy/draft/creditnote/edit/{id:guid}"
+
+@inject UrlBuilder UrlBuilder
+
+<PageTitle>Merp - Accountancy - Edit outgoing credit note draft</PageTitle>
+<HeadContent>
+    <link rel="stylesheet" href="/_content/Merp.Accountancy.Web.App/lib/font-awesome/css/all.min.css" />
+</HeadContent>
+
+<MudToolBar>
+    <MudText Typo="Typo.h5">Edit outgoing credit note draft</MudText>
+    <MudSpacer />
+    <MudButton Href="@UrlBuilder.BuildSearchDraftsUrl()" Variant="Variant.Outlined" EndIcon="fas fa-caret-right" Color="Color.Primary">
+        Back
+    </MudButton>
+</MudToolBar>
+<MudDivider />
+
+@if (model is null)
+{
+    <MudAlert Severity="Severity.Error">
+        <MudText>The draft you're searching for does not exist. Please <MudLink Href="@UrlBuilder.BuildSearchDraftsUrl()">search another draft</MudLink></MudText>
+    </MudAlert>
+}
+else
+{
+    <IssueInvoiceForm Model="model"
+                      OnSaveDraft="EditDraftAsync"
+                      OnIssueInvoice="IssueOutgoingCreditNoteFromDraftAsync" />
+}

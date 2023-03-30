@@ -82,6 +82,16 @@ namespace Merp.Accountancy.Web.App.Pages
             await SearchDraftsAsync();
         }
 
+        private string BuildDraftEditUrl(SearchResult.DraftDescriptor draft)
+        {
+            return draft.DocumentType switch
+            {
+                DraftKind.OutgoingInvoices => UrlBuilder.BuildEditOutgoingInvoiceDraftUrl(draft.Id),
+                DraftKind.OutgoingCreditNotes => UrlBuilder.BuildEditOutgoingCreditNoteDraftUrl(draft.Id),
+                _ => throw new InvalidOperationException("Invalid document type")
+            };
+        }
+
         #region Draft search by kind
         private IQueryable<SearchResult.DraftDescriptor> SearchAllDrafts(SearchParameters parameters)
         {

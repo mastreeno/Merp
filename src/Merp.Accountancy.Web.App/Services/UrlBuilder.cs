@@ -27,5 +27,9 @@
         public string BuildSearchInvoicesUrl() => $"{urlPrefix}/invoice/search";
 
         public string BuildSearchDraftsUrl() => $"{urlPrefix}/draft/search";
+
+        public string BuildEditOutgoingInvoiceDraftUrl(Guid draftId) => $"{urlPrefix}/draft/invoice/edit/{draftId}";
+
+        public string BuildEditOutgoingCreditNoteDraftUrl(Guid draftId) => $"{urlPrefix}/draft/creditnote/edit/{draftId}";
     }
 }
