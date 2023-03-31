@@ -117,70 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AllCustomersOptionValue" xml:space="preserve">
-    <value>Tutti</value>
-  </data>
   <data name="BackButtonText" xml:space="preserve">
     <value>Indietro</value>
   </data>
-  <data name="ClearButtonText" xml:space="preserve">
-    <value>Annulla</value>
+  <data name="DraftNotFoundMessageText" xml:space="preserve">
+    <value>La bozza che stai cercando non esiste</value>
   </data>
-  <data name="CustomerColumn" xml:space="preserve">
-    <value>Cliente</value>
+  <data name="DraftUpdateErrorMessage" xml:space="preserve">
+    <value>Si è verificato un errore durante l'aggiornamento della bozza. Per favore, riprova più tardi</value>
   </data>
-  <data name="CustomerSearchLabel" xml:space="preserve">
-    <value>Cliente</value>
+  <data name="DraftUpdateSuccessMessage" xml:space="preserve">
+    <value>Bozza aggiornata correttamente!</value>
   </data>
-  <data name="DateColumn" xml:space="preserve">
-    <value>Data</value>
+  <data name="InvoiceIssuedFromDraftErrorMessage" xml:space="preserve">
+    <value>Si è verificato un errore durante l'emissione della fattura dalla bozza</value>
   </data>
-  <data name="DateFromSearchLabel" xml:space="preserve">
-    <value>Dalla data</value>
-  </data>
-  <data name="DateToSearchLabel" xml:space="preserve">
-    <value>Alla data</value>
-  </data>
-  <data name="DeleteButtonText" xml:space="preserve">
-    <value>Cancella</value>
-  </data>
-  <data name="DescriptionColumn" xml:space="preserve">
-    <value>Descrizione</value>
-  </data>
-  <data name="DocumentTypeColumn" xml:space="preserve">
-    <value>Tipo documento</value>
-  </data>
-  <data name="DraftKindAny" xml:space="preserve">
-    <value>Tutte</value>
-  </data>
-  <data name="DraftKindOutgoingCreditNotes" xml:space="preserve">
-    <value>Note di credito attive</value>
-  </data>
-  <data name="DraftKindOutgoingInvoices" xml:space="preserve">
-    <value>Fatture attive</value>
-  </data>
-  <data name="DraftKindSearchLabel" xml:space="preserve">
-    <value>Tipologia</value>
-  </data>
-  <data name="EditButtonText" xml:space="preserve">
-    <value>Modifica</value>
-  </data>
-  <data name="NoDraftsFoundText" xml:space="preserve">
-    <value>Nessuna bozza trovata. Prova a specificare altri parametri di ricerca</value>
+  <data name="InvoiceIssuedFromDraftSuccessMessage" xml:space="preserve">
+    <value>Fattura emessa correttamente</value>
   </data>
   <data name="PageHeaderText" xml:space="preserve">
-    <value>Ricerca bozze</value>
+    <value>Modifica bozza della fattura</value>
   </data>
   <data name="PageTitle" xml:space="preserve">
-    <value>Merp - Contabilità - Ricerca bozze</value>
+    <value>Merp - Contabilità - Modifica bozza della fattura</value>
   </data>
-  <data name="PaginationItemsNumberText" xml:space="preserve">
-    <value>{0} elementi di {1}</value>
-  </data>
-  <data name="PriceColumn" xml:space="preserve">
-    <value>Prezzo</value>
-  </data>
-  <data name="SearchButtonText" xml:space="preserve">
-    <value>Cerca</value>
+  <data name="SearchAnotherDraftMessageText" xml:space="preserve">
+    <value>Prova a cercare un'altra bozza</value>
   </data>
 </root>

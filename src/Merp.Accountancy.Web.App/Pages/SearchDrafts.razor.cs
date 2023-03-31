@@ -114,7 +114,8 @@ namespace Merp.Accountancy.Web.App.Pages
                 Date = d.Date,
                 DocumentType = DraftKind.OutgoingInvoices,
                 TotalPrice = d.TotalPrice,
-                Currency = d.Currency
+                Currency = d.Currency,
+                Description = d.Description
             });
         }
 
@@ -131,7 +132,8 @@ namespace Merp.Accountancy.Web.App.Pages
                 Date = d.Date,
                 DocumentType = DraftKind.OutgoingCreditNotes,
                 TotalPrice = d.TotalPrice,
-                Currency = d.Currency
+                Currency = d.Currency,
+                Description = d.Description
             });
         }
 
@@ -180,6 +182,8 @@ namespace Merp.Accountancy.Web.App.Pages
                 public Guid Id { get; set; }
 
                 public DraftKind DocumentType { get; set; }
+
+                public string Description { get; set; } = string.Empty;
 
                 public DateTime? Date { get; set; }
 

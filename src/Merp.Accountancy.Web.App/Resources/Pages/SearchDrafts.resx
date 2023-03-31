@@ -144,6 +144,9 @@
   <data name="DeleteButtonText" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="DescriptionColumn" xml:space="preserve">
+    <value>Description</value>
+  </data>
   <data name="DocumentTypeColumn" xml:space="preserve">
     <value>Document type</value>
   </data>

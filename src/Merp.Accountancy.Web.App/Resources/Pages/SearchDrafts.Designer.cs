@@ -142,6 +142,15 @@ namespace Merp.Accountancy.Web.App.Resources.Pages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string DescriptionColumn {
+            get {
+                return ResourceManager.GetString("DescriptionColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Document type.
         /// </summary>
         public static string DocumentTypeColumn {

@@ -76,11 +76,11 @@ namespace Merp.Accountancy.Web.App.Pages
                     draft.WithholdingTax?.Amount,
                     draft.TotalToPay);
 
-                Snackbar.Add("Draft update successfully!", Severity.Success);
+                Snackbar.Add(localizer[nameof(Resources.Pages.EditOutgoingInvoiceDraft.DraftUpdateSuccessMessage)], Severity.Success);
             }
             catch
             {
-                Snackbar.Add("There was an error updating this draft. Please, try again later", Severity.Error);
+                Snackbar.Add(localizer[nameof(Resources.Pages.EditOutgoingInvoiceDraft.DraftUpdateErrorMessage)], Severity.Error);
             }
         }
 
@@ -132,12 +132,12 @@ namespace Merp.Accountancy.Web.App.Pages
                 await Bus.Send(command);
                 //TODO should we remove draft here?!
 
-                Snackbar.Add("Invoice issued correctly from draft!", Severity.Success);
+                Snackbar.Add(localizer[nameof(Resources.Pages.EditOutgoingInvoiceDraft.InvoiceIssuedFromDraftSuccessMessage)], Severity.Success);
                 NavigationManager.NavigateTo(UrlBuilder.BuildSearchInvoicesUrl());
             }
             catch
             {
-                Snackbar.Add("Error issuing invoice from draft", Severity.Error);
+                Snackbar.Add(localizer[nameof(Resources.Pages.EditOutgoingInvoiceDraft.InvoiceIssuedFromDraftErrorMessage)], Severity.Error);
             }
         }
 

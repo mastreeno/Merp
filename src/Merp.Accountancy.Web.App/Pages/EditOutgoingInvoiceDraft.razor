@@ -1,17 +1,18 @@
 ﻿@page "/accountancy/draft/invoice/edit/{id:guid}"
 
 @inject UrlBuilder UrlBuilder
+@inject IStringLocalizer<Resources.Pages.EditOutgoingInvoiceDraft> localizer
 
-<PageTitle>Merp - Accountancy - Edit outgoing invoice draft</PageTitle>
+<PageTitle>@localizer[nameof(Resources.Pages.EditOutgoingInvoiceDraft.PageTitle)]</PageTitle>
 <HeadContent>
     <link rel="stylesheet" href="/_content/Merp.Accountancy.Web.App/lib/font-awesome/css/all.min.css" />
 </HeadContent>
 
 <MudToolBar>
-    <MudText Typo="Typo.h5">Edit outgoing invoice draft</MudText>
+    <MudText Typo="Typo.h5">@localizer[nameof(Resources.Pages.EditOutgoingInvoiceDraft.PageHeaderText)]</MudText>
     <MudSpacer />
     <MudButton Href="@UrlBuilder.BuildSearchDraftsUrl()" Variant="Variant.Outlined" EndIcon="fas fa-caret-right" Color="Color.Primary">
-        Back
+        @localizer[nameof(Resources.Pages.EditOutgoingInvoiceDraft.BackButtonText)]
     </MudButton>
 </MudToolBar>
 <MudDivider />
@@ -19,7 +20,7 @@
 @if (model is null)
 {
     <MudAlert Severity="Severity.Error">
-        <MudText>The draft you're searching for does not exist. Please <MudLink Href="@UrlBuilder.BuildSearchDraftsUrl()">search another draft</MudLink></MudText>
+        <MudText>@localizer[nameof(Resources.Pages.EditOutgoingInvoiceDraft.DraftNotFoundMessageText)]. <MudLink Href="@UrlBuilder.BuildSearchDraftsUrl()">@localizer[nameof(Resources.Pages.EditOutgoingInvoiceDraft.SearchAnotherDraftMessageText)]</MudLink></MudText>
     </MudAlert>
 }
 else

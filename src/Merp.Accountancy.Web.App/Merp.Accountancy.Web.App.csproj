@@ -90,6 +90,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>CreateJobOrder.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Pages\EditOutgoingCreditNoteDraft.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EditOutgoingCreditNoteDraft.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Pages\EditOutgoingInvoiceDraft.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EditOutgoingInvoiceDraft.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Pages\Index.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -233,6 +243,20 @@
     <EmbeddedResource Update="Resources\Pages\CreateJobOrder.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CreateJobOrder.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\EditOutgoingCreditNoteDraft.it.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\EditOutgoingCreditNoteDraft.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>EditOutgoingCreditNoteDraft.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\EditOutgoingInvoiceDraft.it.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Pages\EditOutgoingInvoiceDraft.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>EditOutgoingInvoiceDraft.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Pages\Index.it.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

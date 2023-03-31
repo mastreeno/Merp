@@ -73,6 +73,7 @@
         <MudTh>@localizer[nameof(Resources.Pages.SearchDrafts.DateColumn)]</MudTh>
         <MudTh>@localizer[nameof(Resources.Pages.SearchDrafts.CustomerColumn)]</MudTh>
         <MudTh>@localizer[nameof(Resources.Pages.SearchDrafts.PriceColumn)]</MudTh>
+        <MudTh>@localizer[nameof(Resources.Pages.SearchDrafts.DescriptionColumn)]</MudTh>
         <MudTh>&nbsp;</MudTh>
     </HeaderContent>
     <RowTemplate Context="draft">
@@ -80,6 +81,7 @@
         <MudTd>@(draft.Date?.ToShortDateString() ?? "-")</MudTd>
         <MudTd>@draft.CustomerName</MudTd>
         <MudTd>@draft.Currency @draft.TotalPrice.ToString("N2")</MudTd>
+        <MudTd>@draft.Description</MudTd>
         <MudTd Class="d-flex align-content-end">
             <MudButtonGroup Color="Color.Primary" Variant="Variant.Outlined">
                 <MudButton Href="@BuildDraftEditUrl(draft)" StartIcon="fas fa-edit">@localizer[nameof(Resources.Pages.SearchDrafts.EditButtonText)]</MudButton>
