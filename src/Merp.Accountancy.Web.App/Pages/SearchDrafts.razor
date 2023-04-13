@@ -85,7 +85,7 @@
         <MudTd Class="d-flex align-content-end">
             <MudButtonGroup Color="Color.Primary" Variant="Variant.Outlined">
                 <MudButton Href="@BuildDraftEditUrl(draft)" StartIcon="fas fa-edit">@localizer[nameof(Resources.Pages.SearchDrafts.EditButtonText)]</MudButton>
-                <MudButton StartIcon="fas fa-trash" IconColor="Color.Error">@localizer[nameof(Resources.Pages.SearchDrafts.DeleteButtonText)]</MudButton>
+                <MudButton OnClick="@(() => DeleteDraftAsync(draft))" StartIcon="fas fa-trash" IconColor="Color.Error">@localizer[nameof(Resources.Pages.SearchDrafts.DeleteButtonText)]</MudButton>
             </MudButtonGroup>
         </MudTd>
     </RowTemplate>

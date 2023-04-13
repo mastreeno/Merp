@@ -117,82 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AllCustomersOptionValue" xml:space="preserve">
-    <value>Tutti</value>
+  <data name="CancelButtonText" xml:space="preserve">
+    <value>Cancel</value>
   </data>
-  <data name="BackButtonText" xml:space="preserve">
-    <value>Indietro</value>
-  </data>
-  <data name="ClearButtonText" xml:space="preserve">
-    <value>Annulla</value>
-  </data>
-  <data name="CustomerColumn" xml:space="preserve">
-    <value>Cliente</value>
-  </data>
-  <data name="CustomerSearchLabel" xml:space="preserve">
-    <value>Cliente</value>
-  </data>
-  <data name="DateColumn" xml:space="preserve">
-    <value>Data</value>
-  </data>
-  <data name="DateFromSearchLabel" xml:space="preserve">
-    <value>Dalla data</value>
-  </data>
-  <data name="DateToSearchLabel" xml:space="preserve">
-    <value>Alla data</value>
-  </data>
-  <data name="DeleteButtonText" xml:space="preserve">
-    <value>Cancella</value>
-  </data>
-  <data name="DeleteDraftDialogContent" xml:space="preserve">
-    <value>Stai per cancellare la bozza {0}. Sei sicuro?</value>
-  </data>
-  <data name="DeleteDraftDialogTitle" xml:space="preserve">
-    <value>Cancella bozza</value>
-  </data>
-  <data name="DescriptionColumn" xml:space="preserve">
-    <value>Descrizione</value>
-  </data>
-  <data name="DocumentTypeColumn" xml:space="preserve">
-    <value>Tipo documento</value>
-  </data>
-  <data name="DraftDeletedErrorMessage" xml:space="preserve">
-    <value>Si è verificato un errore nella cancellazione della bozza {0}</value>
-  </data>
-  <data name="DraftDeletedSuccessMessage" xml:space="preserve">
-    <value>Bozza {0} cancellata con successo!</value>
-  </data>
-  <data name="DraftKindAny" xml:space="preserve">
-    <value>Tutte</value>
-  </data>
-  <data name="DraftKindOutgoingCreditNotes" xml:space="preserve">
-    <value>Note di credito attive</value>
-  </data>
-  <data name="DraftKindOutgoingInvoices" xml:space="preserve">
-    <value>Fatture attive</value>
-  </data>
-  <data name="DraftKindSearchLabel" xml:space="preserve">
-    <value>Tipologia</value>
-  </data>
-  <data name="EditButtonText" xml:space="preserve">
-    <value>Modifica</value>
-  </data>
-  <data name="NoDraftsFoundText" xml:space="preserve">
-    <value>Nessuna bozza trovata. Prova a specificare altri parametri di ricerca</value>
-  </data>
-  <data name="PageHeaderText" xml:space="preserve">
-    <value>Ricerca bozze</value>
-  </data>
-  <data name="PageTitle" xml:space="preserve">
-    <value>Merp - Contabilità - Ricerca bozze</value>
-  </data>
-  <data name="PaginationItemsNumberText" xml:space="preserve">
-    <value>{0} elementi di {1}</value>
-  </data>
-  <data name="PriceColumn" xml:space="preserve">
-    <value>Prezzo</value>
-  </data>
-  <data name="SearchButtonText" xml:space="preserve">
-    <value>Cerca</value>
+  <data name="ConfirmButtonText" xml:space="preserve">
+    <value>Ok</value>
   </data>
 </root>

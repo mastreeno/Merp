@@ -25,6 +25,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Resources\Components\ConfirmDialog.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ConfirmDialog.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Components\InvoiceLineItemsEditor.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -153,6 +158,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Resources\Components\ConfirmDialog.it.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Components\ConfirmDialog.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ConfirmDialog.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Components\InvoiceLineItemsEditor.it.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>

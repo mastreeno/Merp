@@ -142,6 +142,24 @@ namespace Merp.Accountancy.Web.App.Resources.Pages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You are going to delete the draft {0}. Are you sure?.
+        /// </summary>
+        public static string DeleteDraftDialogContent {
+            get {
+                return ResourceManager.GetString("DeleteDraftDialogContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete draft.
+        /// </summary>
+        public static string DeleteDraftDialogTitle {
+            get {
+                return ResourceManager.GetString("DeleteDraftDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string DescriptionColumn {
@@ -156,6 +174,24 @@ namespace Merp.Accountancy.Web.App.Resources.Pages {
         public static string DocumentTypeColumn {
             get {
                 return ResourceManager.GetString("DocumentTypeColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There was an error deleting draft {0}.
+        /// </summary>
+        public static string DraftDeletedErrorMessage {
+            get {
+                return ResourceManager.GetString("DraftDeletedErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Draft {0} deleted successfully!.
+        /// </summary>
+        public static string DraftDeletedSuccessMessage {
+            get {
+                return ResourceManager.GetString("DraftDeletedSuccessMessage", resourceCulture);
             }
         }
         

@@ -1,13 +1,24 @@
 ﻿using Merp.Accountancy.Drafts;
+using Merp.Accountancy.Drafts.Commands;
 using Merp.Accountancy.Drafts.Model;
+using Merp.Accountancy.Web.App.Components;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
+using MudBlazor;
 
 namespace Merp.Accountancy.Web.App.Pages
 {
     public partial class SearchDrafts
     {
         [Inject] public IDatabase Database { get; set; } = default!;
+
+        [Inject] public IDialogService Dialog { get; set; } = default!;
+
+        [Inject] public ISnackbar Snackbar { get; set; } = default!;
+
+        [Inject] public OutgoingInvoiceCommands OutgoingInvoicesDraftCommands { get; set; } = default!;
+
+        [Inject] public OutgoingCreditNoteCommands OutgoingCreditNotesDraftCommands { get; set; } = default!;
 
         private SearchParameters parameters = new();
 
@@ -90,6 +101,41 @@ namespace Merp.Accountancy.Web.App.Pages
                 DraftKind.OutgoingCreditNotes => UrlBuilder.BuildEditOutgoingCreditNoteDraftUrl(draft.Id),
                 _ => throw new InvalidOperationException("Invalid document type")
             };
+        }
+
+        private async Task DeleteDraftAsync(SearchResult.DraftDescriptor draft)
+        {
+            var confirm = await Dialog.Show<ConfirmDialog>(
+                localizer[nameof(Resources.Pages.SearchDrafts.DeleteDraftDialogTitle)],
+                new DialogParameters
+                {
+                    [nameof(ConfirmDialog.ConfirmText)] = (string)localizer[nameof(Resources.Pages.SearchDrafts.DeleteDraftDialogContent), draft.Description]
+                }).Result;
+
+            if (!confirm.Cancelled)
+            {
+                try
+                {
+                    switch (draft.DocumentType)
+                    {
+                        case DraftKind.OutgoingInvoices:
+                            await OutgoingInvoicesDraftCommands.DeleteDraft(draft.Id);
+                            break;
+                        case DraftKind.OutgoingCreditNotes:
+                            await OutgoingCreditNotesDraftCommands.DeleteDraft(draft.Id);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    Snackbar.Add(localizer[nameof(Resources.Pages.SearchDrafts.DraftDeletedSuccessMessage), draft.Description], Severity.Success);
+                    await SearchDraftsAsync();
+                }
+                catch
+                {
+                    Snackbar.Add(localizer[nameof(Resources.Pages.SearchDrafts.DraftDeletedErrorMessage), draft.Description], Severity.Error);
+                }
+            }
         }
 
         #region Draft search by kind

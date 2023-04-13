@@ -144,11 +144,23 @@
   <data name="DeleteButtonText" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="DeleteDraftDialogContent" xml:space="preserve">
+    <value>You are going to delete the draft {0}. Are you sure?</value>
+  </data>
+  <data name="DeleteDraftDialogTitle" xml:space="preserve">
+    <value>Delete draft</value>
+  </data>
   <data name="DescriptionColumn" xml:space="preserve">
     <value>Description</value>
   </data>
   <data name="DocumentTypeColumn" xml:space="preserve">
     <value>Document type</value>
+  </data>
+  <data name="DraftDeletedErrorMessage" xml:space="preserve">
+    <value>There was an error deleting draft {0}</value>
+  </data>
+  <data name="DraftDeletedSuccessMessage" xml:space="preserve">
+    <value>Draft {0} deleted successfully!</value>
   </data>
   <data name="DraftKindAny" xml:space="preserve">
     <value>Any</value>

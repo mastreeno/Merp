@@ -1,0 +1,11 @@
+﻿@inject IStringLocalizer<Resources.Components.ConfirmDialog> localizer
+
+<MudDialog>
+    <DialogContent>
+        <MudText>@ConfirmText</MudText>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel" Variant="Variant.Outlined" Color="Color.Primary">@localizer[nameof(Resources.Components.ConfirmDialog.CancelButtonText)]</MudButton>
+        <MudButton id="confirmButton" OnClick="Confirm" Variant="Variant.Filled" Color="Color.Primary">@localizer[nameof(Resources.Components.ConfirmDialog.ConfirmButtonText)]</MudButton>
+    </DialogActions>
+</MudDialog>
